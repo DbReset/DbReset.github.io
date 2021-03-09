@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   
   
-  <title>Java基础提升_数据结构篇 | 裸奔的猪</title>
+  <title>Java基础提升_数据结构篇 | 裸泳的猪</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="ArrayList、LinkedList、Vector的区别List的三个子类的特点 ArrayList: 底层数据结构是数组，查询快，增删慢。 线程不安全，效率高。  Vector: 底层数据结构是数组，查询快，增删慢。 线程安全，效率低。 Vector相对ArrayList查询慢(线程安全的)。 Vector相对LinkedList增删慢(数组结构)。  LinkedList 底层数据结构是链">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java基础提升_数据结构篇">
 <meta property="og:url" content="http://example.com/2021/03/08/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/index.html">
-<meta property="og:site_name" content="裸奔的猪">
+<meta property="og:site_name" content="裸泳的猪">
 <meta property="og:description" content="ArrayList、LinkedList、Vector的区别List的三个子类的特点 ArrayList: 底层数据结构是数组，查询快，增删慢。 线程不安全，效率高。  Vector: 底层数据结构是数组，查询快，增删慢。 线程安全，效率低。 Vector相对ArrayList查询慢(线程安全的)。 Vector相对LinkedList增删慢(数组结构)。  LinkedList 底层数据结构是链">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-03-08T15:55:46.177Z">
@@ -18,7 +18,7 @@
 <meta property="article:author" content="Luo">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="裸奔的猪" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="裸泳的猪" type="application/atom+xml">
   
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -46,7 +46,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">裸奔的猪</a>
+        <a href="/" id="logo">裸泳的猪</a>
       </h1>
       
         <h2 id="subtitle-wrap">
@@ -65,12 +65,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Buscar"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
       </div>
     </div>
   </div>
@@ -140,7 +140,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/08/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/" data-id="ckm0rslz300007vn04lzo2nnh" data-title="Java基础提升_数据结构篇" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/08/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/" data-id="ckm0rslz300007vn04lzo2nnh" data-title="Java基础提升_数据结构篇" class="article-share-link">Compartir</a>
       
       
       
@@ -150,10 +150,19 @@
     
 <nav id="article-nav">
   
+    <a href="/2021/03/09/java%E5%9F%BA%E7%A1%80/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Nuevo</strong>
+      <div class="article-nav-title">
+        
+          java基础
+        
+      </div>
+    </a>
+  
   
     <a href="/2021/03/08/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
+      <strong class="article-nav-caption">Viejo</strong>
+      <div class="article-nav-title">shell基础</div>
     </a>
   
 </nav>
@@ -176,7 +185,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archivos</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
     </div>
@@ -186,16 +195,20 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Posts recientes</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/03/09/java%E5%9F%BA%E7%A1%80/">java基础</a>
+          </li>
         
           <li>
             <a href="/2021/03/08/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/">Java基础提升_数据结构篇</a>
           </li>
         
           <li>
-            <a href="/2021/03/08/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/">(no title)</a>
+            <a href="/2021/03/08/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/">shell基础</a>
           </li>
         
       </ul>
@@ -212,7 +225,7 @@
     <div id="footer-info" class="inner">
       
       &copy; 2021 Luo<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      Construido por <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
