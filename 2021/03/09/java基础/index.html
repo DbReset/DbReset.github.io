@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="java基础类和对应封装类   基本类型 大小（字节） 默认值 封装类    byte 1 byte（0） Byte   boolean - false Boolean   char 2 \uoooo(null) Character   void - - Void   short 2 short（0） Short   int 4 0 Integer   long 8 0L Long   float">
+  <meta name="description" content="java基础类和对应封装类。面向对象的三大基本特征，五大基本原则。对象引用，浅拷贝，深拷贝。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java基础">
 <meta property="og:url" content="http://example.com/2021/03/09/java%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="裸泳的猪">
-<meta property="og:description" content="java基础类和对应封装类   基本类型 大小（字节） 默认值 封装类    byte 1 byte（0） Byte   boolean - false Boolean   char 2 \uoooo(null) Character   void - - Void   short 2 short（0） Short   int 4 0 Integer   long 8 0L Long   float">
+<meta property="og:description" content="java基础类和对应封装类。面向对象的三大基本特征，五大基本原则。对象引用，浅拷贝，深拷贝。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-03-09T10:35:39.624Z">
-<meta property="article:modified_time" content="2021-03-09T10:36:03.387Z">
+<meta property="article:modified_time" content="2021-03-10T16:29:14.456Z">
 <meta property="article:author" content="Luo">
 <meta name="twitter:card" content="summary">
 
@@ -173,12 +173,19 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-03-09 18:35:39 / Modified: 18:36:03" itemprop="dateCreated datePublished" datetime="2021-03-09T18:35:39+08:00">2021-03-09</time>
+              <time title="Created: 2021-03-09 18:35:39" itemprop="dateCreated datePublished" datetime="2021-03-09T18:35:39+08:00">2021-03-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-11 00:29:14" itemprop="dateModified" datetime="2021-03-11T00:29:14+08:00">2021-03-11</time>
+              </span>
 
           
+            <div class="post-description">java基础类和对应封装类。面向对象的三大基本特征，五大基本原则。对象引用，浅拷贝，深拷贝。</div>
 
         </div>
       </header>
@@ -255,7 +262,7 @@
 </tbody></table>
 <p>注：提供封装类是为了更好的对数据基本类型进行操作。java的集合部分，只允许存储引用类型。</p>
 <hr>
-<h1 id="面向对象的三大基本特征，五大基本原则"><a href="#面向对象的三大基本特征，五大基本原则" class="headerlink" title="面向对象的三大基本特征，五大基本原则"></a>面向对象的三大基本特征，五大基本原则</h1><h2 id="三大基本特征：封装、继承、多态"><a href="#三大基本特征：封装、继承、多态" class="headerlink" title="三大基本特征：封装、继承、多态"></a>三大基本特征：<strong>封装、继承、多态</strong></h2><h3 id="1-封装"><a href="#1-封装" class="headerlink" title="1. 封装"></a>1. 封装</h3><p>　　封装就是隐藏对象的属性和实现细节，仅对外公开接口，控制在程序中属性的读和修改的访问级别，将抽象得到的数据和行为（或功能）相结合，形成一个有机的整体，也就是将数据与操作数据的源代码进行有机的结合，形成“类”，其中数据和函数都是类的成员。<br>封装的<strong>目的</strong>是增强安全性和简化编程，使用者不必了解具体的实现细节，而只是要通过外部接口，以特定的访问权限来使用类的成员。<br>（面相对象的不就是使用程序处理事情时以对象为中心去分析吗，与面向过程不同，面向过程关心处理的逻辑、流程等问题，而不关心事件主体。而面向对象即面向主体，所以我们在解决问题时应该先进行对象的封装（对象是封装类的实例，比如张三是人，人是一个封装类，张三只是对象中的一个实例、一个对象）。比如我们日常生活中的小兔子、小绵羊都可以封装为一个类）。</p>
+<h1 id="面向对象的三大基本特征，五大基本原则"><a href="#面向对象的三大基本特征，五大基本原则" class="headerlink" title="面向对象的三大基本特征，五大基本原则"></a>面向对象的三大基本特征，五大基本原则</h1><h2 id="三大基本特征：封装、继承、多态"><a href="#三大基本特征：封装、继承、多态" class="headerlink" title="三大基本特征：封装、继承、多态"></a>三大基本特征：<strong>封装、继承、多态</strong></h2><h3 id="1-封装"><a href="#1-封装" class="headerlink" title="1. 封装"></a>1. 封装</h3><p>　　封装就是隐藏对象的属性和实现细节，仅对外公开接口，控制在程序中属性的读和修改的访问级别，将抽象得到的数据和行为（或功能）相结合，形成一个有机的整体，也就是将数据与操作数据的源代码进行有机的结合，形成“类”，其中数据和函数都是类的成员。<br>封装的<strong>目的</strong>是增强安全性和简化编程，使用者不必了解具体的实现细节，而只是要通过外部接口，以特定的访问权限来使用类的成员。<br>（面向对象的不就是使用程序处理事情时以对象为中心去分析吗，与面向过程不同，面向过程关心处理的逻辑、流程等问题，而不关心事件主体。而面向对象即面向主体，所以我们在解决问题时应该先进行对象的封装（对象是封装类的实例，比如张三是人，人是一个封装类，张三只是对象中的一个实例、一个对象）。比如我们日常生活中的小兔子、小绵羊都可以封装为一个类）。</p>
 <h3 id="2-继承"><a href="#2-继承" class="headerlink" title="2. 继承"></a>2. 继承</h3><p>　　继承是面向对象的基本特征之一，继承机制允许创建分等级层次的类。继承就是子类继承父类的特征和行为，使得子类对象（实例）具有父类的实例域和方法，或子类从父类继承方法，使得子类具有父类相同的行为。</p>
 <h3 id="3-多态"><a href="#3-多态" class="headerlink" title="3. 多态"></a>3. 多态</h3><p>　　多态同一个行为具有多个不同表现形式或形态的能力。是指一个类实例（对象）的相同方法在不同情形有不同表现形式。多态机制使具有不同内部结构的对象可以共享相同的外部接口。这意味着，虽然针对不同对象的具体操作不同，但通过一个公共的类，它们（那些操作）可以通过相同的方式予以调用。</p>
 <p>多态存在的三个<strong>必要条件</strong>：</p>
@@ -297,7 +304,6 @@
 <li>==是判断两个变量或实例是不是指向同一个内存空间。 equals是判断两个变量或实例所指向的内存空间的值是不是相同。</li>
 <li>==是指对内存地址进行比较。 equals()是对字符串的内容进行比较。</li>
 <li>==指引用是否相同。 equals()指的是值是否相同。</li>
-<li></li>
 </ol>
 
     </div>
