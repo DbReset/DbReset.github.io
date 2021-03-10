@@ -1,266 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Java基础提升_数据结构篇 | 裸泳的猪</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="ArrayList、LinkedList、Vector的区别List的三个子类的特点 ArrayList: 底层数据结构是数组，查询快，增删慢。 线程不安全，效率高。  Vector: 底层数据结构是数组，查询快，增删慢。 线程安全，效率低。 Vector相对ArrayList查询慢(线程安全的)。 Vector相对LinkedList增删慢(数组结构)。  LinkedList 底层数据结构是链">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Java基础提升_数据结构篇">
-<meta property="og:url" content="http://example.com/2021/03/08/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/index.html">
-<meta property="og:site_name" content="裸泳的猪">
-<meta property="og:description" content="ArrayList、LinkedList、Vector的区别List的三个子类的特点 ArrayList: 底层数据结构是数组，查询快，增删慢。 线程不安全，效率高。  Vector: 底层数据结构是数组，查询快，增删慢。 线程安全，效率低。 Vector相对ArrayList查询慢(线程安全的)。 Vector相对LinkedList增删慢(数组结构)。  LinkedList 底层数据结构是链">
-<meta property="og:locale">
-<meta property="article:published_time" content="2021-03-08T15:55:46.177Z">
-<meta property="article:modified_time" content="2021-03-08T15:57:44.706Z">
-<meta property="article:author" content="Luo">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="裸泳的猪" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-<meta name="generator" content="Hexo 5.4.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">裸泳的猪</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">沾沾自喜其实最可悲</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main"><article id="post-Java基础提升_数据结构篇" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/03/08/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/" class="article-date">
-  <time class="dt-published" datetime="2021-03-08T15:55:46.177Z" itemprop="datePublished">2021-03-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      Java基础提升_数据结构篇
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="ArrayList、LinkedList、Vector的区别"><a href="#ArrayList、LinkedList、Vector的区别" class="headerlink" title="ArrayList、LinkedList、Vector的区别"></a>ArrayList、LinkedList、Vector的区别</h2><p>List的三个子类的特点</p>
-<h3 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList:"></a>ArrayList:</h3><ul>
-<li>底层数据结构是数组，查询快，增删慢。</li>
-<li>线程不安全，效率高。</li>
-</ul>
-<h3 id="Vector"><a href="#Vector" class="headerlink" title="Vector:"></a>Vector:</h3><ul>
-<li>底层数据结构是数组，查询快，增删慢。</li>
-<li>线程安全，效率低。</li>
-<li>Vector相对ArrayList查询慢(线程安全的)。</li>
-<li>Vector相对LinkedList增删慢(数组结构)。</li>
-</ul>
-<h2 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h2><ul>
-<li>底层数据结构是链表，查询慢，增删快。</li>
-<li>线程不安全，效率高。</li>
-</ul>
-<h3 id="Vector和ArrayList的区别"><a href="#Vector和ArrayList的区别" class="headerlink" title="Vector和ArrayList的区别"></a>Vector和ArrayList的区别</h3><ul>
-<li>Vector是线程安全的,效率低。</li>
-<li>ArrayList是线程不安全的,效率高。</li>
-<li>共同点:底层数据结构都是数组实现的,查询快,增删慢。</li>
-</ul>
-<h3 id="ArrayList和LinkedList的区别"><a href="#ArrayList和LinkedList的区别" class="headerlink" title="ArrayList和LinkedList的区别"></a>ArrayList和LinkedList的区别</h3><ul>
-<li>ArrayList底层是数组结果,查询和修改快。</li>
-<li>LinkedList底层是链表结构的,增和删比较快,查询和修改比较慢。</li>
-<li>共同点:都是线程不安全的</li>
-<li></li>
-</ul>
-<hr>
-<h1 id="hashmap"><a href="#hashmap" class="headerlink" title="hashmap"></a>hashmap</h1><h2 id="hashmap结构；什么对象能做为key"><a href="#hashmap结构；什么对象能做为key" class="headerlink" title="hashmap结构；什么对象能做为key"></a>hashmap结构；什么对象能做为key</h2><p>JAVA7:HashMap 里面是一个<strong>数组</strong>，然后数组中每个元素是一个单向链表。包含四个属性：key, value, hash 值和用于单向链表的 next；</p>
-<p>Java8 对 HashMap 进行了一些修改，最大的不同就是利用了<strong>红黑树</strong>，所以其由 数组+链表+红黑树组成；</p>
-<p>查找时需要顺着链表一个个比较下去才能找到我们需要的，时间复杂度取决于链表的长度，为 O(n)。为了降低这部分的开销，在 Java8 中，当链表中的元素超过了 8 个以后，会将链表转换为红黑树，在这些位置进行查找的时候可以降低时间复杂度为 O(logN)。一棵含有n个节点的红黑树的高度至多为2log(n+1)</p>
-<p>重写过hashCode和equals的对象，才能做为key，如果要将对象做为key，需要重写hashCode和equals。null可以做为key值，null也可以做为value值。<br>时间复杂度：理想情况下是 O(1)的，但是实际中会出现 hash 碰撞，导致无法达到效果。</p>
-<hr>
-<h2 id="hashtable-concurrentHashMap-hashtable比较"><a href="#hashtable-concurrentHashMap-hashtable比较" class="headerlink" title="hashtable,concurrentHashMap,hashtable比较"></a>hashtable,concurrentHashMap,hashtable比较</h2><ul>
-<li>Hashtable：底层数组+链表实现，无论key还是value都不能为null，线程安全，实现线程安全的方式是在修改数据时锁住整个HashTable，效率低，ConcurrentHashMap做了相关优化；</li>
-<li>Hashmap：底层数组+链表实现，可以存储null键和null值，线程不安全。当我们将键值对传递给put()方法时，它调用键对象的hashCode()方法来计算hashcode，然后找到bucket位置来存储值对象。当获取对象时，通过键对象的equals()方法找到正确的键值对，然后返回值对象<br>。</li>
-<li>ConcurrentHashMap：底层采用分段的数组+链表实现，线程安全。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/08/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/" data-id="ckm0rslz300007vn04lzo2nnh" data-title="Java基础提升_数据结构篇" class="article-share-link">Teilen</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2021/03/09/java%E5%9F%BA%E7%A1%80/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          java基础
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2021/03/08/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">shell基础</div>
-    </a>
-  
-</nav>
-
-  
-</article>
+{% extends '_layout.swig' %}
+{% import '_macro/post.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-  
-    
+{% block page_class %}page-post-detail{% endblock %}
 
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+
+{% block content %}
+
+  <div id="posts" class="posts-expand">
+    {{ post_template.render(page) }}
+
+    <div class="post-spread">
+      {% if theme.jiathis %}
+        {% include '_partials/share/jiathis.swig' %}
+      {% elseif theme.baidushare %}
+        {% include '_partials/share/baidushare.swig' %}
+      {% elseif theme.add_this_id %}
+        {% include '_partials/share/add-this.swig' %}
+      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
+        {% include '_partials/share/duoshuo_share.swig' %}
+      {% endif %}
     </div>
   </div>
 
+{% endblock %}
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2021/03/09/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">分布式事务</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/09/java%E5%9F%BA%E7%A1%80/">java基础</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/08/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/">Java基础提升_数据结构篇</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/08/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/">shell基础</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+{% block sidebar %}
+  {{ sidebar_template.render(true) }}
+{% endblock %}
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2021 Luo<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+{% block script_extra %}
+  {% include '_scripts/pages/post-details.swig' %}
+{% endblock %}
