@@ -156,6 +156,114 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/21/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/21/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/" class="post-title-link" itemprop="url">oracle大批量数据更新操作，提供并发&小事务</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-21 21:49:55 / 修改时间：22:09:19" itemprop="dateCreated datePublished" datetime="2021-03-21T21:49:55+08:00">2021-03-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/oracle/" itemprop="url" rel="index"><span itemprop="name">oracle</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>oracle提供了很好用的大数据量数据更新的函数dbms_parallel_execute，改用dbms_parallel_execute执行，可以进行并行更新并且事务大小可控。</p>
+<p>以下在命令窗口执行：</p>
+<ol>
+<li><p>首先创建一个TASK，名称为update_pzjcxx:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_task(<span class="string">&#x27;update_pzjcxx&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+<li><p>把将要更新的表按照ROWID进行分批，分到各个CHUNK中：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_chunks_by_rowid(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,table_owner <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;V7PROD&#x27;</span>,table_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;KCDY_PZJCXX&#x27;</span>,by_row <span class="operator">=</span><span class="operator">&gt;</span> <span class="literal">true</span>,chunk_size <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
+<p>BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行；如果是FALSE，则后面的CHUNK_SIZE表示的是BLOCK。<br>CHUNK_SIZE：CHUNK大小。如果BY_ROW为TRUE，表示多少行分为一个CHUNK；如果BY_ROW为FALSE，则表示多少块分为一个CHUNK。</p>
+</li>
+<li><p>执行并行任务：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> DBMS_PARALLEL_EXECUTE.run_task(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,sql_stmt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update /*+ROWID(dda)*/ kcdy_pzjcxx set ( ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, NLJSKACS ) = </span></span><br><span class="line"><span class="string">( select ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, SFYZBZHI from kdpy_jbxinx where zhanghao = kcdy_pzjcxx.zhanghao and farendma = &#x27;&#x27;9999&#x27;&#x27; ) where rowid between :start_id and :end_id&#x27;</span>,language_flag <span class="operator">=</span><span class="operator">&gt;</span> DBMS_SQL.native,parallel_level <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">16</span>);</span><br></pre></td></tr></table></figure>
+<p>start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARALLEL表示平行度；LANGUAGE_FLAG意义如下：<br>V6 (or 0) specifies version 6 behavior<br>NATIVE (or 1) specifies normal behavior for the database to which the program is connected<br>V7 (or 2) specifies Oracle database version 7 behavior</p>
+</li>
+</ol>
+<ol start="4">
+<li>查看task执行情况<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_parallel_execute_tasks;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_parallel_execute_tasks;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_parallel_execute_chunks ; </span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_parallel_execute_chunks ; </span><br></pre></td></tr></table></figure></li>
+</ol>
+<p> 每个CHUNK是在单独一个事务中提交的。所以某几个CHUNK发生错误后，可以修正错误，并使用下面的方法来继续未完成的CHUNK的任务：<br>  4.1 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.resume_task(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,sql_stmt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update /*+ROWID(dda)*/ kcdy_pzjcxx set ( ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, NLJSKACS ) = </span></span><br><span class="line"><span class="string">( select ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, SFYZBZHI from kdpy_jbxinx where zhanghao = kcdy_pzjcxx.zhanghao and farendma = &#x27;&#x27;9999&#x27;&#x27; ) where rowid between :start_id and :end_id&#x27;</span>,language_flag <span class="operator">=</span><span class="operator">&gt;</span> DBMS_SQL.native);</span><br></pre></td></tr></table></figure>
+<pre><code>4.2 停止执行： 
+</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.stop_task(update_pzjcxx);</span><br></pre></td></tr></table></figure>
+
+<p>  最后可以删除完成的任务：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.drop_task( <span class="string">&#x27;update_pzjcxx&#x27;</span> );</span><br></pre></td></tr></table></figure>
+
+
+
+<p>–开启计时</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> timing <span class="keyword">on</span></span><br></pre></td></tr></table></figure>
+<p>–设置并行收集</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_stats.set_global_prefs(<span class="string">&#x27;CONCURRENT&#x27;</span>,<span class="string">&#x27;TRUE&#x27;</span>);</span><br><span class="line"> <span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> resource_manager_plan <span class="operator">=</span> <span class="string">&#x27;DEFAULT_PLAN&#x27;</span> <span class="keyword">scope</span><span class="operator">=</span><span class="keyword">both</span>;</span><br></pre></td></tr></table></figure>
+<p>–开始收集全库统计信息</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">begin</span></span><br><span class="line">dbms_stats.gather_database_stats(</span><br><span class="line">ESTIMATE_PERCENT<span class="operator">=</span><span class="operator">&gt;</span>DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;for all indexed columns&#x27;</span>, cascade<span class="operator">=</span><span class="operator">&gt;</span><span class="literal">true</span>, degree<span class="operator">=</span><span class="operator">&gt;</span><span class="number">16</span>);</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"><span class="operator">/</span></span><br></pre></td></tr></table></figure>
+<p>–关闭并行收集</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_stats.set_global_prefs(<span class="string">&#x27;CONCURRENT&#x27;</span>,<span class="string">&#x27;FALSE&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>–gather——重新分析整个架构（Schema）。<br>–gather empty——只分析目前还没有统计的表。<br>–gather stale——只重新分析修改量超过10%的表（这些修改包括插入、更新和删除）。<br>–gather auto——重新分析当前没有统计的对象，以及统计数据过期（变脏）的对象。注意，使用gather auto类似于组合使用gather stale和gather empty。<br>begin<br>dbms_stats.gather_schema_stats(ownname=&gt;user,options=&gt;’gather stale’,degree =&gt; 32);<br>end;</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/21/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -916,20 +1024,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
