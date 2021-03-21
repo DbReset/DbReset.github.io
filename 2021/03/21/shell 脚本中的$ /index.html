@@ -20,17 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://example.com/tags/index.html">
+  <meta name="description" content="Shell脚本中$0、$?、$!、$$、$*、$#、$@ 到底都代表什么意思？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shell脚本中$">
+<meta property="og:url" content="http://example.com/2021/03/21/shell%20%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84$%20/index.html">
 <meta property="og:site_name" content="裸泳的猪">
+<meta property="og:description" content="Shell脚本中$0、$?、$!、$$、$*、$#、$@ 到底都代表什么意思？">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-03-21T12:40:42.000Z">
-<meta property="article:modified_time" content="2021-03-21T12:40:43.014Z">
+<meta property="article:published_time" content="2021-03-21T12:58:58.950Z">
+<meta property="article:modified_time" content="2021-03-21T13:09:02.691Z">
 <meta property="article:author" content="Luo">
+<meta property="article:tag" content="unix">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/tags/">
+<link rel="canonical" href="http://example.com/2021/03/21/shell%20%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84$%20/">
 
 
 <script id="page-configurations">
@@ -38,13 +41,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>tags | 裸泳的猪
-</title>
+  <title>Shell脚本中$ | 裸泳的猪</title>
   
 
 
@@ -152,43 +154,120 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content post posts-expand">
             
 
     
-    
-    
-    <div class="post-block" lang="zh-CN">
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/21/shell%20%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84$%20/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Shell脚本中$
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">tags
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
 
-<div class="post-meta">
+              <time title="创建时间：2021-03-21 20:58:58 / 修改时间：21:09:02" itemprop="dateCreated datePublished" datetime="2021-03-21T20:58:58+08:00">2021-03-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/shell/" itemprop="url" rel="index"><span itemprop="name">shell</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <div class="post-description">Shell脚本中$0、$?、$!、$$、$*、$#、$@ 到底都代表什么意思？</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Shell脚本中-0、-、-、-、-、-、"><a href="#Shell脚本中-0、-、-、-、-、-、" class="headerlink" title="Shell脚本中$0、$?、$!、$$、$*、$#、$@"></a>Shell脚本中$0、$?、$!、$$、$*、$#、$@</h1><h2 id="1"><a href="#1" class="headerlink" title="1. $$"></a>1. $$</h2><p>Shell本身的PID（ProcessID）</p>
+<h2 id="2"><a href="#2" class="headerlink" title="2. $!"></a>2. $!</h2><p>Shell最后运行的后台Process的PID</p>
+<h2 id="3"><a href="#3" class="headerlink" title="3. $?"></a>3. $?</h2><p>最后运行的命令的结束代码（返回值）</p>
+<h2 id="4"><a href="#4" class="headerlink" title="4. $-"></a>4. $-</h2><p>使用Set命令设定的Flag一览</p>
+<h2 id="5"><a href="#5" class="headerlink" title="5. $*"></a>5. $*</h2><p>所有参数列表。如”$*”用「”」括起来的情况、以”$1 $2 … $n”的形式输出所有参数。</p>
+<h2 id="6"><a href="#6" class="headerlink" title="6. $@"></a>6. $@</h2><p>所有参数列表。如”$@”用「”」括起来的情况、以”$1” “$2” … “$n” 的形式输出所有参数。</p>
+<h2 id="7"><a href="#7" class="headerlink" title="7. $#"></a>7. $#</h2><p>添加到Shell的参数个数</p>
+<h2 id="8-0"><a href="#8-0" class="headerlink" title="8. $0"></a>8. $0</h2><p>Shell本身的文件名</p>
+<h2 id="9-1～-n"><a href="#9-1～-n" class="headerlink" title="9.$1～$n"></a>9.$1～$n</h2><p>添加到Shell的各参数值。$1是第1参数、$2是第2参数…。</p>
+<hr>
+<p>我们先写一个简单的脚本，执行以后再解释各个变量的意义</p>
+<p>mkdir test.sh<br>脚本内容如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">echo &quot;number:$#&quot;</span><br><span class="line">echo &quot;scname:$0&quot;</span><br><span class="line">echo &quot;first :$1&quot;</span><br><span class="line">echo &quot;second:$2&quot;</span><br><span class="line">echo &quot;argume:$@&quot;</span><br></pre></td></tr></table></figure>
+<p>保存退出</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wqa!</span><br></pre></td></tr></table></figure>
+<p>赋予脚本执行权限并执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bash test.sh</span><br><span class="line">chmod 755 test.sh</span><br><span class="line"> ./test.sh</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">number:2</span><br><span class="line">scname:./variable</span><br><span class="line">first: aa</span><br><span class="line">second:bb</span><br><span class="line">argume:aa bb</span><br></pre></td></tr></table></figure>
+<p>结果分析</p>
+<p>通过显示结果可以看到：<br>$# 是传给脚本的参数个数<br>$0 是脚本本身的名字<br>$1是传递给该shell脚本的第一个参数<br>$2是传递给该shell脚本的第二个参数<br>$@ 是传给脚本的所有参数的列表</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/unix/" rel="tag"># unix</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/09/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" rel="prev" title="分布式事务">
+      <i class="fa fa-chevron-left"></i> 分布式事务
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
 
 
           </div>
@@ -239,6 +318,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Shell%E8%84%9A%E6%9C%AC%E4%B8%AD-0%E3%80%81-%E3%80%81-%E3%80%81-%E3%80%81-%E3%80%81-%E3%80%81"><span class="nav-number">1.</span> <span class="nav-text">Shell脚本中$0、$?、$!、$$、$*、$#、$@</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1"><span class="nav-number">1.1.</span> <span class="nav-text">1. $$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2"><span class="nav-number">1.2.</span> <span class="nav-text">2. $!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3"><span class="nav-number">1.3.</span> <span class="nav-text">3. $?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4"><span class="nav-number">1.4.</span> <span class="nav-text">4. $-</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5"><span class="nav-number">1.5.</span> <span class="nav-text">5. $*</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6"><span class="nav-number">1.6.</span> <span class="nav-text">6. $@</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7"><span class="nav-number">1.7.</span> <span class="nav-text">7. $#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-0"><span class="nav-number">1.8.</span> <span class="nav-text">8. $0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-1%EF%BD%9E-n"><span class="nav-number">1.9.</span> <span class="nav-text">9.$1～$n</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
