@@ -161,7 +161,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/17/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/18/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -175,7 +175,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/17/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/" class="post-title-link" itemprop="url">synchronized 和 ReentrantLock</a>
+            <a href="/2021/05/18/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" class="post-title-link" itemprop="url">基础概念_分布式事务</a>
         </h2>
 
         <div class="post-meta">
@@ -185,7 +185,85 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-05-17 22:11:08" itemprop="dateCreated datePublished" datetime="2021-05-17T22:11:08+08:00">2021-05-17</time>
+              <time title="创建时间：2021-05-18 21:58:14" itemprop="dateCreated datePublished" datetime="2021-05-18T21:58:14+08:00">2021-05-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基础概念</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>一般是指要做的或所做的事情。<br>在计算机术语中是指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。<br>事务通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序执行所引起，并用形如begin transaction和end transaction语句（或函数调用）来界定。<br>事务由事务开始(begin transaction)和事务结束(end transaction)之间执行的全体操作组成。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/18/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/18/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/18/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/" class="post-title-link" itemprop="url">synchronized 和 ReentrantLock</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-18 21:58:14" itemprop="dateCreated datePublished" datetime="2021-05-18T21:58:14+08:00">2021-05-18</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -227,7 +305,7 @@
 <p>ReentrantLock主要利用CAS+AQS队列来实现。它支持公平锁和非公平锁，两者的实现类似。</p>
 <p>使用示例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        doSomeThing();</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        <span class="comment">// ignored</span></span><br><span class="line">    &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://note.youdao.com/">ReentrantLock原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://note.youdao.com/">ReentrantLock原理</a>    </p>
 
       
     </div>
@@ -1001,80 +1079,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/05/11/java%E5%9F%BA%E7%A1%80_%E5%9F%BA%E7%A1%80%E7%89%B9%E5%BE%81%E5%92%8C%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/10/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/10/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">算法基础之贪心算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-10 22:46:59" itemprop="dateCreated datePublished" datetime="2021-05-10T22:46:59+08:00">2021-05-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。<br>贪心算法的理解： 整个问题的最优解一定由在贪心策略中存在的子问题的最优解得来的。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/10/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

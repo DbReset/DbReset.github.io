@@ -20,20 +20,22 @@
     var CONFIG = {"hostname":"dbreset.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="事务一般是指要做的或所做的事情。在计算机术语中是指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。事务通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序执行所引起，并用形如begin transaction和end transaction语句（或函数调用）来界定。事务由事务开始(begin transaction)和事务结束(end transactio">
+  <meta name="description" content="经典面试题：synchronized 和 ReentrantLock 区别是什么？ synchronized 竞争锁时会一直等待；ReentrantLock 可以尝试获取锁，并得到获取结果 synchronized 获取锁无法设置超时；ReentrantLock 可以设置获取锁的超时时间 synchronized 无法实现公平锁；ReentrantLock 可以满足公平锁，即先等待先获取到锁 sy">
 <meta property="og:type" content="article">
-<meta property="og:title" content="分布式事务">
-<meta property="og:url" content="http://dbreset.github.io/2021/03/09/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/index.html">
+<meta property="og:title" content="synchronized 和 ReentrantLock">
+<meta property="og:url" content="http://dbreset.github.io/2021/05/18/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/index.html">
 <meta property="og:site_name" content="裸泳的猪">
-<meta property="og:description" content="事务一般是指要做的或所做的事情。在计算机术语中是指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。事务通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序执行所引起，并用形如begin transaction和end transaction语句（或函数调用）来界定。事务由事务开始(begin transaction)和事务结束(end transactio">
+<meta property="og:description" content="经典面试题：synchronized 和 ReentrantLock 区别是什么？ synchronized 竞争锁时会一直等待；ReentrantLock 可以尝试获取锁，并得到获取结果 synchronized 获取锁无法设置超时；ReentrantLock 可以设置获取锁的超时时间 synchronized 无法实现公平锁；ReentrantLock 可以满足公平锁，即先等待先获取到锁 sy">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-03-09T10:41:55.268Z">
-<meta property="article:modified_time" content="2021-04-26T12:47:12.466Z">
+<meta property="article:published_time" content="2021-05-18T13:58:14.686Z">
+<meta property="article:modified_time" content="2021-05-18T13:58:14.686Z">
 <meta property="article:author" content="Luo">
-<meta property="article:tag" content="基础概念">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="多线程">
+<meta property="article:tag" content="ReentrantLock">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://dbreset.github.io/2021/03/09/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">
+<link rel="canonical" href="http://dbreset.github.io/2021/05/18/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/">
 
 
 <script id="page-configurations">
@@ -46,7 +48,7 @@
   };
 </script>
 
-  <title>分布式事务 | 裸泳的猪</title>
+  <title>synchronized 和 ReentrantLock | 裸泳的猪</title>
   
 
 
@@ -167,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/03/09/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/18/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -180,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          分布式事务
+          synchronized 和 ReentrantLock
         </h1>
 
         <div class="post-meta">
@@ -190,26 +192,23 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-03-09 18:41:55" itemprop="dateCreated datePublished" datetime="2021-03-09T18:41:55+08:00">2021-03-09</time>
+              <time title="创建时间：2021-05-18 21:58:14" itemprop="dateCreated datePublished" datetime="2021-05-18T21:58:14+08:00">2021-05-18</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-26 20:47:12" itemprop="dateModified" datetime="2021-04-26T20:47:12+08:00">2021-04-26</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基础概念</span></a>
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
                 </span>
             </span>
 
@@ -231,37 +230,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>一般是指要做的或所做的事情。<br>在计算机术语中是指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。<br>事务通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序执行所引起，并用形如begin transaction和end transaction语句（或函数调用）来界定。<br>事务由事务开始(begin transaction)和事务结束(end transaction)之间执行的全体操作组成。</p>
-<span id="more"></span>
-<p>事务<strong>是恢复和并发控制</strong>的<strong>基本单位</strong>。</p>
-<h2 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h2><p>事务应该具有4个属性：<strong>原子性、一致性、隔离性、持久性</strong>。这四个属性通常称为<strong>ACID</strong>特性。</p>
-<ul>
-<li><p><strong>原子性（atomicity）</strong>：一个事务是一个不可分割的工作单位，事务中包括的操作要么都做，要么都不做。</p>
-</li>
-<li><p><strong>一致性（consistency）</strong>：事务必须是使数据库从一个一致性状态变到另一个一致性状态。一致性与原子性是密切相关的。</p>
-</li>
-<li><p><strong>隔离性（isolation）</strong>：一个事务的执行不能被其他事务干扰。即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰。</p>
-</li>
-<li><p><strong>持久性（durability）</strong>：持久性也称永久性（permanence），指一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。接下来的其他操作或故障不应该对其有任何影响。</p>
-</li>
-</ul>
-<h2 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h2><p>分布式系统最基础的理论</p>
-<p>在分布式系统中，</p>
-<h3 id="一致性（Consistency）、"><a href="#一致性（Consistency）、" class="headerlink" title="一致性（Consistency）、"></a>一致性（<em>C</em>onsistency）、</h3><h3 id="可用性（Availability）"><a href="#可用性（Availability）" class="headerlink" title="可用性（Availability）"></a>可用性（<em>A</em>vailability）</h3><h3 id="分区容忍性（Partition-Tolerance）"><a href="#分区容忍性（Partition-Tolerance）" class="headerlink" title="分区容忍性（Partition Tolerance）"></a>分区容忍性（<em>P</em>artition Tolerance）</h3><p>3个要素最多只能<strong>同时满足两个</strong>，不可兼得。其中，分区容忍性又是不可或缺的。</p>
-<h2 id="BASE-理论"><a href="#BASE-理论" class="headerlink" title="BASE 理论"></a>BASE 理论</h2><p>核心思想：</p>
-<h3 id="基本可用（Basically-Available）："><a href="#基本可用（Basically-Available）：" class="headerlink" title="基本可用（Basically Available）："></a>基本可用（Basically Available）：</h3><p>指分布式系统在出现故障时，允许损失部分的可用性来保证核心可用。</p>
-<h3 id="软状态（Soft-State）"><a href="#软状态（Soft-State）" class="headerlink" title="软状态（Soft State）"></a>软状态（Soft State）</h3><p>指允许分布式系统存在中间状态，该中间状态不会影响到系统的整体可用性。</p>
-<h3 id="最终一致性（Eventual-Consistency）："><a href="#最终一致性（Eventual-Consistency）：" class="headerlink" title="最终一致性（Eventual Consistency）："></a>最终一致性（Eventual Consistency）：</h3><p>指分布式系统中的所有副本数据经过一定时间后，最终能够达到一致的状态。</p>
-<p><strong>分布式事务</strong></p>
-<ul>
-<li>2pc（两段式提交）</li>
-<li>3pc（三段式提交）</li>
-<li>TCC（Try、Confirm、Cancel）   </li>
-<li>最大努力通知</li>
-<li>XA</li>
-<li>本地消息表（ebay研发出的）</li>
-<li>半消息/最终一致性（RocketMQ）</li>
-</ul>
+        <h2 id="经典面试题："><a href="#经典面试题：" class="headerlink" title="经典面试题："></a>经典面试题：</h2><h4 id="synchronized-和-ReentrantLock-区别是什么？"><a href="#synchronized-和-ReentrantLock-区别是什么？" class="headerlink" title="synchronized 和 ReentrantLock 区别是什么？"></a>synchronized 和 ReentrantLock 区别是什么？</h4><ol>
+<li>synchronized 竞争锁时会一直等待；ReentrantLock 可以尝试获取锁，并得到获取结果</li>
+<li>synchronized 获取锁无法设置超时；ReentrantLock 可以设置获取锁的超时时间</li>
+<li>synchronized 无法实现公平锁；ReentrantLock 可以满足公平锁，即先等待先获取到锁</li>
+<li>synchronized 控制等待和唤醒需要结合加锁对象的 wait() 和 notify()、notifyAll()；ReentrantLock 控制等待和唤醒需要结合 Condition 的 await() 和 signal()、signalAll() 方法</li>
+<li>synchronized 是 JVM 层面实现的；ReentrantLock 是 JDK 代码层面实现</li>
+<li>synchronized 在加锁代码块执行完或者出现异常，自动释放锁；ReentrantLock 不会自动释放锁，需要在 finally{} 代码块显示释放</li>
+</ol>
+<p>ReentrantLock主要利用CAS+AQS队列来实现。它支持公平锁和非公平锁，两者的实现类似。</p>
+<p>使用示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        doSomeThing();</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        <span class="comment">// ignored</span></span><br><span class="line">    &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://note.youdao.com/">ReentrantLock原理</a>    </p>
 
     </div>
 
@@ -271,7 +251,9 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag"># 基础概念</a>
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag"># 多线程</a>
+              <a href="/tags/ReentrantLock/" rel="tag"># ReentrantLock</a>
           </div>
 
         
@@ -280,12 +262,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/08/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="shell中for循环的用法">
-      <i class="fa fa-chevron-left"></i> shell中for循环的用法
+    <a href="/2021/05/17/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/" rel="prev" title="Java基础提升_数据结构篇">
+      <i class="fa fa-chevron-left"></i> Java基础提升_数据结构篇
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/03/21/shell%20%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84$%20/" rel="next" title="Shell脚本中$">
-      Shell脚本中$ <i class="fa fa-chevron-right"></i>
+    <a href="/2021/05/18/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" rel="next" title="基础概念_分布式事务">
+      基础概念_分布式事务 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -345,7 +327,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ACID"><span class="nav-number">2.</span> <span class="nav-text">ACID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAP%E7%90%86%E8%AE%BA"><span class="nav-number">3.</span> <span class="nav-text">CAP理论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%88Consistency%EF%BC%89%E3%80%81"><span class="nav-number">3.1.</span> <span class="nav-text">一致性（Consistency）、</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E7%94%A8%E6%80%A7%EF%BC%88Availability%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">可用性（Availability）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E5%AE%B9%E5%BF%8D%E6%80%A7%EF%BC%88Partition-Tolerance%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">分区容忍性（Partition Tolerance）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BASE-%E7%90%86%E8%AE%BA"><span class="nav-number">4.</span> <span class="nav-text">BASE 理论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%8F%AF%E7%94%A8%EF%BC%88Basically-Available%EF%BC%89%EF%BC%9A"><span class="nav-number">4.1.</span> <span class="nav-text">基本可用（Basically Available）：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E7%8A%B6%E6%80%81%EF%BC%88Soft-State%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">软状态（Soft State）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%88Eventual-Consistency%EF%BC%89%EF%BC%9A"><span class="nav-number">4.3.</span> <span class="nav-text">最终一致性（Eventual Consistency）：</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">经典面试题：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#synchronized-%E5%92%8C-ReentrantLock-%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.0.1.</span> <span class="nav-text">synchronized 和 ReentrantLock 区别是什么？</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
