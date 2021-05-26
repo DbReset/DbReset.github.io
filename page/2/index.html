@@ -161,6 +161,189 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/sql/mysql%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/22/sql/mysql%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">mysql知识点</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="mysql的4大特性-4种隔离级别："><a href="#mysql的4大特性-4种隔离级别：" class="headerlink" title="mysql的4大特性+4种隔离级别："></a>mysql的4大特性+4种隔离级别：</h2><h3 id="4大特性即ACID"><a href="#4大特性即ACID" class="headerlink" title="4大特性即ACID"></a>4大特性即ACID</h3><ul>
+<li>1 原子性。事务是一个不可分割的整体，事务开始的操作，要么全部执行，要么全部不执行。</li>
+<li>2 隔离性。同一时间，只允许一个事务请求同一组数据。不同的事务彼此之间没有干扰。</li>
+<li>3 一致性。事务开始前和结束后，数据库的完整性约束没有被破坏 。</li>
+<li>4 稳定性。事务完成后，事务对数据库的所有更新将被保存到数据库，不能回滚。</li>
+</ul>
+<h3 id="4种隔离级别"><a href="#4种隔离级别" class="headerlink" title="4种隔离级别"></a>4种隔离级别</h3><p>大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/22/sql/mysql%E5%9F%BA%E7%A1%80/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/sql/mysql_%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97_%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/22/sql/mysql_%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97_%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">mysql_优化系列_索引优化</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">索引优化</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="模糊匹配like-怎么优化"><a href="#模糊匹配like-怎么优化" class="headerlink" title="模糊匹配like %%怎么优化"></a>模糊匹配like %%怎么优化</h2><ol>
+<li>开启ICP（索引条件下推）<br><br>可以通过索引筛选，返回给Server层筛选后的记录，减少不必要的IO开销。<br><br>如果where后只有一个 like ‘%xxx%’条件，表有主键的前提下，可以通过子查询优化<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span>  <span class="operator">*</span> <span class="keyword">from</span> users01 a , </span><br><span class="line">(<span class="keyword">select</span> id <span class="keyword">from</span> users01 <span class="keyword">where</span> nickname <span class="keyword">like</span> <span class="string">&#x27;%SK%&#x27;</span>) b</span><br><span class="line"> <span class="keyword">where</span> a.id <span class="operator">=</span> b.id;</span><br></pre></td></tr></table></figure></li>
+<li>建立全文索引<br><br>两种检索模式</li>
+</ol>
+<ul>
+<li><p>IN NATURAL LANGUAGE MODE：默认模式，以自然语言的方式搜索，AGAINST(‘看风’ IN NATURAL LANGUAGE MODE ) 等价于AGAINST(‘看风’)。</p>
+</li>
+<li><p>IN BOOLEAN MODE：布尔模式，表是字符串前后的字符有特殊含义，如查找包含SK，但不包含Lyn的记录，可以用+，-符号。<br>AGAINST(‘+SK -Lyn’ in BOOLEAN MODE);</p>
+</li>
+</ul>
+<p>创建全文索引：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> fulltext index idx_full_nickname(nickname) <span class="keyword">with</span> parser ngram;</span><br></pre></td></tr></table></figure>
+<p>改写like语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> users01 <span class="keyword">where</span> <span class="keyword">match</span>(nickname) against(<span class="string">&#x27;看风&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>生成列（虚拟列）<br><br>对于where条件后的 like ‘%xxx’ 是无法利用索引扫描，可以利用MySQL 5.7的生成列模拟函数索引的方式解决，具体步骤如下：<br>利用内置reverse函数将like ‘%风云’反转为like ‘云风%’，基于此函数添加虚拟生成列。<br>在虚拟生成列上创建索引。<br>将SQL改写成通过生成列like reverse(‘%风云’)去过滤，走生成列上的索引。<br>建立生成列<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> reverse_nickname <span class="type">varchar</span>(<span class="number">200</span>) generated always <span class="keyword">as</span> (reverse(nickname));</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="索引很长的字段怎么优化？"><a href="#索引很长的字段怎么优化？" class="headerlink" title="索引很长的字段怎么优化？"></a>索引很长的字段怎么优化？</h2><p>有时候需要索引很长的字符(例如BLOB,TEXT,或者很长的VARCHAR)，这样会使得索引又大又慢。</p>
+<ol>
+<li>改用哈希索引。<br>InnoDB是支持Btree索引，但不显式支持hash索引。可以使用生成列来间接使用哈希索引。</li>
+<li>使用字符串的前几个字符作为索引(即前缀索引)。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> INDEX `idx_city` (`city`(<span class="number">7</span>)) <span class="keyword">USING</span> BTREE ;</span><br><span class="line"><span class="comment">-- 或者这个也行</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> KEY `idx_city` (`city`(<span class="number">7</span>))</span><br></pre></td></tr></table></figure>
+<p>当然在选择前缀时要选择合适的前缀索引长度，保持好的选择性。其方法主要是计算数据分布。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询重复次数最多的10条完整城市名称及其数量(图1)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, city <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> city <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前3个字符)及其数量,可以发现:前3个字符的相同数量过大,不适合做前缀索引(图2)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">3</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前7个字符)及其数量,可以发现:前7个字符的相同数量和完整城市名称很相近了,可以考虑作为做前缀索引(图3)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">7</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -719,84 +902,6 @@ BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行�
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/22/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">java基础_基础特征和相关概念</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>java基础类和对应封装类。 面向对象的三大基本特征，五大基本原则。 对象引用，浅拷贝，深拷贝。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/22/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80_%E5%9F%BA%E7%A1%80%E7%89%B9%E5%BE%81%E5%92%8C%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -856,92 +961,6 @@ BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行�
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/05/22/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80_%E5%9F%BA%E7%A1%80%E7%89%B9%E5%BE%81%E5%92%8C%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/22/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/" class="post-title-link" itemprop="url">Java基础提升_Object</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/Object/" itemprop="url" rel="index"><span itemprop="name">Object</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Object类  是类层次结构的根类。</p>
-<p>Object类是所有类的超类。所有对象（包括数组）都实现这个类的方法。</p>
-<p>所以需要了解Object类的所有方法：</p>
-<h3 id="1-hashCode"><a href="#1-hashCode" class="headerlink" title="1.hashCode()"></a>1.hashCode()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span>；</span></span><br></pre></td></tr></table></figure>
-<p>返回该对象的哈希码值。默认情况下，该方法会根据对象的地址来计算。<br>不同对象的 hashCode() 的值一般是不相同。但是，同一个对象的hashCode() 值肯定相同。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/22/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1030,20 +1049,20 @@ BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
