@@ -161,6 +161,310 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/06/13/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/13/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/" class="post-title-link" itemprop="url">消息队列_Rocketmq</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-13 23:34:33" itemprop="dateCreated datePublished" datetime="2021-06-13T23:34:33+08:00">2021-06-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="主流消息队列选型"><a href="#主流消息队列选型" class="headerlink" title="主流消息队列选型"></a>主流消息队列选型</h1><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Kafka</th>
+<th>RocketMQ</th>
+<th>RabbitMQ</th>
+<th>ActiveMQ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单机吞吐量</td>
+<td>10万级</td>
+<td>10万级</td>
+<td>万级</td>
+<td>万级</td>
+</tr>
+<tr>
+<td>开发语言</td>
+<td>Scala</td>
+<td>Java</td>
+<td>Erlang</td>
+<td>Java</td>
+</tr>
+<tr>
+<td>高可用</td>
+<td>分布式架构</td>
+<td>分布式架构</td>
+<td>主从架构</td>
+<td>主从架构</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>ms级</td>
+<td>ms级</td>
+<td>us级</td>
+<td>ms级</td>
+</tr>
+<tr>
+<td>功能</td>
+<td>只支持主要的MQ功能</td>
+<td>顺序消息、事务消息等功能完善</td>
+<td>并发强、性能好、延时低</td>
+<td>成熟的社区产品、文档丰富</td>
+</tr>
+</tbody></table>
+<ol>
+<li>rocketmq主要为java开发，语言适配性好，</li>
+<li>性能好，社区成熟。 </li>
+<li>支持顺序消息，事务消息。</li>
+<li>支持分布式架构</li>
+</ol>
+<h1 id="集群分布式原理"><a href="#集群分布式原理" class="headerlink" title="集群分布式原理"></a>集群分布式原理</h1><p>RocketMQ由<strong>NameServer</strong>注册中心集群、<strong>Producer</strong>生产者集群、<strong>Consumer</strong>消费者集群和若干<strong>Broker</strong>（RocketMQ进程）组成，它的架构原理是这样的：</p>
+<ol>
+<li>Broker在启动的时候去向所有的NameServer注册，并保持长连接，每30s发送一次心跳</li>
+<li>Producer在发送消息的时候从NameServer获取Broker服务器地址，根据负载均衡算法选择一台服务器来发送消息</li>
+<li>Conusmer消费消息的时候同样从NameServer获取Broker地址，然后主动拉取消息来消费</li>
+</ol>
+<h1 id="消息丢失问题"><a href="#消息丢失问题" class="headerlink" title="消息丢失问题"></a>消息丢失问题</h1><p>消息丢失分为3个点</p>
+<ol>
+<li>生产者丢失，即消息没发送出去，也没有重试机制来确保发送<br><br> 解决方案：<ol>
+<li>同步发送(几乎不会用) </li>
+<li>异步发送时采用异步有回调的方式 （可以再加个本地消息表，MQ回调通知消息发送结果，对应更新数据库MQ发送状态，JOB轮询超过一定时间（时间根据业务配置）还未发送成功的消息去重试）</li>
+</ol>
+</li>
+<li>mq丢失，即mq未及时刷盘，然后宕机了，导致内存中未处理的消息丢了<br><br>RocketMQ分为同步刷盘和异步刷盘两种方式，可以通过设置为同步刷盘的方式来保证消息可靠性，这样即使MQ挂了，恢复的时候也可以从磁盘中去恢复消息。(对性能有损耗，需要根据具体业务逻辑设置)</li>
+<li>消费者丢失（消费者刚收到消息，此时服务器宕机，MQ认为消费者已经消费，不会重复发送消息，消息丢失。）<br><br>RocketMQ默认是需要消费者回复ack确认，而kafka需要手动开启配置关闭自动offset。<br><br>消费方不返回ack确认，重发的机制根据MQ类型的不同发送时间间隔、次数都不尽相同，如果重试超过次数之后会进入死信队列，需要手工来处理了。（Kafka没有这些）  重发的机制可能需要业务代码支持幂等操作。</li>
+</ol>
+<h1 id="Master和Slave之间是怎么同步数据的呢？"><a href="#Master和Slave之间是怎么同步数据的呢？" class="headerlink" title="Master和Slave之间是怎么同步数据的呢？"></a>Master和Slave之间是怎么同步数据的呢？</h1><p>而消息在master和slave之间的同步是根据raft协议来进行的：<br></p>
+<ol>
+<li>在broker收到消息后，会被标记为uncommitted状态</li>
+<li>然后会把消息发送给所有的slave</li>
+<li>slave在收到消息之后返回ack响应给master</li>
+<li>master在收到超过半数的ack之后，把消息标记为committed</li>
+<li>发送committed消息给所有slave，slave也修改状态为committed</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/06/13/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/13/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/" class="post-title-link" itemprop="url">spring框架总述</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-13 23:34:33" itemprop="dateCreated datePublished" datetime="2021-06-13T23:34:33+08:00">2021-06-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-spring是什么"><a href="#1-spring是什么" class="headerlink" title="1.spring是什么"></a>1.spring是什么</h1><p>Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为了解决企业应用开发<br>的复杂性而创建的。Spring 的核心是控制反转（<strong>IoC</strong>）和面向切面编程（<strong>AOP</strong>）。<br></p>
+<h2 id="IOC控制反转"><a href="#IOC控制反转" class="headerlink" title="IOC控制反转"></a>IOC控制反转</h2><p>控制反转（IoC，Inversion of Control），是一个概念，是一种思想。指将传统上由程序代<br>码直接操控的对象调用权交给容器，通过容器来实现对象的装配和管理。控制反转就是对对<br>象控制权的转移，从程序代码本身反转到了外部容器。通过容器实现对象的创建，属性赋值，<br>依赖的管理。<br><br>spring对于IOC思想的具体实现就是：<strong>DI</strong>（依赖注入：DI(Dependency Injection)，程序代码不做定位查询，这些工作由容器自行<br>完成。）</p>
+<h3 id="DI具体用法和实现"><a href="#DI具体用法和实现" class="headerlink" title="DI具体用法和实现"></a>DI具体用法和实现</h3><h4 id="ApplicationContext-接口（容器）"><a href="#ApplicationContext-接口（容器）" class="headerlink" title="ApplicationContext 接口（容器）"></a>ApplicationContext 接口（容器）</h4><p>ApplicationContext 用于加载 Spring 的配置文件，在程序中充当“容器”的角色。其实现<br>类有：<strong>ClassPathXmlApplicationContext</strong>(常用)，FileSystemXmlApplicationContext。<br></p>
+<ul>
+<li>若 Spring 配置文件存放在项目的类路径下，则使用 ClassPathXmlApplicationContext 实现<br>类进行加载。</li>
+<li>ApplicationContext 容器，会在容器对象初始化时，将其中的所有对象一次性全部装配好。<br>以后代码中若要使用到这些对象，只需从内存中直接获取即可。执行效率较高。但占用内存。</li>
+</ul>
+<h4 id="注入分类"><a href="#注入分类" class="headerlink" title="注入分类:"></a>注入分类:<br></h4><p>bean 实例在调用无参构造器创建对象后，就要对 bean 对象的属性进行初始化。初始化<br>是由容器自动完成的，称为注入。<br>根据注入方式的不同，常用的有两类：<strong>set 注入、构造注入</strong>。</p>
+<ul>
+<li>Set注入：其实就是直接设置要的值<ul>
+<li>简单类型（设置property标签，通过value=”设置”）</li>
+<li>引用类型 （设置property标签，通过ref=”设置”）</li>
+</ul>
+</li>
+<li>构造注入：在构造调用者实例的同时，完成被调用者的实例化。即使用构造器设置依赖关系。<ul>
+<li>设置<constructor-arg>标签 name=”指定参数名称” value=”设置” 。（可选index）</constructor-arg></li>
+</ul>
+</li>
+</ul>
+<h5 id="引用类型属性自动注入"><a href="#引用类型属性自动注入" class="headerlink" title="引用类型属性自动注入"></a>引用类型属性自动注入</h5><p>对于引用类型属性的注入，也可不在配置文件中显示的注入。可以通过为<bean>标签<br>设置 autowire 属性值，为引用类型属性进行隐式自动注入（默认是不自动注入引用类型属<br>性）。根据自动注入判断标准的不同，可以分为两种：<br><br>byName：根据名称自动注入<br><br>byType： 根据类型自动注入<br><br>直接在bean标签内加上   autowire=”byName”</bean></p>
+<h4 id="为应用指定多个-Spring-配置文件"><a href="#为应用指定多个-Spring-配置文件" class="headerlink" title="为应用指定多个 Spring 配置文件"></a>为应用指定多个 Spring 配置文件</h4><p>在实际应用里，随着应用规模的增加，系统中 Bean 数量也大量增加，导致配置文件变<br>得非常庞大、臃肿。为了避免这种情况的产生，提高配置文件的可读性与可维护性，可以将<br>Spring 配置文件分解成多个配置文件。<br>包含关系的配置文件：<br><br>多个配置文件中有一个总文件，总配置文件将各其它子文件通过<import>引入。在 Java<br>代码中只需要使用总配置文件对容器进行初始化即可。<br><br>也可使用通配符*。但，此时要求父配置文件名不能满足*所能匹配的格式，否则将出现<br>循环递归包含。<br></import></p>
+<h4 id="基于注解的-DI"><a href="#基于注解的-DI" class="headerlink" title="基于注解的 DI"></a>基于注解的 DI</h4><p>对于 DI 使用注解，将不再需要在 Spring 配置文件中声明 bean 实例。<br><br>Spring 中使用注解，需要在 Spring 配置文件中<strong>配置组件扫描器</strong>，用于在指定的基本包中扫描注解。<br>指定多个包的三种方式：<br><br>1)使用多个 context:component-scan 指定不同的包路<br><br>2)指定 base-package 的值使用分隔符<br><br>3)base-package 是指定到父包名<br></p>
+<h5 id="注解方式声明bean"><a href="#注解方式声明bean" class="headerlink" title="注解方式声明bean"></a>注解方式声明bean</h5><ul>
+<li>定义 Bean 的注解@Component</li>
+<li>@Repository 用于对 DAO 实现类进行注解</li>
+<li>@Service 用于对 Service 实现类进行注解</li>
+<li>@Controller 用于对 Controller 实现类进行注解<br><br>这三个注解与@Component 都可以创建对象，但这三个注解还有其他的含义，<br>@Service创建业务层对象，业务层对象可以加入事务功能，<br><br>@Controller 注解创建的对象可以作为处理器接收用户的请求。<br><br>@Repository，@Service，@Controller 是对@Component 注解的细化，标注不同层的对象。即持久层对象，业务层对象，控制层对象。<br><h5 id="简单类型属性注入-Value"><a href="#简单类型属性注入-Value" class="headerlink" title="简单类型属性注入@Value"></a>简单类型属性注入@Value</h5>需要在属性上使用注解@Value，该注解的 value 属性用于指定要注入的值。<br>使用该注解完成属性注入时，类中无需 setter。<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    @Value(<span class="string">&quot;张三&quot;</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> name;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="byType-自动注入-Autowired"><a href="#byType-自动注入-Autowired" class="headerlink" title="byType 自动注入@Autowired"></a>byType 自动注入@Autowired</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> School school;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="byName-自动注入-Autowired-与-Qualifier"><a href="#byName-自动注入-Autowired-与-Qualifier" class="headerlink" title="byName 自动注入@Autowired 与@Qualifier"></a>byName 自动注入@Autowired 与@Qualifier</h5>需要在引用属性上联合使用注解@Autowired 与@Qualifier。@Qualifier 的 value 属性用<br>于指定要匹配的 Bean 的 id 值。类中无需 set 方法，也可加到 set 方法上。<br><br>@Autowired 还有一个属性 required，默认值为 true，表示当匹配失败后，会终止程序运<br>行。若将其值设置为 false，则匹配失败，将被忽略，未匹配的属性值为 null。<br></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/06/13/README/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/13/README/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-13 23:34:33" itemprop="dateCreated datePublished" datetime="2021-06-13T23:34:33+08:00">2021-06-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="posts"><a href="#posts" class="headerlink" title="_posts"></a>_posts</h1><p>博客原始文件</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/06/02/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -799,243 +1103,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" class="post-title-link" itemprop="url">基础概念_分布式事务</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基础概念</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>一般是指要做的或所做的事情。<br>在计算机术语中是指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。<br>事务通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序执行所引起，并用形如begin transaction和end transaction语句（或函数调用）来界定。<br>事务由事务开始(begin transaction)和事务结束(end transaction)之间执行的全体操作组成。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/" class="post-title-link" itemprop="url">基础知识HTTP</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">cs基础</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/http/" itemprop="url" rel="index"><span itemprop="name">http</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="什么是HTTP？"><a href="#什么是HTTP？" class="headerlink" title="什么是HTTP？"></a>什么是HTTP？</h2><p>HyperText Transfer Protocol（超文本传输协议）,它是一个<strong>无状态的工作在应用层的协议</strong>.<br><br>超文本指的是<strong>HTML</strong>，css，JavaScript和图片等，HTTP的出现是为了接收和发布HTML页面，也可以用于接收一些音频，视频，文件等内容。<br><br>HTTP协议是用于客户端和服务器端之间的通信，用于客户端和服务器端之间的通信有HTTP协议和TCP/IP协议族在内的其他众多的协议。<br></p>
-<h2 id="HTTP的短连接和长连接"><a href="#HTTP的短连接和长连接" class="headerlink" title="HTTP的短连接和长连接"></a>HTTP的短连接和长连接</h2><p>在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。</p>
-<p>而从HTTP/1.1起，默认使用长连接，用以保持连接特性。可以持久连接，TCP连接默认不关闭，可以被多个请求复用，只有在一段时间内，没有请求，就可以自动关闭。使用长连接的HTTP协议，会在响应头加入这行代码：</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认：</span></span><br><span class="line"><span class="symbol">Connection:</span><span class="meta">keep</span>-alive</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/" class="post-title-link" itemprop="url">mysql知识点</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="用-rownum-rownum-1-实现-rownum-功能"><a href="#用-rownum-rownum-1-实现-rownum-功能" class="headerlink" title="用 @rownum := @rownum+1 实现 rownum 功能"></a>用 @rownum := @rownum+1 实现 rownum 功能</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="variable">@rownum</span> :<span class="operator">=</span> <span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">AS</span> rownum, </span><br><span class="line">               table1.<span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) r ，</span><br><span class="line">       table1;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1105,20 +1172,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
