@@ -333,6 +333,13 @@
 
               <time title="创建时间：2021-06-13 23:34:33" itemprop="dateCreated datePublished" datetime="2021-06-13T23:34:33+08:00">2021-06-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-14 15:06:43" itemprop="dateModified" datetime="2021-06-14T15:06:43+08:00">2021-06-14</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -363,32 +370,15 @@
 <h3 id="DI具体用法和实现"><a href="#DI具体用法和实现" class="headerlink" title="DI具体用法和实现"></a>DI具体用法和实现</h3><h4 id="ApplicationContext-接口（容器）"><a href="#ApplicationContext-接口（容器）" class="headerlink" title="ApplicationContext 接口（容器）"></a>ApplicationContext 接口（容器）</h4><p>ApplicationContext 用于加载 Spring 的配置文件，在程序中充当“容器”的角色。其实现<br>类有：<strong>ClassPathXmlApplicationContext</strong>(常用)，FileSystemXmlApplicationContext。<br></p>
 <ul>
 <li>若 Spring 配置文件存放在项目的类路径下，则使用 ClassPathXmlApplicationContext 实现<br>类进行加载。</li>
-<li>ApplicationContext 容器，会在容器对象初始化时，将其中的所有对象一次性全部装配好。<br>以后代码中若要使用到这些对象，只需从内存中直接获取即可。执行效率较高。但占用内存。</li>
-</ul>
-<h4 id="注入分类"><a href="#注入分类" class="headerlink" title="注入分类:"></a>注入分类:<br></h4><p>bean 实例在调用无参构造器创建对象后，就要对 bean 对象的属性进行初始化。初始化<br>是由容器自动完成的，称为注入。<br>根据注入方式的不同，常用的有两类：<strong>set 注入、构造注入</strong>。</p>
-<ul>
-<li>Set注入：其实就是直接设置要的值<ul>
-<li>简单类型（设置property标签，通过value=”设置”）</li>
-<li>引用类型 （设置property标签，通过ref=”设置”）</li>
-</ul>
-</li>
-<li>构造注入：在构造调用者实例的同时，完成被调用者的实例化。即使用构造器设置依赖关系。<ul>
-<li>设置<constructor-arg>标签 name=”指定参数名称” value=”设置” 。（可选index）</constructor-arg></li>
-</ul>
-</li>
-</ul>
-<h5 id="引用类型属性自动注入"><a href="#引用类型属性自动注入" class="headerlink" title="引用类型属性自动注入"></a>引用类型属性自动注入</h5><p>对于引用类型属性的注入，也可不在配置文件中显示的注入。可以通过为<bean>标签<br>设置 autowire 属性值，为引用类型属性进行隐式自动注入（默认是不自动注入引用类型属<br>性）。根据自动注入判断标准的不同，可以分为两种：<br><br>byName：根据名称自动注入<br><br>byType： 根据类型自动注入<br><br>直接在bean标签内加上   autowire=”byName”</bean></p>
-<h4 id="为应用指定多个-Spring-配置文件"><a href="#为应用指定多个-Spring-配置文件" class="headerlink" title="为应用指定多个 Spring 配置文件"></a>为应用指定多个 Spring 配置文件</h4><p>在实际应用里，随着应用规模的增加，系统中 Bean 数量也大量增加，导致配置文件变<br>得非常庞大、臃肿。为了避免这种情况的产生，提高配置文件的可读性与可维护性，可以将<br>Spring 配置文件分解成多个配置文件。<br>包含关系的配置文件：<br><br>多个配置文件中有一个总文件，总配置文件将各其它子文件通过<import>引入。在 Java<br>代码中只需要使用总配置文件对容器进行初始化即可。<br><br>也可使用通配符*。但，此时要求父配置文件名不能满足*所能匹配的格式，否则将出现<br>循环递归包含。<br></import></p>
-<h4 id="基于注解的-DI"><a href="#基于注解的-DI" class="headerlink" title="基于注解的 DI"></a>基于注解的 DI</h4><p>对于 DI 使用注解，将不再需要在 Spring 配置文件中声明 bean 实例。<br><br>Spring 中使用注解，需要在 Spring 配置文件中<strong>配置组件扫描器</strong>，用于在指定的基本包中扫描注解。<br>指定多个包的三种方式：<br><br>1)使用多个 context:component-scan 指定不同的包路<br><br>2)指定 base-package 的值使用分隔符<br><br>3)base-package 是指定到父包名<br></p>
-<h5 id="注解方式声明bean"><a href="#注解方式声明bean" class="headerlink" title="注解方式声明bean"></a>注解方式声明bean</h5><ul>
-<li>定义 Bean 的注解@Component</li>
-<li>@Repository 用于对 DAO 实现类进行注解</li>
-<li>@Service 用于对 Service 实现类进行注解</li>
-<li>@Controller 用于对 Controller 实现类进行注解<br><br>这三个注解与@Component 都可以创建对象，但这三个注解还有其他的含义，<br>@Service创建业务层对象，业务层对象可以加入事务功能，<br><br>@Controller 注解创建的对象可以作为处理器接收用户的请求。<br><br>@Repository，@Service，@Controller 是对@Component 注解的细化，标注不同层的对象。即持久层对象，业务层对象，控制层对象。<br><h5 id="简单类型属性注入-Value"><a href="#简单类型属性注入-Value" class="headerlink" title="简单类型属性注入@Value"></a>简单类型属性注入@Value</h5>需要在属性上使用注解@Value，该注解的 value 属性用于指定要注入的值。<br>使用该注解完成属性注入时，类中无需 setter。<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    @Value(<span class="string">&quot;张三&quot;</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> name;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="byType-自动注入-Autowired"><a href="#byType-自动注入-Autowired" class="headerlink" title="byType 自动注入@Autowired"></a>byType 自动注入@Autowired</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> School school;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="byName-自动注入-Autowired-与-Qualifier"><a href="#byName-自动注入-Autowired-与-Qualifier" class="headerlink" title="byName 自动注入@Autowired 与@Qualifier"></a>byName 自动注入@Autowired 与@Qualifier</h5>需要在引用属性上联合使用注解@Autowired 与@Qualifier。@Qualifier 的 value 属性用<br>于指定要匹配的 Bean 的 id 值。类中无需 set 方法，也可加到 set 方法上。<br><br>@Autowired 还有一个属性 required，默认值为 true，表示当匹配失败后，会终止程序运<br>行。若将其值设置为 false，则匹配失败，将被忽略，未匹配的属性值为 null。<br></li>
-</ul>
-
+<li>ApplicationContext 容器，会在容器对象初始化时，将其中的所有对象一次性全部装配好。<br>以后代码中若要使用到这些对象，只需从内存中直接获取即可。执行效率较高。但占用内存。</li></ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/06/13/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

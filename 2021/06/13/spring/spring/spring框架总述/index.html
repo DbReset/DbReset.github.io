@@ -28,7 +28,7 @@
 <meta property="og:description" content="1.spring是什么Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为了解决企业应用开发的复杂性而创建的。Spring 的核心是控制反转（IoC）和面向切面编程（AOP）。 IOC控制反转控制反转（IoC，Inversion of Control），是一个概念，是一种思想。指将传统上由程序代码直接操控的对象调用权交给容器，通过容器来实现对象的装配和管理。控制反转就是对">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-06-13T15:34:33.636Z">
-<meta property="article:modified_time" content="2021-06-13T15:34:33.637Z">
+<meta property="article:modified_time" content="2021-06-14T07:06:43.871Z">
 <meta property="article:author" content="Luo">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="Spring">
@@ -193,6 +193,13 @@
 
               <time title="创建时间：2021-06-13 23:34:33" itemprop="dateCreated datePublished" datetime="2021-06-13T23:34:33+08:00">2021-06-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-14 15:06:43" itemprop="dateModified" datetime="2021-06-14T15:06:43+08:00">2021-06-14</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -230,10 +237,8 @@
 <h3 id="DI具体用法和实现"><a href="#DI具体用法和实现" class="headerlink" title="DI具体用法和实现"></a>DI具体用法和实现</h3><h4 id="ApplicationContext-接口（容器）"><a href="#ApplicationContext-接口（容器）" class="headerlink" title="ApplicationContext 接口（容器）"></a>ApplicationContext 接口（容器）</h4><p>ApplicationContext 用于加载 Spring 的配置文件，在程序中充当“容器”的角色。其实现<br>类有：<strong>ClassPathXmlApplicationContext</strong>(常用)，FileSystemXmlApplicationContext。<br></p>
 <ul>
 <li>若 Spring 配置文件存放在项目的类路径下，则使用 ClassPathXmlApplicationContext 实现<br>类进行加载。</li>
-<li>ApplicationContext 容器，会在容器对象初始化时，将其中的所有对象一次性全部装配好。<br>以后代码中若要使用到这些对象，只需从内存中直接获取即可。执行效率较高。但占用内存。</li>
-</ul>
-<h4 id="注入分类"><a href="#注入分类" class="headerlink" title="注入分类:"></a>注入分类:<br></h4><p>bean 实例在调用无参构造器创建对象后，就要对 bean 对象的属性进行初始化。初始化<br>是由容器自动完成的，称为注入。<br>根据注入方式的不同，常用的有两类：<strong>set 注入、构造注入</strong>。</p>
-<ul>
+<li>ApplicationContext 容器，会在容器对象初始化时，将其中的所有对象一次性全部装配好。<br>以后代码中若要使用到这些对象，只需从内存中直接获取即可。执行效率较高。但占用内存。<span id="more"></span>
+<h4 id="注入分类"><a href="#注入分类" class="headerlink" title="注入分类:"></a>注入分类:<br></h4>bean 实例在调用无参构造器创建对象后，就要对 bean 对象的属性进行初始化。初始化<br>是由容器自动完成的，称为注入。<br>根据注入方式的不同，常用的有两类：<strong>set 注入、构造注入</strong>。</li>
 <li>Set注入：其实就是直接设置要的值<ul>
 <li>简单类型（设置property标签，通过value=”设置”）</li>
 <li>引用类型 （设置property标签，通过ref=”设置”）</li>
