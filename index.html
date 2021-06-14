@@ -187,6 +187,13 @@
 
               <time title="创建时间：2021-06-13 23:34:33" itemprop="dateCreated datePublished" datetime="2021-06-13T23:34:33+08:00">2021-06-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-14 15:11:07" itemprop="dateModified" datetime="2021-06-14T15:11:07+08:00">2021-06-14</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -264,31 +271,14 @@
 <li>支持顺序消息，事务消息。</li>
 <li>支持分布式架构</li>
 </ol>
-<h1 id="集群分布式原理"><a href="#集群分布式原理" class="headerlink" title="集群分布式原理"></a>集群分布式原理</h1><p>RocketMQ由<strong>NameServer</strong>注册中心集群、<strong>Producer</strong>生产者集群、<strong>Consumer</strong>消费者集群和若干<strong>Broker</strong>（RocketMQ进程）组成，它的架构原理是这样的：</p>
-<ol>
-<li>Broker在启动的时候去向所有的NameServer注册，并保持长连接，每30s发送一次心跳</li>
-<li>Producer在发送消息的时候从NameServer获取Broker服务器地址，根据负载均衡算法选择一台服务器来发送消息</li>
-<li>Conusmer消费消息的时候同样从NameServer获取Broker地址，然后主动拉取消息来消费</li>
-</ol>
-<h1 id="消息丢失问题"><a href="#消息丢失问题" class="headerlink" title="消息丢失问题"></a>消息丢失问题</h1><p>消息丢失分为3个点</p>
-<ol>
-<li>生产者丢失，即消息没发送出去，也没有重试机制来确保发送<br><br> 解决方案：<ol>
-<li>同步发送(几乎不会用) </li>
-<li>异步发送时采用异步有回调的方式 （可以再加个本地消息表，MQ回调通知消息发送结果，对应更新数据库MQ发送状态，JOB轮询超过一定时间（时间根据业务配置）还未发送成功的消息去重试）</li>
-</ol>
-</li>
-<li>mq丢失，即mq未及时刷盘，然后宕机了，导致内存中未处理的消息丢了<br><br>RocketMQ分为同步刷盘和异步刷盘两种方式，可以通过设置为同步刷盘的方式来保证消息可靠性，这样即使MQ挂了，恢复的时候也可以从磁盘中去恢复消息。(对性能有损耗，需要根据具体业务逻辑设置)</li>
-<li>消费者丢失（消费者刚收到消息，此时服务器宕机，MQ认为消费者已经消费，不会重复发送消息，消息丢失。）<br><br>RocketMQ默认是需要消费者回复ack确认，而kafka需要手动开启配置关闭自动offset。<br><br>消费方不返回ack确认，重发的机制根据MQ类型的不同发送时间间隔、次数都不尽相同，如果重试超过次数之后会进入死信队列，需要手工来处理了。（Kafka没有这些）  重发的机制可能需要业务代码支持幂等操作。</li>
-</ol>
-<h1 id="Master和Slave之间是怎么同步数据的呢？"><a href="#Master和Slave之间是怎么同步数据的呢？" class="headerlink" title="Master和Slave之间是怎么同步数据的呢？"></a>Master和Slave之间是怎么同步数据的呢？</h1><p>而消息在master和slave之间的同步是根据raft协议来进行的：<br></p>
-<ol>
-<li>在broker收到消息后，会被标记为uncommitted状态</li>
-<li>然后会把消息发送给所有的slave</li>
-<li>slave在收到消息之后返回ack响应给master</li>
-<li>master在收到超过半数的ack之后，把消息标记为committed</li>
-<li>发送committed消息给所有slave，slave也修改状态为committed</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/06/13/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -379,64 +369,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/06/13/README/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/06/13/README/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-06-13 23:34:33" itemprop="dateCreated datePublished" datetime="2021-06-13T23:34:33+08:00">2021-06-13</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="posts"><a href="#posts" class="headerlink" title="_posts"></a>_posts</h1><p>博客原始文件</p>
-
       
     </div>
 
@@ -1093,6 +1025,84 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" class="post-title-link" itemprop="url">基础概念_分布式事务</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基础概念</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>一般是指要做的或所做的事情。<br>在计算机术语中是指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。<br>事务通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序执行所引起，并用形如begin transaction和end transaction语句（或函数调用）来界定。<br>事务由事务开始(begin transaction)和事务结束(end transaction)之间执行的全体操作组成。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1162,7 +1172,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
