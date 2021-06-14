@@ -172,9 +172,9 @@
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/author.jpg">
       <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -284,6 +284,18 @@
 <p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
 <h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>
     </div>
+    
+    <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+      
+    </div>
+
 
     
     
@@ -371,8 +383,10 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Luo"
+      src="/images/author.jpg">
   <p class="site-author-name" itemprop="name">Luo</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">笔记与积累，点点滴滴，贵在坚持</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -510,5 +524,10 @@
 
   
 
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
 </body>
 </html>

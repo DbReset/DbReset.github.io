@@ -170,9 +170,9 @@
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/author.jpg">
       <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -259,6 +259,18 @@
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 当垃圾回收确定不再有对该对象的引用时，由垃圾回收器在对象上调用。 子类覆盖finalize方法以处置系统资源或执行其他清除。</span></span><br><span class="line"><span class="comment">finalize的一般约定是，当Java™虚拟机确定不再有任何手段可以使尚未死亡的任何线程访问该对象时（除非是由于操作而导致），调用finalize由完成的其他某些对象或类的完成确定。 finalize方法可以采取任何措施，包括使该对象可再次用于其他线程。 但是， finalize的通常目的是在清除对象之前将其清除。 例如，代表输入/输出连接的对象的finalize方法可能会执行显式I / O事务，以在永久丢弃该对象之前中断连接。</span></span><br><span class="line"><span class="comment">Object类的finalize方法不执行任何特殊操作； 它只是正常返回。 Object子类可以覆盖此定义。</span></span><br><span class="line"><span class="comment">Java编程语言不能保证哪个线程将为任何给定对象调用finalize方法。 但是，可以保证，调用finalize的线程在调用finalize时不会持有任何用户可见的同步锁。 如果finalize方法抛出未捕获的异常，则该异常将被忽略，并且该对象的终止将终止。</span></span><br><span class="line"><span class="comment">在为对象调用finalize方法之后，在Java虚拟机再次确定不再有任何方法可以使尚未死亡的任何线程访问该对象之前，不采取进一步的措施，包括可能采取的措施可以通过其他准备完成的对象或类来完成，此时可以丢弃该对象。</span></span><br><span class="line"><span class="comment">对于任何给定的对象，Java虚拟机都不会多次调用finalize方法。</span></span><br><span class="line"><span class="comment">由finalize方法引发的任何异常都将导致此对象的终止终止，但否则将被忽略。</span></span><br><span class="line"><span class="comment">投</span></span><br><span class="line"><span class="comment">Throwable –此方法引发的Exception</span></span><br><span class="line"><span class="comment">请参见：</span></span><br><span class="line"><span class="comment">ref.WeakReference ， ref.PhantomReference */</span></span><br><span class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> Throwable </span>&#123; &#125;</span><br></pre></td></tr></table></figure>
 
     </div>
+    
+    <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+      
+    </div>
+
 
     
     
@@ -346,8 +358,10 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Luo"
+      src="/images/author.jpg">
   <p class="site-author-name" itemprop="name">Luo</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">笔记与积累，点点滴滴，贵在坚持</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -485,5 +499,10 @@
 
   
 
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
 </body>
 </html>

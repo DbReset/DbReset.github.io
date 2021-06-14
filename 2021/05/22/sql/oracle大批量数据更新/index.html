@@ -170,9 +170,9 @@
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/author.jpg">
       <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -258,6 +258,18 @@ start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARA
 <p>–gather——重新分析整个架构（Schema）。<br>–gather empty——只分析目前还没有统计的表。<br>–gather stale——只重新分析修改量超过10%的表（这些修改包括插入、更新和删除）。<br>–gather auto——重新分析当前没有统计的对象，以及统计数据过期（变脏）的对象。注意，使用gather auto类似于组合使用gather stale和gather empty。<br>begin<br>dbms_stats.gather_schema_stats(ownname=&gt;user,options=&gt;’gather stale’,degree =&gt; 32);<br>end;</p>
 
     </div>
+    
+    <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+      
+    </div>
+
 
     
     
@@ -344,8 +356,10 @@ start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARA
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Luo"
+      src="/images/author.jpg">
   <p class="site-author-name" itemprop="name">Luo</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">笔记与积累，点点滴滴，贵在坚持</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -483,5 +497,10 @@ start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARA
 
   
 
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
 </body>
 </html>
