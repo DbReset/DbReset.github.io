@@ -14,6 +14,8 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
@@ -1076,7 +1078,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -1090,7 +1092,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" class="post-title-link" itemprop="url">基础概念_分布式事务</a>
+            <a href="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/" class="post-title-link" itemprop="url">基础知识HTTP</a>
         </h2>
 
         <div class="post-meta">
@@ -1108,11 +1110,11 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基础概念</span></a>
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">cs基础</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/http/" itemprop="url" rel="index"><span itemprop="name">http</span></a>
                 </span>
             </span>
 
@@ -1127,10 +1129,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>一般是指要做的或所做的事情。<br>在计算机术语中是指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。<br>事务通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序执行所引起，并用形如begin transaction和end transaction语句（或函数调用）来界定。<br>事务由事务开始(begin transaction)和事务结束(end transaction)之间执行的全体操作组成。</p>
+          <h2 id="什么是HTTP？"><a href="#什么是HTTP？" class="headerlink" title="什么是HTTP？"></a>什么是HTTP？</h2><p>HyperText Transfer Protocol（超文本传输协议）,它是一个<strong>无状态的工作在应用层的协议</strong>.<br><br>超文本指的是<strong>HTML</strong>，css，JavaScript和图片等，HTTP的出现是为了接收和发布HTML页面，也可以用于接收一些音频，视频，文件等内容。<br><br>HTTP协议是用于客户端和服务器端之间的通信，用于客户端和服务器端之间的通信有HTTP协议和TCP/IP协议族在内的其他众多的协议。<br></p>
+<h2 id="HTTP的短连接和长连接"><a href="#HTTP的短连接和长连接" class="headerlink" title="HTTP的短连接和长连接"></a>HTTP的短连接和长连接</h2><p>在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。</p>
+<p>而从HTTP/1.1起，默认使用长连接，用以保持连接特性。可以持久连接，TCP连接默认不关闭，可以被多个请求复用，只有在一段时间内，没有请求，就可以自动关闭。使用长连接的HTTP协议，会在响应头加入这行代码：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认：</span></span><br><span class="line"><span class="symbol">Connection:</span><span class="meta">keep</span>-alive</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/#more" rel="contents">
+              <a class="btn" href="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1317,7 +1322,6 @@
   </div>
 
   
-  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
@@ -1335,6 +1339,8 @@
 
   <script defer src="/lib/three/three.min.js"></script>
     <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
 
 
   
