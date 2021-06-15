@@ -454,6 +454,110 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/" class="post-title-link" itemprop="url">基础知识TCP</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">cs基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/tcp/" itemprop="url" rel="index"><span itemprop="name">tcp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>&nbsp;</p>
+<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
+<ul>
+<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
+</li>
+<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
+</li>
+<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
+</li>
+</ul>
+<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
+<ul>
+<li>Socket：由 IP 地址和端口号组成</li>
+<li>序列号：用来解决乱序问题等</li>
+<li>窗口大小：用来做流量控制</li>
+</ul>
+<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
+<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
+<li>源地址</li>
+<li>源端口</li>
+<li>目的地址</li>
+<li>目的端口</li></ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -589,110 +693,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/05/22/%E7%AE%97%E6%B3%95%E7%AF%87/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/" class="post-title-link" itemprop="url">基础知识TCP</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">cs基础</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/tcp/" itemprop="url" rel="index"><span itemprop="name">tcp</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>&nbsp;</p>
-<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
-<ul>
-<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
-</li>
-<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
-</li>
-<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
-</li>
-</ul>
-<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
-<ul>
-<li>Socket：由 IP 地址和端口号组成</li>
-<li>序列号：用来解决乱序问题等</li>
-<li>窗口大小：用来做流量控制</li>
-</ul>
-<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
-<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
-<li>源地址</li>
-<li>源端口</li>
-<li>目的地址</li>
-<li>目的端口</li></ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -890,6 +890,89 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/" class="post-title-link" itemprop="url">mysql知识点</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="用-rownum-rownum-1-实现-rownum-功能"><a href="#用-rownum-rownum-1-实现-rownum-功能" class="headerlink" title="用 @rownum := @rownum+1 实现 rownum 功能"></a>用 @rownum := @rownum+1 实现 rownum 功能</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="variable">@rownum</span> :<span class="operator">=</span> <span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">AS</span> rownum, </span><br><span class="line">               table1.<span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) r ，</span><br><span class="line">       table1;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -953,89 +1036,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/05/22/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/" class="post-title-link" itemprop="url">mysql知识点</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="用-rownum-rownum-1-实现-rownum-功能"><a href="#用-rownum-rownum-1-实现-rownum-功能" class="headerlink" title="用 @rownum := @rownum+1 实现 rownum 功能"></a>用 @rownum := @rownum+1 实现 rownum 功能</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="variable">@rownum</span> :<span class="operator">=</span> <span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">AS</span> rownum, </span><br><span class="line">               table1.<span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) r ，</span><br><span class="line">       table1;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
