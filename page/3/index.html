@@ -269,6 +269,94 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/" class="post-title-link" itemprop="url">oracle大批量数据更新操作，提供并发&小事务</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/oracle/" itemprop="url" rel="index"><span itemprop="name">oracle</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>oracle提供了很好用的大数据量数据更新的函数dbms_parallel_execute，改用dbms_parallel_execute执行，可以进行并行更新并且事务大小可控。</p>
+<p>以下在命令窗口执行：</p>
+<ol>
+<li>首先创建一个TASK，名称为update_pzjcxx:<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_task(<span class="string">&#x27;update_pzjcxx&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+<li>把将要更新的表按照ROWID进行分批，分到各个CHUNK中：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_chunks_by_rowid(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,table_owner <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;V7PROD&#x27;</span>,table_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;KCDY_PZJCXX&#x27;</span>,by_row <span class="operator">=</span><span class="operator">&gt;</span> <span class="literal">true</span>,chunk_size <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
+BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行；如果是FALSE，则后面的CHUNK_SIZE表示的是BLOCK。<br>CHUNK_SIZE：CHUNK大小。如果BY_ROW为TRUE，表示多少行分为一个CHUNK；如果BY_ROW为FALSE，则表示多少块分为一个CHUNK。</li></ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/sql/mysql%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -330,94 +418,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/05/22/sql/mysql%E5%9F%BA%E7%A1%80/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/" class="post-title-link" itemprop="url">oracle大批量数据更新操作，提供并发&小事务</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/oracle/" itemprop="url" rel="index"><span itemprop="name">oracle</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>oracle提供了很好用的大数据量数据更新的函数dbms_parallel_execute，改用dbms_parallel_execute执行，可以进行并行更新并且事务大小可控。</p>
-<p>以下在命令窗口执行：</p>
-<ol>
-<li>首先创建一个TASK，名称为update_pzjcxx:<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_task(<span class="string">&#x27;update_pzjcxx&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
-<li>把将要更新的表按照ROWID进行分批，分到各个CHUNK中：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_chunks_by_rowid(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,table_owner <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;V7PROD&#x27;</span>,table_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;KCDY_PZJCXX&#x27;</span>,by_row <span class="operator">=</span><span class="operator">&gt;</span> <span class="literal">true</span>,chunk_size <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
-BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行；如果是FALSE，则后面的CHUNK_SIZE表示的是BLOCK。<br>CHUNK_SIZE：CHUNK大小。如果BY_ROW为TRUE，表示多少行分为一个CHUNK；如果BY_ROW为FALSE，则表示多少块分为一个CHUNK。</li></ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
