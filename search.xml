@@ -45,216 +45,6 @@
       </tags>
   </entry>
   <entry>
-    <title>mysql_优化系列_索引优化</title>
-    <url>/2021/05/22/sql/mysql_%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97_%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="模糊匹配like-怎么优化"><a href="#模糊匹配like-怎么优化" class="headerlink" title="模糊匹配like %%怎么优化"></a>模糊匹配like %%怎么优化</h2><ol>
-<li>开启ICP（索引条件下推）<br><br>可以通过索引筛选，返回给Server层筛选后的记录，减少不必要的IO开销。<br><br>如果where后只有一个 like ‘%xxx%’条件，表有主键的前提下，可以通过子查询优化<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span>  <span class="operator">*</span> <span class="keyword">from</span> users01 a , </span><br><span class="line">(<span class="keyword">select</span> id <span class="keyword">from</span> users01 <span class="keyword">where</span> nickname <span class="keyword">like</span> <span class="string">&#x27;%SK%&#x27;</span>) b</span><br><span class="line"> <span class="keyword">where</span> a.id <span class="operator">=</span> b.id;</span><br></pre></td></tr></table></figure></li>
-<li>建立全文索引<br><br>两种检索模式</li>
-</ol>
-<ul>
-<li><p>IN NATURAL LANGUAGE MODE：默认模式，以自然语言的方式搜索，AGAINST(‘看风’ IN NATURAL LANGUAGE MODE ) 等价于AGAINST(‘看风’)。</p>
-</li>
-<li><p>IN BOOLEAN MODE：布尔模式，表是字符串前后的字符有特殊含义，如查找包含SK，但不包含Lyn的记录，可以用+，-符号。<br>AGAINST(‘+SK -Lyn’ in BOOLEAN MODE);</p>
-</li>
-</ul>
-<p>创建全文索引：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> fulltext index idx_full_nickname(nickname) <span class="keyword">with</span> parser ngram;</span><br></pre></td></tr></table></figure>
-<p>改写like语句：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> users01 <span class="keyword">where</span> <span class="keyword">match</span>(nickname) against(<span class="string">&#x27;看风&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>生成列（虚拟列）<br><br>对于where条件后的 like ‘%xxx’ 是无法利用索引扫描，可以利用MySQL 5.7的生成列模拟函数索引的方式解决，具体步骤如下：<br>利用内置reverse函数将like ‘%风云’反转为like ‘云风%’，基于此函数添加虚拟生成列。<br>在虚拟生成列上创建索引。<br>将SQL改写成通过生成列like reverse(‘%风云’)去过滤，走生成列上的索引。<br>建立生成列<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> reverse_nickname <span class="type">varchar</span>(<span class="number">200</span>) generated always <span class="keyword">as</span> (reverse(nickname));</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="索引很长的字段怎么优化？"><a href="#索引很长的字段怎么优化？" class="headerlink" title="索引很长的字段怎么优化？"></a>索引很长的字段怎么优化？</h2><p>有时候需要索引很长的字符(例如BLOB,TEXT,或者很长的VARCHAR)，这样会使得索引又大又慢。</p>
-<ol>
-<li>改用哈希索引。<br>InnoDB是支持Btree索引，但不显式支持hash索引。可以使用生成列来间接使用哈希索引。</li>
-<li>使用字符串的前几个字符作为索引(即前缀索引)。</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> INDEX `idx_city` (`city`(<span class="number">7</span>)) <span class="keyword">USING</span> BTREE ;</span><br><span class="line"><span class="comment">-- 或者这个也行</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> KEY `idx_city` (`city`(<span class="number">7</span>))</span><br></pre></td></tr></table></figure>
-<p>当然在选择前缀时要选择合适的前缀索引长度，保持好的选择性。其方法主要是计算数据分布。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查询重复次数最多的10条完整城市名称及其数量(图1)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, city <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> city <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前3个字符)及其数量,可以发现:前3个字符的相同数量过大,不适合做前缀索引(图2)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">3</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前7个字符)及其数量,可以发现:前7个字符的相同数量和完整城市名称很相近了,可以考虑作为做前缀索引(图3)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">7</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-        <category>索引优化</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>sql</tag>
-        <tag>索引优化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mybatis</title>
-    <url>/2021/05/26/sql/mybatis/</url>
-    <content><![CDATA[<ol>
-<li>#{}和${}的区别是什么？</li>
-</ol>
-<ul>
-<li>#{}是预编译处理#{}可以防止Sql 注入，它会将所有传入的参数作为一个字符串来处理。</li>
-<li>${}是字符串替换。${} 则将传入的参数拼接到Sql上去执行，一般用于表名和字段名参数，$ 所对应的参数应该由服务器端提供，前端可以用参数进行选择，避免 Sql 注入的风险<br>Mybatis在处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement的set方法来赋值；<br>Mybatis在处理时，就是把{}替换成变量的值。<br><br>使用#{}可以有效的防止SQL注入，提高系统安全性。</li>
-</ul>
-<ol start="2">
-<li>Mybatis是如何进行<strong>分页</strong>的？分页插件的原理是什么？<br><br>Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的<strong>内存分页</strong>，而非物理分页，可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。<br><br>分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。<br></li>
-</ol>
-<span id="more"></span>
-<ol start="3">
-<li><p>Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？<br><br>第一种是<strong>使用&lt;resultMap&gt;标签</strong>，逐一定义列名和对象属性名之间的映射关系。<br><br>第二种是使用sql列的<strong>别名功能</strong>，将列别名书写为对象属性名，比如T_NAME AS NAME，对象属性名一般是name，小写，但是列名不区分大小写，Mybatis会忽略列名大小写，智能找到与之对应对象属性名，你甚至可以写成T_NAME AS NaMe，Mybatis一样可以正常工作。<br>有了列名与属性名的映射关系后，Mybatis通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。</p>
-</li>
-<li><p>Xml映射文件中，除了常见的select|insert|update|delete标签之外，还有哪些标签？<br><br>还有很多其他的标签，加上动态sql的9个标签，trim|where|set|foreach|if|choose|when|otherwise|bind等，其中为sql片段标签，通过标签引入sql片段，为不支持自增的主键生成策略标签。</p>
-</li>
-<li><p>简述Mybatis的<strong>插件运行原理，以及如何编写一个插件</strong><br><br>Mybatis仅可以编写针对ParameterHandler、ResultSetHandler、StatementHandler、Executor这4种接口的插件.<br>Mybatis使用JDK的动态代理，为需要拦截的接口生成代理对象以实现接口方法拦截功能，每当执行这4种接口对象的方法时，就会进入拦截方法，具体就是InvocationHandler的invoke()方法，当然，只会拦截那些你指定需要拦截的方法。实现Mybatis的Interceptor接口并复写intercept()方法，然后在给插件编写注解，指定要拦截哪一个接口的哪些方法即可，记住，还需要在配置文件中配置你编写的插件。</p>
-</li>
-</ol>
-<ol start="6">
-<li>一级、二级缓存<br><br>1）一级缓存: 基于 <strong>PerpetualCache 的 HashMap 本地缓存</strong>，其存储作用域为 Session，当 Session flush 或 close 之后，该 Session 中的所有 Cache 就将清空。<br><br>2）二级缓存与一级缓存其机制相同，默认也是采用 PerpetualCache，HashMap 存储，不同在于其存储作用域为 Mapper(Namespace)，并且可自定义存储源，如 Ehcache。要开启二级缓存，你需要在你的 SQL 映射文件中添加一行：<pre><code>&lt;cache/&gt;
-</code></pre>
-<br>
-3）对于缓存数据更新机制，当某一个作用域(一级缓存 Session/二级缓存Namespaces)的进行了C/U/D 操作后，默认该作用域下所有 select 中的缓存将被 clear。<br></li>
-</ol>
-<ol start="7">
-<li>Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？<br><br>Mybatis仅支持association关联对象和collection关联集合对象的延迟加载，association指的就是一对一，collection指的就是一对多查询。<br><br>在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。<br><br>它的原理是，使用CGLIB创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发现a.getB()是null值，那么就会单独发送事先保存好的查询关联B对象的sql，把B查询上来，然后调用a.setB(b)，于是a的对象b属性就有值了，接着完成a.getB().getName()方法的调用。这就是延迟加载的基本原理。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql知识点</title>
-    <url>/2021/05/22/sql/mysql%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h2 id="mysql的4大特性-4种隔离级别："><a href="#mysql的4大特性-4种隔离级别：" class="headerlink" title="mysql的4大特性+4种隔离级别："></a>mysql的4大特性+4种隔离级别：</h2><h3 id="4大特性即ACID"><a href="#4大特性即ACID" class="headerlink" title="4大特性即ACID"></a>4大特性即ACID</h3><ul>
-<li>1 原子性。事务是一个不可分割的整体，事务开始的操作，要么全部执行，要么全部不执行。</li>
-<li>2 隔离性。同一时间，只允许一个事务请求同一组数据。不同的事务彼此之间没有干扰。</li>
-<li>3 一致性。事务开始前和结束后，数据库的完整性约束没有被破坏 。</li>
-<li>4 稳定性。事务完成后，事务对数据库的所有更新将被保存到数据库，不能回滚。</li>
-</ul>
-<h3 id="4种隔离级别"><a href="#4种隔离级别" class="headerlink" title="4种隔离级别"></a>4种隔离级别</h3><p>大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read。</p>
-<span id="more"></span>
-<p>数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的并发操作中可能会出现脏读，不可重复读，幻读。</p>
-<h4 id="Read-uncommitted-读未提交"><a href="#Read-uncommitted-读未提交" class="headerlink" title="Read uncommitted 读未提交"></a>Read uncommitted 读未提交</h4><p>就是一个事务可以读取另一个未提交事务的数据。 </p>
-<h4 id="Read-committed-读提交"><a href="#Read-committed-读提交" class="headerlink" title="Read committed 读提交"></a>Read committed 读提交</h4><p>一个事务要等另一个事务提交后才能读取数据</p>
-<h4 id="Repeatable-read-重复读"><a href="#Repeatable-read-重复读" class="headerlink" title="Repeatable read 重复读"></a>Repeatable read 重复读</h4><p>在开始读取数据（事务开启）时，不再允许修改操作</p>
-<h4 id="Serializable-序列化"><a href="#Serializable-序列化" class="headerlink" title="Serializable  序列化"></a>Serializable  序列化</h4><p>全都顺序执行</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@tx</span>_isolation</span><br></pre></td></tr></table></figure>
-<p>设置当前会话隔离级别</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> session transaction isolation level repeatable read;</span><br></pre></td></tr></table></figure>
-<p>查看系统当前隔离级别</p>
-<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> @@<span class="keyword">global</span>.tx_isolation;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<hr>
-<h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><p>mysql常用的引擎有<strong>InnoDB，MyISAM，Memory</strong>，默认是InnoDB。</p>
-<p><strong>InnoDB</strong>：磁盘表，支持事务(Redo log 和Undo log和锁)，支持行级锁，B+Tree索引</p>
-<p>ps:优点： 具有良好的ACID特性。适用于高并发，更新操作比较多的表。需要使用事务的表。对自动灾难恢复有要求的表。</p>
-<p>缺点：读写效率相对MYISAM比较差。占用的磁盘空间比较大。</p>
-<p><strong>MyISAM</strong>：磁盘表，不支持事务，支持表级锁，B+Tree索引</p>
-<p>ps: 优点：占用空间小，处理速度快（相对InnoDB来说）</p>
-<p>缺点：不支持事务的完整性和并发性</p>
-<p>**MEMORY(Heap)**：内存表，不支持事务，表级锁，Hash索引，不支持Blob,Text大类型</p>
-<p>ps: 优点：速度要求快的，临时数据</p>
-<p>缺点：丢失以后，对项目整体没有或者负面影响不大的时候。</p>
-<hr>
-<h3 id="InnoDB详解"><a href="#InnoDB详解" class="headerlink" title="InnoDB详解"></a>InnoDB详解</h3><p><a href="http://www.liuzk.com/410.html">二叉树 -&gt; 平衡二叉树 -&gt; B树 -&gt; B+树</a></p>
-<p>在 MySQL 中，B+ 树索引按照存储方式的不同分为聚集索引和非聚集索引。</p>
-<h4 id="聚集索引（也叫聚簇索引-clustered-index"><a href="#聚集索引（也叫聚簇索引-clustered-index" class="headerlink" title="聚集索引（也叫聚簇索引) (clustered index)"></a>聚集索引（也叫聚簇索引) (clustered index)</h4><p>这种以主键作为 B+ 树索引的键值而构建的 索引，我们称之为聚集索引。InnoDB聚集索引的叶子节点存储行记录。</p>
-<p><strong>InnoDB必须要有，且只有一个聚集索引</strong>：</p>
-<p>表中的数据都会有一个主键，即使你不创建主键，系统也会帮你创建一个隐式的主键：</p>
-<p>（1）如果表定义了PK（主键），则PK就是聚集索引；</p>
-<p>（2）如果表没有定义PK，则第一个not NULL unique列是聚集索引；</p>
-<p>（3）否则，InnoDB会创建一个隐藏的row-id作为聚集索引；</p>
-<p>PS：所以PK查询非常快，直接定位行记录。</p>
-<h4 id="非聚集索引（非聚簇索引）"><a href="#非聚集索引（非聚簇索引）" class="headerlink" title="非聚集索引（非聚簇索引）"></a>非聚集索引（非聚簇索引）</h4><p>以主键以外的列值作为键值构建的 B+ 树索引，我们称之为非聚集索引。（一般我们建的非唯一索引的普通索引就是这种）</p>
-<p>非聚集索引与聚集索引的区别在于<strong>非聚集索引</strong>的叶子节点<strong>不存储表中的数据</strong>，而是<strong>存储该列对应的主键</strong>，想要查找数据我们还需要根据主键<strong>再去聚集索引中进行查找</strong>，这个再根据聚集索引查找数据的过程，我们称为<strong>回表</strong>。</p>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>oracle大批量数据更新操作，提供并发&amp;小事务</title>
-    <url>/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/</url>
-    <content><![CDATA[<p>oracle提供了很好用的大数据量数据更新的函数dbms_parallel_execute，改用dbms_parallel_execute执行，可以进行并行更新并且事务大小可控。</p>
-<p>以下在命令窗口执行：</p>
-<ol>
-<li>首先创建一个TASK，名称为update_pzjcxx:<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_task(<span class="string">&#x27;update_pzjcxx&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
-<li>把将要更新的表按照ROWID进行分批，分到各个CHUNK中：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_chunks_by_rowid(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,table_owner <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;V7PROD&#x27;</span>,table_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;KCDY_PZJCXX&#x27;</span>,by_row <span class="operator">=</span><span class="operator">&gt;</span> <span class="literal">true</span>,chunk_size <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
-BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行；如果是FALSE，则后面的CHUNK_SIZE表示的是BLOCK。<br>CHUNK_SIZE：CHUNK大小。如果BY_ROW为TRUE，表示多少行分为一个CHUNK；如果BY_ROW为FALSE，则表示多少块分为一个CHUNK。<span id="more"></span></li>
-<li>执行并行任务：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> DBMS_PARALLEL_EXECUTE.run_task(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,sql_stmt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update /*+ROWID(dda)*/ kcdy_pzjcxx set ( ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, NLJSKACS ) = </span></span><br><span class="line"><span class="string">( select ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, SFYZBZHI from kdpy_jbxinx where zhanghao = kcdy_pzjcxx.zhanghao and farendma = &#x27;&#x27;9999&#x27;&#x27; ) where rowid between :start_id and :end_id&#x27;</span>,language_flag <span class="operator">=</span><span class="operator">&gt;</span> DBMS_SQL.native,parallel_level <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">16</span>);</span><br></pre></td></tr></table></figure>
-start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARALLEL表示平行度；LANGUAGE_FLAG意义如下：<br>V6 (or 0) specifies version 6 behavior<br>NATIVE (or 1) specifies normal behavior for the database to which the program is connected<br>V7 (or 2) specifies Oracle database version 7 behavior</li>
-</ol>
-<ol start="4">
-<li>查看task执行情况<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_parallel_execute_tasks;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_parallel_execute_tasks;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_parallel_execute_chunks ; </span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_parallel_execute_chunks ; </span><br></pre></td></tr></table></figure></li>
-</ol>
-<p> 每个CHUNK是在单独一个事务中提交的。所以某几个CHUNK发生错误后，可以修正错误，并使用下面的方法来继续未完成的CHUNK的任务：<br>  4.1 </p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.resume_task(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,sql_stmt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update /*+ROWID(dda)*/ kcdy_pzjcxx set ( ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, NLJSKACS ) = </span></span><br><span class="line"><span class="string">( select ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, SFYZBZHI from kdpy_jbxinx where zhanghao = kcdy_pzjcxx.zhanghao and farendma = &#x27;&#x27;9999&#x27;&#x27; ) where rowid between :start_id and :end_id&#x27;</span>,language_flag <span class="operator">=</span><span class="operator">&gt;</span> DBMS_SQL.native);</span><br></pre></td></tr></table></figure>
-<pre><code>4.2 停止执行： 
-</code></pre>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.stop_task(update_pzjcxx);</span><br></pre></td></tr></table></figure>
-
-<p>  最后可以删除完成的任务：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.drop_task( <span class="string">&#x27;update_pzjcxx&#x27;</span> );</span><br></pre></td></tr></table></figure>
-
-
-
-<p>–开启计时</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> timing <span class="keyword">on</span></span><br></pre></td></tr></table></figure>
-<p>–设置并行收集</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_stats.set_global_prefs(<span class="string">&#x27;CONCURRENT&#x27;</span>,<span class="string">&#x27;TRUE&#x27;</span>);</span><br><span class="line"> <span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> resource_manager_plan <span class="operator">=</span> <span class="string">&#x27;DEFAULT_PLAN&#x27;</span> <span class="keyword">scope</span><span class="operator">=</span><span class="keyword">both</span>;</span><br></pre></td></tr></table></figure>
-<p>–开始收集全库统计信息</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">begin</span></span><br><span class="line">dbms_stats.gather_database_stats(</span><br><span class="line">ESTIMATE_PERCENT<span class="operator">=</span><span class="operator">&gt;</span>DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;for all indexed columns&#x27;</span>, cascade<span class="operator">=</span><span class="operator">&gt;</span><span class="literal">true</span>, degree<span class="operator">=</span><span class="operator">&gt;</span><span class="number">16</span>);</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"><span class="operator">/</span></span><br></pre></td></tr></table></figure>
-<p>–关闭并行收集</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_stats.set_global_prefs(<span class="string">&#x27;CONCURRENT&#x27;</span>,<span class="string">&#x27;FALSE&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<p>–gather——重新分析整个架构（Schema）。<br>–gather empty——只分析目前还没有统计的表。<br>–gather stale——只重新分析修改量超过10%的表（这些修改包括插入、更新和删除）。<br>–gather auto——重新分析当前没有统计的对象，以及统计数据过期（变脏）的对象。注意，使用gather auto类似于组合使用gather stale和gather empty。<br>begin<br>dbms_stats.gather_schema_stats(ownname=&gt;user,options=&gt;’gather stale’,degree =&gt; 32);<br>end;</p>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>oracle</category>
-      </categories>
-      <tags>
-        <tag>oracle</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql知识点</title>
-    <url>/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="用-rownum-rownum-1-实现-rownum-功能"><a href="#用-rownum-rownum-1-实现-rownum-功能" class="headerlink" title="用 @rownum := @rownum+1 实现 rownum 功能"></a>用 @rownum := @rownum+1 实现 rownum 功能</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="variable">@rownum</span> :<span class="operator">=</span> <span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">AS</span> rownum, </span><br><span class="line">               table1.<span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) r ，</span><br><span class="line">       table1;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<h3 id="分组排序取样"><a href="#分组排序取样" class="headerlink" title="分组排序取样"></a>分组排序取样</h3><p>按分组取最小的两个(N个)val</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> a.<span class="operator">*</span> <span class="keyword">from</span> tb a <span class="keyword">where</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&gt;</span> (<span class="keyword">select</span> <span class="built_in">count</span>(<span class="number">1</span>) <span class="keyword">from</span> tb <span class="keyword">where</span> </span><br><span class="line">name <span class="operator">=</span> a.name  <span class="comment">/*按哪些分组就哪些相等*/</span></span><br><span class="line"><span class="keyword">and</span> val <span class="operator">&lt;</span> a.val ) <span class="comment">/*找个分组内大部分不相等的来做比较*/</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> a.name,a.val</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> a.<span class="operator">*</span> <span class="keyword">from</span> tb a <span class="keyword">where</span> <span class="keyword">exists</span> </span><br><span class="line">(<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> tb <span class="keyword">where</span> name <span class="operator">=</span> a.name <span class="keyword">and</span> val <span class="operator">&lt;</span> a.val <span class="keyword">having</span> <span class="built_in">Count</span>(<span class="operator">*</span>) <span class="operator">&lt;</span> <span class="number">2</span>) </span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> a.name</span><br></pre></td></tr></table></figure>
-<h3 id="根据注释来查询表名："><a href="#根据注释来查询表名：" class="headerlink" title="根据注释来查询表名："></a>根据注释来查询表名：</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">Select</span> table_name 表名,TABLE_COMMENT <span class="string">&#x27;媒资&#x27;</span> <span class="keyword">from</span></span><br><span class="line">INFORMATION_SCHEMA.TABLES <span class="keyword">Where</span>  TABLE_COMMENT  <span class="keyword">LIKE</span> <span class="string">&#x27;%媒资%&#x27;</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="HAVING子句示例"><a href="#HAVING子句示例" class="headerlink" title="HAVING子句示例"></a>HAVING子句示例</h3><p>1、查询重复的行</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> id,name <span class="keyword">from</span> student <span class="keyword">where</span> name <span class="keyword">in</span> (<span class="keyword">select</span> name <span class="keyword">from</span> student </span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> name <span class="keyword">having</span> (<span class="built_in">count</span>(<span class="operator">*</span>) <span class="operator">&gt;</span> <span class="number">1</span>)) <span class="keyword">order</span> <span class="keyword">by</span> name;</span><br></pre></td></tr></table></figure>
-<p>查询student表中重名的学生，结果包含id和name，按name,id升序</p>
-<p>2、查询分组中特定要求的行</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> sid,<span class="built_in">avg</span>(score) <span class="keyword">as</span> avg_score <span class="keyword">from</span> student_course <span class="keyword">group</span> <span class="keyword">by</span> sid </span><br><span class="line"><span class="keyword">having</span> (avg_score <span class="operator">&lt;</span> <span class="number">60</span>);</span><br></pre></td></tr></table></figure>
-<p>在student_course表中查询平均分不及格的学生，列出学生id和平均分</p>
-<p>3、显示每个地区的总人口数和总面积．仅显示那些面积超过1000000的地区。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> region,<span class="built_in">sum</span>(population),<span class="built_in">sum</span>(area) <span class="keyword">from</span> china <span class="keyword">group</span> <span class="keyword">by</span> region </span><br><span class="line"><span class="keyword">having</span> (<span class="built_in">sum</span>(area) <span class="operator">&gt;</span> <span class="number">1000000</span>);</span><br></pre></td></tr></table></figure>
-
-<h3 id="强制索引使用"><a href="#强制索引使用" class="headerlink" title="强制索引使用"></a>强制索引使用</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> students FORCE INDEX (idx_class_id) <span class="keyword">WHERE</span> class_id <span class="operator">=</span> <span class="number">1</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> id <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>sql</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Shell脚本中$</title>
     <url>/2021/06/15/shell/shell%20%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84$%20/</url>
     <content><![CDATA[<h1 id="Shell脚本中-0、-、-、-、-、-、"><a href="#Shell脚本中-0、-、-、-、-、-、" class="headerlink" title="Shell脚本中$0、$?、$!、$$、$*、$#、$@"></a>Shell脚本中$0、$?、$!、$$、$*、$#、$@</h1><h2 id="1"><a href="#1" class="headerlink" title="1. $$"></a>1. $$</h2><p>Shell本身的PID（ProcessID）</p>
@@ -932,6 +722,216 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>mybatis</title>
+    <url>/2021/05/26/sql/mybatis/</url>
+    <content><![CDATA[<ol>
+<li>#{}和${}的区别是什么？</li>
+</ol>
+<ul>
+<li>#{}是预编译处理#{}可以防止Sql 注入，它会将所有传入的参数作为一个字符串来处理。</li>
+<li>${}是字符串替换。${} 则将传入的参数拼接到Sql上去执行，一般用于表名和字段名参数，$ 所对应的参数应该由服务器端提供，前端可以用参数进行选择，避免 Sql 注入的风险<br>Mybatis在处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement的set方法来赋值；<br>Mybatis在处理时，就是把{}替换成变量的值。<br><br>使用#{}可以有效的防止SQL注入，提高系统安全性。</li>
+</ul>
+<ol start="2">
+<li>Mybatis是如何进行<strong>分页</strong>的？分页插件的原理是什么？<br><br>Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的<strong>内存分页</strong>，而非物理分页，可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。<br><br>分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。<br></li>
+</ol>
+<span id="more"></span>
+<ol start="3">
+<li><p>Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？<br><br>第一种是<strong>使用&lt;resultMap&gt;标签</strong>，逐一定义列名和对象属性名之间的映射关系。<br><br>第二种是使用sql列的<strong>别名功能</strong>，将列别名书写为对象属性名，比如T_NAME AS NAME，对象属性名一般是name，小写，但是列名不区分大小写，Mybatis会忽略列名大小写，智能找到与之对应对象属性名，你甚至可以写成T_NAME AS NaMe，Mybatis一样可以正常工作。<br>有了列名与属性名的映射关系后，Mybatis通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。</p>
+</li>
+<li><p>Xml映射文件中，除了常见的select|insert|update|delete标签之外，还有哪些标签？<br><br>还有很多其他的标签，加上动态sql的9个标签，trim|where|set|foreach|if|choose|when|otherwise|bind等，其中为sql片段标签，通过标签引入sql片段，为不支持自增的主键生成策略标签。</p>
+</li>
+<li><p>简述Mybatis的<strong>插件运行原理，以及如何编写一个插件</strong><br><br>Mybatis仅可以编写针对ParameterHandler、ResultSetHandler、StatementHandler、Executor这4种接口的插件.<br>Mybatis使用JDK的动态代理，为需要拦截的接口生成代理对象以实现接口方法拦截功能，每当执行这4种接口对象的方法时，就会进入拦截方法，具体就是InvocationHandler的invoke()方法，当然，只会拦截那些你指定需要拦截的方法。实现Mybatis的Interceptor接口并复写intercept()方法，然后在给插件编写注解，指定要拦截哪一个接口的哪些方法即可，记住，还需要在配置文件中配置你编写的插件。</p>
+</li>
+</ol>
+<ol start="6">
+<li>一级、二级缓存<br><br>1）一级缓存: 基于 <strong>PerpetualCache 的 HashMap 本地缓存</strong>，其存储作用域为 Session，当 Session flush 或 close 之后，该 Session 中的所有 Cache 就将清空。<br><br>2）二级缓存与一级缓存其机制相同，默认也是采用 PerpetualCache，HashMap 存储，不同在于其存储作用域为 Mapper(Namespace)，并且可自定义存储源，如 Ehcache。要开启二级缓存，你需要在你的 SQL 映射文件中添加一行：<pre><code>&lt;cache/&gt;
+</code></pre>
+<br>
+3）对于缓存数据更新机制，当某一个作用域(一级缓存 Session/二级缓存Namespaces)的进行了C/U/D 操作后，默认该作用域下所有 select 中的缓存将被 clear。<br></li>
+</ol>
+<ol start="7">
+<li>Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？<br><br>Mybatis仅支持association关联对象和collection关联集合对象的延迟加载，association指的就是一对一，collection指的就是一对多查询。<br><br>在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。<br><br>它的原理是，使用CGLIB创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发现a.getB()是null值，那么就会单独发送事先保存好的查询关联B对象的sql，把B查询上来，然后调用a.setB(b)，于是a的对象b属性就有值了，接着完成a.getB().getName()方法的调用。这就是延迟加载的基本原理。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql_优化系列_索引优化</title>
+    <url>/2021/05/22/sql/mysql_%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97_%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="模糊匹配like-怎么优化"><a href="#模糊匹配like-怎么优化" class="headerlink" title="模糊匹配like %%怎么优化"></a>模糊匹配like %%怎么优化</h2><ol>
+<li>开启ICP（索引条件下推）<br><br>可以通过索引筛选，返回给Server层筛选后的记录，减少不必要的IO开销。<br><br>如果where后只有一个 like ‘%xxx%’条件，表有主键的前提下，可以通过子查询优化<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span>  <span class="operator">*</span> <span class="keyword">from</span> users01 a , </span><br><span class="line">(<span class="keyword">select</span> id <span class="keyword">from</span> users01 <span class="keyword">where</span> nickname <span class="keyword">like</span> <span class="string">&#x27;%SK%&#x27;</span>) b</span><br><span class="line"> <span class="keyword">where</span> a.id <span class="operator">=</span> b.id;</span><br></pre></td></tr></table></figure></li>
+<li>建立全文索引<br><br>两种检索模式</li>
+</ol>
+<ul>
+<li><p>IN NATURAL LANGUAGE MODE：默认模式，以自然语言的方式搜索，AGAINST(‘看风’ IN NATURAL LANGUAGE MODE ) 等价于AGAINST(‘看风’)。</p>
+</li>
+<li><p>IN BOOLEAN MODE：布尔模式，表是字符串前后的字符有特殊含义，如查找包含SK，但不包含Lyn的记录，可以用+，-符号。<br>AGAINST(‘+SK -Lyn’ in BOOLEAN MODE);</p>
+</li>
+</ul>
+<p>创建全文索引：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> fulltext index idx_full_nickname(nickname) <span class="keyword">with</span> parser ngram;</span><br></pre></td></tr></table></figure>
+<p>改写like语句：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> users01 <span class="keyword">where</span> <span class="keyword">match</span>(nickname) against(<span class="string">&#x27;看风&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>生成列（虚拟列）<br><br>对于where条件后的 like ‘%xxx’ 是无法利用索引扫描，可以利用MySQL 5.7的生成列模拟函数索引的方式解决，具体步骤如下：<br>利用内置reverse函数将like ‘%风云’反转为like ‘云风%’，基于此函数添加虚拟生成列。<br>在虚拟生成列上创建索引。<br>将SQL改写成通过生成列like reverse(‘%风云’)去过滤，走生成列上的索引。<br>建立生成列<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> reverse_nickname <span class="type">varchar</span>(<span class="number">200</span>) generated always <span class="keyword">as</span> (reverse(nickname));</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="索引很长的字段怎么优化？"><a href="#索引很长的字段怎么优化？" class="headerlink" title="索引很长的字段怎么优化？"></a>索引很长的字段怎么优化？</h2><p>有时候需要索引很长的字符(例如BLOB,TEXT,或者很长的VARCHAR)，这样会使得索引又大又慢。</p>
+<ol>
+<li>改用哈希索引。<br>InnoDB是支持Btree索引，但不显式支持hash索引。可以使用生成列来间接使用哈希索引。</li>
+<li>使用字符串的前几个字符作为索引(即前缀索引)。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> INDEX `idx_city` (`city`(<span class="number">7</span>)) <span class="keyword">USING</span> BTREE ;</span><br><span class="line"><span class="comment">-- 或者这个也行</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> KEY `idx_city` (`city`(<span class="number">7</span>))</span><br></pre></td></tr></table></figure>
+<p>当然在选择前缀时要选择合适的前缀索引长度，保持好的选择性。其方法主要是计算数据分布。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查询重复次数最多的10条完整城市名称及其数量(图1)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, city <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> city <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前3个字符)及其数量,可以发现:前3个字符的相同数量过大,不适合做前缀索引(图2)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">3</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前7个字符)及其数量,可以发现:前7个字符的相同数量和完整城市名称很相近了,可以考虑作为做前缀索引(图3)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">7</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+        <category>索引优化</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>sql</tag>
+        <tag>索引优化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql知识点</title>
+    <url>/2021/05/22/sql/mysql%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h2 id="mysql的4大特性-4种隔离级别："><a href="#mysql的4大特性-4种隔离级别：" class="headerlink" title="mysql的4大特性+4种隔离级别："></a>mysql的4大特性+4种隔离级别：</h2><h3 id="4大特性即ACID"><a href="#4大特性即ACID" class="headerlink" title="4大特性即ACID"></a>4大特性即ACID</h3><ul>
+<li>1 原子性。事务是一个不可分割的整体，事务开始的操作，要么全部执行，要么全部不执行。</li>
+<li>2 隔离性。同一时间，只允许一个事务请求同一组数据。不同的事务彼此之间没有干扰。</li>
+<li>3 一致性。事务开始前和结束后，数据库的完整性约束没有被破坏 。</li>
+<li>4 稳定性。事务完成后，事务对数据库的所有更新将被保存到数据库，不能回滚。</li>
+</ul>
+<h3 id="4种隔离级别"><a href="#4种隔离级别" class="headerlink" title="4种隔离级别"></a>4种隔离级别</h3><p>大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read。</p>
+<span id="more"></span>
+<p>数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的并发操作中可能会出现脏读，不可重复读，幻读。</p>
+<h4 id="Read-uncommitted-读未提交"><a href="#Read-uncommitted-读未提交" class="headerlink" title="Read uncommitted 读未提交"></a>Read uncommitted 读未提交</h4><p>就是一个事务可以读取另一个未提交事务的数据。 </p>
+<h4 id="Read-committed-读提交"><a href="#Read-committed-读提交" class="headerlink" title="Read committed 读提交"></a>Read committed 读提交</h4><p>一个事务要等另一个事务提交后才能读取数据</p>
+<h4 id="Repeatable-read-重复读"><a href="#Repeatable-read-重复读" class="headerlink" title="Repeatable read 重复读"></a>Repeatable read 重复读</h4><p>在开始读取数据（事务开启）时，不再允许修改操作</p>
+<h4 id="Serializable-序列化"><a href="#Serializable-序列化" class="headerlink" title="Serializable  序列化"></a>Serializable  序列化</h4><p>全都顺序执行</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@tx</span>_isolation</span><br></pre></td></tr></table></figure>
+<p>设置当前会话隔离级别</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> session transaction isolation level repeatable read;</span><br></pre></td></tr></table></figure>
+<p>查看系统当前隔离级别</p>
+<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> @@<span class="keyword">global</span>.tx_isolation;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<hr>
+<h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><p>mysql常用的引擎有<strong>InnoDB，MyISAM，Memory</strong>，默认是InnoDB。</p>
+<p><strong>InnoDB</strong>：磁盘表，支持事务(Redo log 和Undo log和锁)，支持行级锁，B+Tree索引</p>
+<p>ps:优点： 具有良好的ACID特性。适用于高并发，更新操作比较多的表。需要使用事务的表。对自动灾难恢复有要求的表。</p>
+<p>缺点：读写效率相对MYISAM比较差。占用的磁盘空间比较大。</p>
+<p><strong>MyISAM</strong>：磁盘表，不支持事务，支持表级锁，B+Tree索引</p>
+<p>ps: 优点：占用空间小，处理速度快（相对InnoDB来说）</p>
+<p>缺点：不支持事务的完整性和并发性</p>
+<p>**MEMORY(Heap)**：内存表，不支持事务，表级锁，Hash索引，不支持Blob,Text大类型</p>
+<p>ps: 优点：速度要求快的，临时数据</p>
+<p>缺点：丢失以后，对项目整体没有或者负面影响不大的时候。</p>
+<hr>
+<h3 id="InnoDB详解"><a href="#InnoDB详解" class="headerlink" title="InnoDB详解"></a>InnoDB详解</h3><p><a href="http://www.liuzk.com/410.html">二叉树 -&gt; 平衡二叉树 -&gt; B树 -&gt; B+树</a></p>
+<p>在 MySQL 中，B+ 树索引按照存储方式的不同分为聚集索引和非聚集索引。</p>
+<h4 id="聚集索引（也叫聚簇索引-clustered-index"><a href="#聚集索引（也叫聚簇索引-clustered-index" class="headerlink" title="聚集索引（也叫聚簇索引) (clustered index)"></a>聚集索引（也叫聚簇索引) (clustered index)</h4><p>这种以主键作为 B+ 树索引的键值而构建的 索引，我们称之为聚集索引。InnoDB聚集索引的叶子节点存储行记录。</p>
+<p><strong>InnoDB必须要有，且只有一个聚集索引</strong>：</p>
+<p>表中的数据都会有一个主键，即使你不创建主键，系统也会帮你创建一个隐式的主键：</p>
+<p>（1）如果表定义了PK（主键），则PK就是聚集索引；</p>
+<p>（2）如果表没有定义PK，则第一个not NULL unique列是聚集索引；</p>
+<p>（3）否则，InnoDB会创建一个隐藏的row-id作为聚集索引；</p>
+<p>PS：所以PK查询非常快，直接定位行记录。</p>
+<h4 id="非聚集索引（非聚簇索引）"><a href="#非聚集索引（非聚簇索引）" class="headerlink" title="非聚集索引（非聚簇索引）"></a>非聚集索引（非聚簇索引）</h4><p>以主键以外的列值作为键值构建的 B+ 树索引，我们称之为非聚集索引。（一般我们建的非唯一索引的普通索引就是这种）</p>
+<p>非聚集索引与聚集索引的区别在于<strong>非聚集索引</strong>的叶子节点<strong>不存储表中的数据</strong>，而是<strong>存储该列对应的主键</strong>，想要查找数据我们还需要根据主键<strong>再去聚集索引中进行查找</strong>，这个再根据聚集索引查找数据的过程，我们称为<strong>回表</strong>。</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>oracle大批量数据更新操作，提供并发&amp;小事务</title>
+    <url>/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/</url>
+    <content><![CDATA[<p>oracle提供了很好用的大数据量数据更新的函数dbms_parallel_execute，改用dbms_parallel_execute执行，可以进行并行更新并且事务大小可控。</p>
+<p>以下在命令窗口执行：</p>
+<ol>
+<li>首先创建一个TASK，名称为update_pzjcxx:<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_task(<span class="string">&#x27;update_pzjcxx&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+<li>把将要更新的表按照ROWID进行分批，分到各个CHUNK中：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_chunks_by_rowid(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,table_owner <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;V7PROD&#x27;</span>,table_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;KCDY_PZJCXX&#x27;</span>,by_row <span class="operator">=</span><span class="operator">&gt;</span> <span class="literal">true</span>,chunk_size <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
+BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行；如果是FALSE，则后面的CHUNK_SIZE表示的是BLOCK。<br>CHUNK_SIZE：CHUNK大小。如果BY_ROW为TRUE，表示多少行分为一个CHUNK；如果BY_ROW为FALSE，则表示多少块分为一个CHUNK。<span id="more"></span></li>
+<li>执行并行任务：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> DBMS_PARALLEL_EXECUTE.run_task(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,sql_stmt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update /*+ROWID(dda)*/ kcdy_pzjcxx set ( ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, NLJSKACS ) = </span></span><br><span class="line"><span class="string">( select ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, SFYZBZHI from kdpy_jbxinx where zhanghao = kcdy_pzjcxx.zhanghao and farendma = &#x27;&#x27;9999&#x27;&#x27; ) where rowid between :start_id and :end_id&#x27;</span>,language_flag <span class="operator">=</span><span class="operator">&gt;</span> DBMS_SQL.native,parallel_level <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">16</span>);</span><br></pre></td></tr></table></figure>
+start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARALLEL表示平行度；LANGUAGE_FLAG意义如下：<br>V6 (or 0) specifies version 6 behavior<br>NATIVE (or 1) specifies normal behavior for the database to which the program is connected<br>V7 (or 2) specifies Oracle database version 7 behavior</li>
+</ol>
+<ol start="4">
+<li>查看task执行情况<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_parallel_execute_tasks;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_parallel_execute_tasks;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_parallel_execute_chunks ; </span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_parallel_execute_chunks ; </span><br></pre></td></tr></table></figure></li>
+</ol>
+<p> 每个CHUNK是在单独一个事务中提交的。所以某几个CHUNK发生错误后，可以修正错误，并使用下面的方法来继续未完成的CHUNK的任务：<br>  4.1 </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.resume_task(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,sql_stmt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update /*+ROWID(dda)*/ kcdy_pzjcxx set ( ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, NLJSKACS ) = </span></span><br><span class="line"><span class="string">( select ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, SFYZBZHI from kdpy_jbxinx where zhanghao = kcdy_pzjcxx.zhanghao and farendma = &#x27;&#x27;9999&#x27;&#x27; ) where rowid between :start_id and :end_id&#x27;</span>,language_flag <span class="operator">=</span><span class="operator">&gt;</span> DBMS_SQL.native);</span><br></pre></td></tr></table></figure>
+<pre><code>4.2 停止执行： 
+</code></pre>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.stop_task(update_pzjcxx);</span><br></pre></td></tr></table></figure>
+
+<p>  最后可以删除完成的任务：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.drop_task( <span class="string">&#x27;update_pzjcxx&#x27;</span> );</span><br></pre></td></tr></table></figure>
+
+
+
+<p>–开启计时</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> timing <span class="keyword">on</span></span><br></pre></td></tr></table></figure>
+<p>–设置并行收集</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_stats.set_global_prefs(<span class="string">&#x27;CONCURRENT&#x27;</span>,<span class="string">&#x27;TRUE&#x27;</span>);</span><br><span class="line"> <span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> resource_manager_plan <span class="operator">=</span> <span class="string">&#x27;DEFAULT_PLAN&#x27;</span> <span class="keyword">scope</span><span class="operator">=</span><span class="keyword">both</span>;</span><br></pre></td></tr></table></figure>
+<p>–开始收集全库统计信息</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">begin</span></span><br><span class="line">dbms_stats.gather_database_stats(</span><br><span class="line">ESTIMATE_PERCENT<span class="operator">=</span><span class="operator">&gt;</span>DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;for all indexed columns&#x27;</span>, cascade<span class="operator">=</span><span class="operator">&gt;</span><span class="literal">true</span>, degree<span class="operator">=</span><span class="operator">&gt;</span><span class="number">16</span>);</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"><span class="operator">/</span></span><br></pre></td></tr></table></figure>
+<p>–关闭并行收集</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_stats.set_global_prefs(<span class="string">&#x27;CONCURRENT&#x27;</span>,<span class="string">&#x27;FALSE&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>–gather——重新分析整个架构（Schema）。<br>–gather empty——只分析目前还没有统计的表。<br>–gather stale——只重新分析修改量超过10%的表（这些修改包括插入、更新和删除）。<br>–gather auto——重新分析当前没有统计的对象，以及统计数据过期（变脏）的对象。注意，使用gather auto类似于组合使用gather stale和gather empty。<br>begin<br>dbms_stats.gather_schema_stats(ownname=&gt;user,options=&gt;’gather stale’,degree =&gt; 32);<br>end;</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>oracle</category>
+      </categories>
+      <tags>
+        <tag>oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql知识点</title>
+    <url>/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="用-rownum-rownum-1-实现-rownum-功能"><a href="#用-rownum-rownum-1-实现-rownum-功能" class="headerlink" title="用 @rownum := @rownum+1 实现 rownum 功能"></a>用 @rownum := @rownum+1 实现 rownum 功能</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="variable">@rownum</span> :<span class="operator">=</span> <span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">AS</span> rownum, </span><br><span class="line">               table1.<span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) r ，</span><br><span class="line">       table1;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h3 id="分组排序取样"><a href="#分组排序取样" class="headerlink" title="分组排序取样"></a>分组排序取样</h3><p>按分组取最小的两个(N个)val</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> a.<span class="operator">*</span> <span class="keyword">from</span> tb a <span class="keyword">where</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&gt;</span> (<span class="keyword">select</span> <span class="built_in">count</span>(<span class="number">1</span>) <span class="keyword">from</span> tb <span class="keyword">where</span> </span><br><span class="line">name <span class="operator">=</span> a.name  <span class="comment">/*按哪些分组就哪些相等*/</span></span><br><span class="line"><span class="keyword">and</span> val <span class="operator">&lt;</span> a.val ) <span class="comment">/*找个分组内大部分不相等的来做比较*/</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> a.name,a.val</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> a.<span class="operator">*</span> <span class="keyword">from</span> tb a <span class="keyword">where</span> <span class="keyword">exists</span> </span><br><span class="line">(<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> tb <span class="keyword">where</span> name <span class="operator">=</span> a.name <span class="keyword">and</span> val <span class="operator">&lt;</span> a.val <span class="keyword">having</span> <span class="built_in">Count</span>(<span class="operator">*</span>) <span class="operator">&lt;</span> <span class="number">2</span>) </span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> a.name</span><br></pre></td></tr></table></figure>
+<h3 id="根据注释来查询表名："><a href="#根据注释来查询表名：" class="headerlink" title="根据注释来查询表名："></a>根据注释来查询表名：</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">Select</span> table_name 表名,TABLE_COMMENT <span class="string">&#x27;媒资&#x27;</span> <span class="keyword">from</span></span><br><span class="line">INFORMATION_SCHEMA.TABLES <span class="keyword">Where</span>  TABLE_COMMENT  <span class="keyword">LIKE</span> <span class="string">&#x27;%媒资%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="HAVING子句示例"><a href="#HAVING子句示例" class="headerlink" title="HAVING子句示例"></a>HAVING子句示例</h3><p>1、查询重复的行</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> id,name <span class="keyword">from</span> student <span class="keyword">where</span> name <span class="keyword">in</span> (<span class="keyword">select</span> name <span class="keyword">from</span> student </span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> name <span class="keyword">having</span> (<span class="built_in">count</span>(<span class="operator">*</span>) <span class="operator">&gt;</span> <span class="number">1</span>)) <span class="keyword">order</span> <span class="keyword">by</span> name;</span><br></pre></td></tr></table></figure>
+<p>查询student表中重名的学生，结果包含id和name，按name,id升序</p>
+<p>2、查询分组中特定要求的行</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> sid,<span class="built_in">avg</span>(score) <span class="keyword">as</span> avg_score <span class="keyword">from</span> student_course <span class="keyword">group</span> <span class="keyword">by</span> sid </span><br><span class="line"><span class="keyword">having</span> (avg_score <span class="operator">&lt;</span> <span class="number">60</span>);</span><br></pre></td></tr></table></figure>
+<p>在student_course表中查询平均分不及格的学生，列出学生id和平均分</p>
+<p>3、显示每个地区的总人口数和总面积．仅显示那些面积超过1000000的地区。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> region,<span class="built_in">sum</span>(population),<span class="built_in">sum</span>(area) <span class="keyword">from</span> china <span class="keyword">group</span> <span class="keyword">by</span> region </span><br><span class="line"><span class="keyword">having</span> (<span class="built_in">sum</span>(area) <span class="operator">&gt;</span> <span class="number">1000000</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="强制索引使用"><a href="#强制索引使用" class="headerlink" title="强制索引使用"></a>强制索引使用</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> students FORCE INDEX (idx_class_id) <span class="keyword">WHERE</span> class_id <span class="operator">=</span> <span class="number">1</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> id <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>sql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redis基础使用</title>
     <url>/2021/06/16/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p>Redis 使用的是客户端-服务器（CS）模型和请求/响应协议的 TCP 服务器。这意味着通常情况下一个请求会遵循以下步骤：</p>
@@ -1268,106 +1268,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>基础知识HTTP</title>
-    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/</url>
-    <content><![CDATA[<h2 id="什么是HTTP？"><a href="#什么是HTTP？" class="headerlink" title="什么是HTTP？"></a>什么是HTTP？</h2><p>HyperText Transfer Protocol（超文本传输协议）,它是一个<strong>无状态的工作在应用层的协议</strong>.<br><br>超文本指的是<strong>HTML</strong>，css，JavaScript和图片等，HTTP的出现是为了接收和发布HTML页面，也可以用于接收一些音频，视频，文件等内容。<br><br>HTTP协议是用于客户端和服务器端之间的通信，用于客户端和服务器端之间的通信有HTTP协议和TCP/IP协议族在内的其他众多的协议。<br></p>
-<h2 id="HTTP的短连接和长连接"><a href="#HTTP的短连接和长连接" class="headerlink" title="HTTP的短连接和长连接"></a>HTTP的短连接和长连接</h2><p>在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。</p>
-<p>而从HTTP/1.1起，默认使用长连接，用以保持连接特性。可以持久连接，TCP连接默认不关闭，可以被多个请求复用，只有在一段时间内，没有请求，就可以自动关闭。使用长连接的HTTP协议，会在响应头加入这行代码：</p>
-<figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 默认：</span></span><br><span class="line"><span class="symbol">Connection:</span><span class="meta">keep</span>-alive</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="HTTP的特点："><a href="#HTTP的特点：" class="headerlink" title="HTTP的特点："></a>HTTP的特点：</h2><p>支持客户端、服务器端模式，简单快速，客户端向服务器端请求服务时，只需传送请求方法和路径，灵活，HTTP允许传输任意类型的数据对象，无状态，HTTP协议是无状态协议，指明协议对于事务处理没有记忆能力。</p>
-<p>HTTP1.1虽然是无状态协议，但是为了实现期望的保持状态功能，于是引入了Cookie技术，有了Cookie，和HTTP协议通信，就可以管理状态了。</p>
-<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p> HTTPS 的全称是 Hypertext Transfer Protocol Secure。<br> 从名称我们可以看出 HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并不是一个新的应用层协议，它其实就是 HTTP + TLS/SSL 协议组合而成，而安全性的保证正是 TLS/SSL 所做的工作。</p>
-<ul>
-<li>HTTP 的默认端口是 80，而 HTTPS 的默认端口是 443。<br>http和https的比对</li>
-<li>数据完整性：内容传输经过完整性校验</li>
-<li>数据隐私性：内容经过对称加密，每个连接生成一个唯一的加密密钥</li>
-<li>身份认证：第三方无法伪造服务端(客户端)身份</li>
-</ul>
-<p>SSL过程<br>建立连接获取证书</p>
-<ol>
-<li>SSL 客户端通过 TCP 和服务器建立连接之后（443 端口），并且在一般的 tcp 连接协商（握<br>手）过程中请求证书。即客户端发出一个消息给服务器，这个消息里面包含了自己可实现的算<br>法列表和其它一些需要的消息，SSL 的服务器端会回应一个数据包，这里面确定了这次通信所<br>需要的算法，然后服务器向客户端返回证书。（证书里面包含了服务器信息：域名。申请证书<br>的公司，公共秘钥）。<br>证书验证</li>
-<li>Client 在收到服务器返回的证书后，判断签发这个证书的公共签发机构，并使用这个机构的公<br>共秘钥确认签名是否有效，客户端还会确保证书中列出的域名就是它正在连接的域名。<br>数据加密和传输</li>
-<li>如果确认证书有效，那么生成对称秘钥并使用服务器的公共秘钥进行加密。然后发送给服务<br>器，服务器使用它的私钥对它进行解密，这样两台计算机可以开始进行对称加密进行通信。</li>
-</ol>
-<figure class="highlight clean"><table><tr><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">客户端-&gt;&gt;服务端: 请求http连接（消息里面包含了自己可实现的算法列表和其它一些需要的消息）</span><br><span class="line">服务端-&gt;&gt;客户端: 返回私钥签名后的证书（公钥）</span><br><span class="line">客户端-&gt;&gt;客户端: 接收证书，用机构的公钥验证证书签名，使用算法产生随机的对称密钥，并且使用公钥对此对称密钥加密</span><br><span class="line">客户端-&gt;&gt;服务端: 发送加密后的堆成密钥</span><br><span class="line">客户端-&gt;&gt;服务端: 通过对称密钥加密的密文进行通信</span><br><span class="line">服务端-&gt;&gt;客户端: 通过对称密钥加密的密文进行通信</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>cs基础</category>
-        <category>http</category>
-      </categories>
-      <tags>
-        <tag>http</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识TCP</title>
-    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
-    <content><![CDATA[<p>&nbsp;</p>
-<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
-<ul>
-<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
-</li>
-<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
-</li>
-<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
-</li>
-</ul>
-<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
-<ul>
-<li>Socket：由 IP 地址和端口号组成</li>
-<li>序列号：用来解决乱序问题等</li>
-<li>窗口大小：用来做流量控制</li>
-</ul>
-<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
-<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
-<li>源地址</li>
-<li>源端口</li>
-<li>目的地址</li>
-<li>目的端口<span id="more"></span>
-<h2 id="有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？"><a href="#有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？" class="headerlink" title="有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？"></a>有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？</h2>主要受限于服务器的资源，第一是文件描述符限制，TCP连接中得socket是文件得，所以受文件描述符限制，这个由系统参数ulimit 配置，但这个也受限于系统内存，内存不大，参数设置得过大也无法实现。</li>
-</ul>
-<h2 id="UDP-和-TCP-有什么区别呢？分别的应用场景是？"><a href="#UDP-和-TCP-有什么区别呢？分别的应用场景是？" class="headerlink" title="UDP 和 TCP 有什么区别呢？分别的应用场景是？"></a>UDP 和 TCP 有什么区别呢？分别的应用场景是？</h2><p>UDP 是不需要连接，即刻传输数据。且可以一对多，多对多。UDP 是尽最大努力交付，不保证可靠交付数据。UDP没有流量控制。UDP首部只有 8 个字节，并且是固定不变的，开销较小<br><br>TCP则是面向连接的，只能一对一，TCP比较可靠数据可以无差错、不丢失、不重复、按需到达，可以进行流量控制。<br></p>
-<p>一句话来说UDP比较高效，舍弃了可靠性，TCP则是专注于点对点的高质量传输。<br><br><strong>TCP：</strong><br><br>FTP 文件传输<br><br>HTTP / HTTPS<br><br><br><strong>UDP</strong><br><br>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于：</p>
-<p>包总量较少的通信，如 DNS 、SNMP 等</p>
-<p>视频、音频等多媒体通信</p>
-<p>广播通信</p>
-<h2 id="为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？"><a href="#为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？" class="headerlink" title="为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？"></a>为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？</h2><p>原因是 TCP 有可变长的「选项」字段，而 UDP 头部长度则是不会变化的，无需多一个字段去记录 UDP 的首部长度。</p>
-<h2 id="三次握手，四次挥手"><a href="#三次握手，四次挥手" class="headerlink" title="三次握手，四次挥手"></a>三次握手，四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
-<li>一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态;<br></li>
-<li>客户端发起一个SYN请求，同时送过去随机生成的客户端序列号client_isn,之后客户端处于 SYN-SENT 状态。<br></li>
-<li>服务端接收到SYN请求，返回一个ACK和服务端的SYN，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1，生成一个服务端的序列号server_isn，传送给客户端，之后服务端处于 SYN-RCVD 状态;<br></li>
-<li>客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。</li>
-<li>服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。</li>
-</ol>
-<h3 id="三次握手的意义"><a href="#三次握手的意义" class="headerlink" title="三次握手的意义"></a>三次握手的意义</h3><p>阻止历史重复连接的初始化（主要原因）</p>
-<p>三次握手才可以同步双方的初始序列号</p>
-<p>三次握手才可以避免资源浪费<br></p>
-<p>从上面的过程可以发现<strong>第三次握手是可以携带数据的，前两次握手是不可以携带数据</strong>的。</p>
-<h3 id="如何在-Linux-系统中查看-TCP-状态？"><a href="#如何在-Linux-系统中查看-TCP-状态？" class="headerlink" title="如何在 Linux 系统中查看 TCP 状态？"></a>如何在 Linux 系统中查看 TCP 状态？</h3><p>TCP 的连接状态查看，在 Linux 可以通过 <strong>netstat -napt</strong> 命令查看。</p>
-<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
-<li>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</li>
-<li>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</li>
-<li>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</li>
-<li>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</li>
-<li>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态</li>
-<li>服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</li>
-<li>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭。</li>
-</ol>
-<p><strong>主动关闭连接的，才有 TIME_WAIT 状态。</strong></p>
-<h2 id="TCP性能的优化"><a href="#TCP性能的优化" class="headerlink" title="TCP性能的优化"></a>TCP性能的优化</h2><p>tcp_syn_retries 控制SYN包重传的次数，默认值是5</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">echo <span class="number">5</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/net/i</span>pv4/tcp_syn_retries</span><br></pre></td></tr></table></figure>
-<h2 id="如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？"><a href="#如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？" class="headerlink" title="如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？"></a>如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -s |grep &quot;SYNs to LISTEN&quot;</span><br></pre></td></tr></table></figure>
-<p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
-<h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>cs基础</category>
-        <category>tcp</category>
-      </categories>
-      <tags>
-        <tag>tcp</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基础概念_分布式事务</title>
     <url>/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
     <content><![CDATA[<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>一般是指要做的或所做的事情。<br>在计算机术语中是指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。<br>事务通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序执行所引起，并用形如begin transaction和end transaction语句（或函数调用）来界定。<br>事务由事务开始(begin transaction)和事务结束(end transaction)之间执行的全体操作组成。</p>
@@ -1479,6 +1379,106 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       <tags>
         <tag>硬件</tag>
         <tag>mac</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识HTTP</title>
+    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/</url>
+    <content><![CDATA[<h2 id="什么是HTTP？"><a href="#什么是HTTP？" class="headerlink" title="什么是HTTP？"></a>什么是HTTP？</h2><p>HyperText Transfer Protocol（超文本传输协议）,它是一个<strong>无状态的工作在应用层的协议</strong>.<br><br>超文本指的是<strong>HTML</strong>，css，JavaScript和图片等，HTTP的出现是为了接收和发布HTML页面，也可以用于接收一些音频，视频，文件等内容。<br><br>HTTP协议是用于客户端和服务器端之间的通信，用于客户端和服务器端之间的通信有HTTP协议和TCP/IP协议族在内的其他众多的协议。<br></p>
+<h2 id="HTTP的短连接和长连接"><a href="#HTTP的短连接和长连接" class="headerlink" title="HTTP的短连接和长连接"></a>HTTP的短连接和长连接</h2><p>在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。</p>
+<p>而从HTTP/1.1起，默认使用长连接，用以保持连接特性。可以持久连接，TCP连接默认不关闭，可以被多个请求复用，只有在一段时间内，没有请求，就可以自动关闭。使用长连接的HTTP协议，会在响应头加入这行代码：</p>
+<figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 默认：</span></span><br><span class="line"><span class="symbol">Connection:</span><span class="meta">keep</span>-alive</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="HTTP的特点："><a href="#HTTP的特点：" class="headerlink" title="HTTP的特点："></a>HTTP的特点：</h2><p>支持客户端、服务器端模式，简单快速，客户端向服务器端请求服务时，只需传送请求方法和路径，灵活，HTTP允许传输任意类型的数据对象，无状态，HTTP协议是无状态协议，指明协议对于事务处理没有记忆能力。</p>
+<p>HTTP1.1虽然是无状态协议，但是为了实现期望的保持状态功能，于是引入了Cookie技术，有了Cookie，和HTTP协议通信，就可以管理状态了。</p>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p> HTTPS 的全称是 Hypertext Transfer Protocol Secure。<br> 从名称我们可以看出 HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并不是一个新的应用层协议，它其实就是 HTTP + TLS/SSL 协议组合而成，而安全性的保证正是 TLS/SSL 所做的工作。</p>
+<ul>
+<li>HTTP 的默认端口是 80，而 HTTPS 的默认端口是 443。<br>http和https的比对</li>
+<li>数据完整性：内容传输经过完整性校验</li>
+<li>数据隐私性：内容经过对称加密，每个连接生成一个唯一的加密密钥</li>
+<li>身份认证：第三方无法伪造服务端(客户端)身份</li>
+</ul>
+<p>SSL过程<br>建立连接获取证书</p>
+<ol>
+<li>SSL 客户端通过 TCP 和服务器建立连接之后（443 端口），并且在一般的 tcp 连接协商（握<br>手）过程中请求证书。即客户端发出一个消息给服务器，这个消息里面包含了自己可实现的算<br>法列表和其它一些需要的消息，SSL 的服务器端会回应一个数据包，这里面确定了这次通信所<br>需要的算法，然后服务器向客户端返回证书。（证书里面包含了服务器信息：域名。申请证书<br>的公司，公共秘钥）。<br>证书验证</li>
+<li>Client 在收到服务器返回的证书后，判断签发这个证书的公共签发机构，并使用这个机构的公<br>共秘钥确认签名是否有效，客户端还会确保证书中列出的域名就是它正在连接的域名。<br>数据加密和传输</li>
+<li>如果确认证书有效，那么生成对称秘钥并使用服务器的公共秘钥进行加密。然后发送给服务<br>器，服务器使用它的私钥对它进行解密，这样两台计算机可以开始进行对称加密进行通信。</li>
+</ol>
+<figure class="highlight clean"><table><tr><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">客户端-&gt;&gt;服务端: 请求http连接（消息里面包含了自己可实现的算法列表和其它一些需要的消息）</span><br><span class="line">服务端-&gt;&gt;客户端: 返回私钥签名后的证书（公钥）</span><br><span class="line">客户端-&gt;&gt;客户端: 接收证书，用机构的公钥验证证书签名，使用算法产生随机的对称密钥，并且使用公钥对此对称密钥加密</span><br><span class="line">客户端-&gt;&gt;服务端: 发送加密后的堆成密钥</span><br><span class="line">客户端-&gt;&gt;服务端: 通过对称密钥加密的密文进行通信</span><br><span class="line">服务端-&gt;&gt;客户端: 通过对称密钥加密的密文进行通信</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>cs基础</category>
+        <category>http</category>
+      </categories>
+      <tags>
+        <tag>http</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识TCP</title>
+    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
+    <content><![CDATA[<p>&nbsp;</p>
+<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
+<ul>
+<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
+</li>
+<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
+</li>
+<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
+</li>
+</ul>
+<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
+<ul>
+<li>Socket：由 IP 地址和端口号组成</li>
+<li>序列号：用来解决乱序问题等</li>
+<li>窗口大小：用来做流量控制</li>
+</ul>
+<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
+<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
+<li>源地址</li>
+<li>源端口</li>
+<li>目的地址</li>
+<li>目的端口<span id="more"></span>
+<h2 id="有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？"><a href="#有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？" class="headerlink" title="有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？"></a>有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？</h2>主要受限于服务器的资源，第一是文件描述符限制，TCP连接中得socket是文件得，所以受文件描述符限制，这个由系统参数ulimit 配置，但这个也受限于系统内存，内存不大，参数设置得过大也无法实现。</li>
+</ul>
+<h2 id="UDP-和-TCP-有什么区别呢？分别的应用场景是？"><a href="#UDP-和-TCP-有什么区别呢？分别的应用场景是？" class="headerlink" title="UDP 和 TCP 有什么区别呢？分别的应用场景是？"></a>UDP 和 TCP 有什么区别呢？分别的应用场景是？</h2><p>UDP 是不需要连接，即刻传输数据。且可以一对多，多对多。UDP 是尽最大努力交付，不保证可靠交付数据。UDP没有流量控制。UDP首部只有 8 个字节，并且是固定不变的，开销较小<br><br>TCP则是面向连接的，只能一对一，TCP比较可靠数据可以无差错、不丢失、不重复、按需到达，可以进行流量控制。<br></p>
+<p>一句话来说UDP比较高效，舍弃了可靠性，TCP则是专注于点对点的高质量传输。<br><br><strong>TCP：</strong><br><br>FTP 文件传输<br><br>HTTP / HTTPS<br><br><br><strong>UDP</strong><br><br>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于：</p>
+<p>包总量较少的通信，如 DNS 、SNMP 等</p>
+<p>视频、音频等多媒体通信</p>
+<p>广播通信</p>
+<h2 id="为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？"><a href="#为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？" class="headerlink" title="为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？"></a>为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？</h2><p>原因是 TCP 有可变长的「选项」字段，而 UDP 头部长度则是不会变化的，无需多一个字段去记录 UDP 的首部长度。</p>
+<h2 id="三次握手，四次挥手"><a href="#三次握手，四次挥手" class="headerlink" title="三次握手，四次挥手"></a>三次握手，四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
+<li>一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态;<br></li>
+<li>客户端发起一个SYN请求，同时送过去随机生成的客户端序列号client_isn,之后客户端处于 SYN-SENT 状态。<br></li>
+<li>服务端接收到SYN请求，返回一个ACK和服务端的SYN，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1，生成一个服务端的序列号server_isn，传送给客户端，之后服务端处于 SYN-RCVD 状态;<br></li>
+<li>客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。</li>
+<li>服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。</li>
+</ol>
+<h3 id="三次握手的意义"><a href="#三次握手的意义" class="headerlink" title="三次握手的意义"></a>三次握手的意义</h3><p>阻止历史重复连接的初始化（主要原因）</p>
+<p>三次握手才可以同步双方的初始序列号</p>
+<p>三次握手才可以避免资源浪费<br></p>
+<p>从上面的过程可以发现<strong>第三次握手是可以携带数据的，前两次握手是不可以携带数据</strong>的。</p>
+<h3 id="如何在-Linux-系统中查看-TCP-状态？"><a href="#如何在-Linux-系统中查看-TCP-状态？" class="headerlink" title="如何在 Linux 系统中查看 TCP 状态？"></a>如何在 Linux 系统中查看 TCP 状态？</h3><p>TCP 的连接状态查看，在 Linux 可以通过 <strong>netstat -napt</strong> 命令查看。</p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
+<li>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</li>
+<li>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</li>
+<li>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</li>
+<li>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</li>
+<li>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态</li>
+<li>服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</li>
+<li>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭。</li>
+</ol>
+<p><strong>主动关闭连接的，才有 TIME_WAIT 状态。</strong></p>
+<h2 id="TCP性能的优化"><a href="#TCP性能的优化" class="headerlink" title="TCP性能的优化"></a>TCP性能的优化</h2><p>tcp_syn_retries 控制SYN包重传的次数，默认值是5</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">echo <span class="number">5</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/net/i</span>pv4/tcp_syn_retries</span><br></pre></td></tr></table></figure>
+<h2 id="如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？"><a href="#如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？" class="headerlink" title="如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？"></a>如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -s |grep &quot;SYNs to LISTEN&quot;</span><br></pre></td></tr></table></figure>
+<p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
+<h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>cs基础</category>
+        <category>tcp</category>
+      </categories>
+      <tags>
+        <tag>tcp</tag>
       </tags>
   </entry>
   <entry>
