@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>常见英文</title>
+    <url>/2021/06/15/codeEnglish/code_language/</url>
+    <content><![CDATA[<p>one write;read everywhere.</p>
+<ul>
+<li>Algorithm  算法</li>
+<li>Array 数组</li>
+<li>Atomic 原子的</li>
+<li>Capacity 容量</li>
+<li>Constructor 构造器</li>
+<li>Diagram 图解</li>
+<li>Dispatcher 调度器 分发器</li>
+<li>Duplicate  完全一样的; 复制的;</li>
+<li>Element 要素; 基本部分 </li>
+<li>Enterprise 企业</li>
+<li>Exclusively 独占 isHeldExclusively（）</li>
+<li>fetch 拿来</li>
+<li>filter 过滤</li>
+<li>Generic 泛型</li>
+<li>Hierarchical 分等级的, 等级的, 分层, 层次, 分层的 hierarchy 等级制度(尤指社会或组织); 统治集团; 层次体系;</li>
+<li>Implements 实现</li>
+<li>Inherited 继承(金钱、财产等), 经遗传获得(品质、身体特征等), 接替(责任等), 继任 inherit的过去分词和过去式</li>
+<li>interpreter 翻译人员</li>
+<li>isolation 隔离</li>
+<li>priority 优先级</li>
+<li>propagation 传播</li>
+<li>protocol 协议</li>
+<li>Qualifier 预选赛</li>
+<li>reference 参考</li>
+<li>Retention 维持</li>
+<li>Serializable 可序列化的 </li>
+<li>stamped 盖章</li>
+<li>Statement 说明</li>
+<li>transient 短暂的  临时工; java中 不可反序列</li>
+<li>vector 向量</li>
+</ul>
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>code_language</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java基础提升_JVM</title>
     <url>/2021/05/28/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/</url>
     <content><![CDATA[<h1 id="JVM的定义"><a href="#JVM的定义" class="headerlink" title="JVM的定义"></a>JVM的定义</h1><p>JVM(Java Virtual Machine，Java虚拟机)。<br><br>JVM是JAVA实现跨平台的主要手段，事实上jvm是有较多的实现版本，各种系统下的JVM不同。<br><br>由于jvm是处在Java语言和操作系统之间的，所以它要向上提供对Java的支持，向下与操作系统良好交互。</p>
@@ -126,47 +170,98 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>常见英文</title>
-    <url>/2021/06/15/codeEnglish/code_language/</url>
-    <content><![CDATA[<p>one write;read everywhere.</p>
-<ul>
-<li>Algorithm  算法</li>
-<li>Array 数组</li>
-<li>Atomic 原子的</li>
-<li>Capacity 容量</li>
-<li>Constructor 构造器</li>
-<li>Diagram 图解</li>
-<li>Dispatcher 调度器 分发器</li>
-<li>Duplicate  完全一样的; 复制的;</li>
-<li>Element 要素; 基本部分 </li>
-<li>Enterprise 企业</li>
-<li>Exclusively 独占 isHeldExclusively（）</li>
-<li>fetch 拿来</li>
-<li>filter 过滤</li>
-<li>Generic 泛型</li>
-<li>Hierarchical 分等级的, 等级的, 分层, 层次, 分层的 hierarchy 等级制度(尤指社会或组织); 统治集团; 层次体系;</li>
-<li>Implements 实现</li>
-<li>Inherited 继承(金钱、财产等), 经遗传获得(品质、身体特征等), 接替(责任等), 继任 inherit的过去分词和过去式</li>
-<li>interpreter 翻译人员</li>
-<li>isolation 隔离</li>
-<li>priority 优先级</li>
-<li>propagation 传播</li>
-<li>protocol 协议</li>
-<li>Qualifier 预选赛</li>
-<li>reference 参考</li>
-<li>Retention 维持</li>
-<li>Serializable 可序列化的 </li>
-<li>stamped 盖章</li>
-<li>Statement 说明</li>
-<li>transient 短暂的  临时工; java中 不可反序列</li>
-<li>vector 向量</li>
-</ul>
+    <title>Java基础提升_Object</title>
+    <url>/2021/05/22/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/</url>
+    <content><![CDATA[<p>Object类  是类层次结构的根类。</p>
+<p>Object类是所有类的超类。所有对象（包括数组）都实现这个类的方法。</p>
+<p>所以需要了解Object类的所有方法：</p>
+<h3 id="1-hashCode"><a href="#1-hashCode" class="headerlink" title="1.hashCode()"></a>1.hashCode()</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span>；</span></span><br></pre></td></tr></table></figure>
+<p>返回该对象的哈希码值。默认情况下，该方法会根据对象的地址来计算。<br>不同对象的 hashCode() 的值一般是不相同。但是，同一个对象的hashCode() 值肯定相同。</p>
+<span id="more"></span>
+<h3 id="2-getClass"><a href="#2-getClass" class="headerlink" title="2.getClass()"></a>2.getClass()</h3><figure class="highlight fortran"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">Class</span> getClass()</span><br></pre></td></tr></table></figure>
+
+
+<p>返回此 Object 的运行时类。</p>
+<h3 id="2-1-getName"><a href="#2-1-getName" class="headerlink" title="2.1.getName()"></a>2.1.getName()</h3><p>可以通过 Class 类中的一个方法，获取对象的真实类的全名称。</p>
+<figure class="highlight delphi"><table><tr><td class="code"><pre><span class="line"><span class="keyword">Object</span> obj = new <span class="keyword">Object</span>();</span><br><span class="line"><span class="keyword">Class</span> c1 = obj.getClass();</span><br><span class="line"><span class="keyword">String</span> <span class="keyword">name</span> =c1.getName();</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="3-toString"><a href="#3-toString" class="headerlink" title="3.toString()"></a>3.toString()</h3><p>getClass().getName() + “@” + Integer.toHexString(hashCode())  这返回的是：类的全路径名称+它的哈希码值<del>在实际的开发中对我们来说是没有意义的</del>所以我们一般会重写该方法</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">public String <span class="keyword">to</span><span class="constructor">String()</span> &#123;</span><br><span class="line">        return get<span class="constructor">Class()</span>.get<span class="constructor">Name()</span> + <span class="string">&quot;@&quot;</span> + <span class="module-access"><span class="module"><span class="identifier">Integer</span>.</span></span><span class="keyword">to</span><span class="constructor">HexString(<span class="params">hashCode</span>()</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-equals"><a href="#4-equals" class="headerlink" title="4.equals()"></a>4.equals()</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="built_in">boolean</span> <span class="function"><span class="title">equals</span>(<span class="params"><span class="built_in">Object</span> obj</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="built_in">this</span> == obj);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>默认方法是比较的是对象的引用是否相同。由于比较对象的引用对于我们在实际开发中没有意义，一般还是要重写该方法。 一般来说基础类型用==，比较引用数据类型使用equals</p>
+<h3 id="5-wait"><a href="#5-wait" class="headerlink" title="5.wait()"></a>5.wait()</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 使当前线程等待，直到另一个线程为此对象调用notify()方法或notifyAll()方法，或者经过了指定的时间。</span></span><br><span class="line"><span class="comment">当前线程必须拥有该对象的监视器。</span></span><br><span class="line"><span class="comment">此方法使当前线程（称为T ）将自己置于该对象的等待集中，然后放弃对该对象的任何和所有同步声明。 出于线程调度的目的，线程T被禁用，并且处于休眠状态，直到发生以下四种情况之一：</span></span><br><span class="line"><span class="comment">其他一些线程为此对象调用notify方法，并且线程T恰好被任意选择为要唤醒的线程。</span></span><br><span class="line"><span class="comment">其他一些线程为此对象调用notifyAll方法。</span></span><br><span class="line"><span class="comment">其他一些线程中断线程T。</span></span><br><span class="line"><span class="comment">指定的实时量或多或少已经过去。 但是，如果timeout为零，则不考虑实时，线程只是等待直到通知。</span></span><br><span class="line"><span class="comment">然后将线程T从该对象的等待集中删除，并重新启用线程调度。 然后，它以通常的方式与其他线程竞争在对象上进行同步的权利。 一旦它获得了对象的控制权，它对对象的所有同步声明都将恢复到原样-即，恢复到调用wait方法时的情况。 然后，线程T从调用wait方法返回。 因此，从wait方法返回时，对象和线程T的同步状态与调用wait方法时的状态完全相同。</span></span><br><span class="line"><span class="comment">线程也可以被唤醒，而不会被通知，中断或超时，即所谓的虚假唤醒。 尽管在实践中这种情况很少发生，但是应用程序必须通过测试应该导致线程唤醒的条件来防范它，并在条件不满足时继续等待。 换句话说，等待应该总是在循环中发生，就像这样：</span></span><br><span class="line"><span class="comment">           synchronized (obj) &#123;</span></span><br><span class="line"><span class="comment">               while (&lt;condition does not hold&gt;)</span></span><br><span class="line"><span class="comment">                   obj.wait(timeout);</span></span><br><span class="line"><span class="comment">               ... // Perform action appropriate to condition</span></span><br><span class="line"><span class="comment">           &#125;</span></span><br><span class="line"><span class="comment">       </span></span><br><span class="line"><span class="comment">（有关此主题的更多信息，请参见Doug Lea的“ Java并发编程（第二版）”（Addison-Wesley，2000年）中的3.2.3节，或Joshua Bloch的“有效的Java编程语言指南”（Addison-卫斯理（Wesley），2001年）。</span></span><br><span class="line"><span class="comment">如果当前线程被中断任何线程之前或在等待时，那么InterruptedException被抛出。 如上所述，直到该对象的锁定状态恢复之前，不会引发此异常。</span></span><br><span class="line"><span class="comment">请注意， wait方法将当前线程放入该对象的等待集中，因此只会解锁该对象； 当线程等待时，当前线程可以在其上同步的所有其他对象保持锁定。</span></span><br><span class="line"><span class="comment">此方法只能由作为该对象的监视器的所有者的线程调用。 有关线程可以成为监视器所有者的方式的描述，请参见notify方法。</span></span><br><span class="line"><span class="comment">参数：</span></span><br><span class="line"><span class="comment">超时–等待的最长时间（以毫秒为单位）。</span></span><br><span class="line"><span class="comment">投</span></span><br><span class="line"><span class="comment">IllegalArgumentException如果超时值为负。</span></span><br><span class="line"><span class="comment">IllegalMonitorStateException如果当前线程不是对象监视器的所有者。</span></span><br><span class="line"><span class="comment">InterruptedException如果任何线程在当前线程等待通知之前或之时中断了当前线程。 引发此异常时，将清除当前线程的中断状态。</span></span><br><span class="line"><span class="comment">请参见：</span></span><br><span class="line"><span class="comment">notify() ， notifyAll() */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">(<span class="keyword">long</span> timeout)</span> <span class="keyword">throws</span> InterruptedException</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-1-notify"><a href="#5-1-notify" class="headerlink" title="5.1-notify()"></a>5.1-notify()</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*唤醒正在此对象的监视器上等待的单个线程。 </span></span><br><span class="line"><span class="comment">如果有任何线程在此对象上等待，则选择其中一个唤醒。 </span></span><br><span class="line"><span class="comment">**该选择是任意**的，并且可以根据实现情况进行选择。 </span></span><br><span class="line"><span class="comment">线程通过调用其中一个wait方法在对象的监视器上wait 。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">在当前线程放弃对该对象的锁定之前，唤醒的线程将无法继续。 </span></span><br><span class="line"><span class="comment">唤醒的线程将以通常的方式与可能正在主动竞争以在此对象上进行同步的任何</span></span><br><span class="line"><span class="comment">其他线程竞争。 例如，被唤醒的线程在成为锁定该对象的下一个线程时没有任</span></span><br><span class="line"><span class="comment">何可靠的特权或劣势。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">此方法只能由作为该对象的监视器的所有者的线程调用。 </span></span><br><span class="line"><span class="comment">线程通过以下三种方式之一成为对象监视器的所有者：</span></span><br><span class="line"><span class="comment">- 通过执行该对象的同步实例方法。</span></span><br><span class="line"><span class="comment">- 通过执行在对象上synchronized语句的主体。</span></span><br><span class="line"><span class="comment">- 对于Class,类型的对象Class,通过执行该类的同步静态方法。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">一次只能有一个线程拥有对象的监视器。</span></span><br><span class="line"><span class="comment">throw IllegalMonitorStateException如果当前线程不是此对象的监视器的所有者。</span></span><br><span class="line"><span class="comment">请参见：</span></span><br><span class="line"><span class="comment">notifyAll() ， wait()*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">notify</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-notifyAll"><a href="#5-2-notifyAll" class="headerlink" title="5.2-notifyAll()"></a>5.2-notifyAll()</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 唤醒正在此对象的监视器上等待的所有线程。 线程通过调用其中一个wait方法在对象的监视器上wait 。</span></span><br><span class="line"><span class="comment">在当前线程放弃对该对象的锁定之前，唤醒的线程将无法继续。 唤醒的线程将以通常的方式与任何其他可能正在主动竞争以在此对象上进行同步的线程竞争。 例如，被唤醒的线程在成为锁定该对象的下一个线程时没有任何可靠的特权或劣势。</span></span><br><span class="line"><span class="comment">此方法只能由作为该对象的监视器的所有者的线程调用。 有关线程可以成为监视器所有者的方式的描述，请参见notify方法。</span></span><br><span class="line"><span class="comment">投</span></span><br><span class="line"><span class="comment">IllegalMonitorStateException如果当前线程不是此对象的监视器的所有者。</span></span><br><span class="line"><span class="comment">请参见：</span></span><br><span class="line"><span class="comment">notify() ， wait()*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">notifyAll</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-finalize"><a href="#6-finalize" class="headerlink" title="6.finalize()"></a>6.finalize()</h3><p>finalize()是Object中的方法，当垃圾回收器将要回收对象所占内存之前被调用，即当一个对象被虚拟机宣告死亡时会先调用它finalize()方法，让此对象处理它生前的最后事情（这个对象可以趁这个时机挣脱死亡的命运）。</p>
+<figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 当垃圾回收确定不再有对该对象的引用时，由垃圾回收器在对象上调用。 子类覆盖finalize方法以处置系统资源或执行其他清除。</span></span><br><span class="line"><span class="comment">finalize的一般约定是，当Java™虚拟机确定不再有任何手段可以使尚未死亡的任何线程访问该对象时（除非是由于操作而导致），调用finalize由完成的其他某些对象或类的完成确定。 finalize方法可以采取任何措施，包括使该对象可再次用于其他线程。 但是， finalize的通常目的是在清除对象之前将其清除。 例如，代表输入/输出连接的对象的finalize方法可能会执行显式I / O事务，以在永久丢弃该对象之前中断连接。</span></span><br><span class="line"><span class="comment">Object类的finalize方法不执行任何特殊操作； 它只是正常返回。 Object子类可以覆盖此定义。</span></span><br><span class="line"><span class="comment">Java编程语言不能保证哪个线程将为任何给定对象调用finalize方法。 但是，可以保证，调用finalize的线程在调用finalize时不会持有任何用户可见的同步锁。 如果finalize方法抛出未捕获的异常，则该异常将被忽略，并且该对象的终止将终止。</span></span><br><span class="line"><span class="comment">在为对象调用finalize方法之后，在Java虚拟机再次确定不再有任何方法可以使尚未死亡的任何线程访问该对象之前，不采取进一步的措施，包括可能采取的措施可以通过其他准备完成的对象或类来完成，此时可以丢弃该对象。</span></span><br><span class="line"><span class="comment">对于任何给定的对象，Java虚拟机都不会多次调用finalize方法。</span></span><br><span class="line"><span class="comment">由finalize方法引发的任何异常都将导致此对象的终止终止，但否则将被忽略。</span></span><br><span class="line"><span class="comment">投</span></span><br><span class="line"><span class="comment">Throwable –此方法引发的Exception</span></span><br><span class="line"><span class="comment">请参见：</span></span><br><span class="line"><span class="comment">ref.WeakReference ， ref.PhantomReference */</span></span><br><span class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> Throwable </span>&#123; &#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>其他</category>
+        <category>java</category>
+        <category>基础</category>
+        <category>Object</category>
       </categories>
       <tags>
-        <tag>code_language</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java基础提升_线程池</title>
+    <url>/2021/06/15/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言<br></h1><p>在《阿里巴巴java开发手册》中指出了线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，这样一方面是线程的创建更加规范，可以合理控制开辟线程的数量；另一方面线程的细节管理交给线程池处理，优化了资源的开销。<br><br>而线程池不允许使用Executors去创建，而要通过<strong>ThreadPoolExecutor</strong>方式，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活【消耗内存等】；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险，所以阿里巴巴java开发规范线程池首选ThreadPoolExcutor。<br></p>
+<p>话虽如此但常见的Executor框架还是要有所了解。</p>
+<span id="more"></span>
+<h2 id="常见线程池以及使用"><a href="#常见线程池以及使用" class="headerlink" title="常见线程池以及使用"></a>常见线程池以及使用</h2><h3 id="1-newCacheThreadPoo"><a href="#1-newCacheThreadPoo" class="headerlink" title="1.newCacheThreadPoo"></a>1.newCacheThreadPoo</h3><p>Executors.newCacheThreadPool()：可缓存线程池，先查看池中有没有以前建立的线程，如果有，就直接使用。如果没有，就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务。</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建一个可缓存线程池</span></span><br><span class="line">        ExecutorService cachedThreadPool = <span class="module-access"><span class="module"><span class="identifier">Executors</span>.</span></span><span class="keyword">new</span><span class="constructor">CachedThreadPool()</span>;</span><br><span class="line">         cachedThreadPool.execute(<span class="literal">()</span> -&gt;&#123;</span><br><span class="line">                </span><br><span class="line">                    <span class="comment">// 打印正在执行的缓存线程信息</span></span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>.get<span class="constructor">Name()</span></span><br><span class="line">                            + <span class="string">&quot;正在被执行&quot;</span>);</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="2-newFixedThreadPool"><a href="#2-newFixedThreadPool" class="headerlink" title="2.newFixedThreadPool"></a>2.newFixedThreadPool</h3><p> Executors.newFixedThreadPool(int n)：创建一个可重用固定个数的线程池，以共享的无界队列方式来运行这些线程。</p>
+<h3 id="3-newScheduledThreadPool"><a href="#3-newScheduledThreadPool" class="headerlink" title="3.newScheduledThreadPool"></a>3.newScheduledThreadPool</h3><p>Executors.newScheduledThreadPool(int n)：创建一个定长线程池，支持定时及周期性任务执行</p>
+<h3 id="4-newSingleThreadExecutor"><a href="#4-newSingleThreadExecutor" class="headerlink" title="4.newSingleThreadExecutor"></a>4.newSingleThreadExecutor</h3><p>Executors.newSingleThreadExecutor()：创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
+<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><h3 id="创建方式和主要参数解释"><a href="#创建方式和主要参数解释" class="headerlink" title="创建方式和主要参数解释"></a>创建方式和主要参数解释</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> static final ThreadPoolExecutor THREADPOOL = <span class="keyword">new</span> <span class="constructor">ThreadPoolExecutor(<span class="params">int</span> <span class="params">corePoolSize</span>, <span class="params">int</span> <span class="params">maximumPoolSize</span>,<span class="params">long</span> <span class="params">keepAliveTime</span>, TimeUnit <span class="params">unit</span>,BlockingQueue&lt;Runnable&gt; <span class="params">workQueue</span>,RejectedExecutionHandler <span class="params">handler</span>)</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>corePoolSize： 线程池维护线程的最少数量 （core : 核心）</li>
+<li>maximumPoolSize： 线程池维护线程的最大数量</li>
+<li>keepAliveTime：线程池维护线程所允许的空闲时间</li>
+<li>unit：线程池维护线程所允许的空闲时间的单位</li>
+<li>workQueue：线程池所使用的缓冲队列</li>
+<li>handler：线程池对拒绝任务的处理策略</li>
+</ol>
+<h3 id="内部执行流程解释"><a href="#内部执行流程解释" class="headerlink" title="内部执行流程解释"></a>内部执行流程解释</h3><p>通过 execute(Runnable)方法被添加到线程池，任务就是一个 Runnable类型的对象，任务的执行方法就是 Runnable类型对象的run()方法。<br><br>当一个任务通过execute(Runnable)方法欲添加到线程池时：<br><br>如果此时线程池中的数量小于corePoolSize，即使线程池中的线程都处于空闲状态，也要创建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量等于 corePoolSize，但是缓冲队列 workQueue未满，那么任务被放入缓冲队列。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量小于maximumPoolSize，建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量等于maximumPoolSize，那么通过 handler所指定的策略来处理此任务。<br><br>也就是：处理任务的优先级为：<br><br>核心线程corePoolSize、任务队列workQueue、最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务。<br><br> 当线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止。这样，线程池可以动态的调整池中的线程数。<br></p>
+<ul>
+<li><p>unit可选的参数为java.util.concurrent.TimeUnit中的几个静态属性：NANOSECONDS、MICROSECONDS、MILLISECONDS、SECONDS。</p>
+</li>
+<li><p>workQueue常用的是：java.util.concurrent.ArrayBlockingQueue</p>
+</li>
+<li><p>handler有四个选择：<br><br>ThreadPoolExecutor.AbortPolicy()：抛出java.util.concurrent.RejectedExecutionException异常<br><br>ThreadPoolExecutor.CallerRunsPolicy(): 重试添加当前的任务，他会自动重复调用execute()方法<br><br>ThreadPoolExecutor.DiscardOldestPolicy(): 抛弃旧的任务<br><br>ThreadPoolExecutor.DiscardPolicy(): 抛弃当前的任务<br></p>
+</li>
+</ul>
+<h3 id="如何配置线程池"><a href="#如何配置线程池" class="headerlink" title="如何配置线程池"></a>如何配置线程池</h3><ul>
+<li><p>CPU密集型任务<br><br>尽量使用较小的线程池，一般为CPU核心数+1。 因为CPU密集型任务使得CPU使用率很高，若开过多的线程数，会造成CPU过度切换。</p>
+</li>
+<li><p>IO密集型任务<br><br>可以使用稍大的线程池，一般为2*CPU核心数。 IO密集型任务CPU使用率并不高，因此可以让CPU在等待IO的时候有其他线程去处理别的任务，充分利用CPU时间。</p>
+</li>
+<li><p>混合型任务<br><br>可以将任务分成IO密集型和CPU密集型任务，然后分别用不同的线程池去处理。 只要分完之后两个任务的执行时间相差不大，那么就会比串行执行来的高效。<br>因为如果划分之后两个任务执行时间有数据级的差距，那么拆分没有意义。<br>因为先执行完的任务就要等后执行完的任务，最终的时间仍然取决于后执行完的任务，而且还要加上任务拆分与合并的开销，得不偿失。</p>
+</li>
+</ul>
+<h3 id="execute-和submit-方法"><a href="#execute-和submit-方法" class="headerlink" title="execute()和submit()方法"></a>execute()和submit()方法</h3><p>1、execute()，执行一个任务，没有返回值。<br>2、submit()，提交一个线程任务，有返回值。<br>submit(Callable<T> task)能获取到它的返回值，通过future.get()获取（阻塞直到任务执行完）。一般使用FutureTask+Callable配合使用（IntentService中有体现）。</T></p>
+<p>submit(Runnable task, T result)能通过传入的载体result间接获得线程的返回值。<br>submit(Runnable task)则是没有返回值的，就算获取它的返回值也是null。</p>
+<p>Future.get方法会使取结果的线程进入阻塞状态，知道线程执行完成之后，唤醒取结果的线程，然后返回结果。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>多线程</category>
+        <category>线程池</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
+        <tag>线程池</tag>
       </tags>
   </entry>
   <entry>
@@ -311,101 +406,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
         <category>java</category>
         <category>基础</category>
         <category>数据结构</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java基础提升_线程池</title>
-    <url>/2021/06/15/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言<br></h1><p>在《阿里巴巴java开发手册》中指出了线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，这样一方面是线程的创建更加规范，可以合理控制开辟线程的数量；另一方面线程的细节管理交给线程池处理，优化了资源的开销。<br><br>而线程池不允许使用Executors去创建，而要通过<strong>ThreadPoolExecutor</strong>方式，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活【消耗内存等】；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险，所以阿里巴巴java开发规范线程池首选ThreadPoolExcutor。<br></p>
-<p>话虽如此但常见的Executor框架还是要有所了解。</p>
-<span id="more"></span>
-<h2 id="常见线程池以及使用"><a href="#常见线程池以及使用" class="headerlink" title="常见线程池以及使用"></a>常见线程池以及使用</h2><h3 id="1-newCacheThreadPoo"><a href="#1-newCacheThreadPoo" class="headerlink" title="1.newCacheThreadPoo"></a>1.newCacheThreadPoo</h3><p>Executors.newCacheThreadPool()：可缓存线程池，先查看池中有没有以前建立的线程，如果有，就直接使用。如果没有，就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务。</p>
-<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建一个可缓存线程池</span></span><br><span class="line">        ExecutorService cachedThreadPool = <span class="module-access"><span class="module"><span class="identifier">Executors</span>.</span></span><span class="keyword">new</span><span class="constructor">CachedThreadPool()</span>;</span><br><span class="line">         cachedThreadPool.execute(<span class="literal">()</span> -&gt;&#123;</span><br><span class="line">                </span><br><span class="line">                    <span class="comment">// 打印正在执行的缓存线程信息</span></span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>.get<span class="constructor">Name()</span></span><br><span class="line">                            + <span class="string">&quot;正在被执行&quot;</span>);</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="2-newFixedThreadPool"><a href="#2-newFixedThreadPool" class="headerlink" title="2.newFixedThreadPool"></a>2.newFixedThreadPool</h3><p> Executors.newFixedThreadPool(int n)：创建一个可重用固定个数的线程池，以共享的无界队列方式来运行这些线程。</p>
-<h3 id="3-newScheduledThreadPool"><a href="#3-newScheduledThreadPool" class="headerlink" title="3.newScheduledThreadPool"></a>3.newScheduledThreadPool</h3><p>Executors.newScheduledThreadPool(int n)：创建一个定长线程池，支持定时及周期性任务执行</p>
-<h3 id="4-newSingleThreadExecutor"><a href="#4-newSingleThreadExecutor" class="headerlink" title="4.newSingleThreadExecutor"></a>4.newSingleThreadExecutor</h3><p>Executors.newSingleThreadExecutor()：创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
-<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><h3 id="创建方式和主要参数解释"><a href="#创建方式和主要参数解释" class="headerlink" title="创建方式和主要参数解释"></a>创建方式和主要参数解释</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> static final ThreadPoolExecutor THREADPOOL = <span class="keyword">new</span> <span class="constructor">ThreadPoolExecutor(<span class="params">int</span> <span class="params">corePoolSize</span>, <span class="params">int</span> <span class="params">maximumPoolSize</span>,<span class="params">long</span> <span class="params">keepAliveTime</span>, TimeUnit <span class="params">unit</span>,BlockingQueue&lt;Runnable&gt; <span class="params">workQueue</span>,RejectedExecutionHandler <span class="params">handler</span>)</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>corePoolSize： 线程池维护线程的最少数量 （core : 核心）</li>
-<li>maximumPoolSize： 线程池维护线程的最大数量</li>
-<li>keepAliveTime：线程池维护线程所允许的空闲时间</li>
-<li>unit：线程池维护线程所允许的空闲时间的单位</li>
-<li>workQueue：线程池所使用的缓冲队列</li>
-<li>handler：线程池对拒绝任务的处理策略</li>
-</ol>
-<h3 id="内部执行流程解释"><a href="#内部执行流程解释" class="headerlink" title="内部执行流程解释"></a>内部执行流程解释</h3><p>通过 execute(Runnable)方法被添加到线程池，任务就是一个 Runnable类型的对象，任务的执行方法就是 Runnable类型对象的run()方法。<br><br>当一个任务通过execute(Runnable)方法欲添加到线程池时：<br><br>如果此时线程池中的数量小于corePoolSize，即使线程池中的线程都处于空闲状态，也要创建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量等于 corePoolSize，但是缓冲队列 workQueue未满，那么任务被放入缓冲队列。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量小于maximumPoolSize，建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量等于maximumPoolSize，那么通过 handler所指定的策略来处理此任务。<br><br>也就是：处理任务的优先级为：<br><br>核心线程corePoolSize、任务队列workQueue、最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务。<br><br> 当线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止。这样，线程池可以动态的调整池中的线程数。<br></p>
-<ul>
-<li><p>unit可选的参数为java.util.concurrent.TimeUnit中的几个静态属性：NANOSECONDS、MICROSECONDS、MILLISECONDS、SECONDS。</p>
-</li>
-<li><p>workQueue常用的是：java.util.concurrent.ArrayBlockingQueue</p>
-</li>
-<li><p>handler有四个选择：<br><br>ThreadPoolExecutor.AbortPolicy()：抛出java.util.concurrent.RejectedExecutionException异常<br><br>ThreadPoolExecutor.CallerRunsPolicy(): 重试添加当前的任务，他会自动重复调用execute()方法<br><br>ThreadPoolExecutor.DiscardOldestPolicy(): 抛弃旧的任务<br><br>ThreadPoolExecutor.DiscardPolicy(): 抛弃当前的任务<br></p>
-</li>
-</ul>
-<h3 id="如何配置线程池"><a href="#如何配置线程池" class="headerlink" title="如何配置线程池"></a>如何配置线程池</h3><ul>
-<li><p>CPU密集型任务<br><br>尽量使用较小的线程池，一般为CPU核心数+1。 因为CPU密集型任务使得CPU使用率很高，若开过多的线程数，会造成CPU过度切换。</p>
-</li>
-<li><p>IO密集型任务<br><br>可以使用稍大的线程池，一般为2*CPU核心数。 IO密集型任务CPU使用率并不高，因此可以让CPU在等待IO的时候有其他线程去处理别的任务，充分利用CPU时间。</p>
-</li>
-<li><p>混合型任务<br><br>可以将任务分成IO密集型和CPU密集型任务，然后分别用不同的线程池去处理。 只要分完之后两个任务的执行时间相差不大，那么就会比串行执行来的高效。<br>因为如果划分之后两个任务执行时间有数据级的差距，那么拆分没有意义。<br>因为先执行完的任务就要等后执行完的任务，最终的时间仍然取决于后执行完的任务，而且还要加上任务拆分与合并的开销，得不偿失。</p>
-</li>
-</ul>
-<h3 id="execute-和submit-方法"><a href="#execute-和submit-方法" class="headerlink" title="execute()和submit()方法"></a>execute()和submit()方法</h3><p>1、execute()，执行一个任务，没有返回值。<br>2、submit()，提交一个线程任务，有返回值。<br>submit(Callable<T> task)能获取到它的返回值，通过future.get()获取（阻塞直到任务执行完）。一般使用FutureTask+Callable配合使用（IntentService中有体现）。</T></p>
-<p>submit(Runnable task, T result)能通过传入的载体result间接获得线程的返回值。<br>submit(Runnable task)则是没有返回值的，就算获取它的返回值也是null。</p>
-<p>Future.get方法会使取结果的线程进入阻塞状态，知道线程执行完成之后，唤醒取结果的线程，然后返回结果。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>基础</category>
-        <category>多线程</category>
-        <category>线程池</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>多线程</tag>
-        <tag>线程池</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java基础提升_Object</title>
-    <url>/2021/05/22/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/</url>
-    <content><![CDATA[<p>Object类  是类层次结构的根类。</p>
-<p>Object类是所有类的超类。所有对象（包括数组）都实现这个类的方法。</p>
-<p>所以需要了解Object类的所有方法：</p>
-<h3 id="1-hashCode"><a href="#1-hashCode" class="headerlink" title="1.hashCode()"></a>1.hashCode()</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span>；</span></span><br></pre></td></tr></table></figure>
-<p>返回该对象的哈希码值。默认情况下，该方法会根据对象的地址来计算。<br>不同对象的 hashCode() 的值一般是不相同。但是，同一个对象的hashCode() 值肯定相同。</p>
-<span id="more"></span>
-<h3 id="2-getClass"><a href="#2-getClass" class="headerlink" title="2.getClass()"></a>2.getClass()</h3><figure class="highlight fortran"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">Class</span> getClass()</span><br></pre></td></tr></table></figure>
-
-
-<p>返回此 Object 的运行时类。</p>
-<h3 id="2-1-getName"><a href="#2-1-getName" class="headerlink" title="2.1.getName()"></a>2.1.getName()</h3><p>可以通过 Class 类中的一个方法，获取对象的真实类的全名称。</p>
-<figure class="highlight delphi"><table><tr><td class="code"><pre><span class="line"><span class="keyword">Object</span> obj = new <span class="keyword">Object</span>();</span><br><span class="line"><span class="keyword">Class</span> c1 = obj.getClass();</span><br><span class="line"><span class="keyword">String</span> <span class="keyword">name</span> =c1.getName();</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="3-toString"><a href="#3-toString" class="headerlink" title="3.toString()"></a>3.toString()</h3><p>getClass().getName() + “@” + Integer.toHexString(hashCode())  这返回的是：类的全路径名称+它的哈希码值<del>在实际的开发中对我们来说是没有意义的</del>所以我们一般会重写该方法</p>
-<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">public String <span class="keyword">to</span><span class="constructor">String()</span> &#123;</span><br><span class="line">        return get<span class="constructor">Class()</span>.get<span class="constructor">Name()</span> + <span class="string">&quot;@&quot;</span> + <span class="module-access"><span class="module"><span class="identifier">Integer</span>.</span></span><span class="keyword">to</span><span class="constructor">HexString(<span class="params">hashCode</span>()</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-equals"><a href="#4-equals" class="headerlink" title="4.equals()"></a>4.equals()</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="built_in">boolean</span> <span class="function"><span class="title">equals</span>(<span class="params"><span class="built_in">Object</span> obj</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="built_in">this</span> == obj);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>默认方法是比较的是对象的引用是否相同。由于比较对象的引用对于我们在实际开发中没有意义，一般还是要重写该方法。 一般来说基础类型用==，比较引用数据类型使用equals</p>
-<h3 id="5-wait"><a href="#5-wait" class="headerlink" title="5.wait()"></a>5.wait()</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 使当前线程等待，直到另一个线程为此对象调用notify()方法或notifyAll()方法，或者经过了指定的时间。</span></span><br><span class="line"><span class="comment">当前线程必须拥有该对象的监视器。</span></span><br><span class="line"><span class="comment">此方法使当前线程（称为T ）将自己置于该对象的等待集中，然后放弃对该对象的任何和所有同步声明。 出于线程调度的目的，线程T被禁用，并且处于休眠状态，直到发生以下四种情况之一：</span></span><br><span class="line"><span class="comment">其他一些线程为此对象调用notify方法，并且线程T恰好被任意选择为要唤醒的线程。</span></span><br><span class="line"><span class="comment">其他一些线程为此对象调用notifyAll方法。</span></span><br><span class="line"><span class="comment">其他一些线程中断线程T。</span></span><br><span class="line"><span class="comment">指定的实时量或多或少已经过去。 但是，如果timeout为零，则不考虑实时，线程只是等待直到通知。</span></span><br><span class="line"><span class="comment">然后将线程T从该对象的等待集中删除，并重新启用线程调度。 然后，它以通常的方式与其他线程竞争在对象上进行同步的权利。 一旦它获得了对象的控制权，它对对象的所有同步声明都将恢复到原样-即，恢复到调用wait方法时的情况。 然后，线程T从调用wait方法返回。 因此，从wait方法返回时，对象和线程T的同步状态与调用wait方法时的状态完全相同。</span></span><br><span class="line"><span class="comment">线程也可以被唤醒，而不会被通知，中断或超时，即所谓的虚假唤醒。 尽管在实践中这种情况很少发生，但是应用程序必须通过测试应该导致线程唤醒的条件来防范它，并在条件不满足时继续等待。 换句话说，等待应该总是在循环中发生，就像这样：</span></span><br><span class="line"><span class="comment">           synchronized (obj) &#123;</span></span><br><span class="line"><span class="comment">               while (&lt;condition does not hold&gt;)</span></span><br><span class="line"><span class="comment">                   obj.wait(timeout);</span></span><br><span class="line"><span class="comment">               ... // Perform action appropriate to condition</span></span><br><span class="line"><span class="comment">           &#125;</span></span><br><span class="line"><span class="comment">       </span></span><br><span class="line"><span class="comment">（有关此主题的更多信息，请参见Doug Lea的“ Java并发编程（第二版）”（Addison-Wesley，2000年）中的3.2.3节，或Joshua Bloch的“有效的Java编程语言指南”（Addison-卫斯理（Wesley），2001年）。</span></span><br><span class="line"><span class="comment">如果当前线程被中断任何线程之前或在等待时，那么InterruptedException被抛出。 如上所述，直到该对象的锁定状态恢复之前，不会引发此异常。</span></span><br><span class="line"><span class="comment">请注意， wait方法将当前线程放入该对象的等待集中，因此只会解锁该对象； 当线程等待时，当前线程可以在其上同步的所有其他对象保持锁定。</span></span><br><span class="line"><span class="comment">此方法只能由作为该对象的监视器的所有者的线程调用。 有关线程可以成为监视器所有者的方式的描述，请参见notify方法。</span></span><br><span class="line"><span class="comment">参数：</span></span><br><span class="line"><span class="comment">超时–等待的最长时间（以毫秒为单位）。</span></span><br><span class="line"><span class="comment">投</span></span><br><span class="line"><span class="comment">IllegalArgumentException如果超时值为负。</span></span><br><span class="line"><span class="comment">IllegalMonitorStateException如果当前线程不是对象监视器的所有者。</span></span><br><span class="line"><span class="comment">InterruptedException如果任何线程在当前线程等待通知之前或之时中断了当前线程。 引发此异常时，将清除当前线程的中断状态。</span></span><br><span class="line"><span class="comment">请参见：</span></span><br><span class="line"><span class="comment">notify() ， notifyAll() */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">(<span class="keyword">long</span> timeout)</span> <span class="keyword">throws</span> InterruptedException</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="5-1-notify"><a href="#5-1-notify" class="headerlink" title="5.1-notify()"></a>5.1-notify()</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*唤醒正在此对象的监视器上等待的单个线程。 </span></span><br><span class="line"><span class="comment">如果有任何线程在此对象上等待，则选择其中一个唤醒。 </span></span><br><span class="line"><span class="comment">**该选择是任意**的，并且可以根据实现情况进行选择。 </span></span><br><span class="line"><span class="comment">线程通过调用其中一个wait方法在对象的监视器上wait 。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">在当前线程放弃对该对象的锁定之前，唤醒的线程将无法继续。 </span></span><br><span class="line"><span class="comment">唤醒的线程将以通常的方式与可能正在主动竞争以在此对象上进行同步的任何</span></span><br><span class="line"><span class="comment">其他线程竞争。 例如，被唤醒的线程在成为锁定该对象的下一个线程时没有任</span></span><br><span class="line"><span class="comment">何可靠的特权或劣势。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">此方法只能由作为该对象的监视器的所有者的线程调用。 </span></span><br><span class="line"><span class="comment">线程通过以下三种方式之一成为对象监视器的所有者：</span></span><br><span class="line"><span class="comment">- 通过执行该对象的同步实例方法。</span></span><br><span class="line"><span class="comment">- 通过执行在对象上synchronized语句的主体。</span></span><br><span class="line"><span class="comment">- 对于Class,类型的对象Class,通过执行该类的同步静态方法。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">一次只能有一个线程拥有对象的监视器。</span></span><br><span class="line"><span class="comment">throw IllegalMonitorStateException如果当前线程不是此对象的监视器的所有者。</span></span><br><span class="line"><span class="comment">请参见：</span></span><br><span class="line"><span class="comment">notifyAll() ， wait()*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">notify</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-2-notifyAll"><a href="#5-2-notifyAll" class="headerlink" title="5.2-notifyAll()"></a>5.2-notifyAll()</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 唤醒正在此对象的监视器上等待的所有线程。 线程通过调用其中一个wait方法在对象的监视器上wait 。</span></span><br><span class="line"><span class="comment">在当前线程放弃对该对象的锁定之前，唤醒的线程将无法继续。 唤醒的线程将以通常的方式与任何其他可能正在主动竞争以在此对象上进行同步的线程竞争。 例如，被唤醒的线程在成为锁定该对象的下一个线程时没有任何可靠的特权或劣势。</span></span><br><span class="line"><span class="comment">此方法只能由作为该对象的监视器的所有者的线程调用。 有关线程可以成为监视器所有者的方式的描述，请参见notify方法。</span></span><br><span class="line"><span class="comment">投</span></span><br><span class="line"><span class="comment">IllegalMonitorStateException如果当前线程不是此对象的监视器的所有者。</span></span><br><span class="line"><span class="comment">请参见：</span></span><br><span class="line"><span class="comment">notify() ， wait()*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">notifyAll</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-finalize"><a href="#6-finalize" class="headerlink" title="6.finalize()"></a>6.finalize()</h3><p>finalize()是Object中的方法，当垃圾回收器将要回收对象所占内存之前被调用，即当一个对象被虚拟机宣告死亡时会先调用它finalize()方法，让此对象处理它生前的最后事情（这个对象可以趁这个时机挣脱死亡的命运）。</p>
-<figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 当垃圾回收确定不再有对该对象的引用时，由垃圾回收器在对象上调用。 子类覆盖finalize方法以处置系统资源或执行其他清除。</span></span><br><span class="line"><span class="comment">finalize的一般约定是，当Java™虚拟机确定不再有任何手段可以使尚未死亡的任何线程访问该对象时（除非是由于操作而导致），调用finalize由完成的其他某些对象或类的完成确定。 finalize方法可以采取任何措施，包括使该对象可再次用于其他线程。 但是， finalize的通常目的是在清除对象之前将其清除。 例如，代表输入/输出连接的对象的finalize方法可能会执行显式I / O事务，以在永久丢弃该对象之前中断连接。</span></span><br><span class="line"><span class="comment">Object类的finalize方法不执行任何特殊操作； 它只是正常返回。 Object子类可以覆盖此定义。</span></span><br><span class="line"><span class="comment">Java编程语言不能保证哪个线程将为任何给定对象调用finalize方法。 但是，可以保证，调用finalize的线程在调用finalize时不会持有任何用户可见的同步锁。 如果finalize方法抛出未捕获的异常，则该异常将被忽略，并且该对象的终止将终止。</span></span><br><span class="line"><span class="comment">在为对象调用finalize方法之后，在Java虚拟机再次确定不再有任何方法可以使尚未死亡的任何线程访问该对象之前，不采取进一步的措施，包括可能采取的措施可以通过其他准备完成的对象或类来完成，此时可以丢弃该对象。</span></span><br><span class="line"><span class="comment">对于任何给定的对象，Java虚拟机都不会多次调用finalize方法。</span></span><br><span class="line"><span class="comment">由finalize方法引发的任何异常都将导致此对象的终止终止，但否则将被忽略。</span></span><br><span class="line"><span class="comment">投</span></span><br><span class="line"><span class="comment">Throwable –此方法引发的Exception</span></span><br><span class="line"><span class="comment">请参见：</span></span><br><span class="line"><span class="comment">ref.WeakReference ， ref.PhantomReference */</span></span><br><span class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> Throwable </span>&#123; &#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>基础</category>
-        <category>Object</category>
       </categories>
       <tags>
         <tag>java</tag>
@@ -589,6 +589,26 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>shell日常小知识点整理</title>
+    <url>/2021/06/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h2 id="Shell-中数字相加"><a href="#Shell-中数字相加" class="headerlink" title="Shell 中数字相加"></a>Shell 中数字相加</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line">c=`expr $&#123;a&#125; + $&#123;b&#125;`</span><br><span class="line">echo &quot;$c&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="awk中输入外部的变量"><a href="#awk中输入外部的变量" class="headerlink" title="awk中输入外部的变量"></a>awk中输入外部的变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意 <span class="string">&quot; 和 &#x27;</span></span></span><br><span class="line">grep kdpl_acct_bal load.sh|awk &#x27;&#123;print &quot;&#x27;$FilePath&#x27;&quot;$4&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<p>#数字的比较：</p>
+<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">-<span class="literal">eq</span> 相等（equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ne</span> 不等<span class="built_in">（not</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">gt</span> 大于（greater than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">lt</span> 小于（less than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ge</span> 大于等于 （greater than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">le</span> 小于等于 （less than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">字符串的比较：</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> = <span class="variable">$str2</span> ] 等于</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> != <span class="variable">$str2</span> ] 不等于</span><br><span class="line"></span><br><span class="line">[ -z <span class="variable">$str</span> ] 空字符串返<span class="built_in">回true</span></span><br><span class="line"></span><br><span class="line">[ -n <span class="variable">$str</span> ] 或者 [ <span class="variable">$str</span> ] 非空字符串返<span class="built_in">回true</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>unix</category>
+        <category>shell</category>
+        <category>日常使用</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>shell命令之网络篇</title>
     <url>/2021/06/15/shell/shell%E5%91%BD%E4%BB%A4%E4%B9%8B%E7%BD%91%E7%BB%9C%E7%AF%87/</url>
     <content><![CDATA[<h3 id="要想知道网络的配置和状态，我们可以使用-ifconfig-或者-ip-命令来查看。"><a href="#要想知道网络的配置和状态，我们可以使用-ifconfig-或者-ip-命令来查看。" class="headerlink" title="要想知道网络的配置和状态，我们可以使用 ifconfig 或者 ip 命令来查看。"></a>要想知道网络的配置和状态，我们可以使用 ifconfig 或者 ip 命令来查看。</h3><p>这两个命令功能都差不多，不过它们属于不同的软件包，ifconfig 属于 net-tools 软件包，ip 属于 iproute2 软件包，我的印象中 net-tools 软件包没有人继续维护了，而 iproute2 软件包是有开发者依然在维护，所以更推荐你使用 ip 工具。</p>
@@ -619,26 +639,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>shell日常小知识点整理</title>
-    <url>/2021/06/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h2 id="Shell-中数字相加"><a href="#Shell-中数字相加" class="headerlink" title="Shell 中数字相加"></a>Shell 中数字相加</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line">c=`expr $&#123;a&#125; + $&#123;b&#125;`</span><br><span class="line">echo &quot;$c&quot;</span><br></pre></td></tr></table></figure>
-
-<h2 id="awk中输入外部的变量"><a href="#awk中输入外部的变量" class="headerlink" title="awk中输入外部的变量"></a>awk中输入外部的变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意 <span class="string">&quot; 和 &#x27;</span></span></span><br><span class="line">grep kdpl_acct_bal load.sh|awk &#x27;&#123;print &quot;&#x27;$FilePath&#x27;&quot;$4&#125;&#x27;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<p>#数字的比较：</p>
-<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">-<span class="literal">eq</span> 相等（equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ne</span> 不等<span class="built_in">（not</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">gt</span> 大于（greater than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">lt</span> 小于（less than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ge</span> 大于等于 （greater than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">le</span> 小于等于 （less than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">字符串的比较：</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> = <span class="variable">$str2</span> ] 等于</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> != <span class="variable">$str2</span> ] 不等于</span><br><span class="line"></span><br><span class="line">[ -z <span class="variable">$str</span> ] 空字符串返<span class="built_in">回true</span></span><br><span class="line"></span><br><span class="line">[ -n <span class="variable">$str</span> ] 或者 [ <span class="variable">$str</span> ] 非空字符串返<span class="built_in">回true</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>unix</category>
-        <category>shell</category>
-        <category>日常使用</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
       </tags>
   </entry>
   <entry>
@@ -932,6 +932,45 @@ start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARA
       </tags>
   </entry>
   <entry>
+    <title>redis知识点整理</title>
+    <url>/2021/04/01/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E5%B8%B8%E8%A7%81%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><p>缓存穿透是指缓存和数据库中都没有的数据，而用户不断发起请求，如发起为id为“-1”的数据或id为特别大不存在的数据。这时的用户很可能是攻击者，攻击会导致数据库压力过大。</p>
+<p>举例：<br>简单来说就是你数据库的id都是1开始然后自增的，那我知道你接口是通过id查询的，我就拿负数去查询，这个时候，会发现缓存里面没这个数据，我又去数据库查也没有，一个请求这样，100个，1000个，10000个呢？你的DB基本上就扛不住了</p>
+<p>解决方案：</p>
+<ol>
+<li>接口层增加校验，如用户鉴权校验，id做基础校验，id&lt;=0的直接拦截；</li>
+<li>Bloom Filter 布隆过滤器，把缓存中有的key做哈希存起来，如果是布隆过滤器里面匹配不到的直接返回。</li>
+</ol>
+<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p>缓存击穿是指缓存中没有但数据库中有的数据（一般是缓存时间到期），这时由于并发用户特别多，同时读缓存没读到数据，又同时去数据库去取数据，引起数据库压力瞬间增大，造成过大压力<br>解决方案：</p>
+<ol>
+<li>设置热点数据永远不过期。</li>
+<li>加互斥锁，保证只有一个线程去查数据库，其他等待一段时间再查缓存。</li>
+</ol>
+<h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>是指缓存中数据大批量到过期时间，而查询数据量巨大，引起数据库压力过大甚至down机。和缓存击穿不同的是，        缓存击穿指并发查同一条数据，缓存雪崩是不同数据都过期了，很多数据都查不到从而查数据库。</p>
+<p>如果大量的key过期时间设置的过于集中，到过期的那个时间点，redis可能会出现短暂的卡顿现象。严重的话会出现缓存雪崩，</p>
+<p>解决方案：</p>
+<ol>
+<li>缓存数据的过期时间设置随机，防止同一时间大量数据过期现象发生</li>
+<li>如果缓存数据库是分布式部署，将热点数据均匀分布在不同搞得缓存数据库中。</li>
+<li>设置热点数据永远不过期</li>
+</ol>
+<h2 id="Redis分布式锁"><a href="#Redis分布式锁" class="headerlink" title="Redis分布式锁"></a>Redis分布式锁</h2><p>先拿setnx来争抢锁，抢到之后，再用expire给锁加一个过期时间防止锁忘记了释放。（setnx和expire可以合成一条指令，防止setnx之后执行expire之前进程意外crash或者要重启维护）</p>
+<h2 id="双写一致性问题"><a href="#双写一致性问题" class="headerlink" title="双写一致性问题"></a>双写一致性问题</h2><p>两个请求同时修改同一个数据，可能导致脏数据。</p>
+<ul>
+<li>严格要求 “缓存+数据库” 必须保持一致性 ： 读请求和写请求串行化</li>
+<li>Cache Aside Pattern<br>最经典的缓存+数据库读写的模式，就是 Cache Aside Pattern。<br><br>读的时候，先读缓存，缓存没有的话，就读数据库，然后取出数据后放入缓存，同时返回响应。<br><br>更新的时候，先更新数据库，然后再删除缓存。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>中间件</category>
+        <category>nosql</category>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redis基础使用</title>
     <url>/2021/06/16/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p>Redis 使用的是客户端-服务器（CS）模型和请求/响应协议的 TCP 服务器。这意味着通常情况下一个请求会遵循以下步骤：</p>
@@ -1014,45 +1053,6 @@ start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARA
 <li>延时队列 : 使用sortedset，拿时间戳作为score，消息内容作为key调用zadd来生产消息，消费者用zrangebyscore指令获取N秒之前的数据轮询进行处理。</li>
 </ul>
 <p><a href="https://www.runoob.com/redis/redis-tutorial.html">参考链接</a></p>
-]]></content>
-      <categories>
-        <category>中间件</category>
-        <category>nosql</category>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis知识点整理</title>
-    <url>/2021/04/01/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E5%B8%B8%E8%A7%81%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><p>缓存穿透是指缓存和数据库中都没有的数据，而用户不断发起请求，如发起为id为“-1”的数据或id为特别大不存在的数据。这时的用户很可能是攻击者，攻击会导致数据库压力过大。</p>
-<p>举例：<br>简单来说就是你数据库的id都是1开始然后自增的，那我知道你接口是通过id查询的，我就拿负数去查询，这个时候，会发现缓存里面没这个数据，我又去数据库查也没有，一个请求这样，100个，1000个，10000个呢？你的DB基本上就扛不住了</p>
-<p>解决方案：</p>
-<ol>
-<li>接口层增加校验，如用户鉴权校验，id做基础校验，id&lt;=0的直接拦截；</li>
-<li>Bloom Filter 布隆过滤器，把缓存中有的key做哈希存起来，如果是布隆过滤器里面匹配不到的直接返回。</li>
-</ol>
-<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p>缓存击穿是指缓存中没有但数据库中有的数据（一般是缓存时间到期），这时由于并发用户特别多，同时读缓存没读到数据，又同时去数据库去取数据，引起数据库压力瞬间增大，造成过大压力<br>解决方案：</p>
-<ol>
-<li>设置热点数据永远不过期。</li>
-<li>加互斥锁，保证只有一个线程去查数据库，其他等待一段时间再查缓存。</li>
-</ol>
-<h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>是指缓存中数据大批量到过期时间，而查询数据量巨大，引起数据库压力过大甚至down机。和缓存击穿不同的是，        缓存击穿指并发查同一条数据，缓存雪崩是不同数据都过期了，很多数据都查不到从而查数据库。</p>
-<p>如果大量的key过期时间设置的过于集中，到过期的那个时间点，redis可能会出现短暂的卡顿现象。严重的话会出现缓存雪崩，</p>
-<p>解决方案：</p>
-<ol>
-<li>缓存数据的过期时间设置随机，防止同一时间大量数据过期现象发生</li>
-<li>如果缓存数据库是分布式部署，将热点数据均匀分布在不同搞得缓存数据库中。</li>
-<li>设置热点数据永远不过期</li>
-</ol>
-<h2 id="Redis分布式锁"><a href="#Redis分布式锁" class="headerlink" title="Redis分布式锁"></a>Redis分布式锁</h2><p>先拿setnx来争抢锁，抢到之后，再用expire给锁加一个过期时间防止锁忘记了释放。（setnx和expire可以合成一条指令，防止setnx之后执行expire之前进程意外crash或者要重启维护）</p>
-<h2 id="双写一致性问题"><a href="#双写一致性问题" class="headerlink" title="双写一致性问题"></a>双写一致性问题</h2><p>两个请求同时修改同一个数据，可能导致脏数据。</p>
-<ul>
-<li>严格要求 “缓存+数据库” 必须保持一致性 ： 读请求和写请求串行化</li>
-<li>Cache Aside Pattern<br>最经典的缓存+数据库读写的模式，就是 Cache Aside Pattern。<br><br>读的时候，先读缓存，缓存没有的话，就读数据库，然后取出数据后放入缓存，同时返回响应。<br><br>更新的时候，先更新数据库，然后再删除缓存。</li>
-</ul>
 ]]></content>
       <categories>
         <category>中间件</category>
