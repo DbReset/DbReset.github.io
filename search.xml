@@ -126,6 +126,50 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>常见英文</title>
+    <url>/2021/06/15/codeEnglish/code_language/</url>
+    <content><![CDATA[<p>one write;read everywhere.</p>
+<ul>
+<li>Algorithm  算法</li>
+<li>Array 数组</li>
+<li>Atomic 原子的</li>
+<li>Capacity 容量</li>
+<li>Constructor 构造器</li>
+<li>Diagram 图解</li>
+<li>Dispatcher 调度器 分发器</li>
+<li>Duplicate  完全一样的; 复制的;</li>
+<li>Element 要素; 基本部分 </li>
+<li>Enterprise 企业</li>
+<li>Exclusively 独占 isHeldExclusively（）</li>
+<li>fetch 拿来</li>
+<li>filter 过滤</li>
+<li>Generic 泛型</li>
+<li>Hierarchical 分等级的, 等级的, 分层, 层次, 分层的 hierarchy 等级制度(尤指社会或组织); 统治集团; 层次体系;</li>
+<li>Implements 实现</li>
+<li>Inherited 继承(金钱、财产等), 经遗传获得(品质、身体特征等), 接替(责任等), 继任 inherit的过去分词和过去式</li>
+<li>interpreter 翻译人员</li>
+<li>isolation 隔离</li>
+<li>priority 优先级</li>
+<li>propagation 传播</li>
+<li>protocol 协议</li>
+<li>Qualifier 预选赛</li>
+<li>reference 参考</li>
+<li>Retention 维持</li>
+<li>Serializable 可序列化的 </li>
+<li>stamped 盖章</li>
+<li>Statement 说明</li>
+<li>transient 短暂的  临时工; java中 不可反序列</li>
+<li>vector 向量</li>
+</ul>
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>code_language</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java基础提升_数据结构篇</title>
     <url>/2021/05/22/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/</url>
     <content><![CDATA[<h2 id="基础结构和特点"><a href="#基础结构和特点" class="headerlink" title="基础结构和特点"></a>基础结构和特点</h2><ul>
@@ -511,50 +555,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>常见英文</title>
-    <url>/2021/06/15/codeEnglish/code_language/</url>
-    <content><![CDATA[<p>one write;read everywhere.</p>
-<ul>
-<li>Algorithm  算法</li>
-<li>Array 数组</li>
-<li>Atomic 原子的</li>
-<li>Capacity 容量</li>
-<li>Constructor 构造器</li>
-<li>Diagram 图解</li>
-<li>Dispatcher 调度器 分发器</li>
-<li>Duplicate  完全一样的; 复制的;</li>
-<li>Element 要素; 基本部分 </li>
-<li>Enterprise 企业</li>
-<li>Exclusively 独占 isHeldExclusively（）</li>
-<li>fetch 拿来</li>
-<li>filter 过滤</li>
-<li>Generic 泛型</li>
-<li>Hierarchical 分等级的, 等级的, 分层, 层次, 分层的 hierarchy 等级制度(尤指社会或组织); 统治集团; 层次体系;</li>
-<li>Implements 实现</li>
-<li>Inherited 继承(金钱、财产等), 经遗传获得(品质、身体特征等), 接替(责任等), 继任 inherit的过去分词和过去式</li>
-<li>interpreter 翻译人员</li>
-<li>isolation 隔离</li>
-<li>priority 优先级</li>
-<li>propagation 传播</li>
-<li>protocol 协议</li>
-<li>Qualifier 预选赛</li>
-<li>reference 参考</li>
-<li>Retention 维持</li>
-<li>Serializable 可序列化的 </li>
-<li>stamped 盖章</li>
-<li>Statement 说明</li>
-<li>transient 短暂的  临时工; java中 不可反序列</li>
-<li>vector 向量</li>
-</ul>
-]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>code_language</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Shell脚本中$</title>
     <url>/2021/06/15/shell/shell%20%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84$%20/</url>
     <content><![CDATA[<h1 id="Shell脚本中-0、-、-、-、-、-、"><a href="#Shell脚本中-0、-、-、-、-、-、" class="headerlink" title="Shell脚本中$0、$?、$!、$$、$*、$#、$@"></a>Shell脚本中$0、$?、$!、$$、$*、$#、$@</h1><h2 id="1"><a href="#1" class="headerlink" title="1. $$"></a>1. $$</h2><p>Shell本身的PID（ProcessID）</p>
@@ -642,6 +642,31 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>shell中for循环的用法</title>
+    <url>/2021/06/15/shell/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>for循环是程序处理中常见的的一种处理逻辑，那么shell中如何使用呢？</p>
+<ul>
+<li>循环逐个处理指定路径下的文件</li>
+<li>for循环快速占用指定线程数cpu<span id="more"></span>
+<h1 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h1></li>
+</ul>
+<p>循环逐个处理指定路径下的文件</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">filelist = `<span class="keyword">ls</span> -<span class="keyword">l</span> <span class="variable">$path</span>`</span><br><span class="line"><span class="keyword">for</span> filename <span class="keyword">in</span> filelist;<span class="keyword">do</span> <span class="keyword">ls</span> -lrt done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>for循环快速占用指定线程数cpu</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `seq <span class="number">1</span> <span class="variable">$cat</span> <span class="regexp">/proc/</span>cpuinfo|grep <span class="string">&quot;physical id&quot;</span>|wc -l`;<span class="keyword">do</span> dd <span class="keyword">if</span>=<span class="regexp">/dev/</span>zero of=<span class="regexp">/dev/</span>null &amp; done</span><br><span class="line"><span class="comment"># 指定到了后台运行</span></span><br><span class="line"><span class="comment"># kill -9 dd 结束进程</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>unix</category>
+        <category>shell</category>
+        <category>for循环</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>shell中常见的字符串操作</title>
     <url>/2021/06/15/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>shell中定位字符的方式，包括常见的分割：按位置分隔，按指定的字符串截取，按照指定要求（如指定后缀）分割。</p>
@@ -677,31 +702,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
         <category>unix</category>
         <category>shell</category>
         <category>字符串操作</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>shell中for循环的用法</title>
-    <url>/2021/06/15/shell/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>for循环是程序处理中常见的的一种处理逻辑，那么shell中如何使用呢？</p>
-<ul>
-<li>循环逐个处理指定路径下的文件</li>
-<li>for循环快速占用指定线程数cpu<span id="more"></span>
-<h1 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h1></li>
-</ul>
-<p>循环逐个处理指定路径下的文件</p>
-<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">filelist = `<span class="keyword">ls</span> -<span class="keyword">l</span> <span class="variable">$path</span>`</span><br><span class="line"><span class="keyword">for</span> filename <span class="keyword">in</span> filelist;<span class="keyword">do</span> <span class="keyword">ls</span> -lrt done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>for循环快速占用指定线程数cpu</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `seq <span class="number">1</span> <span class="variable">$cat</span> <span class="regexp">/proc/</span>cpuinfo|grep <span class="string">&quot;physical id&quot;</span>|wc -l`;<span class="keyword">do</span> dd <span class="keyword">if</span>=<span class="regexp">/dev/</span>zero of=<span class="regexp">/dev/</span>null &amp; done</span><br><span class="line"><span class="comment"># 指定到了后台运行</span></span><br><span class="line"><span class="comment"># kill -9 dd 结束进程</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>unix</category>
-        <category>shell</category>
-        <category>for循环</category>
       </categories>
       <tags>
         <tag>shell</tag>
@@ -1311,6 +1311,38 @@ start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARA
       </tags>
   </entry>
   <entry>
+    <title>基础知识HTTP</title>
+    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/</url>
+    <content><![CDATA[<h2 id="什么是HTTP？"><a href="#什么是HTTP？" class="headerlink" title="什么是HTTP？"></a>什么是HTTP？</h2><p>HyperText Transfer Protocol（超文本传输协议）,它是一个<strong>无状态的工作在应用层的协议</strong>.<br><br>超文本指的是<strong>HTML</strong>，css，JavaScript和图片等，HTTP的出现是为了接收和发布HTML页面，也可以用于接收一些音频，视频，文件等内容。<br><br>HTTP协议是用于客户端和服务器端之间的通信，用于客户端和服务器端之间的通信有HTTP协议和TCP/IP协议族在内的其他众多的协议。<br></p>
+<h2 id="HTTP的短连接和长连接"><a href="#HTTP的短连接和长连接" class="headerlink" title="HTTP的短连接和长连接"></a>HTTP的短连接和长连接</h2><p>在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。</p>
+<p>而从HTTP/1.1起，默认使用长连接，用以保持连接特性。可以持久连接，TCP连接默认不关闭，可以被多个请求复用，只有在一段时间内，没有请求，就可以自动关闭。使用长连接的HTTP协议，会在响应头加入这行代码：</p>
+<figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 默认：</span></span><br><span class="line"><span class="symbol">Connection:</span><span class="meta">keep</span>-alive</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="HTTP的特点："><a href="#HTTP的特点：" class="headerlink" title="HTTP的特点："></a>HTTP的特点：</h2><p>支持客户端、服务器端模式，简单快速，客户端向服务器端请求服务时，只需传送请求方法和路径，灵活，HTTP允许传输任意类型的数据对象，无状态，HTTP协议是无状态协议，指明协议对于事务处理没有记忆能力。</p>
+<p>HTTP1.1虽然是无状态协议，但是为了实现期望的保持状态功能，于是引入了Cookie技术，有了Cookie，和HTTP协议通信，就可以管理状态了。</p>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p> HTTPS 的全称是 Hypertext Transfer Protocol Secure。<br> 从名称我们可以看出 HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并不是一个新的应用层协议，它其实就是 HTTP + TLS/SSL 协议组合而成，而安全性的保证正是 TLS/SSL 所做的工作。</p>
+<ul>
+<li>HTTP 的默认端口是 80，而 HTTPS 的默认端口是 443。<br>http和https的比对</li>
+<li>数据完整性：内容传输经过完整性校验</li>
+<li>数据隐私性：内容经过对称加密，每个连接生成一个唯一的加密密钥</li>
+<li>身份认证：第三方无法伪造服务端(客户端)身份</li>
+</ul>
+<p>SSL过程<br>建立连接获取证书</p>
+<ol>
+<li>SSL 客户端通过 TCP 和服务器建立连接之后（443 端口），并且在一般的 tcp 连接协商（握<br>手）过程中请求证书。即客户端发出一个消息给服务器，这个消息里面包含了自己可实现的算<br>法列表和其它一些需要的消息，SSL 的服务器端会回应一个数据包，这里面确定了这次通信所<br>需要的算法，然后服务器向客户端返回证书。（证书里面包含了服务器信息：域名。申请证书<br>的公司，公共秘钥）。<br>证书验证</li>
+<li>Client 在收到服务器返回的证书后，判断签发这个证书的公共签发机构，并使用这个机构的公<br>共秘钥确认签名是否有效，客户端还会确保证书中列出的域名就是它正在连接的域名。<br>数据加密和传输</li>
+<li>如果确认证书有效，那么生成对称秘钥并使用服务器的公共秘钥进行加密。然后发送给服务<br>器，服务器使用它的私钥对它进行解密，这样两台计算机可以开始进行对称加密进行通信。</li>
+</ol>
+<figure class="highlight clean"><table><tr><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">客户端-&gt;&gt;服务端: 请求http连接（消息里面包含了自己可实现的算法列表和其它一些需要的消息）</span><br><span class="line">服务端-&gt;&gt;客户端: 返回私钥签名后的证书（公钥）</span><br><span class="line">客户端-&gt;&gt;客户端: 接收证书，用机构的公钥验证证书签名，使用算法产生随机的对称密钥，并且使用公钥对此对称密钥加密</span><br><span class="line">客户端-&gt;&gt;服务端: 发送加密后的堆成密钥</span><br><span class="line">客户端-&gt;&gt;服务端: 通过对称密钥加密的密文进行通信</span><br><span class="line">服务端-&gt;&gt;客户端: 通过对称密钥加密的密文进行通信</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>cs基础</category>
+        <category>http</category>
+      </categories>
+      <tags>
+        <tag>http</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基础知识TCP</title>
     <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
     <content><![CDATA[<p>&nbsp;</p>
@@ -1376,38 +1408,6 @@ start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARA
       </categories>
       <tags>
         <tag>tcp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识HTTP</title>
-    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/</url>
-    <content><![CDATA[<h2 id="什么是HTTP？"><a href="#什么是HTTP？" class="headerlink" title="什么是HTTP？"></a>什么是HTTP？</h2><p>HyperText Transfer Protocol（超文本传输协议）,它是一个<strong>无状态的工作在应用层的协议</strong>.<br><br>超文本指的是<strong>HTML</strong>，css，JavaScript和图片等，HTTP的出现是为了接收和发布HTML页面，也可以用于接收一些音频，视频，文件等内容。<br><br>HTTP协议是用于客户端和服务器端之间的通信，用于客户端和服务器端之间的通信有HTTP协议和TCP/IP协议族在内的其他众多的协议。<br></p>
-<h2 id="HTTP的短连接和长连接"><a href="#HTTP的短连接和长连接" class="headerlink" title="HTTP的短连接和长连接"></a>HTTP的短连接和长连接</h2><p>在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。</p>
-<p>而从HTTP/1.1起，默认使用长连接，用以保持连接特性。可以持久连接，TCP连接默认不关闭，可以被多个请求复用，只有在一段时间内，没有请求，就可以自动关闭。使用长连接的HTTP协议，会在响应头加入这行代码：</p>
-<figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 默认：</span></span><br><span class="line"><span class="symbol">Connection:</span><span class="meta">keep</span>-alive</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="HTTP的特点："><a href="#HTTP的特点：" class="headerlink" title="HTTP的特点："></a>HTTP的特点：</h2><p>支持客户端、服务器端模式，简单快速，客户端向服务器端请求服务时，只需传送请求方法和路径，灵活，HTTP允许传输任意类型的数据对象，无状态，HTTP协议是无状态协议，指明协议对于事务处理没有记忆能力。</p>
-<p>HTTP1.1虽然是无状态协议，但是为了实现期望的保持状态功能，于是引入了Cookie技术，有了Cookie，和HTTP协议通信，就可以管理状态了。</p>
-<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p> HTTPS 的全称是 Hypertext Transfer Protocol Secure。<br> 从名称我们可以看出 HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并不是一个新的应用层协议，它其实就是 HTTP + TLS/SSL 协议组合而成，而安全性的保证正是 TLS/SSL 所做的工作。</p>
-<ul>
-<li>HTTP 的默认端口是 80，而 HTTPS 的默认端口是 443。<br>http和https的比对</li>
-<li>数据完整性：内容传输经过完整性校验</li>
-<li>数据隐私性：内容经过对称加密，每个连接生成一个唯一的加密密钥</li>
-<li>身份认证：第三方无法伪造服务端(客户端)身份</li>
-</ul>
-<p>SSL过程<br>建立连接获取证书</p>
-<ol>
-<li>SSL 客户端通过 TCP 和服务器建立连接之后（443 端口），并且在一般的 tcp 连接协商（握<br>手）过程中请求证书。即客户端发出一个消息给服务器，这个消息里面包含了自己可实现的算<br>法列表和其它一些需要的消息，SSL 的服务器端会回应一个数据包，这里面确定了这次通信所<br>需要的算法，然后服务器向客户端返回证书。（证书里面包含了服务器信息：域名。申请证书<br>的公司，公共秘钥）。<br>证书验证</li>
-<li>Client 在收到服务器返回的证书后，判断签发这个证书的公共签发机构，并使用这个机构的公<br>共秘钥确认签名是否有效，客户端还会确保证书中列出的域名就是它正在连接的域名。<br>数据加密和传输</li>
-<li>如果确认证书有效，那么生成对称秘钥并使用服务器的公共秘钥进行加密。然后发送给服务<br>器，服务器使用它的私钥对它进行解密，这样两台计算机可以开始进行对称加密进行通信。</li>
-</ol>
-<figure class="highlight clean"><table><tr><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">客户端-&gt;&gt;服务端: 请求http连接（消息里面包含了自己可实现的算法列表和其它一些需要的消息）</span><br><span class="line">服务端-&gt;&gt;客户端: 返回私钥签名后的证书（公钥）</span><br><span class="line">客户端-&gt;&gt;客户端: 接收证书，用机构的公钥验证证书签名，使用算法产生随机的对称密钥，并且使用公钥对此对称密钥加密</span><br><span class="line">客户端-&gt;&gt;服务端: 发送加密后的堆成密钥</span><br><span class="line">客户端-&gt;&gt;服务端: 通过对称密钥加密的密文进行通信</span><br><span class="line">服务端-&gt;&gt;客户端: 通过对称密钥加密的密文进行通信</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>cs基础</category>
-        <category>http</category>
-      </categories>
-      <tags>
-        <tag>http</tag>
       </tags>
   </entry>
   <entry>
