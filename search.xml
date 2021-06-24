@@ -555,6 +555,38 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>java基础之ThreadLocal</title>
+    <url>/2021/06/24/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80%E4%B9%8BThreadLocal/</url>
+    <content><![CDATA[<h2 id="ThreadLocal原理和用法"><a href="#ThreadLocal原理和用法" class="headerlink" title="ThreadLocal原理和用法"></a>ThreadLocal原理和用法</h2><h3 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h3><ul>
+<li>ThreadLocal提供了线程的局部变量，每个线程都可以通过set()和get()来对这个局部变量进行操作，<br>但不会和其他线程的局部变量进行冲突，实现了线程的<strong>数据隔离</strong>。</li>
+<li>实现线程级别的全局变量,避免使用一层层的传参。<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Requestcontext</span> &#123;</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;<span class="keyword">String</span>&gt; traceldLocal = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> <span class="title">getTraceId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> threadIdLocal.<span class="built_in">get</span>();</span><br><span class="line">    &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> <span class="title">setTraceId</span> <span class="params">(<span class="keyword">String</span> traceld)</span></span>&#123;</span><br><span class="line">            threadldLocal.<span class="built_in">set</span>(traceld);</span><br><span class="line">        &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*一处设置traceid*/</span></span><br><span class="line"><span class="module-access"><span class="module"><span class="identifier">Requestcontext</span>.</span></span>set<span class="constructor">TraceId(UUID.<span class="params">randomUUID</span>()</span>.<span class="keyword">to</span><span class="constructor">String()</span>);</span><br><span class="line"><span class="comment">/*另一处读取traceId，不在同一个类中调用*/</span></span><br><span class="line"><span class="module-access"><span class="module"><span class="identifier">RequestContext</span>.</span></span>get<span class="constructor">TraceId()</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>使用举例:<br><br>java8之前的日期组件,SimpleDataFormat。当我们使用SimpleDataFormat的parse()方法，内部有一个Calendar对象，调用SimpleDataFormat的parse()方法会先调用Calendar.clear（），然后调用Calendar.add()，如果一个线程先调用了add()然后另一个线程又调用了clear()，这时候parse()方法解析的时间就不对了。从而导致了线程安全问题。当然我们可以每用一次new一个新对象出来，不过这样效率太低。<br><br>所以我们可以使用了线程池加上ThreadLocal包装SimpleDataFormat，再调用initialValue让每个线程有一个SimpleDataFormat的副本，从而解决了线程安全的问题，也提高了性能。</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">static ThreadLocal&lt;DateFormat&gt; threadLocal = <span class="module-access"><span class="module"><span class="identifier">ThreadLocal</span>.</span></span><span class="keyword">with</span><span class="constructor">Initial(SimpleDateFormat::<span class="params">new</span>)</span>;</span><br></pre></td></tr></table></figure>
+<p>不过Java8之后可以用java.time.format.DateTimeFormatter了。</p>
+<h4 id="注意（弱引用引起的内存泄露问题）："><a href="#注意（弱引用引起的内存泄露问题）：" class="headerlink" title="注意（弱引用引起的内存泄露问题）："></a>注意（弱引用引起的内存泄露问题）：</h4><p>当线程没有结束，但是 ThreadLocal 已经被回收，则可能导致线程中存在ThreadLocalMap&lt;null, Object&gt; 的键值对，造成内存泄露。(ThreadLocal 被回收，ThreadLocal 关联的线程共享变量还存在。<br></p>
+<p>解决方案：<br></p>
+<ol>
+<li>使用完线程共享变量后，显式调用 ThreadLocalMap.remove 方法清除线程共享变量。</li>
+</ol>
+<hr>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>简单说 ThreadLocal 就是一种以空间换时间的做法，在每个 Thread 里面维护了一个以开放定址法(区别于hashmap，没有链表，发生冲突时往后找空位就行了)实现的ThreadLocal.ThreadLocalMap，把数据进行隔离，数据不共享，自然就没有线程安全方面的问题了。</p>
+<p>结构图：<br><br><img src="/2021/06/24/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80%E4%B9%8BThreadLocal/ThreadLocal_structure.jpg" alt="ThreadLocal"><br>每个Thread对象中都维护了一个ThreadLocalMap，这个Map使用ThreadLocal对象作为key。<br><br>可以看到的是，ThreadLocal对象虽然是同一个，但是每个线程中的ThreadLocalMap都是单独的，所以各个线程之间是互不影响的。具体数据则时放在ThreadLocalMap的entry数组下的。</p>
+<h3 id="父子线程怎么共享数据"><a href="#父子线程怎么共享数据" class="headerlink" title="父子线程怎么共享数据"></a>父子线程怎么共享数据</h3><p>可以使用interitableThreadLocals，子线程能继承到父线程的数据，子线程中的修改不影响父线程。</p>
+<p>private</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>ThreadLocal</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Shell脚本中$</title>
     <url>/2021/06/15/shell/shell%20%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84$%20/</url>
     <content><![CDATA[<h1 id="Shell脚本中-0、-、-、-、-、-、"><a href="#Shell脚本中-0、-、-、-、-、-、" class="headerlink" title="Shell脚本中$0、$?、$!、$$、$*、$#、$@"></a>Shell脚本中$0、$?、$!、$$、$*、$#、$@</h1><h2 id="1"><a href="#1" class="headerlink" title="1. $$"></a>1. $$</h2><p>Shell本身的PID（ProcessID）</p>
