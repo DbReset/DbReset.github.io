@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>常见英文</title>
-    <url>/2021/06/15/codeEnglish/code_language/</url>
+    <url>/2021/06/25/codeEnglish/code_language/</url>
     <content><![CDATA[<p>one write;read everywhere.</p>
 <ul>
 <li>Algorithm  算法</li>
@@ -35,6 +35,8 @@
 <li>Statement 说明</li>
 <li>transient 短暂的  临时工; java中 不可反序列</li>
 <li>vector 向量</li>
+<li>mandatory 强制的</li>
+<li>nested 嵌套的</li>
 </ul>
 ]]></content>
       <categories>
@@ -587,6 +589,218 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>mybatis</title>
+    <url>/2021/05/26/sql/mybatis/</url>
+    <content><![CDATA[<ol>
+<li>#{}和${}的区别是什么？</li>
+</ol>
+<ul>
+<li>#{}是预编译处理#{}可以防止Sql 注入，它会将所有传入的参数作为一个字符串来处理。</li>
+<li>${}是字符串替换。${} 则将传入的参数拼接到Sql上去执行，一般用于表名和字段名参数，$ 所对应的参数应该由服务器端提供，前端可以用参数进行选择，避免 Sql 注入的风险<br>Mybatis在处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement的set方法来赋值；<br>Mybatis在处理时，就是把{}替换成变量的值。<br><br>使用#{}可以有效的防止SQL注入，提高系统安全性。</li>
+</ul>
+<ol start="2">
+<li>Mybatis是如何进行<strong>分页</strong>的？分页插件的原理是什么？<br><br>Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的<strong>内存分页</strong>，而非物理分页，可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。<br><br>分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。<br></li>
+</ol>
+<span id="more"></span>
+<ol start="3">
+<li><p>Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？<br><br>第一种是<strong>使用&lt;resultMap&gt;标签</strong>，逐一定义列名和对象属性名之间的映射关系。<br><br>第二种是使用sql列的<strong>别名功能</strong>，将列别名书写为对象属性名，比如T_NAME AS NAME，对象属性名一般是name，小写，但是列名不区分大小写，Mybatis会忽略列名大小写，智能找到与之对应对象属性名，你甚至可以写成T_NAME AS NaMe，Mybatis一样可以正常工作。<br>有了列名与属性名的映射关系后，Mybatis通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。</p>
+</li>
+<li><p>Xml映射文件中，除了常见的select|insert|update|delete标签之外，还有哪些标签？<br><br>还有很多其他的标签，加上动态sql的9个标签，trim|where|set|foreach|if|choose|when|otherwise|bind等，其中为sql片段标签，通过标签引入sql片段，为不支持自增的主键生成策略标签。</p>
+</li>
+<li><p>简述Mybatis的<strong>插件运行原理，以及如何编写一个插件</strong><br><br>Mybatis仅可以编写针对ParameterHandler、ResultSetHandler、StatementHandler、Executor这4种接口的插件.<br>Mybatis使用JDK的动态代理，为需要拦截的接口生成代理对象以实现接口方法拦截功能，每当执行这4种接口对象的方法时，就会进入拦截方法，具体就是InvocationHandler的invoke()方法，当然，只会拦截那些你指定需要拦截的方法。实现Mybatis的Interceptor接口并复写intercept()方法，然后在给插件编写注解，指定要拦截哪一个接口的哪些方法即可，记住，还需要在配置文件中配置你编写的插件。</p>
+</li>
+</ol>
+<ol start="6">
+<li>一级、二级缓存<br><br>1）一级缓存: 基于 <strong>PerpetualCache 的 HashMap 本地缓存</strong>，其存储作用域为 Session，当 Session flush 或 close 之后，该 Session 中的所有 Cache 就将清空。<br><br>2）二级缓存与一级缓存其机制相同，默认也是采用 PerpetualCache，HashMap 存储，不同在于其存储作用域为 Mapper(Namespace)，并且可自定义存储源，如 Ehcache。要开启二级缓存，你需要在你的 SQL 映射文件中添加一行：<pre><code>&lt;cache/&gt;
+</code></pre>
+<br>
+3）对于缓存数据更新机制，当某一个作用域(一级缓存 Session/二级缓存Namespaces)的进行了C/U/D 操作后，默认该作用域下所有 select 中的缓存将被 clear。<br></li>
+</ol>
+<ol start="7">
+<li>Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？<br><br>Mybatis仅支持association关联对象和collection关联集合对象的延迟加载，association指的就是一对一，collection指的就是一对多查询。<br><br>在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。<br><br>它的原理是，使用CGLIB创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发现a.getB()是null值，那么就会单独发送事先保存好的查询关联B对象的sql，把B查询上来，然后调用a.setB(b)，于是a的对象b属性就有值了，接着完成a.getB().getName()方法的调用。这就是延迟加载的基本原理。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql_优化系列_索引优化</title>
+    <url>/2021/05/22/sql/mysql_%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97_%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="模糊匹配like-怎么优化"><a href="#模糊匹配like-怎么优化" class="headerlink" title="模糊匹配like %%怎么优化"></a>模糊匹配like %%怎么优化</h2><ol>
+<li>开启ICP（索引条件下推）<br><br>可以通过索引筛选，返回给Server层筛选后的记录，减少不必要的IO开销。<br><br>如果where后只有一个 like ‘%xxx%’条件，表有主键的前提下，可以通过子查询优化<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span>  <span class="operator">*</span> <span class="keyword">from</span> users01 a , </span><br><span class="line">(<span class="keyword">select</span> id <span class="keyword">from</span> users01 <span class="keyword">where</span> nickname <span class="keyword">like</span> <span class="string">&#x27;%SK%&#x27;</span>) b</span><br><span class="line"> <span class="keyword">where</span> a.id <span class="operator">=</span> b.id;</span><br></pre></td></tr></table></figure></li>
+<li>建立全文索引<br><br>两种检索模式</li>
+</ol>
+<ul>
+<li><p>IN NATURAL LANGUAGE MODE：默认模式，以自然语言的方式搜索，AGAINST(‘看风’ IN NATURAL LANGUAGE MODE ) 等价于AGAINST(‘看风’)。</p>
+</li>
+<li><p>IN BOOLEAN MODE：布尔模式，表是字符串前后的字符有特殊含义，如查找包含SK，但不包含Lyn的记录，可以用+，-符号。<br>AGAINST(‘+SK -Lyn’ in BOOLEAN MODE);</p>
+</li>
+</ul>
+<p>创建全文索引：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> fulltext index idx_full_nickname(nickname) <span class="keyword">with</span> parser ngram;</span><br></pre></td></tr></table></figure>
+<p>改写like语句：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> users01 <span class="keyword">where</span> <span class="keyword">match</span>(nickname) against(<span class="string">&#x27;看风&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>生成列（虚拟列）<br><br>对于where条件后的 like ‘%xxx’ 是无法利用索引扫描，可以利用MySQL 5.7的生成列模拟函数索引的方式解决，具体步骤如下：<br>利用内置reverse函数将like ‘%风云’反转为like ‘云风%’，基于此函数添加虚拟生成列。<br>在虚拟生成列上创建索引。<br>将SQL改写成通过生成列like reverse(‘%风云’)去过滤，走生成列上的索引。<br>建立生成列<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> reverse_nickname <span class="type">varchar</span>(<span class="number">200</span>) generated always <span class="keyword">as</span> (reverse(nickname));</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="索引很长的字段怎么优化？"><a href="#索引很长的字段怎么优化？" class="headerlink" title="索引很长的字段怎么优化？"></a>索引很长的字段怎么优化？</h2><p>有时候需要索引很长的字符(例如BLOB,TEXT,或者很长的VARCHAR)，这样会使得索引又大又慢。</p>
+<ol>
+<li>改用哈希索引。<br>InnoDB是支持Btree索引，但不显式支持hash索引。可以使用生成列来间接使用哈希索引。</li>
+<li>使用字符串的前几个字符作为索引(即前缀索引)。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> INDEX `idx_city` (`city`(<span class="number">7</span>)) <span class="keyword">USING</span> BTREE ;</span><br><span class="line"><span class="comment">-- 或者这个也行</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> KEY `idx_city` (`city`(<span class="number">7</span>))</span><br></pre></td></tr></table></figure>
+<p>当然在选择前缀时要选择合适的前缀索引长度，保持好的选择性。其方法主要是计算数据分布。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查询重复次数最多的10条完整城市名称及其数量(图1)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, city <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> city <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前3个字符)及其数量,可以发现:前3个字符的相同数量过大,不适合做前缀索引(图2)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">3</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前7个字符)及其数量,可以发现:前7个字符的相同数量和完整城市名称很相近了,可以考虑作为做前缀索引(图3)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">7</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+        <category>索引优化</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>sql</tag>
+        <tag>索引优化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql基础知识点</title>
+    <url>/2021/06/25/sql/mysql%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h2 id="mysql的4大特性-4种隔离级别："><a href="#mysql的4大特性-4种隔离级别：" class="headerlink" title="mysql的4大特性+4种隔离级别："></a>mysql的4大特性+4种隔离级别：</h2><h3 id="4大特性即ACID"><a href="#4大特性即ACID" class="headerlink" title="4大特性即ACID"></a>4大特性即ACID</h3><ul>
+<li>1 原子性。事务是一个不可分割的整体，事务开始的操作，要么全部执行，要么全部不执行。</li>
+<li>2 隔离性。同一时间，只允许一个事务请求同一组数据。不同的事务彼此之间没有干扰。</li>
+<li>3 一致性。事务开始前和结束后，数据库的完整性约束没有被破坏 。</li>
+<li>4 稳定性。事务完成后，事务对数据库的所有更新将被保存到数据库，不能回滚。</li>
+</ul>
+<h3 id="4种隔离级别"><a href="#4种隔离级别" class="headerlink" title="4种隔离级别"></a>4种隔离级别</h3><p>大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read。</p>
+<span id="more"></span>
+<p>数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的并发操作中可能会出现脏读，不可重复读，幻读。</p>
+<h4 id="Read-uncommitted-读未提交"><a href="#Read-uncommitted-读未提交" class="headerlink" title="Read uncommitted 读未提交"></a>Read uncommitted 读未提交</h4><p>就是一个事务可以读取另一个未提交事务的数据。 </p>
+<h4 id="Read-committed-读提交"><a href="#Read-committed-读提交" class="headerlink" title="Read committed 读提交"></a>Read committed 读提交</h4><p>一个事务要等另一个事务提交后才能读取数据</p>
+<h4 id="Repeatable-read-重复读"><a href="#Repeatable-read-重复读" class="headerlink" title="Repeatable read 重复读"></a>Repeatable read 重复读</h4><p>在开始读取数据（事务开启）时，不再允许修改操作</p>
+<h4 id="Serializable-序列化"><a href="#Serializable-序列化" class="headerlink" title="Serializable  序列化"></a>Serializable  序列化</h4><p>全都顺序执行<br><br>除了防止脏读，不可重复读之外，还避免了幻象读(幻读专指新插入的行,原来查不到，再查查到了)</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@tx</span>_isolation</span><br></pre></td></tr></table></figure>
+<p>设置当前会话隔离级别</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> session transaction isolation level repeatable read;</span><br></pre></td></tr></table></figure>
+<p>查看系统当前隔离级别</p>
+<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> @@<span class="keyword">global</span>.tx_isolation;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<hr>
+<h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><p>mysql常用的引擎有<strong>InnoDB，MyISAM，Memory</strong>，默认是InnoDB。</p>
+<p><strong>InnoDB</strong>：磁盘表，支持事务(Redo log 和Undo log和锁)，支持行级锁，B+Tree索引</p>
+<p>ps:优点： 具有良好的ACID特性。适用于高并发，更新操作比较多的表。需要使用事务的表。对自动灾难恢复有要求的表。</p>
+<p>缺点：读写效率相对MYISAM比较差。占用的磁盘空间比较大。</p>
+<p><strong>MyISAM</strong>：磁盘表，不支持事务，支持表级锁，B+Tree索引</p>
+<p>ps: 优点：占用空间小，处理速度快（相对InnoDB来说）</p>
+<p>缺点：不支持事务的完整性和并发性</p>
+<p>**MEMORY(Heap)**：内存表，不支持事务，表级锁，Hash索引，不支持Blob,Text大类型</p>
+<p>ps: 优点：速度要求快的，临时数据</p>
+<p>缺点：丢失以后，对项目整体没有或者负面影响不大的时候。</p>
+<hr>
+<h3 id="InnoDB详解"><a href="#InnoDB详解" class="headerlink" title="InnoDB详解"></a>InnoDB详解</h3><p><a href="http://www.liuzk.com/410.html">二叉树 -&gt; 平衡二叉树 -&gt; B树 -&gt; B+树</a></p>
+<p>在 MySQL 中，B+ 树索引按照存储方式的不同分为聚集索引和非聚集索引。</p>
+<h4 id="聚集索引（也叫聚簇索引-clustered-index"><a href="#聚集索引（也叫聚簇索引-clustered-index" class="headerlink" title="聚集索引（也叫聚簇索引) (clustered index)"></a>聚集索引（也叫聚簇索引) (clustered index)</h4><p>这种以主键作为 B+ 树索引的键值而构建的 索引，我们称之为聚集索引。InnoDB聚集索引的叶子节点存储行记录。</p>
+<p><strong>InnoDB必须要有，且只有一个聚集索引</strong>：</p>
+<p>表中的数据都会有一个主键，即使你不创建主键，系统也会帮你创建一个隐式的主键：</p>
+<p>（1）如果表定义了PK（主键），则PK就是聚集索引；</p>
+<p>（2）如果表没有定义PK，则第一个not NULL unique列是聚集索引；</p>
+<p>（3）否则，InnoDB会创建一个隐藏的row-id作为聚集索引；</p>
+<p>PS：所以PK查询非常快，直接定位行记录。</p>
+<h4 id="非聚集索引（非聚簇索引）"><a href="#非聚集索引（非聚簇索引）" class="headerlink" title="非聚集索引（非聚簇索引）"></a>非聚集索引（非聚簇索引）</h4><p>以主键以外的列值作为键值构建的 B+ 树索引，我们称之为非聚集索引。（一般我们建的非唯一索引的普通索引就是这种）</p>
+<p>非聚集索引与聚集索引的区别在于<strong>非聚集索引</strong>的叶子节点<strong>不存储表中的数据</strong>，而是<strong>存储该列对应的主键</strong>，想要查找数据我们还需要根据主键<strong>再去聚集索引中进行查找</strong>，这个再根据聚集索引查找数据的过程，我们称为<strong>回表</strong>。</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>索引结构</tag>
+        <tag>隔离级别</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>oracle大批量数据更新操作，提供并发&amp;小事务</title>
+    <url>/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/</url>
+    <content><![CDATA[<p>oracle提供了很好用的大数据量数据更新的函数dbms_parallel_execute，改用dbms_parallel_execute执行，可以进行并行更新并且事务大小可控。</p>
+<p>以下在命令窗口执行：</p>
+<ol>
+<li>首先创建一个TASK，名称为update_pzjcxx:<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_task(<span class="string">&#x27;update_pzjcxx&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+<li>把将要更新的表按照ROWID进行分批，分到各个CHUNK中：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_chunks_by_rowid(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,table_owner <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;V7PROD&#x27;</span>,table_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;KCDY_PZJCXX&#x27;</span>,by_row <span class="operator">=</span><span class="operator">&gt;</span> <span class="literal">true</span>,chunk_size <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
+BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行；如果是FALSE，则后面的CHUNK_SIZE表示的是BLOCK。<br>CHUNK_SIZE：CHUNK大小。如果BY_ROW为TRUE，表示多少行分为一个CHUNK；如果BY_ROW为FALSE，则表示多少块分为一个CHUNK。<span id="more"></span></li>
+<li>执行并行任务：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> DBMS_PARALLEL_EXECUTE.run_task(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,sql_stmt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update /*+ROWID(dda)*/ kcdy_pzjcxx set ( ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, NLJSKACS ) = </span></span><br><span class="line"><span class="string">( select ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, SFYZBZHI from kdpy_jbxinx where zhanghao = kcdy_pzjcxx.zhanghao and farendma = &#x27;&#x27;9999&#x27;&#x27; ) where rowid between :start_id and :end_id&#x27;</span>,language_flag <span class="operator">=</span><span class="operator">&gt;</span> DBMS_SQL.native,parallel_level <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">16</span>);</span><br></pre></td></tr></table></figure>
+start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARALLEL表示平行度；LANGUAGE_FLAG意义如下：<br>V6 (or 0) specifies version 6 behavior<br>NATIVE (or 1) specifies normal behavior for the database to which the program is connected<br>V7 (or 2) specifies Oracle database version 7 behavior</li>
+</ol>
+<ol start="4">
+<li>查看task执行情况<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_parallel_execute_tasks;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_parallel_execute_tasks;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_parallel_execute_chunks ; </span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_parallel_execute_chunks ; </span><br></pre></td></tr></table></figure></li>
+</ol>
+<p> 每个CHUNK是在单独一个事务中提交的。所以某几个CHUNK发生错误后，可以修正错误，并使用下面的方法来继续未完成的CHUNK的任务：<br>  4.1 </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.resume_task(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,sql_stmt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update /*+ROWID(dda)*/ kcdy_pzjcxx set ( ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, NLJSKACS ) = </span></span><br><span class="line"><span class="string">( select ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, SFYZBZHI from kdpy_jbxinx where zhanghao = kcdy_pzjcxx.zhanghao and farendma = &#x27;&#x27;9999&#x27;&#x27; ) where rowid between :start_id and :end_id&#x27;</span>,language_flag <span class="operator">=</span><span class="operator">&gt;</span> DBMS_SQL.native);</span><br></pre></td></tr></table></figure>
+<pre><code>4.2 停止执行： 
+</code></pre>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.stop_task(update_pzjcxx);</span><br></pre></td></tr></table></figure>
+
+<p>  最后可以删除完成的任务：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.drop_task( <span class="string">&#x27;update_pzjcxx&#x27;</span> );</span><br></pre></td></tr></table></figure>
+
+
+
+<p>–开启计时</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> timing <span class="keyword">on</span></span><br></pre></td></tr></table></figure>
+<p>–设置并行收集</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_stats.set_global_prefs(<span class="string">&#x27;CONCURRENT&#x27;</span>,<span class="string">&#x27;TRUE&#x27;</span>);</span><br><span class="line"> <span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> resource_manager_plan <span class="operator">=</span> <span class="string">&#x27;DEFAULT_PLAN&#x27;</span> <span class="keyword">scope</span><span class="operator">=</span><span class="keyword">both</span>;</span><br></pre></td></tr></table></figure>
+<p>–开始收集全库统计信息</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">begin</span></span><br><span class="line">dbms_stats.gather_database_stats(</span><br><span class="line">ESTIMATE_PERCENT<span class="operator">=</span><span class="operator">&gt;</span>DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;for all indexed columns&#x27;</span>, cascade<span class="operator">=</span><span class="operator">&gt;</span><span class="literal">true</span>, degree<span class="operator">=</span><span class="operator">&gt;</span><span class="number">16</span>);</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"><span class="operator">/</span></span><br></pre></td></tr></table></figure>
+<p>–关闭并行收集</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_stats.set_global_prefs(<span class="string">&#x27;CONCURRENT&#x27;</span>,<span class="string">&#x27;FALSE&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>–gather——重新分析整个架构（Schema）。<br>–gather empty——只分析目前还没有统计的表。<br>–gather stale——只重新分析修改量超过10%的表（这些修改包括插入、更新和删除）。<br>–gather auto——重新分析当前没有统计的对象，以及统计数据过期（变脏）的对象。注意，使用gather auto类似于组合使用gather stale和gather empty。<br>begin<br>dbms_stats.gather_schema_stats(ownname=&gt;user,options=&gt;’gather stale’,degree =&gt; 32);<br>end;</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>oracle</category>
+      </categories>
+      <tags>
+        <tag>oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql知识点</title>
+    <url>/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="用-rownum-rownum-1-实现-rownum-功能"><a href="#用-rownum-rownum-1-实现-rownum-功能" class="headerlink" title="用 @rownum := @rownum+1 实现 rownum 功能"></a>用 @rownum := @rownum+1 实现 rownum 功能</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="variable">@rownum</span> :<span class="operator">=</span> <span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">AS</span> rownum, </span><br><span class="line">               table1.<span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) r ，</span><br><span class="line">       table1;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h3 id="分组排序取样"><a href="#分组排序取样" class="headerlink" title="分组排序取样"></a>分组排序取样</h3><p>按分组取最小的两个(N个)val</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> a.<span class="operator">*</span> <span class="keyword">from</span> tb a <span class="keyword">where</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&gt;</span> (<span class="keyword">select</span> <span class="built_in">count</span>(<span class="number">1</span>) <span class="keyword">from</span> tb <span class="keyword">where</span> </span><br><span class="line">name <span class="operator">=</span> a.name  <span class="comment">/*按哪些分组就哪些相等*/</span></span><br><span class="line"><span class="keyword">and</span> val <span class="operator">&lt;</span> a.val ) <span class="comment">/*找个分组内大部分不相等的来做比较*/</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> a.name,a.val</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> a.<span class="operator">*</span> <span class="keyword">from</span> tb a <span class="keyword">where</span> <span class="keyword">exists</span> </span><br><span class="line">(<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> tb <span class="keyword">where</span> name <span class="operator">=</span> a.name <span class="keyword">and</span> val <span class="operator">&lt;</span> a.val <span class="keyword">having</span> <span class="built_in">Count</span>(<span class="operator">*</span>) <span class="operator">&lt;</span> <span class="number">2</span>) </span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> a.name</span><br></pre></td></tr></table></figure>
+<h3 id="根据注释来查询表名："><a href="#根据注释来查询表名：" class="headerlink" title="根据注释来查询表名："></a>根据注释来查询表名：</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">Select</span> table_name 表名,TABLE_COMMENT <span class="string">&#x27;媒资&#x27;</span> <span class="keyword">from</span></span><br><span class="line">INFORMATION_SCHEMA.TABLES <span class="keyword">Where</span>  TABLE_COMMENT  <span class="keyword">LIKE</span> <span class="string">&#x27;%媒资%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="HAVING子句示例"><a href="#HAVING子句示例" class="headerlink" title="HAVING子句示例"></a>HAVING子句示例</h3><p>1、查询重复的行</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> id,name <span class="keyword">from</span> student <span class="keyword">where</span> name <span class="keyword">in</span> (<span class="keyword">select</span> name <span class="keyword">from</span> student </span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> name <span class="keyword">having</span> (<span class="built_in">count</span>(<span class="operator">*</span>) <span class="operator">&gt;</span> <span class="number">1</span>)) <span class="keyword">order</span> <span class="keyword">by</span> name;</span><br></pre></td></tr></table></figure>
+<p>查询student表中重名的学生，结果包含id和name，按name,id升序</p>
+<p>2、查询分组中特定要求的行</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> sid,<span class="built_in">avg</span>(score) <span class="keyword">as</span> avg_score <span class="keyword">from</span> student_course <span class="keyword">group</span> <span class="keyword">by</span> sid </span><br><span class="line"><span class="keyword">having</span> (avg_score <span class="operator">&lt;</span> <span class="number">60</span>);</span><br></pre></td></tr></table></figure>
+<p>在student_course表中查询平均分不及格的学生，列出学生id和平均分</p>
+<p>3、显示每个地区的总人口数和总面积．仅显示那些面积超过1000000的地区。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> region,<span class="built_in">sum</span>(population),<span class="built_in">sum</span>(area) <span class="keyword">from</span> china <span class="keyword">group</span> <span class="keyword">by</span> region </span><br><span class="line"><span class="keyword">having</span> (<span class="built_in">sum</span>(area) <span class="operator">&gt;</span> <span class="number">1000000</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="强制索引使用"><a href="#强制索引使用" class="headerlink" title="强制索引使用"></a>强制索引使用</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> students FORCE INDEX (idx_class_id) <span class="keyword">WHERE</span> class_id <span class="operator">=</span> <span class="number">1</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> id <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>sql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Shell脚本中$</title>
     <url>/2021/06/15/shell/shell%20%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84$%20/</url>
     <content><![CDATA[<h1 id="Shell脚本中-0、-、-、-、-、-、"><a href="#Shell脚本中-0、-、-、-、-、-、" class="headerlink" title="Shell脚本中$0、$?、$!、$$、$*、$#、$@"></a>Shell脚本中$0、$?、$!、$$、$*、$#、$@</h1><h2 id="1"><a href="#1" class="headerlink" title="1. $$"></a>1. $$</h2><p>Shell本身的PID（ProcessID）</p>
@@ -751,216 +965,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mybatis</title>
-    <url>/2021/05/26/sql/mybatis/</url>
-    <content><![CDATA[<ol>
-<li>#{}和${}的区别是什么？</li>
-</ol>
-<ul>
-<li>#{}是预编译处理#{}可以防止Sql 注入，它会将所有传入的参数作为一个字符串来处理。</li>
-<li>${}是字符串替换。${} 则将传入的参数拼接到Sql上去执行，一般用于表名和字段名参数，$ 所对应的参数应该由服务器端提供，前端可以用参数进行选择，避免 Sql 注入的风险<br>Mybatis在处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement的set方法来赋值；<br>Mybatis在处理时，就是把{}替换成变量的值。<br><br>使用#{}可以有效的防止SQL注入，提高系统安全性。</li>
-</ul>
-<ol start="2">
-<li>Mybatis是如何进行<strong>分页</strong>的？分页插件的原理是什么？<br><br>Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的<strong>内存分页</strong>，而非物理分页，可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。<br><br>分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。<br></li>
-</ol>
-<span id="more"></span>
-<ol start="3">
-<li><p>Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？<br><br>第一种是<strong>使用&lt;resultMap&gt;标签</strong>，逐一定义列名和对象属性名之间的映射关系。<br><br>第二种是使用sql列的<strong>别名功能</strong>，将列别名书写为对象属性名，比如T_NAME AS NAME，对象属性名一般是name，小写，但是列名不区分大小写，Mybatis会忽略列名大小写，智能找到与之对应对象属性名，你甚至可以写成T_NAME AS NaMe，Mybatis一样可以正常工作。<br>有了列名与属性名的映射关系后，Mybatis通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。</p>
-</li>
-<li><p>Xml映射文件中，除了常见的select|insert|update|delete标签之外，还有哪些标签？<br><br>还有很多其他的标签，加上动态sql的9个标签，trim|where|set|foreach|if|choose|when|otherwise|bind等，其中为sql片段标签，通过标签引入sql片段，为不支持自增的主键生成策略标签。</p>
-</li>
-<li><p>简述Mybatis的<strong>插件运行原理，以及如何编写一个插件</strong><br><br>Mybatis仅可以编写针对ParameterHandler、ResultSetHandler、StatementHandler、Executor这4种接口的插件.<br>Mybatis使用JDK的动态代理，为需要拦截的接口生成代理对象以实现接口方法拦截功能，每当执行这4种接口对象的方法时，就会进入拦截方法，具体就是InvocationHandler的invoke()方法，当然，只会拦截那些你指定需要拦截的方法。实现Mybatis的Interceptor接口并复写intercept()方法，然后在给插件编写注解，指定要拦截哪一个接口的哪些方法即可，记住，还需要在配置文件中配置你编写的插件。</p>
-</li>
-</ol>
-<ol start="6">
-<li>一级、二级缓存<br><br>1）一级缓存: 基于 <strong>PerpetualCache 的 HashMap 本地缓存</strong>，其存储作用域为 Session，当 Session flush 或 close 之后，该 Session 中的所有 Cache 就将清空。<br><br>2）二级缓存与一级缓存其机制相同，默认也是采用 PerpetualCache，HashMap 存储，不同在于其存储作用域为 Mapper(Namespace)，并且可自定义存储源，如 Ehcache。要开启二级缓存，你需要在你的 SQL 映射文件中添加一行：<pre><code>&lt;cache/&gt;
-</code></pre>
-<br>
-3）对于缓存数据更新机制，当某一个作用域(一级缓存 Session/二级缓存Namespaces)的进行了C/U/D 操作后，默认该作用域下所有 select 中的缓存将被 clear。<br></li>
-</ol>
-<ol start="7">
-<li>Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？<br><br>Mybatis仅支持association关联对象和collection关联集合对象的延迟加载，association指的就是一对一，collection指的就是一对多查询。<br><br>在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。<br><br>它的原理是，使用CGLIB创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发现a.getB()是null值，那么就会单独发送事先保存好的查询关联B对象的sql，把B查询上来，然后调用a.setB(b)，于是a的对象b属性就有值了，接着完成a.getB().getName()方法的调用。这就是延迟加载的基本原理。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql_优化系列_索引优化</title>
-    <url>/2021/05/22/sql/mysql_%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97_%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="模糊匹配like-怎么优化"><a href="#模糊匹配like-怎么优化" class="headerlink" title="模糊匹配like %%怎么优化"></a>模糊匹配like %%怎么优化</h2><ol>
-<li>开启ICP（索引条件下推）<br><br>可以通过索引筛选，返回给Server层筛选后的记录，减少不必要的IO开销。<br><br>如果where后只有一个 like ‘%xxx%’条件，表有主键的前提下，可以通过子查询优化<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span>  <span class="operator">*</span> <span class="keyword">from</span> users01 a , </span><br><span class="line">(<span class="keyword">select</span> id <span class="keyword">from</span> users01 <span class="keyword">where</span> nickname <span class="keyword">like</span> <span class="string">&#x27;%SK%&#x27;</span>) b</span><br><span class="line"> <span class="keyword">where</span> a.id <span class="operator">=</span> b.id;</span><br></pre></td></tr></table></figure></li>
-<li>建立全文索引<br><br>两种检索模式</li>
-</ol>
-<ul>
-<li><p>IN NATURAL LANGUAGE MODE：默认模式，以自然语言的方式搜索，AGAINST(‘看风’ IN NATURAL LANGUAGE MODE ) 等价于AGAINST(‘看风’)。</p>
-</li>
-<li><p>IN BOOLEAN MODE：布尔模式，表是字符串前后的字符有特殊含义，如查找包含SK，但不包含Lyn的记录，可以用+，-符号。<br>AGAINST(‘+SK -Lyn’ in BOOLEAN MODE);</p>
-</li>
-</ul>
-<p>创建全文索引：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> fulltext index idx_full_nickname(nickname) <span class="keyword">with</span> parser ngram;</span><br></pre></td></tr></table></figure>
-<p>改写like语句：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> users01 <span class="keyword">where</span> <span class="keyword">match</span>(nickname) against(<span class="string">&#x27;看风&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>生成列（虚拟列）<br><br>对于where条件后的 like ‘%xxx’ 是无法利用索引扫描，可以利用MySQL 5.7的生成列模拟函数索引的方式解决，具体步骤如下：<br>利用内置reverse函数将like ‘%风云’反转为like ‘云风%’，基于此函数添加虚拟生成列。<br>在虚拟生成列上创建索引。<br>将SQL改写成通过生成列like reverse(‘%风云’)去过滤，走生成列上的索引。<br>建立生成列<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> reverse_nickname <span class="type">varchar</span>(<span class="number">200</span>) generated always <span class="keyword">as</span> (reverse(nickname));</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="索引很长的字段怎么优化？"><a href="#索引很长的字段怎么优化？" class="headerlink" title="索引很长的字段怎么优化？"></a>索引很长的字段怎么优化？</h2><p>有时候需要索引很长的字符(例如BLOB,TEXT,或者很长的VARCHAR)，这样会使得索引又大又慢。</p>
-<ol>
-<li>改用哈希索引。<br>InnoDB是支持Btree索引，但不显式支持hash索引。可以使用生成列来间接使用哈希索引。</li>
-<li>使用字符串的前几个字符作为索引(即前缀索引)。</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> INDEX `idx_city` (`city`(<span class="number">7</span>)) <span class="keyword">USING</span> BTREE ;</span><br><span class="line"><span class="comment">-- 或者这个也行</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> KEY `idx_city` (`city`(<span class="number">7</span>))</span><br></pre></td></tr></table></figure>
-<p>当然在选择前缀时要选择合适的前缀索引长度，保持好的选择性。其方法主要是计算数据分布。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查询重复次数最多的10条完整城市名称及其数量(图1)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, city <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> city <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前3个字符)及其数量,可以发现:前3个字符的相同数量过大,不适合做前缀索引(图2)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">3</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前7个字符)及其数量,可以发现:前7个字符的相同数量和完整城市名称很相近了,可以考虑作为做前缀索引(图3)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">7</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-        <category>索引优化</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>sql</tag>
-        <tag>索引优化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql知识点</title>
-    <url>/2021/05/22/sql/mysql%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h2 id="mysql的4大特性-4种隔离级别："><a href="#mysql的4大特性-4种隔离级别：" class="headerlink" title="mysql的4大特性+4种隔离级别："></a>mysql的4大特性+4种隔离级别：</h2><h3 id="4大特性即ACID"><a href="#4大特性即ACID" class="headerlink" title="4大特性即ACID"></a>4大特性即ACID</h3><ul>
-<li>1 原子性。事务是一个不可分割的整体，事务开始的操作，要么全部执行，要么全部不执行。</li>
-<li>2 隔离性。同一时间，只允许一个事务请求同一组数据。不同的事务彼此之间没有干扰。</li>
-<li>3 一致性。事务开始前和结束后，数据库的完整性约束没有被破坏 。</li>
-<li>4 稳定性。事务完成后，事务对数据库的所有更新将被保存到数据库，不能回滚。</li>
-</ul>
-<h3 id="4种隔离级别"><a href="#4种隔离级别" class="headerlink" title="4种隔离级别"></a>4种隔离级别</h3><p>大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read。</p>
-<span id="more"></span>
-<p>数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的并发操作中可能会出现脏读，不可重复读，幻读。</p>
-<h4 id="Read-uncommitted-读未提交"><a href="#Read-uncommitted-读未提交" class="headerlink" title="Read uncommitted 读未提交"></a>Read uncommitted 读未提交</h4><p>就是一个事务可以读取另一个未提交事务的数据。 </p>
-<h4 id="Read-committed-读提交"><a href="#Read-committed-读提交" class="headerlink" title="Read committed 读提交"></a>Read committed 读提交</h4><p>一个事务要等另一个事务提交后才能读取数据</p>
-<h4 id="Repeatable-read-重复读"><a href="#Repeatable-read-重复读" class="headerlink" title="Repeatable read 重复读"></a>Repeatable read 重复读</h4><p>在开始读取数据（事务开启）时，不再允许修改操作</p>
-<h4 id="Serializable-序列化"><a href="#Serializable-序列化" class="headerlink" title="Serializable  序列化"></a>Serializable  序列化</h4><p>全都顺序执行</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@tx</span>_isolation</span><br></pre></td></tr></table></figure>
-<p>设置当前会话隔离级别</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> session transaction isolation level repeatable read;</span><br></pre></td></tr></table></figure>
-<p>查看系统当前隔离级别</p>
-<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> @@<span class="keyword">global</span>.tx_isolation;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<hr>
-<h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><p>mysql常用的引擎有<strong>InnoDB，MyISAM，Memory</strong>，默认是InnoDB。</p>
-<p><strong>InnoDB</strong>：磁盘表，支持事务(Redo log 和Undo log和锁)，支持行级锁，B+Tree索引</p>
-<p>ps:优点： 具有良好的ACID特性。适用于高并发，更新操作比较多的表。需要使用事务的表。对自动灾难恢复有要求的表。</p>
-<p>缺点：读写效率相对MYISAM比较差。占用的磁盘空间比较大。</p>
-<p><strong>MyISAM</strong>：磁盘表，不支持事务，支持表级锁，B+Tree索引</p>
-<p>ps: 优点：占用空间小，处理速度快（相对InnoDB来说）</p>
-<p>缺点：不支持事务的完整性和并发性</p>
-<p>**MEMORY(Heap)**：内存表，不支持事务，表级锁，Hash索引，不支持Blob,Text大类型</p>
-<p>ps: 优点：速度要求快的，临时数据</p>
-<p>缺点：丢失以后，对项目整体没有或者负面影响不大的时候。</p>
-<hr>
-<h3 id="InnoDB详解"><a href="#InnoDB详解" class="headerlink" title="InnoDB详解"></a>InnoDB详解</h3><p><a href="http://www.liuzk.com/410.html">二叉树 -&gt; 平衡二叉树 -&gt; B树 -&gt; B+树</a></p>
-<p>在 MySQL 中，B+ 树索引按照存储方式的不同分为聚集索引和非聚集索引。</p>
-<h4 id="聚集索引（也叫聚簇索引-clustered-index"><a href="#聚集索引（也叫聚簇索引-clustered-index" class="headerlink" title="聚集索引（也叫聚簇索引) (clustered index)"></a>聚集索引（也叫聚簇索引) (clustered index)</h4><p>这种以主键作为 B+ 树索引的键值而构建的 索引，我们称之为聚集索引。InnoDB聚集索引的叶子节点存储行记录。</p>
-<p><strong>InnoDB必须要有，且只有一个聚集索引</strong>：</p>
-<p>表中的数据都会有一个主键，即使你不创建主键，系统也会帮你创建一个隐式的主键：</p>
-<p>（1）如果表定义了PK（主键），则PK就是聚集索引；</p>
-<p>（2）如果表没有定义PK，则第一个not NULL unique列是聚集索引；</p>
-<p>（3）否则，InnoDB会创建一个隐藏的row-id作为聚集索引；</p>
-<p>PS：所以PK查询非常快，直接定位行记录。</p>
-<h4 id="非聚集索引（非聚簇索引）"><a href="#非聚集索引（非聚簇索引）" class="headerlink" title="非聚集索引（非聚簇索引）"></a>非聚集索引（非聚簇索引）</h4><p>以主键以外的列值作为键值构建的 B+ 树索引，我们称之为非聚集索引。（一般我们建的非唯一索引的普通索引就是这种）</p>
-<p>非聚集索引与聚集索引的区别在于<strong>非聚集索引</strong>的叶子节点<strong>不存储表中的数据</strong>，而是<strong>存储该列对应的主键</strong>，想要查找数据我们还需要根据主键<strong>再去聚集索引中进行查找</strong>，这个再根据聚集索引查找数据的过程，我们称为<strong>回表</strong>。</p>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>oracle大批量数据更新操作，提供并发&amp;小事务</title>
-    <url>/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/</url>
-    <content><![CDATA[<p>oracle提供了很好用的大数据量数据更新的函数dbms_parallel_execute，改用dbms_parallel_execute执行，可以进行并行更新并且事务大小可控。</p>
-<p>以下在命令窗口执行：</p>
-<ol>
-<li>首先创建一个TASK，名称为update_pzjcxx:<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_task(<span class="string">&#x27;update_pzjcxx&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
-<li>把将要更新的表按照ROWID进行分批，分到各个CHUNK中：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_chunks_by_rowid(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,table_owner <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;V7PROD&#x27;</span>,table_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;KCDY_PZJCXX&#x27;</span>,by_row <span class="operator">=</span><span class="operator">&gt;</span> <span class="literal">true</span>,chunk_size <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
-BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行；如果是FALSE，则后面的CHUNK_SIZE表示的是BLOCK。<br>CHUNK_SIZE：CHUNK大小。如果BY_ROW为TRUE，表示多少行分为一个CHUNK；如果BY_ROW为FALSE，则表示多少块分为一个CHUNK。<span id="more"></span></li>
-<li>执行并行任务：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> DBMS_PARALLEL_EXECUTE.run_task(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,sql_stmt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update /*+ROWID(dda)*/ kcdy_pzjcxx set ( ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, NLJSKACS ) = </span></span><br><span class="line"><span class="string">( select ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, SFYZBZHI from kdpy_jbxinx where zhanghao = kcdy_pzjcxx.zhanghao and farendma = &#x27;&#x27;9999&#x27;&#x27; ) where rowid between :start_id and :end_id&#x27;</span>,language_flag <span class="operator">=</span><span class="operator">&gt;</span> DBMS_SQL.native,parallel_level <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">16</span>);</span><br></pre></td></tr></table></figure>
-start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARALLEL表示平行度；LANGUAGE_FLAG意义如下：<br>V6 (or 0) specifies version 6 behavior<br>NATIVE (or 1) specifies normal behavior for the database to which the program is connected<br>V7 (or 2) specifies Oracle database version 7 behavior</li>
-</ol>
-<ol start="4">
-<li>查看task执行情况<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_parallel_execute_tasks;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_parallel_execute_tasks;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_parallel_execute_chunks ; </span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_parallel_execute_chunks ; </span><br></pre></td></tr></table></figure></li>
-</ol>
-<p> 每个CHUNK是在单独一个事务中提交的。所以某几个CHUNK发生错误后，可以修正错误，并使用下面的方法来继续未完成的CHUNK的任务：<br>  4.1 </p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.resume_task(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,sql_stmt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update /*+ROWID(dda)*/ kcdy_pzjcxx set ( ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, NLJSKACS ) = </span></span><br><span class="line"><span class="string">( select ZHHAOXUH, CHAPBHAO, HUOBDAIH, CHAOHUBZ, SFYZBZHI from kdpy_jbxinx where zhanghao = kcdy_pzjcxx.zhanghao and farendma = &#x27;&#x27;9999&#x27;&#x27; ) where rowid between :start_id and :end_id&#x27;</span>,language_flag <span class="operator">=</span><span class="operator">&gt;</span> DBMS_SQL.native);</span><br></pre></td></tr></table></figure>
-<pre><code>4.2 停止执行： 
-</code></pre>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.stop_task(update_pzjcxx);</span><br></pre></td></tr></table></figure>
-
-<p>  最后可以删除完成的任务：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.drop_task( <span class="string">&#x27;update_pzjcxx&#x27;</span> );</span><br></pre></td></tr></table></figure>
-
-
-
-<p>–开启计时</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> timing <span class="keyword">on</span></span><br></pre></td></tr></table></figure>
-<p>–设置并行收集</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_stats.set_global_prefs(<span class="string">&#x27;CONCURRENT&#x27;</span>,<span class="string">&#x27;TRUE&#x27;</span>);</span><br><span class="line"> <span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> resource_manager_plan <span class="operator">=</span> <span class="string">&#x27;DEFAULT_PLAN&#x27;</span> <span class="keyword">scope</span><span class="operator">=</span><span class="keyword">both</span>;</span><br></pre></td></tr></table></figure>
-<p>–开始收集全库统计信息</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">begin</span></span><br><span class="line">dbms_stats.gather_database_stats(</span><br><span class="line">ESTIMATE_PERCENT<span class="operator">=</span><span class="operator">&gt;</span>DBMS_STATS.AUTO_SAMPLE_SIZE, method_opt <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;for all indexed columns&#x27;</span>, cascade<span class="operator">=</span><span class="operator">&gt;</span><span class="literal">true</span>, degree<span class="operator">=</span><span class="operator">&gt;</span><span class="number">16</span>);</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"><span class="operator">/</span></span><br></pre></td></tr></table></figure>
-<p>–关闭并行收集</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_stats.set_global_prefs(<span class="string">&#x27;CONCURRENT&#x27;</span>,<span class="string">&#x27;FALSE&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<p>–gather——重新分析整个架构（Schema）。<br>–gather empty——只分析目前还没有统计的表。<br>–gather stale——只重新分析修改量超过10%的表（这些修改包括插入、更新和删除）。<br>–gather auto——重新分析当前没有统计的对象，以及统计数据过期（变脏）的对象。注意，使用gather auto类似于组合使用gather stale和gather empty。<br>begin<br>dbms_stats.gather_schema_stats(ownname=&gt;user,options=&gt;’gather stale’,degree =&gt; 32);<br>end;</p>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>oracle</category>
-      </categories>
-      <tags>
-        <tag>oracle</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql知识点</title>
-    <url>/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="用-rownum-rownum-1-实现-rownum-功能"><a href="#用-rownum-rownum-1-实现-rownum-功能" class="headerlink" title="用 @rownum := @rownum+1 实现 rownum 功能"></a>用 @rownum := @rownum+1 实现 rownum 功能</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="variable">@rownum</span> :<span class="operator">=</span> <span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">AS</span> rownum, </span><br><span class="line">               table1.<span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) r ，</span><br><span class="line">       table1;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<h3 id="分组排序取样"><a href="#分组排序取样" class="headerlink" title="分组排序取样"></a>分组排序取样</h3><p>按分组取最小的两个(N个)val</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> a.<span class="operator">*</span> <span class="keyword">from</span> tb a <span class="keyword">where</span></span><br><span class="line"><span class="number">2</span> <span class="operator">&gt;</span> (<span class="keyword">select</span> <span class="built_in">count</span>(<span class="number">1</span>) <span class="keyword">from</span> tb <span class="keyword">where</span> </span><br><span class="line">name <span class="operator">=</span> a.name  <span class="comment">/*按哪些分组就哪些相等*/</span></span><br><span class="line"><span class="keyword">and</span> val <span class="operator">&lt;</span> a.val ) <span class="comment">/*找个分组内大部分不相等的来做比较*/</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> a.name,a.val</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> a.<span class="operator">*</span> <span class="keyword">from</span> tb a <span class="keyword">where</span> <span class="keyword">exists</span> </span><br><span class="line">(<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> tb <span class="keyword">where</span> name <span class="operator">=</span> a.name <span class="keyword">and</span> val <span class="operator">&lt;</span> a.val <span class="keyword">having</span> <span class="built_in">Count</span>(<span class="operator">*</span>) <span class="operator">&lt;</span> <span class="number">2</span>) </span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> a.name</span><br></pre></td></tr></table></figure>
-<h3 id="根据注释来查询表名："><a href="#根据注释来查询表名：" class="headerlink" title="根据注释来查询表名："></a>根据注释来查询表名：</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">Select</span> table_name 表名,TABLE_COMMENT <span class="string">&#x27;媒资&#x27;</span> <span class="keyword">from</span></span><br><span class="line">INFORMATION_SCHEMA.TABLES <span class="keyword">Where</span>  TABLE_COMMENT  <span class="keyword">LIKE</span> <span class="string">&#x27;%媒资%&#x27;</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="HAVING子句示例"><a href="#HAVING子句示例" class="headerlink" title="HAVING子句示例"></a>HAVING子句示例</h3><p>1、查询重复的行</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> id,name <span class="keyword">from</span> student <span class="keyword">where</span> name <span class="keyword">in</span> (<span class="keyword">select</span> name <span class="keyword">from</span> student </span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> name <span class="keyword">having</span> (<span class="built_in">count</span>(<span class="operator">*</span>) <span class="operator">&gt;</span> <span class="number">1</span>)) <span class="keyword">order</span> <span class="keyword">by</span> name;</span><br></pre></td></tr></table></figure>
-<p>查询student表中重名的学生，结果包含id和name，按name,id升序</p>
-<p>2、查询分组中特定要求的行</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> sid,<span class="built_in">avg</span>(score) <span class="keyword">as</span> avg_score <span class="keyword">from</span> student_course <span class="keyword">group</span> <span class="keyword">by</span> sid </span><br><span class="line"><span class="keyword">having</span> (avg_score <span class="operator">&lt;</span> <span class="number">60</span>);</span><br></pre></td></tr></table></figure>
-<p>在student_course表中查询平均分不及格的学生，列出学生id和平均分</p>
-<p>3、显示每个地区的总人口数和总面积．仅显示那些面积超过1000000的地区。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> region,<span class="built_in">sum</span>(population),<span class="built_in">sum</span>(area) <span class="keyword">from</span> china <span class="keyword">group</span> <span class="keyword">by</span> region </span><br><span class="line"><span class="keyword">having</span> (<span class="built_in">sum</span>(area) <span class="operator">&gt;</span> <span class="number">1000000</span>);</span><br></pre></td></tr></table></figure>
-
-<h3 id="强制索引使用"><a href="#强制索引使用" class="headerlink" title="强制索引使用"></a>强制索引使用</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> students FORCE INDEX (idx_class_id) <span class="keyword">WHERE</span> class_id <span class="operator">=</span> <span class="number">1</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> id <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>sql</tag>
       </tags>
   </entry>
   <entry>
@@ -1443,6 +1447,22 @@ start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARA
       </tags>
   </entry>
   <entry>
+    <title>算法基础之贪心算法</title>
+    <url>/2021/05/22/%E7%AE%97%E6%B3%95%E7%AF%87/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。<br>贪心算法的理解： 整个问题的最优解一定由在贪心策略中存在的子问题的最优解得来的。</p>
+<span id="more"></span>
+
+<p>贪心算法经典之找零钱</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ChangeMoney</span><span class="params">(<span class="keyword">int</span>  money)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[] moneybox = &#123;<span class="number">100</span>, <span class="number">50</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span>[] changArray = <span class="keyword">new</span> <span class="keyword">int</span>[moneybox.length];</span><br><span class="line">        Arrays.sort(moneybox);</span><br><span class="line">        <span class="comment">//  System.out.println(Arrays.toString(changArray));</span></span><br><span class="line">        <span class="keyword">int</span> change = money;</span><br><span class="line">        <span class="keyword">if</span> (money &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (change &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = moneybox.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; change - moneybox[i] &gt;= <span class="number">0</span>; j++) &#123;</span><br><span class="line">                        <span class="keyword">int</span> tmp = change - moneybox[i];</span><br><span class="line">                        <span class="keyword">if</span> (tmp &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                            change = tmp;</span><br><span class="line">                            changArray[i] = j;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">0</span>; p &lt; moneybox.length; p++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (changArray[p] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;需要找零&quot;</span> + moneybox[p] + <span class="string">&quot; &quot;</span> + changArray[p] + <span class="string">&quot;张&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Macbook外接显示器需要注意的设置</title>
     <url>/2021/05/22/%E7%A1%AC%E4%BB%B6&amp;%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>设备：MacBook Pro2018 A1989<br>系统：BigSur11.2.3<br>外接的显示器：Dell P2319H</p>
@@ -1498,24 +1518,43 @@ start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARA
       </tags>
   </entry>
   <entry>
-    <title>算法基础之贪心算法</title>
-    <url>/2021/05/22/%E7%AE%97%E6%B3%95%E7%AF%87/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。<br>贪心算法的理解： 整个问题的最优解一定由在贪心策略中存在的子问题的最优解得来的。</p>
-<span id="more"></span>
-
-<p>贪心算法经典之找零钱</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ChangeMoney</span><span class="params">(<span class="keyword">int</span>  money)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[] moneybox = &#123;<span class="number">100</span>, <span class="number">50</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span>[] changArray = <span class="keyword">new</span> <span class="keyword">int</span>[moneybox.length];</span><br><span class="line">        Arrays.sort(moneybox);</span><br><span class="line">        <span class="comment">//  System.out.println(Arrays.toString(changArray));</span></span><br><span class="line">        <span class="keyword">int</span> change = money;</span><br><span class="line">        <span class="keyword">if</span> (money &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (change &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = moneybox.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; change - moneybox[i] &gt;= <span class="number">0</span>; j++) &#123;</span><br><span class="line">                        <span class="keyword">int</span> tmp = change - moneybox[i];</span><br><span class="line">                        <span class="keyword">if</span> (tmp &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                            change = tmp;</span><br><span class="line">                            changArray[i] = j;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">0</span>; p &lt; moneybox.length; p++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (changArray[p] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;需要找零&quot;</span> + moneybox[p] + <span class="string">&quot; &quot;</span> + changArray[p] + <span class="string">&quot;张&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+    <title>spring框架_事务管理</title>
+    <url>/2021/06/25/spring/spring/spring%E6%A1%86%E6%9E%B6_%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h1 id="spring事务管理"><a href="#spring事务管理" class="headerlink" title="spring事务管理"></a>spring事务管理</h1><h2 id="Spring定义了7种传播行为："><a href="#Spring定义了7种传播行为：" class="headerlink" title="Spring定义了7种传播行为："></a>Spring定义了7种传播行为：</h2><ol>
+<li>propagation_requierd：如果当前没有事务，就新建一个事务，如果已存在一个事务中，<br>加入到这个事务中，这是Spring默认的选择。</li>
+<li>propagation_supports：支持当前事务，如果没有当前事务，就以非事务方法执行。</li>
+<li>propagation_mandatory：使用当前事务，如果没有当前事务，就抛出异常。</li>
+<li>propagation_required_new：新建事务，如果当前存在事务，把当前事务挂起。</li>
+<li>propagation_not_supported：以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。</li>
+<li>propagation_never：以非事务方式执行操作，如果当前事务存在则抛出异常。</li>
+<li>propagation_nested：如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与propagation_required类似的操作。</li>
+</ol>
+<h2 id="事务几种实现方式"><a href="#事务几种实现方式" class="headerlink" title="事务几种实现方式"></a>事务几种实现方式</h2><ol>
+<li>编程式事务管理对基于 POJO 的应用来说是唯一选择。我们需要在代码中调用beginTransaction()、commit()、rollback()等事务管理相关的方法，这就是编程式事务管理。</li>
+<li>基于 TransactionProxyFactoryBean的声明式事务管理</li>
+<li>基于 @Transactional 的声明式事务管理</li>
+<li>基于Aspectj AOP配置事务</li>
+</ol>
+<h3 id="基于-TransactionProxyFactoryBean的声明式事务管理"><a href="#基于-TransactionProxyFactoryBean的声明式事务管理" class="headerlink" title="基于 TransactionProxyFactoryBean的声明式事务管理"></a>基于 TransactionProxyFactoryBean的声明式事务管理</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 事务管理器 --&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myTracnsactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 事务代理工厂 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 生成事务代理对象 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;serviceProxy&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.transaction.interceptor.TransactionProxyFactoryBean&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;transactionManager&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;myTracnsactionManager&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;target&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;buyStockService&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;transactionAttributes&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- 主要 key 是方法   </span></span><br><span class="line"><span class="comment">                    ISOLATION_DEFAULT  事务的隔离级别</span></span><br><span class="line"><span class="comment">                    PROPAGATION_REQUIRED  传播行为</span></span><br><span class="line"><span class="comment">                --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;add*&quot;</span>&gt;</span>ISOLATION_DEFAULT,PROPAGATION_REQUIRED<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- -Exception 表示发生指定异常回滚，+Exception 表示发生指定异常提交 --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;buyStock&quot;</span>&gt;</span>ISOLATION_DEFAULT,PROPAGATION_REQUIRED,-BuyStockException<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        </span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="基于-Transactional-注解的声明式事务管理"><a href="#基于-Transactional-注解的声明式事务管理" class="headerlink" title="基于 @Transactional 注解的声明式事务管理"></a>基于 @Transactional 注解的声明式事务管理</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">public <span class="keyword">class</span> BuyStockServiceImpl implements BuyStockService&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> AccountDao accountDao;</span><br><span class="line">    <span class="keyword">private</span> StockDao stockDao;</span><br><span class="line">    </span><br><span class="line">    @<span class="constructor">Transactional(<span class="params">isolation</span>=Isolation.DEFAULT,<span class="params">propagation</span>=Propagation.REQUIRED)</span></span><br><span class="line">    @Override</span><br><span class="line">    public void add<span class="constructor">Account(String <span class="params">accountname</span>, <span class="params">double</span> <span class="params">money</span>)</span> &#123;</span><br><span class="line">        accountDao.add<span class="constructor">Account(<span class="params">accountname</span>,<span class="params">money</span>)</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @<span class="constructor">Transactional(<span class="params">isolation</span>=Isolation.DEFAULT,<span class="params">propagation</span>=Propagation.REQUIRED)</span></span><br><span class="line">    @Override</span><br><span class="line">    public void add<span class="constructor">Stock(String <span class="params">stockname</span>, <span class="params">int</span> <span class="params">amount</span>)</span> &#123;</span><br><span class="line">        stockDao.add<span class="constructor">Stock(<span class="params">stockname</span>,<span class="params">amount</span>)</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public <span class="constructor">BuyStockServiceImpl()</span> &#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @<span class="constructor">Transactional(<span class="params">isolation</span>=Isolation.DEFAULT,<span class="params">propagation</span>=Propagation.REQUIRED,<span class="params">rollbackFor</span>=BuyStockException.<span class="params">class</span>)</span></span><br><span class="line">    @Override</span><br><span class="line">    public void buy<span class="constructor">Stock(String <span class="params">accountname</span>, <span class="params">double</span> <span class="params">money</span>, String <span class="params">stockname</span>, <span class="params">int</span> <span class="params">amount</span>)</span> throws BuyStockException &#123;</span><br><span class="line">        boolean isBuy = <span class="literal">true</span>;</span><br><span class="line">        accountDao.update<span class="constructor">Account(<span class="params">accountname</span>, <span class="params">money</span>, <span class="params">isBuy</span>)</span>;</span><br><span class="line">        <span class="keyword">if</span>(isBuy==<span class="literal">true</span>)&#123;</span><br><span class="line">            throw <span class="keyword">new</span> <span class="constructor">BuyStockException(<span class="string">&quot;购买股票发生异常&quot;</span>)</span>;</span><br><span class="line">        &#125;</span><br><span class="line">            stockDao.update<span class="constructor">Stock(<span class="params">stockname</span>, <span class="params">amount</span>, <span class="params">isBuy</span>)</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public AccountDao get<span class="constructor">AccountDao()</span> &#123;</span><br><span class="line">        return accountDao;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void set<span class="constructor">AccountDao(AccountDao <span class="params">accountDao</span>)</span> &#123;</span><br><span class="line">        this.accountDao = accountDao;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public StockDao get<span class="constructor">StockDao()</span> &#123;</span><br><span class="line">        return stockDao;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void set<span class="constructor">StockDao(StockDao <span class="params">stockDao</span>)</span> &#123;</span><br><span class="line">        this.stockDao = stockDao;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置文件：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 事务管理器 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myTracnsactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 启用事务注解 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;myTracnsactionManager&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="基于Aspectj-AOP配置事务"><a href="#基于Aspectj-AOP配置事务" class="headerlink" title="基于Aspectj AOP配置事务"></a>基于Aspectj AOP配置事务</h3><figure class="highlight dust"><table><tr><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">&quot;classpath:jdbc.properties&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- 注册数据源 C3P0 --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;</span>  &gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driverClass&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.driverClass&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;jdbcUrl&quot;</span>  <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.url&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>  <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.username&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.password&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;accountDao&quot;</span> <span class="attr">class</span>=<span class="string">&quot;transaction.test4.dao.AccountDaoImpl&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;stockDao&quot;</span> <span class="attr">class</span>=<span class="string">&quot;transaction.test4.dao.StockDaoImpl&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;buyStockService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;transaction.test4.service.BuyStockServiceImpl&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;accountDao&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;accountDao&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;stockDao&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;stockDao&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- 事务管理器 --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myTracnsactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;myTracnsactionManager&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="comment">&lt;!-- 为连接点指定事务属性 --&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;add*&quot;</span> <span class="attr">isolation</span>=<span class="string">&quot;DEFAULT&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;buyStock&quot;</span> <span class="attr">isolation</span>=<span class="string">&quot;DEFAULT&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span> <span class="attr">rollback-for</span>=<span class="string">&quot;BuyStockException&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 切入点配置 --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">expression</span>=<span class="string">&quot;execution(* *..service.*.*(..))&quot;</span> <span class="attr">id</span>=<span class="string">&quot;point&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;point&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>原文地址：<a href="https://www.cnblogs.com/h-c-g/p/10872061.html">https://www.cnblogs.com/h-c-g/p/10872061.html</a></p>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>java</category>
+        <category>spring</category>
       </categories>
       <tags>
-        <tag>算法</tag>
+        <tag>java</tag>
+        <tag>Spring</tag>
+        <tag>事务管理</tag>
       </tags>
   </entry>
   <entry>
     <title>spring框架总述</title>
-    <url>/2021/06/15/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/</url>
+    <url>/2021/06/25/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/</url>
     <content><![CDATA[<h1 id="1-spring是什么"><a href="#1-spring是什么" class="headerlink" title="1.spring是什么"></a>1.spring是什么</h1><p>Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为了解决企业应用开发<br>的复杂性而创建的。Spring 的核心是控制反转（<strong>IoC</strong>）和面向切面编程（<strong>AOP</strong>）。<br></p>
 <hr>
 <h2 id="2-IOC控制反转"><a href="#2-IOC控制反转" class="headerlink" title="2.IOC控制反转"></a>2.IOC控制反转</h2><p>控制反转（IoC，Inversion of Control），是一个概念，是一种思想。指将传统上由程序代<br>码直接操控的对象调用权交给容器，通过容器来实现对象的装配和管理。控制反转就是对对<br>象控制权的转移，从程序代码本身反转到了外部容器。通过容器实现对象的创建，属性赋值，<br>依赖的管理。<br><br>spring对于IOC思想的具体实现就是：<strong>DI</strong>（依赖注入：DI(Dependency Injection)，程序代码不做定位查询，这些工作由容器自行<br>完成。）</p>
@@ -1566,10 +1605,13 @@ start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARA
       <categories>
         <category>java</category>
         <category>spring</category>
+        <category>IOC&amp;AOP</category>
       </categories>
       <tags>
         <tag>java</tag>
         <tag>Spring</tag>
+        <tag>Ioc</tag>
+        <tag>Aop</tag>
       </tags>
   </entry>
 </search>
