@@ -190,7 +190,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/java%E5%9F%BA%E7%A1%80/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -204,7 +204,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/22/java%E5%9F%BA%E7%A1%80/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/" class="post-title-link" itemprop="url">synchronized 和 ReentrantLock</a>
+            <a href="/2021/05/22/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/" class="post-title-link" itemprop="url">Java基础提升_Object</a>
         </h2>
 
         <div class="post-meta">
@@ -232,7 +232,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/Object/" itemprop="url" rel="index"><span itemprop="name">Object</span></a>
                 </span>
             </span>
 
@@ -247,19 +247,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="经典面试题："><a href="#经典面试题：" class="headerlink" title="经典面试题："></a>经典面试题：</h2><h4 id="synchronized-和-ReentrantLock-区别是什么？"><a href="#synchronized-和-ReentrantLock-区别是什么？" class="headerlink" title="synchronized 和 ReentrantLock 区别是什么？"></a>synchronized 和 ReentrantLock 区别是什么？</h4><ol>
-<li>synchronized 竞争锁时会一直等待；ReentrantLock 可以尝试获取锁，并得到获取结果</li>
-<li>synchronized 获取锁无法设置超时；ReentrantLock 可以设置获取锁的超时时间</li>
-<li>synchronized 无法实现公平锁；ReentrantLock 可以满足公平锁，即先等待先获取到锁</li>
-<li>synchronized 控制等待和唤醒需要结合加锁对象的 wait() 和 notify()、notifyAll()；ReentrantLock 控制等待和唤醒需要结合 Condition 的 await() 和 signal()、signalAll() 方法</li>
-<li>synchronized 是 JVM 层面实现的；ReentrantLock 是 JDK 代码层面实现</li>
-<li>synchronized 在加锁代码块执行完或者出现异常，自动释放锁；ReentrantLock 不会自动释放锁，需要在 finally{} 代码块显示释放</li>
-</ol>
-<p>ReentrantLock主要利用CAS+AQS队列来实现。它支持公平锁和非公平锁，两者的实现类似。</p>
-<p>使用示例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        doSomeThing();</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        <span class="comment">// ignored</span></span><br><span class="line">    &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://note.youdao.com/">ReentrantLock原理</a>    </p>
-
+          <p>Object类  是类层次结构的根类。</p>
+<p>Object类是所有类的超类。所有对象（包括数组）都实现这个类的方法。</p>
+<p>所以需要了解Object类的所有方法：</p>
+<h3 id="1-hashCode"><a href="#1-hashCode" class="headerlink" title="1.hashCode()"></a>1.hashCode()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span>；</span></span><br></pre></td></tr></table></figure>
+<p>返回该对象的哈希码值。默认情况下，该方法会根据对象的地址来计算。<br>不同对象的 hashCode() 的值一般是不相同。但是，同一个对象的hashCode() 值肯定相同。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/22/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
     
@@ -541,7 +541,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -563,7 +563,7 @@
     <h3 class="widget-title">标签云</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
         <canvas width="250" height="250" id="resCanvas" style="width=100%">
-            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
         </canvas>
     </div>
 </div>
