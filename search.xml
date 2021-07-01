@@ -11,7 +11,7 @@
   <entry>
     <title>排序算法比较</title>
     <url>/2021/07/01/%E7%AE%97%E6%B3%95%E7%AF%87/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/</url>
-    <content><![CDATA[<p>类别 | 排序方法 | 时间复杂度 | 空间复杂度 | 稳定性| 复杂性<br>—|—|<br>|| |最好-平均-最坏 | 辅助存储 |<br>1.插入排序 |1-1直接插入|O(N)-O(N2)-O(N2)|O(1)|稳定|简单<br>1.插入排序 |1-2希尔排序|O(N)-O(N1.3)-O(N2)|O(1)|不稳定|复杂<br>2.选择排序 |2-1直接选择|O(N)-O(N2)-O(N2)|O(1)|不稳定|简单<br>2.选择排序 |2-2堆排序  |O(N<em>log2N)-O(N</em>log2N)-O(N<em>log2N)|O(1)|不稳定|复杂<br>3.交换排序 |3-1冒泡排序|O(N)-O(N2)-O(N2)|O(1)|稳定|简单<br>3.交换排序 |3-2快速排序|O(N</em>log2N)-O(N<em>log2N)- O(N2)|O(log2n)~O(n) |不稳定|复杂<br>归并排序| |O(N</em>log2N)-O(N<em>log2N)-O(N</em>log2N)|O(1)| 稳定|复杂<br>基数排序| |O(d(r+n))-O(d(r+n))-O(d(r+n))|O(rd+n)|稳定|复杂</p>
+    <content><![CDATA[<p>类别 | 排序方法 | 时间复杂度 | 空间复杂度 | 稳定性| 复杂性<br>—|—|<br>|| | 最好-平均-最坏 | 辅助存储 |<br>1.插入排序 | 1-1直接插入 | O(N)-O(N2)-O(N2)|O(1) | 稳定 | 简单<br>1.插入排序 | 1-2希尔排序 | O(N)-O(N1.3)-O(N2)|O(1) | 不稳定|复杂<br>2.选择排序 | 2-1直接选择 | O(N)-O(N2)-O(N2)|O(1) | 不稳定|简单<br>2.选择排序 | 2-2堆排序   | O(N<em>log2N)-O(N</em>log2N)-O(N<em>log2N)|O(1)|不稳定|复杂<br>3.交换排序 | 3-1冒泡排序 | O(N)-O(N2)-O(N2)|O(1) | 稳定 | 简单<br>3.交换排序 | 3-2快速排序 | O(N</em>log2N)-O(N<em>log2N)- O(N2) |O(log2n)~O(n) |不稳定|复杂<br>归并排序| | O(N</em>log2N)-O(N<em>log2N)-O(N</em>log2N) | O(1) | 稳定|复杂<br>基数排序| | O(d(r+n))-O(d(r+n))-O(d(r+n))|O(rd+n)|稳定|复杂</p>
 <h3 id="1-冒泡排序"><a href="#1-冒泡排序" class="headerlink" title="1.冒泡排序"></a>1.冒泡排序</h3><p>1、冒泡排序是一种用时间换空间的排序方法<br>2、最坏情况是把顺序的排列变成逆序，或者把逆序的数列变成顺序，最差时间复杂度O(N^2)只是表示其操作次数的数量级<br>3、最好的情况是数据本来就有序，复杂度为O(n)</p>
 <h3 id="2-快速排序"><a href="#2-快速排序" class="headerlink" title="2.快速排序"></a>2.快速排序</h3><p>1、n大时好，快速排序比较占用内存，内存随n的增大而增大，但却是效率高不稳定的排序算法。<br>2、划分之后一边是一个，一边是n-1个，<br>这种极端情况的时间复杂度就是O(N^2)<br>3、最好的情况是每次都能均匀的划分序列，O(N*log2N)</p>
 <h3 id="3-归并排序"><a href="#3-归并排序" class="headerlink" title="3.归并排序"></a>3.归并排序</h3><p>1、n大时好，归并比较占用内存，内存随n的增大而增大，但却是效率高且稳定的排序算法。</p>
@@ -471,6 +471,31 @@
       </tags>
   </entry>
   <entry>
+    <title>shell中for循环的用法</title>
+    <url>/2021/06/15/shell/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>for循环是程序处理中常见的的一种处理逻辑，那么shell中如何使用呢？</p>
+<ul>
+<li>循环逐个处理指定路径下的文件</li>
+<li>for循环快速占用指定线程数cpu<span id="more"></span>
+<h1 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h1></li>
+</ul>
+<p>循环逐个处理指定路径下的文件</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">filelist = `<span class="keyword">ls</span> -<span class="keyword">l</span> <span class="variable">$path</span>`</span><br><span class="line"><span class="keyword">for</span> filename <span class="keyword">in</span> filelist;<span class="keyword">do</span> <span class="keyword">ls</span> -lrt done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>for循环快速占用指定线程数cpu</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `seq <span class="number">1</span> <span class="variable">$cat</span> <span class="regexp">/proc/</span>cpuinfo|grep <span class="string">&quot;physical id&quot;</span>|wc -l`;<span class="keyword">do</span> dd <span class="keyword">if</span>=<span class="regexp">/dev/</span>zero of=<span class="regexp">/dev/</span>null &amp; done</span><br><span class="line"><span class="comment"># 指定到了后台运行</span></span><br><span class="line"><span class="comment"># kill -9 dd 结束进程</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>unix</category>
+        <category>shell</category>
+        <category>for循环</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>shell中常见的字符串操作</title>
     <url>/2021/06/15/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>shell中定位字符的方式，包括常见的分割：按位置分隔，按指定的字符串截取，按照指定要求（如指定后缀）分割。</p>
@@ -506,31 +531,6 @@
         <category>unix</category>
         <category>shell</category>
         <category>字符串操作</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>shell中for循环的用法</title>
-    <url>/2021/06/15/shell/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>for循环是程序处理中常见的的一种处理逻辑，那么shell中如何使用呢？</p>
-<ul>
-<li>循环逐个处理指定路径下的文件</li>
-<li>for循环快速占用指定线程数cpu<span id="more"></span>
-<h1 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h1></li>
-</ul>
-<p>循环逐个处理指定路径下的文件</p>
-<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">filelist = `<span class="keyword">ls</span> -<span class="keyword">l</span> <span class="variable">$path</span>`</span><br><span class="line"><span class="keyword">for</span> filename <span class="keyword">in</span> filelist;<span class="keyword">do</span> <span class="keyword">ls</span> -lrt done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>for循环快速占用指定线程数cpu</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `seq <span class="number">1</span> <span class="variable">$cat</span> <span class="regexp">/proc/</span>cpuinfo|grep <span class="string">&quot;physical id&quot;</span>|wc -l`;<span class="keyword">do</span> dd <span class="keyword">if</span>=<span class="regexp">/dev/</span>zero of=<span class="regexp">/dev/</span>null &amp; done</span><br><span class="line"><span class="comment"># 指定到了后台运行</span></span><br><span class="line"><span class="comment"># kill -9 dd 结束进程</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>unix</category>
-        <category>shell</category>
-        <category>for循环</category>
       </categories>
       <tags>
         <tag>shell</tag>
