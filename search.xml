@@ -471,31 +471,6 @@
       </tags>
   </entry>
   <entry>
-    <title>shell中for循环的用法</title>
-    <url>/2021/06/15/shell/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>for循环是程序处理中常见的的一种处理逻辑，那么shell中如何使用呢？</p>
-<ul>
-<li>循环逐个处理指定路径下的文件</li>
-<li>for循环快速占用指定线程数cpu<span id="more"></span>
-<h1 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h1></li>
-</ul>
-<p>循环逐个处理指定路径下的文件</p>
-<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">filelist = `<span class="keyword">ls</span> -<span class="keyword">l</span> <span class="variable">$path</span>`</span><br><span class="line"><span class="keyword">for</span> filename <span class="keyword">in</span> filelist;<span class="keyword">do</span> <span class="keyword">ls</span> -lrt done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>for循环快速占用指定线程数cpu</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `seq <span class="number">1</span> <span class="variable">$cat</span> <span class="regexp">/proc/</span>cpuinfo|grep <span class="string">&quot;physical id&quot;</span>|wc -l`;<span class="keyword">do</span> dd <span class="keyword">if</span>=<span class="regexp">/dev/</span>zero of=<span class="regexp">/dev/</span>null &amp; done</span><br><span class="line"><span class="comment"># 指定到了后台运行</span></span><br><span class="line"><span class="comment"># kill -9 dd 结束进程</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>unix</category>
-        <category>shell</category>
-        <category>for循环</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>shell中常见的字符串操作</title>
     <url>/2021/06/15/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>shell中定位字符的方式，包括常见的分割：按位置分隔，按指定的字符串截取，按照指定要求（如指定后缀）分割。</p>
@@ -531,6 +506,31 @@
         <category>unix</category>
         <category>shell</category>
         <category>字符串操作</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shell中for循环的用法</title>
+    <url>/2021/06/15/shell/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>for循环是程序处理中常见的的一种处理逻辑，那么shell中如何使用呢？</p>
+<ul>
+<li>循环逐个处理指定路径下的文件</li>
+<li>for循环快速占用指定线程数cpu<span id="more"></span>
+<h1 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h1></li>
+</ul>
+<p>循环逐个处理指定路径下的文件</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">filelist = `<span class="keyword">ls</span> -<span class="keyword">l</span> <span class="variable">$path</span>`</span><br><span class="line"><span class="keyword">for</span> filename <span class="keyword">in</span> filelist;<span class="keyword">do</span> <span class="keyword">ls</span> -lrt done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>for循环快速占用指定线程数cpu</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `seq <span class="number">1</span> <span class="variable">$cat</span> <span class="regexp">/proc/</span>cpuinfo|grep <span class="string">&quot;physical id&quot;</span>|wc -l`;<span class="keyword">do</span> dd <span class="keyword">if</span>=<span class="regexp">/dev/</span>zero of=<span class="regexp">/dev/</span>null &amp; done</span><br><span class="line"><span class="comment"># 指定到了后台运行</span></span><br><span class="line"><span class="comment"># kill -9 dd 结束进程</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>unix</category>
+        <category>shell</category>
+        <category>for循环</category>
       </categories>
       <tags>
         <tag>shell</tag>
@@ -980,6 +980,22 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>算法基础之贪心算法</title>
+    <url>/2021/05/22/%E7%AE%97%E6%B3%95%E7%AF%87/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。<br>贪心算法的理解： 整个问题的最优解一定由在贪心策略中存在的子问题的最优解得来的。</p>
+<span id="more"></span>
+
+<p>贪心算法经典之找零钱</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ChangeMoney</span><span class="params">(<span class="keyword">int</span>  money)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[] moneybox = &#123;<span class="number">100</span>, <span class="number">50</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span>[] changArray = <span class="keyword">new</span> <span class="keyword">int</span>[moneybox.length];</span><br><span class="line">        Arrays.sort(moneybox);</span><br><span class="line">        <span class="comment">//  System.out.println(Arrays.toString(changArray));</span></span><br><span class="line">        <span class="keyword">int</span> change = money;</span><br><span class="line">        <span class="keyword">if</span> (money &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (change &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = moneybox.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; change - moneybox[i] &gt;= <span class="number">0</span>; j++) &#123;</span><br><span class="line">                        <span class="keyword">int</span> tmp = change - moneybox[i];</span><br><span class="line">                        <span class="keyword">if</span> (tmp &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                            change = tmp;</span><br><span class="line">                            changArray[i] = j;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">0</span>; p &lt; moneybox.length; p++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (changArray[p] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;需要找零&quot;</span> + moneybox[p] + <span class="string">&quot; &quot;</span> + changArray[p] + <span class="string">&quot;张&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Macbook外接显示器需要注意的设置</title>
     <url>/2021/05/22/%E7%A1%AC%E4%BB%B6&amp;%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>设备：MacBook Pro2018 A1989<br>系统：BigSur11.2.3<br>外接的显示器：Dell P2319H</p>
@@ -1032,22 +1048,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       <tags>
         <tag>硬件</tag>
         <tag>mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>算法基础之贪心算法</title>
-    <url>/2021/05/22/%E7%AE%97%E6%B3%95%E7%AF%87/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。<br>贪心算法的理解： 整个问题的最优解一定由在贪心策略中存在的子问题的最优解得来的。</p>
-<span id="more"></span>
-
-<p>贪心算法经典之找零钱</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ChangeMoney</span><span class="params">(<span class="keyword">int</span>  money)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[] moneybox = &#123;<span class="number">100</span>, <span class="number">50</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span>[] changArray = <span class="keyword">new</span> <span class="keyword">int</span>[moneybox.length];</span><br><span class="line">        Arrays.sort(moneybox);</span><br><span class="line">        <span class="comment">//  System.out.println(Arrays.toString(changArray));</span></span><br><span class="line">        <span class="keyword">int</span> change = money;</span><br><span class="line">        <span class="keyword">if</span> (money &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (change &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = moneybox.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; change - moneybox[i] &gt;= <span class="number">0</span>; j++) &#123;</span><br><span class="line">                        <span class="keyword">int</span> tmp = change - moneybox[i];</span><br><span class="line">                        <span class="keyword">if</span> (tmp &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                            change = tmp;</span><br><span class="line">                            changArray[i] = j;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">0</span>; p &lt; moneybox.length; p++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (changArray[p] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;需要找零&quot;</span> + moneybox[p] + <span class="string">&quot; &quot;</span> + changArray[p] + <span class="string">&quot;张&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -1126,6 +1126,33 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>消息队列</title>
+    <url>/2021/05/22/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</url>
+    <content><![CDATA[<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
+<ol>
+<li><strong>异步</strong>、</li>
+<li><strong>削峰</strong>、</li>
+<li><strong>解耦</strong></li>
+</ol>
+<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>比如一个流程下需要正常的业务处理，中间需要发送短信，扣减优惠卷等，可以生产消息进入队列，由短信系统，优惠卷系统异步处理，减少主业务逻辑链路，提升效率。</p>
+<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
+<h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
+<span id="more"></span>
+<h2 id="消息重复消费"><a href="#消息重复消费" class="headerlink" title="消息重复消费"></a>消息重复消费</h2><p>系统重试等原因造成<br>解决方法：</p>
+<ol>
+<li>接口幂等 无论多次执行，其结果都是一样的.更复杂的操作幂等保证是利用唯一交易号(流水号)实现.请求的是相同的流水号的话，判断处理过的话 直接返回成功就行了。</li>
+</ol>
+<h1 id="消息顺序消费"><a href="#消息顺序消费" class="headerlink" title="消息顺序消费"></a>消息顺序消费</h1><p>一个topic下有多个队列，为了保证发送有序，RocketMQ提供了MessageQueueSelector队列选择机制<br>我们可使用Hash取模法，让同一个订单发送到同一个队列中，再使用同步发送，只有同个订单的创建消息发送成功，再发送支付消息。这样，我们保证了发送有序。<br>RocketMQ的topic内的队列机制,可以保证存储满足FIFO（First Input First Output 简单说就是指先进先出）,剩下的只需要消费者顺序消费即可。</p>
+]]></content>
+      <categories>
+        <category>中间件</category>
+        <category>消息队列</category>
+      </categories>
+      <tags>
+        <tag>消息队列</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mysql知识点</title>
     <url>/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/</url>
     <content><![CDATA[<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="用-rownum-rownum-1-实现-rownum-功能"><a href="#用-rownum-rownum-1-实现-rownum-功能" class="headerlink" title="用 @rownum := @rownum+1 实现 rownum 功能"></a>用 @rownum := @rownum+1 实现 rownum 功能</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="variable">@rownum</span> :<span class="operator">=</span> <span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">AS</span> rownum, </span><br><span class="line">               table1.<span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) r ，</span><br><span class="line">       table1;</span><br></pre></td></tr></table></figure>
@@ -1154,33 +1181,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       <tags>
         <tag>mysql</tag>
         <tag>sql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>消息队列</title>
-    <url>/2021/05/22/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</url>
-    <content><![CDATA[<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
-<ol>
-<li><strong>异步</strong>、</li>
-<li><strong>削峰</strong>、</li>
-<li><strong>解耦</strong></li>
-</ol>
-<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>比如一个流程下需要正常的业务处理，中间需要发送短信，扣减优惠卷等，可以生产消息进入队列，由短信系统，优惠卷系统异步处理，减少主业务逻辑链路，提升效率。</p>
-<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
-<h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
-<span id="more"></span>
-<h2 id="消息重复消费"><a href="#消息重复消费" class="headerlink" title="消息重复消费"></a>消息重复消费</h2><p>系统重试等原因造成<br>解决方法：</p>
-<ol>
-<li>接口幂等 无论多次执行，其结果都是一样的.更复杂的操作幂等保证是利用唯一交易号(流水号)实现.请求的是相同的流水号的话，判断处理过的话 直接返回成功就行了。</li>
-</ol>
-<h1 id="消息顺序消费"><a href="#消息顺序消费" class="headerlink" title="消息顺序消费"></a>消息顺序消费</h1><p>一个topic下有多个队列，为了保证发送有序，RocketMQ提供了MessageQueueSelector队列选择机制<br>我们可使用Hash取模法，让同一个订单发送到同一个队列中，再使用同步发送，只有同个订单的创建消息发送成功，再发送支付消息。这样，我们保证了发送有序。<br>RocketMQ的topic内的队列机制,可以保证存储满足FIFO（First Input First Output 简单说就是指先进先出）,剩下的只需要消费者顺序消费即可。</p>
-]]></content>
-      <categories>
-        <category>中间件</category>
-        <category>消息队列</category>
-      </categories>
-      <tags>
-        <tag>消息队列</tag>
       </tags>
   </entry>
   <entry>
