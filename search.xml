@@ -126,9 +126,9 @@
 <tbody><tr>
 <td></td>
 <td></td>
-<td></td>
 <td>最好-平均-最坏</td>
 <td>辅助存储</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -1019,58 +1019,19 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>Macbook外接显示器需要注意的设置</title>
-    <url>/2021/05/22/%E7%A1%AC%E4%BB%B6&amp;%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>设备：MacBook Pro2018 A1989<br>系统：BigSur11.2.3<br>外接的显示器：Dell P2319H</p>
-<h2 id="颜色问题"><a href="#颜色问题" class="headerlink" title="颜色问题"></a>颜色问题</h2><p>mac 会将外接显示器识别为TV，会用 YCbCr 色域来输出,我们需要使用脚本来为外接显示器生成强制RGB渲染的颜色描述文件，然后替换掉系统原有颜色描述文件，来使显示器用RGB模式显示。</p>
+    <title>算法基础之贪心算法</title>
+    <url>/2021/05/22/%E7%AE%97%E6%B3%95%E7%AF%87/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。<br>贪心算法的理解： 整个问题的最优解一定由在贪心策略中存在的子问题的最优解得来的。</p>
 <span id="more"></span>
-<p> 一、关闭系统保护</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">进入恢复模式，按下 <span class="keyword">Options</span> 开机，然后再按 Command + R；</span><br><span class="line">在恢复模式下的命令行输入：csrutil authenticated-root <span class="keyword">disable</span>，</span><br><span class="line">然后再重启；</span><br></pre></td></tr></table></figure>
 
-
-<p>  二、生成DisplayVendorID文件夹</p>
-<p>  下载 patch-edid.rb 这个文件到 mac 的Download 文件夹中。</p>
-<pre><code> 打开终端，cd Downloads
-
-  
-   ruby patch-edid.rb
-
-  
-   运行patch-edid.rb脚本后，会产生一个DisplayVendorID-1xxx文件，xxx
-   是编号，每台机器都有区别
-</code></pre>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">重启后，打开终端，命令行输入</span><br><span class="line">sudo mount -o nobrowse -t apfs <span class="regexp">/dev/</span>disk1s5 <span class="regexp">/Users/</span>seven<span class="regexp">/Downloads/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>disk1s5 为 系统盘的设备名，打开磁盘工具，选择系统盘可以看到，如下图：<br>注意最后的 s 和之后的内容要截取掉，比如我的系统盘设备名为 disk1s5s1，则 diskNsM 为 disk1s5。</p>
-<p>四、替换<br>由于挂载到了下载文件夹，挂载好后，进入下载文件夹，就会进入到系统根目录了，我们把配置文件夹复制到相应的系统目录/System/Library/Displays/Contents/Resources/Overrides。 (替换掉这个 DisplayVendorID-5e3 文件夹 )<br>五、重新启用系统保护<br>然后需要重建系统 snapshot，使用到的命令为</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">sudo bless --folder <span class="regexp">/Users/</span>seven<span class="regexp">/Downloads/</span>System<span class="regexp">/Library/</span>CoreServices --bootefi --create-snapshot</span><br></pre></td></tr></table></figure>
-
-<p>六、重新启用系统保护</p>
-<pre><code>在第一步中，我们禁用了系统保护，这是很危险的。完成第三步操作后，可以参照第一步的做法，将csrutil disable改为csrutil enable即可。
-</code></pre>
-<p>重启生效    </p>
-<h2 id="分辨率"><a href="#分辨率" class="headerlink" title="分辨率"></a>分辨率</h2><p>苹果只有在4k或以上的显示器中才会默认开启HiDPI，可以下载RDM软件解决</p>
-<p>参考链接：</p>
-<ul>
-<li><a href="https://blog.csdn.net/shennongminblog/article/details/76361751">https://blog.csdn.net/shennongminblog/article/details/76361751</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/81151642">https://zhuanlan.zhihu.com/p/81151642</a></li>
-<li><a href="https://www.jianshu.com/p/e81792941358">https://www.jianshu.com/p/e81792941358</a></li>
-<li><a href="https://www.douban.com/note/799863659/">https://www.douban.com/note/799863659/</a></li>
-<li><a href="https://www.douban.com/group/topic/116080001/">https://www.douban.com/group/topic/116080001/</a></li>
-<li><a href="https://github.com/xzhih/one-key-hidpi/blob/master/README-zh.md">https://github.com/xzhih/one-key-hidpi/blob/master/README-zh.md</a></li>
-</ul>
-<p>附：<br>LR和PS色彩空间可设置为proRGB，导出时转换为sRGB</p>
-<ul>
-<li><a href="http://www.360doc.com/content/17/1230/11/636843_717618369.shtml">http://www.360doc.com/content/17/1230/11/636843_717618369.shtml</a></li>
-<li><a href="https://www.bilibili.com/video/av459133097/">https://www.bilibili.com/video/av459133097/</a></li>
-</ul>
+<p>贪心算法经典之找零钱</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ChangeMoney</span><span class="params">(<span class="keyword">int</span>  money)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[] moneybox = &#123;<span class="number">100</span>, <span class="number">50</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span>[] changArray = <span class="keyword">new</span> <span class="keyword">int</span>[moneybox.length];</span><br><span class="line">        Arrays.sort(moneybox);</span><br><span class="line">        <span class="comment">//  System.out.println(Arrays.toString(changArray));</span></span><br><span class="line">        <span class="keyword">int</span> change = money;</span><br><span class="line">        <span class="keyword">if</span> (money &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (change &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = moneybox.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; change - moneybox[i] &gt;= <span class="number">0</span>; j++) &#123;</span><br><span class="line">                        <span class="keyword">int</span> tmp = change - moneybox[i];</span><br><span class="line">                        <span class="keyword">if</span> (tmp &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                            change = tmp;</span><br><span class="line">                            changArray[i] = j;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">0</span>; p &lt; moneybox.length; p++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (changArray[p] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;需要找零&quot;</span> + moneybox[p] + <span class="string">&quot; &quot;</span> + changArray[p] + <span class="string">&quot;张&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>硬件</category>
-        <category>mac</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>硬件</tag>
-        <tag>mac</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -1142,19 +1103,58 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>算法基础之贪心算法</title>
-    <url>/2021/05/22/%E7%AE%97%E6%B3%95%E7%AF%87/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。<br>贪心算法的理解： 整个问题的最优解一定由在贪心策略中存在的子问题的最优解得来的。</p>
+    <title>Macbook外接显示器需要注意的设置</title>
+    <url>/2021/05/22/%E7%A1%AC%E4%BB%B6&amp;%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>设备：MacBook Pro2018 A1989<br>系统：BigSur11.2.3<br>外接的显示器：Dell P2319H</p>
+<h2 id="颜色问题"><a href="#颜色问题" class="headerlink" title="颜色问题"></a>颜色问题</h2><p>mac 会将外接显示器识别为TV，会用 YCbCr 色域来输出,我们需要使用脚本来为外接显示器生成强制RGB渲染的颜色描述文件，然后替换掉系统原有颜色描述文件，来使显示器用RGB模式显示。</p>
 <span id="more"></span>
+<p> 一、关闭系统保护</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">进入恢复模式，按下 <span class="keyword">Options</span> 开机，然后再按 Command + R；</span><br><span class="line">在恢复模式下的命令行输入：csrutil authenticated-root <span class="keyword">disable</span>，</span><br><span class="line">然后再重启；</span><br></pre></td></tr></table></figure>
 
-<p>贪心算法经典之找零钱</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ChangeMoney</span><span class="params">(<span class="keyword">int</span>  money)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[] moneybox = &#123;<span class="number">100</span>, <span class="number">50</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span>[] changArray = <span class="keyword">new</span> <span class="keyword">int</span>[moneybox.length];</span><br><span class="line">        Arrays.sort(moneybox);</span><br><span class="line">        <span class="comment">//  System.out.println(Arrays.toString(changArray));</span></span><br><span class="line">        <span class="keyword">int</span> change = money;</span><br><span class="line">        <span class="keyword">if</span> (money &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (change &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = moneybox.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; change - moneybox[i] &gt;= <span class="number">0</span>; j++) &#123;</span><br><span class="line">                        <span class="keyword">int</span> tmp = change - moneybox[i];</span><br><span class="line">                        <span class="keyword">if</span> (tmp &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                            change = tmp;</span><br><span class="line">                            changArray[i] = j;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">0</span>; p &lt; moneybox.length; p++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (changArray[p] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;需要找零&quot;</span> + moneybox[p] + <span class="string">&quot; &quot;</span> + changArray[p] + <span class="string">&quot;张&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>  二、生成DisplayVendorID文件夹</p>
+<p>  下载 patch-edid.rb 这个文件到 mac 的Download 文件夹中。</p>
+<pre><code> 打开终端，cd Downloads
+
+  
+   ruby patch-edid.rb
+
+  
+   运行patch-edid.rb脚本后，会产生一个DisplayVendorID-1xxx文件，xxx
+   是编号，每台机器都有区别
+</code></pre>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">重启后，打开终端，命令行输入</span><br><span class="line">sudo mount -o nobrowse -t apfs <span class="regexp">/dev/</span>disk1s5 <span class="regexp">/Users/</span>seven<span class="regexp">/Downloads/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>disk1s5 为 系统盘的设备名，打开磁盘工具，选择系统盘可以看到，如下图：<br>注意最后的 s 和之后的内容要截取掉，比如我的系统盘设备名为 disk1s5s1，则 diskNsM 为 disk1s5。</p>
+<p>四、替换<br>由于挂载到了下载文件夹，挂载好后，进入下载文件夹，就会进入到系统根目录了，我们把配置文件夹复制到相应的系统目录/System/Library/Displays/Contents/Resources/Overrides。 (替换掉这个 DisplayVendorID-5e3 文件夹 )<br>五、重新启用系统保护<br>然后需要重建系统 snapshot，使用到的命令为</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">sudo bless --folder <span class="regexp">/Users/</span>seven<span class="regexp">/Downloads/</span>System<span class="regexp">/Library/</span>CoreServices --bootefi --create-snapshot</span><br></pre></td></tr></table></figure>
+
+<p>六、重新启用系统保护</p>
+<pre><code>在第一步中，我们禁用了系统保护，这是很危险的。完成第三步操作后，可以参照第一步的做法，将csrutil disable改为csrutil enable即可。
+</code></pre>
+<p>重启生效    </p>
+<h2 id="分辨率"><a href="#分辨率" class="headerlink" title="分辨率"></a>分辨率</h2><p>苹果只有在4k或以上的显示器中才会默认开启HiDPI，可以下载RDM软件解决</p>
+<p>参考链接：</p>
+<ul>
+<li><a href="https://blog.csdn.net/shennongminblog/article/details/76361751">https://blog.csdn.net/shennongminblog/article/details/76361751</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/81151642">https://zhuanlan.zhihu.com/p/81151642</a></li>
+<li><a href="https://www.jianshu.com/p/e81792941358">https://www.jianshu.com/p/e81792941358</a></li>
+<li><a href="https://www.douban.com/note/799863659/">https://www.douban.com/note/799863659/</a></li>
+<li><a href="https://www.douban.com/group/topic/116080001/">https://www.douban.com/group/topic/116080001/</a></li>
+<li><a href="https://github.com/xzhih/one-key-hidpi/blob/master/README-zh.md">https://github.com/xzhih/one-key-hidpi/blob/master/README-zh.md</a></li>
+</ul>
+<p>附：<br>LR和PS色彩空间可设置为proRGB，导出时转换为sRGB</p>
+<ul>
+<li><a href="http://www.360doc.com/content/17/1230/11/636843_717618369.shtml">http://www.360doc.com/content/17/1230/11/636843_717618369.shtml</a></li>
+<li><a href="https://www.bilibili.com/video/av459133097/">https://www.bilibili.com/video/av459133097/</a></li>
+</ul>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>硬件</category>
+        <category>mac</category>
       </categories>
       <tags>
-        <tag>算法</tag>
+        <tag>硬件</tag>
+        <tag>mac</tag>
       </tags>
   </entry>
   <entry>
