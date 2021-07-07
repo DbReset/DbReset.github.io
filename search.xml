@@ -9,6 +9,242 @@
 ]]></content>
   </entry>
   <entry>
+    <title>mysql基础_索引结构_基础概念</title>
+    <url>/2021/07/07/sql/mysql%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h2 id="mysql的4大特性-4种隔离级别："><a href="#mysql的4大特性-4种隔离级别：" class="headerlink" title="mysql的4大特性+4种隔离级别："></a>mysql的4大特性+4种隔离级别：</h2><h3 id="4大特性即ACID"><a href="#4大特性即ACID" class="headerlink" title="4大特性即ACID"></a>4大特性即ACID</h3><ul>
+<li>1 原子性。事务是一个不可分割的整体，事务开始的操作，要么全部执行，要么全部不执行。</li>
+<li>2 隔离性。同一时间，只允许一个事务请求同一组数据。不同的事务彼此之间没有干扰。</li>
+<li>3 一致性。事务开始前和结束后，数据库的完整性约束没有被破坏 。</li>
+<li>4 稳定性。事务完成后，事务对数据库的所有更新将被保存到数据库，不能回滚。</li>
+</ul>
+<h3 id="4种隔离级别"><a href="#4种隔离级别" class="headerlink" title="4种隔离级别"></a>4种隔离级别</h3><p>大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read。</p>
+<span id="more"></span>
+<p>数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的并发操作中可能会出现脏读，不可重复读，幻读。</p>
+<h4 id="Read-uncommitted-读未提交"><a href="#Read-uncommitted-读未提交" class="headerlink" title="Read uncommitted 读未提交"></a>Read uncommitted 读未提交</h4><p>就是一个事务可以读取另一个未提交事务的数据。 </p>
+<h4 id="Read-committed-读提交"><a href="#Read-committed-读提交" class="headerlink" title="Read committed 读提交"></a>Read committed 读提交</h4><p>一个事务要等另一个事务提交后才能读取数据</p>
+<h4 id="Repeatable-read-重复读"><a href="#Repeatable-read-重复读" class="headerlink" title="Repeatable read 重复读"></a>Repeatable read 重复读</h4><p>在开始读取数据（事务开启）时，不再允许修改操作</p>
+<h4 id="Serializable-序列化"><a href="#Serializable-序列化" class="headerlink" title="Serializable  序列化"></a>Serializable  序列化</h4><p>全都顺序执行<br><br>除了防止脏读，不可重复读之外，还避免了幻象读(幻读专指新插入的行,原来查不到，再查查到了)</p>
+<blockquote>
+<p>相关系统命令：</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查看当前会话隔离级别</span></span><br><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@tx</span>_isolation</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置当前会话隔离级别</span></span><br><span class="line"><span class="keyword">set</span> session transaction isolation level repeatable read;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看系统当前隔离级别</span></span><br><span class="line"><span class="keyword">select</span> @<span class="variable">@global</span>.tx_isolation;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="binlog-redo-log-undo-log"><a href="#binlog-redo-log-undo-log" class="headerlink" title="binlog /redo log/undo log"></a>binlog /redo log/undo log</h2><ul>
+<li>binlog我们可以简单理解为：存储着每条变更的SQL语句,以及事务id等，主要用来做主从同步和数据恢复</li>
+<li>redo log 记载的是物理修改的内容（xxxx页修改了xxx）。是为了持久化而使用的（异步刷盘）</li>
+<li>undo log主要存储的也是逻辑日志。主要有两个作用：回滚和多版本控制(MVCC)<h2 id="mvcc"><a href="#mvcc" class="headerlink" title="mvcc"></a>mvcc</h2>MVCC, Multiversion Concurrency Control多版本并发控制。MVCC是行级锁的一个变种，但是它在很多情况下避免了加锁操作, 因此服务器的开销更低（减少了锁的生产和分配）。<br><br>MVCC只在 READ  COMMITTED 和 REPEATABLE  READ 两个隔离级别下工作。<blockquote>
+<p>MVCC带来的好处是？<br></p>
+</blockquote>
+</li>
+</ul>
+<p>首先我们发现数据库并发场景有三种，分别为：</p>
+<ul>
+<li>读-读：不存在任何问题，也不需要并发控制</li>
+<li>读-写：有线程安全问题，可能会造成事务隔离性问题，可能遇到脏读，幻读，不可重复读</li>
+<li>写-写：有线程安全问题，可能会存在更新丢失问题，比如第一类更新丢失，第二类更新丢失</li>
+</ul>
+<p>多版本并发控制（MVCC）是一种用来解决<strong>读-写冲突</strong>的<strong>无锁并发控制</strong>；<br><br>也就是为事务分配单向增长的时间戳，为每个修改保存一个版本，版本与事务时间戳关联，读操作只读该事务开始前的数据库的快照。 <br>所以MVCC可以为数据库解决以下问题：<br></p>
+<ul>
+<li>在并发读写数据库时，可以做到在读操作时不用阻塞写操作，写操作也不用阻塞读操作，提高了数据库并发读写的性能<br></li>
+<li>同时还可以解决脏读，幻读，不可重复读等事务隔离问题，但不能解决更新丢失问题<br></li>
+</ul>
+<blockquote>
+<p>MVCC的实现原理</p>
+</blockquote>
+<p>它的实现原理主要是依赖记录中的 3个隐式字段(DB_TRX_ID,DB_ROLL_PTR,DB_ROW_ID)，undo日志 ，Read View 来实现的。</p>
+<ul>
+<li>DB_TRX_ID<ul>
+<li>6byte，最近修改(修改/插入)事务ID：记录创建这条记录/最后一次修改该记录的事务ID</li>
+</ul>
+</li>
+<li>DB_ROLL_PTR<ul>
+<li>7byte，回滚指针，指向这条记录的上一个版本（存储于rollback segment里）</li>
+</ul>
+</li>
+<li>DB_ROW_ID<ul>
+<li>6byte，隐含的自增ID（隐藏主键），如果数据表没有主键，InnoDB会自动以DB_ROW_ID产生一个聚簇索引</li>
+</ul>
+</li>
+<li>实际还有一个删除flag隐藏字段, 既记录被更新或删除并不代表真的删除，而是删除flag变了</li>
+</ul>
+<hr>
+<h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><p>mysql常用的引擎有<strong>InnoDB，MyISAM，Memory</strong>，默认是InnoDB。</p>
+<p><strong>InnoDB</strong>：磁盘表，支持事务(Redo log 和Undo log和锁)，支持行级锁（默认行级锁），B+Tree索引</p>
+<p>ps:优点： 具有良好的ACID特性。适用于高并发，更新操作比较多的表。需要使用事务的表。对自动灾难恢复有要求的表。</p>
+<p>缺点：读写效率相对MYISAM比较差。占用的磁盘空间比较大。</p>
+<p><strong>MyISAM</strong>：磁盘表，不支持事务，不支持外键，支持表级锁，B+Tree索引</p>
+<p>ps: 优点：占用空间小，处理速度快（相对InnoDB来说）,强调的是性能</p>
+<p>缺点：不支持事务的完整性和并发性</p>
+<p>**MEMORY(Heap)**：内存表，不支持事务，表级锁，Hash索引，不支持Blob,Text大类型</p>
+<p>ps: 优点：速度要求快的，临时数据</p>
+<p>缺点：丢失以后，对项目整体没有或者负面影响不大的时候。</p>
+<hr>
+<h3 id="InnoDB详解"><a href="#InnoDB详解" class="headerlink" title="InnoDB详解"></a>InnoDB详解</h3><p><a href="http://www.liuzk.com/410.html">二叉树 -&gt; 平衡二叉树 -&gt; B树 -&gt; B+树</a></p>
+<p>在 MySQL 中，B+ 树索引按照存储方式的不同分为聚集索引和非聚集索引。</p>
+<h4 id="聚集索引（也叫聚簇索引-clustered-index"><a href="#聚集索引（也叫聚簇索引-clustered-index" class="headerlink" title="聚集索引（也叫聚簇索引) (clustered index)"></a>聚集索引（也叫聚簇索引) (clustered index)</h4><p>聚集（clustered）索引，也叫聚簇索引。</p>
+<blockquote>
+<p>定义：数据行的物理顺序与列值（一般是主键的那一列）的逻辑顺序相同，一个表中只能拥有一个聚集索引。</p>
+</blockquote>
+<p>这种以主键作为 B+ 树索引的键值而构建的 索引，我们称之为聚集索引。InnoDB聚集索引的叶子节点存储行记录。</p>
+<p><strong>InnoDB必须要有，且只有一个聚集索引</strong>：</p>
+<p>表中的数据都会有一个主键，即使你不创建主键，系统也会帮你创建一个隐式的主键：</p>
+<p>（1）如果表定义了PK（主键），则PK就是聚集索引；</p>
+<p>（2）如果表没有定义PK，则第一个not NULL unique列是聚集索引；</p>
+<p>（3）否则，InnoDB会创建一个隐藏的row-id作为聚集索引；</p>
+<p>PS：所以PK查询非常快，直接定位行记录。</p>
+<h4 id="非聚集索引（非聚簇索引）"><a href="#非聚集索引（非聚簇索引）" class="headerlink" title="非聚集索引（非聚簇索引）"></a>非聚集索引（非聚簇索引）</h4><blockquote>
+<p>定义：该索引中索引的逻辑顺序与磁盘上行的物理存储顺序不同，一个表中可以拥有多个非聚集索引。</p>
+</blockquote>
+<p>以主键以外的列值作为键值构建的 B+ 树索引，我们称之为非聚集索引。（一般我们建的非唯一索引的普通索引就是这种）</p>
+<p>非聚集索引与聚集索引的区别在于<strong>非聚集索引</strong>的叶子节点<strong>不存储表中的数据</strong>，而是<strong>存储该列对应的主键</strong>，想要查找数据我们还需要根据主键<strong>再去聚集索引中进行查找</strong>，这个再根据聚集索引查找数据的过程，我们称为<strong>回表</strong>。</p>
+<ol>
+<li>使用聚集索引的查询效率要比非聚集索引的效率要高，但是如果需要频繁去改变聚集索引的值，写入性能并不高，因为需要移动对应数据的物理位置。</li>
+<li>非聚集索引在查询的时候可以的话就避免二次查询(回表)，这样性能会大幅提升。</li>
+</ol>
+<h3 id="索引建立原则"><a href="#索引建立原则" class="headerlink" title="索引建立原则"></a>索引建立原则</h3><ol>
+<li>最左前缀匹配原则,mysql<strong>会从左至右匹配</strong>直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配，范围查询<br>会导致组合索引半生效。比如 a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，c 可<br>以用到索引，d 是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d 的顺序可以任意调整。where<br>范围查询要放在最后 （这不绝对，但可以利用一部分索引）。</li>
+<li>尽量使用<strong>区分度较高</strong>的列作为索引，区分度的公式为： count(distinct column) / count(*)，用来表示字段不重复的比例，比例越大则代表扫描到的记录数越少，唯一键的区分度是1，而一些状态、性别等字段在大数据量下则无限趋近于0，所以类似性别字段不宜作为区分度的索引列。</li>
+<li>尽量扩展索引列而不是新建索引列（这会增加系统负担）。比如，表中已经有了a列的索引，现在需要加入b列的索引，则需要修改原来的索引即可。</li>
+<li>对于经常存取的列避免建立索引。</li>
+<li>所有的“非”类型的判断不会走索引( not , not in, not like, &lt;&gt;, != ,!&gt;,!&lt;  )。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>索引结构</tag>
+        <tag>隔离级别</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java基础提升_JVM</title>
+    <url>/2021/07/07/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/</url>
+    <content><![CDATA[<h1 id="JVM的定义"><a href="#JVM的定义" class="headerlink" title="JVM的定义"></a>JVM的定义</h1><p>JVM(Java Virtual Machine，Java虚拟机)。<br><br>JVM是JAVA实现跨平台的主要手段，事实上jvm是有较多的实现版本，各种系统下的JVM不同。<br><br>由于jvm是处在Java语言和操作系统之间的，所以它要向上提供对Java的支持，向下与操作系统良好交互。</p>
+<hr>
+<h1 id="JVM中的数据结构"><a href="#JVM中的数据结构" class="headerlink" title="JVM中的数据结构"></a>JVM中的数据结构</h1><p>主要分为<strong>基本类型</strong>和<strong>引用类型</strong>。</p>
+<span id="more"></span>
+
+<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><ul>
+<li>基本类型<ul>
+<li><strong>数值类型</strong><ul>
+<li>整型</li>
+<li>浮点型</li>
+<li>char类型</li>
+</ul>
+</li>
+<li><strong>boolean类型</strong><br><ul>
+<li>true</li>
+<li>false<br><br>&nbsp;&nbsp;（boolean类型的操作会被转化为int类型的操作进行，<br>boolean数组会当成byte数组去操作。1表示true，0表示false。）</li>
+</ul>
+</li>
+<li><strong>returnAddress类型</strong><br><br>&nbsp;&nbsp;是一个指针，指向jvm指令的操作码，<br>在Java中没有与之对应的类型。<h2 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h2></li>
+</ul>
+</li>
+<li>引用类型<ul>
+<li><strong>类类型</strong></li>
+<li><strong>数组类型</strong><ul>
+<li>component类型<br><br>&nbsp;&nbsp;(数组去掉最外层维度后剩下的类型，<br>可能还是一个数组类型（对于多维数组）)</li>
+<li>element类型 </li>
+</ul>
+</li>
+<li><strong>接口类型</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="JVM中的内存结构"><a href="#JVM中的内存结构" class="headerlink" title="JVM中的内存结构"></a>JVM中的内存结构</h1><ul>
+<li><p><em>运行时公有数据区</em>（线程共享）</p>
+<ul>
+<li><strong>堆</strong>（GC发生的主要区域）<br><br>对象实例和数组<ul>
+<li>新生代 1/3<ul>
+<li>Eden 区 80%</li>
+<li>From Survivor 区 10%</li>
+<li>To Survivor 区 10%</li>
+</ul>
+</li>
+<li>老年代 2/3</li>
+</ul>
+</li>
+<li><strong>方法区</strong>（永久代，Java 8后就把方法区的实现移到了本地内存中的元空间中）<br><br>&nbsp;&nbsp;&nbsp;&nbsp;用于存储被 JVM 加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;指内存的永久保存区域，主要存放 Class 和 Meta（元数据）的信息,Class 在被加载的时候被<br>放入永久区域，它和和存放实例的区域不同,GC 不会在主程序运行期对永久区域进行清理。所以这<br>也导致了永久代的区域会随着加载的 Class 的增多而胀满，最终抛出 OOM 异常。</li>
+</ul>
+</li>
+<li><p><em>运行时私有数据区</em>（线程私有）</p>
+<ul>
+<li><strong>pc寄存器</strong>（程序计数器）<br><br>&nbsp;&nbsp;（计数器记录的是虚拟机字节码指令的地址（当前指令的地址）。如<br>果是Native方法，则为空。<br><br>&nbsp;&nbsp;这个内存区域是唯一一个在虚拟机中没有规定任何 OutOfMemoryError 情况的区域）</li>
+<li><strong>jvm栈</strong>（虚拟机栈）<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是描述java方法执行的内存模型，每个方法在执行的同时都会创建一个栈帧（Stack Frame）<br>用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成<br>的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。<ul>
+<li>栈帧（ Frame） </li>
+</ul>
+</li>
+<li><strong>native方法栈</strong>（本地方法栈）<br><br>调用非java方法时使用</li>
+</ul>
+</li>
+<li><p><em>直接内存</em></p>
+<ul>
+<li><strong>元空间</strong>（java8以后将永久代移动到了元空间中）</li>
+<li><strong>直接内存</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<!--more-->
+<h1 id="JVM垃圾回收"><a href="#JVM垃圾回收" class="headerlink" title="JVM垃圾回收"></a>JVM垃圾回收</h1><p>   主要在堆中进行，java8之前还有永久代（也就是方法区），java8后方法区移到了直接内存中的元空间中去了，所以只有堆进行GC，对象实例和数组都是在堆上分配的，GC 也主要对这两类数据进行回收，</p>
+<h2 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h2><p>最容易想到的一种方式是引用计数法，啥叫引用计数法，简单地说，就是对象被引用一次，在它的对象头上加一次引用次数，如果没有被引用（引用次数为 0），则此对象可回收，但此方法无法解决循环引用问题，循环引用后，即使没有真正的引用了，但其引用无法归0。所以现代虚拟机都不用引用计数法来判断对象是否应该被回收。</p>
+<h2 id="可达性算法"><a href="#可达性算法" class="headerlink" title="可达性算法"></a>可达性算法</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;现代虚拟机基本都是采用这种算法来判断对象是否存活，可达性算法的原理是以一系列叫做  GC Root  的对象为起点出发，引出它们指向的下一个节点，再以下个节点为起点，引出此节点指向的下一个结点。。。（这样通过 GC Root 串成的一条线就叫引用链），直到所有的结点都遍历完毕,如果相关对象不在任意一个以 GC Root 为起点的引用链中，则这些对象会被判断为「垃圾」,会被 GC 回收。<br></p>
+<h3 id="GC-Roots"><a href="#GC-Roots" class="headerlink" title="GC Roots"></a>GC Roots</h3><p>哪些对象可以作为 GC Root 呢，有以下几类<br></p>
+<ul>
+<li>虚拟机栈（栈帧中的本地变量表）中引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中 JNI（即一般说的 Native 方法）引用的对象<h4 id="虚拟机栈中引用的对象"><a href="#虚拟机栈中引用的对象" class="headerlink" title="虚拟机栈中引用的对象"></a>虚拟机栈中引用的对象</h4>如下代码所示，a 是栈帧中的本地变量，当 a = null 时，由于此时 a 充当了 GC Root 的作用，a 与原来指向的实例 new Test() 断开了连接，所以对象会被回收。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">publicclass Test &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	Test a = <span class="keyword">new</span> Test();</span><br><span class="line">	a = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="方法区中类静态属性引用的对象"><a href="#方法区中类静态属性引用的对象" class="headerlink" title="方法区中类静态属性引用的对象"></a>方法区中类静态属性引用的对象</h4>如下代码所示，当栈帧中的本地变量 a = null 时，由于 a 原来指向的对象与 GC Root (变量 a) 断开了连接，所以 a 原来指向的对象会被回收，而由于我们给 s 赋值了变量的引用，s 在此时是类静态属性引用，充当了 GC Root 的作用，它指向的对象依然存活!<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Test s;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	Test a = <span class="keyword">new</span> Test();</span><br><span class="line">	a.s = <span class="keyword">new</span> Test();</span><br><span class="line">	a = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="方法区中常量引用的对象"><a href="#方法区中常量引用的对象" class="headerlink" title="方法区中常量引用的对象"></a>方法区中常量引用的对象</h4>如下代码所示，常量 s 指向的对象并不会因为 a 指向的对象被回收而回收<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Test s = <span class="keyword">new</span> Test();</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	    Test a = <span class="keyword">new</span> Test();</span><br><span class="line">	    a = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="本地方法栈中-JNI-引用的对象"><a href="#本地方法栈中-JNI-引用的对象" class="headerlink" title="本地方法栈中 JNI 引用的对象"></a>本地方法栈中 JNI 引用的对象</h4>这是简单给不清楚本地方法为何物的童鞋简单解释一下：所谓本地方法就是一个 java 调用非 java 代码的接口，该方法并非 Java 实现的，可能由 C 或 Python等其他语言实现的， Java 通过 JNI 来调用本地方法， 而本地方法是以库文件的形式存放的（在 WINDOWS 平台上是 DLL 文件形式，在 UNIX 机器上是 SO 文件形式）。通过调用本地的库文件的内部方法，使 JAVA 可以实现和本地机器的紧密联系，调用系统级的各接口方法，还是不明白？见文末参考，对本地方法定义与使用有详细介绍。</li>
+</ul>
+<p>当调用 Java 方法时，虚拟机会创建一个栈桢并压入 Java 栈，而当它调用的是本地方法时，虚拟机会保持 Java 栈不变，不会在 Java 栈祯中压入新的祯，虚拟机只是简单地动态连接并直接调用指定的本地方法。</p>
+<h3 id="对象可回收，就一定会被回收吗"><a href="#对象可回收，就一定会被回收吗" class="headerlink" title="对象可回收，就一定会被回收吗?"></a>对象可回收，就一定会被回收吗?</h3><p>并不是，对象的 finalize 方法给了对象一次垂死挣扎的机会，当对象不可达（可回收）时，当发生GC时，会先判断对象是否执行了 finalize 方法，如果未执行，则会先执行 finalize 方法，我们可以在此方法里将当前对象与 GC Roots 关联，这样执行 finalize 方法之后，GC 会再次判断对象是否可达，如果不可达，则会被回收，如果可达，则不回收！</p>
+<p>注意： ==finalize 方法只会被执行一次，如果第一次执行 finalize 方法此对象变成了可达确实不会回收，但如果对象再次被 GC，则会忽略 finalize 方法，对象会被回收！这一点切记!==</p>
+<h2 id="垃圾回收主要方法"><a href="#垃圾回收主要方法" class="headerlink" title="垃圾回收主要方法"></a>垃圾回收主要方法</h2><ul>
+<li>标记清除算法<br>顾名思义，先标记可回收的对象，进行清除。<br><br>缺点：剩余的内存不连续</li>
+<li>复制算法<br><br>将内存分为两块，一块空的，一块是已用的，在已用的里面标记出存活的对象，再复制到另一块中，再把原来的那块都清了。<br><br>缺点：可用内存减半；复制的效率低</li>
+<li>标记整理法<br><br>前面两步和标记清除法一样，不同的是它在标记清除法的基础上添加了一个整理的过程 ，即将所有的存活对象都往一端移动,紧邻排列（如图示），再清理掉另一端的所有区域，这样的话就解决了内存碎片的问题。<br><br>缺点：每进一次垃圾清除都要频繁地移动存活的对象，效率十分低下。</li>
+</ul>
+<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>根据大多数java对象的存活特征，所以分代收集算法根据对象存活周期的不同将堆分成==新生代和老生代==（Java8以前还有个永久代）,默认比例为 ==1 : 2==，新生代又分为 ==Eden 区， from Survivor 区（简称S0），to Survivor 区(简称 S1)==,三者的比例为 ==8: 1: 1== ，这样就可以根据新老生代的特点选择最合适的垃圾回收算法，我们把新生代发生的 GC 称为 Young GC（也叫 Minor GC）,老年代发生的 GC 称为 Old GC（也称为 Full GC）。<br></p>
+<ol>
+<li>当 Eden 区将满时，触发 Minor GC。采用复制删除算法。Eden标记出来存活对象 -&gt; 复制到S0中<br></li>
+<li>第二次：Eden 和 S0（或S1）存活对象一起移到 S1（Eden 和 S0 的存活对象年龄+1）, 同时清空 Eden 和 S0 的空间。（后续S0和S1的角色会以此互换以重复上述过程）<br>具体过程：<a href="https://mp.weixin.qq.com/s/_AKQs-xXDHlk84HbwKUzOw">link</a><br></li>
+</ol>
+<p>FULL GC采用标记整理算法</p>
+<h4 id="升级到老年代"><a href="#升级到老年代" class="headerlink" title="升级到老年代"></a>升级到老年代</h4><ul>
+<li>当对象的年龄达到了我们设定的阈值，则会从S0（或S1）晋升到老年代</li>
+<li>大对象 当某个对象分配需要大量的连续内存时，此时对象的创建不会分配在 Eden 区，会直接分配在老年代，因为如果把大对象分配在 Eden 区, Minor GC 后再移动到 S0,S1 会有很大的开销（对象比较大，复制会比较慢，也占空间），也很快会占满 S0,S1 区，所以干脆就直接移到老年代.</li>
+<li>还有一种情况也会让对象晋升到老年代，即在 S0（或S1） 区相同年龄的对象大小之和大于 S0（或S1）空间一半以上时，则年龄大于等于该年龄的对象也会晋升到老年代。<h4 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h4></li>
+</ul>
+<p>在发生 MinorGC 之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象的总空间，如果大于，那么Minor GC 可以确保是安全的,如果不大于，那么虚拟机会查看 HandlePromotionFailure 设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用连续空间是否大于历次晋升到老年代对象的平均大小，如果大于则进行 Minor GC，否则可能进行一次 Full GC。</p>
+<h4 id="GC分析"><a href="#GC分析" class="headerlink" title="GC分析"></a>GC分析</h4><ul>
+<li>通过以下命令查看JVM的启动参数：<br><br><code>ps aux | grep &quot;applicationName=adsearch&quot;</code></li>
+<li>通过观察老年代的使用情况，可以看到：每次FGC后，内存是否有效回收了，否则考虑内存泄漏等原因。</li>
+<li>通过jmap命令查看堆内存中的对象<br><code>jmap -histo 7276 | head -n20</code><br>通过以下命令dump堆内存：<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">jmap -dump:format=b,file=heap 7276</span><br><span class="line">jmap -heap pid</span><br></pre></td></tr></table></figure>
+JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对象所占空间</li>
+</ul>
+<p>   在调试程序时，有时需要查看程序加载的类、内存回收情况、调用的本地接口等。这时候就需要-verbose命令。在myeclipse可以通过右键设置（如下），也可以在命令行输入java -verbose来查看。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-verbose:class 查看类加载情况</span><br><span class="line">-verbose:gc 查看虚拟机中内存回收情况</span><br><span class="line">-verbose:jni 查看本地方法调用的情况</span><br></pre></td></tr></table></figure>
+<h4 id="jvm参数"><a href="#jvm参数" class="headerlink" title="jvm参数"></a>jvm参数</h4><p>-Xms:设置Java程序启动时初始化堆大小<br><br>-Xmx:设置Java程序能获得最大的堆大小 <br><br>-Xmn：可以设置新生代的大小，设置一个比较大的新生代会减少老年代的大小，这个参数对系统性能以及GC行为有很大的影响，新生代大小一般会设置整个堆空间的1/3到1/4左右。<br><br>-Xss：栈内存大小，设置单个线程栈大小，一般默认512~1024kb。单个线程栈大小跟操作系统和JDK版本都有关系-Xss = -XX:ThreadStackSize<br><br>-XX:SurvivorRatio：用来设置新生代中eden空间和from/to空间的比例。含义：-XX:SurvivorRatio=eden/from=eden/to。<br>不同的堆分布情况，对系统执行会产生一定的影响，在实际工作中，应该根据系统的特点做出合理的配置，基本策略：尽可能将对象预留在新生代，减少老年代的GC次数。<br><br>-XX:MetaspaceSize 初始元数据空间大小<br><br>-XX:MaxMetaspaceSize=128m    <br></p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java基础提升_String类</title>
     <url>/2021/07/05/java%E5%9F%BA%E7%A1%80/String%E7%B1%BB/</url>
     <content><![CDATA[<h1 id="String（字符串常量）概述"><a href="#String（字符串常量）概述" class="headerlink" title="String（字符串常量）概述"></a>String（字符串常量）概述</h1><p>在API中是这样描述：</p>
@@ -139,81 +375,6 @@
       </categories>
       <tags>
         <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql基础知识点</title>
-    <url>/2021/07/02/sql/mysql%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h2 id="mysql的4大特性-4种隔离级别："><a href="#mysql的4大特性-4种隔离级别：" class="headerlink" title="mysql的4大特性+4种隔离级别："></a>mysql的4大特性+4种隔离级别：</h2><h3 id="4大特性即ACID"><a href="#4大特性即ACID" class="headerlink" title="4大特性即ACID"></a>4大特性即ACID</h3><ul>
-<li>1 原子性。事务是一个不可分割的整体，事务开始的操作，要么全部执行，要么全部不执行。</li>
-<li>2 隔离性。同一时间，只允许一个事务请求同一组数据。不同的事务彼此之间没有干扰。</li>
-<li>3 一致性。事务开始前和结束后，数据库的完整性约束没有被破坏 。</li>
-<li>4 稳定性。事务完成后，事务对数据库的所有更新将被保存到数据库，不能回滚。</li>
-</ul>
-<h3 id="4种隔离级别"><a href="#4种隔离级别" class="headerlink" title="4种隔离级别"></a>4种隔离级别</h3><p>大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read。</p>
-<span id="more"></span>
-<p>数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable 。而且，在事务的并发操作中可能会出现脏读，不可重复读，幻读。</p>
-<h4 id="Read-uncommitted-读未提交"><a href="#Read-uncommitted-读未提交" class="headerlink" title="Read uncommitted 读未提交"></a>Read uncommitted 读未提交</h4><p>就是一个事务可以读取另一个未提交事务的数据。 </p>
-<h4 id="Read-committed-读提交"><a href="#Read-committed-读提交" class="headerlink" title="Read committed 读提交"></a>Read committed 读提交</h4><p>一个事务要等另一个事务提交后才能读取数据</p>
-<h4 id="Repeatable-read-重复读"><a href="#Repeatable-read-重复读" class="headerlink" title="Repeatable read 重复读"></a>Repeatable read 重复读</h4><p>在开始读取数据（事务开启）时，不再允许修改操作</p>
-<h4 id="Serializable-序列化"><a href="#Serializable-序列化" class="headerlink" title="Serializable  序列化"></a>Serializable  序列化</h4><p>全都顺序执行<br><br>除了防止脏读，不可重复读之外，还避免了幻象读(幻读专指新插入的行,原来查不到，再查查到了)</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@tx</span>_isolation</span><br></pre></td></tr></table></figure>
-<p>设置当前会话隔离级别</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> session transaction isolation level repeatable read;</span><br></pre></td></tr></table></figure>
-<p>查看系统当前隔离级别</p>
-<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> @@<span class="keyword">global</span>.tx_isolation;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<hr>
-<h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><p>mysql常用的引擎有<strong>InnoDB，MyISAM，Memory</strong>，默认是InnoDB。</p>
-<p><strong>InnoDB</strong>：磁盘表，支持事务(Redo log 和Undo log和锁)，支持行级锁（默认行级锁），B+Tree索引</p>
-<p>ps:优点： 具有良好的ACID特性。适用于高并发，更新操作比较多的表。需要使用事务的表。对自动灾难恢复有要求的表。</p>
-<p>缺点：读写效率相对MYISAM比较差。占用的磁盘空间比较大。</p>
-<p><strong>MyISAM</strong>：磁盘表，不支持事务，不支持外键，支持表级锁，B+Tree索引</p>
-<p>ps: 优点：占用空间小，处理速度快（相对InnoDB来说）,强调的是性能</p>
-<p>缺点：不支持事务的完整性和并发性</p>
-<p>**MEMORY(Heap)**：内存表，不支持事务，表级锁，Hash索引，不支持Blob,Text大类型</p>
-<p>ps: 优点：速度要求快的，临时数据</p>
-<p>缺点：丢失以后，对项目整体没有或者负面影响不大的时候。</p>
-<hr>
-<h3 id="InnoDB详解"><a href="#InnoDB详解" class="headerlink" title="InnoDB详解"></a>InnoDB详解</h3><p><a href="http://www.liuzk.com/410.html">二叉树 -&gt; 平衡二叉树 -&gt; B树 -&gt; B+树</a></p>
-<p>在 MySQL 中，B+ 树索引按照存储方式的不同分为聚集索引和非聚集索引。</p>
-<h4 id="聚集索引（也叫聚簇索引-clustered-index"><a href="#聚集索引（也叫聚簇索引-clustered-index" class="headerlink" title="聚集索引（也叫聚簇索引) (clustered index)"></a>聚集索引（也叫聚簇索引) (clustered index)</h4><p>聚集（clustered）索引，也叫聚簇索引。</p>
-<blockquote>
-<p>定义：数据行的物理顺序与列值（一般是主键的那一列）的逻辑顺序相同，一个表中只能拥有一个聚集索引。</p>
-</blockquote>
-<p>这种以主键作为 B+ 树索引的键值而构建的 索引，我们称之为聚集索引。InnoDB聚集索引的叶子节点存储行记录。</p>
-<p><strong>InnoDB必须要有，且只有一个聚集索引</strong>：</p>
-<p>表中的数据都会有一个主键，即使你不创建主键，系统也会帮你创建一个隐式的主键：</p>
-<p>（1）如果表定义了PK（主键），则PK就是聚集索引；</p>
-<p>（2）如果表没有定义PK，则第一个not NULL unique列是聚集索引；</p>
-<p>（3）否则，InnoDB会创建一个隐藏的row-id作为聚集索引；</p>
-<p>PS：所以PK查询非常快，直接定位行记录。</p>
-<h4 id="非聚集索引（非聚簇索引）"><a href="#非聚集索引（非聚簇索引）" class="headerlink" title="非聚集索引（非聚簇索引）"></a>非聚集索引（非聚簇索引）</h4><blockquote>
-<p>定义：该索引中索引的逻辑顺序与磁盘上行的物理存储顺序不同，一个表中可以拥有多个非聚集索引。</p>
-</blockquote>
-<p>以主键以外的列值作为键值构建的 B+ 树索引，我们称之为非聚集索引。（一般我们建的非唯一索引的普通索引就是这种）</p>
-<p>非聚集索引与聚集索引的区别在于<strong>非聚集索引</strong>的叶子节点<strong>不存储表中的数据</strong>，而是<strong>存储该列对应的主键</strong>，想要查找数据我们还需要根据主键<strong>再去聚集索引中进行查找</strong>，这个再根据聚集索引查找数据的过程，我们称为<strong>回表</strong>。</p>
-<ol>
-<li>使用聚集索引的查询效率要比非聚集索引的效率要高，但是如果需要频繁去改变聚集索引的值，写入性能并不高，因为需要移动对应数据的物理位置。</li>
-<li>非聚集索引在查询的时候可以的话就避免二次查询(回表)，这样性能会大幅提升。</li>
-</ol>
-<h3 id="索引建立原则"><a href="#索引建立原则" class="headerlink" title="索引建立原则"></a>索引建立原则</h3><ol>
-<li>最左前缀匹配原则,mysql<strong>会从左至右匹配</strong>直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配，范围查询<br>会导致组合索引半生效。比如 a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，c 可<br>以用到索引，d 是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d 的顺序可以任意调整。where<br>范围查询要放在最后 （这不绝对，但可以利用一部分索引）。</li>
-<li>尽量使用<strong>区分度较高</strong>的列作为索引，区分度的公式为： count(distinct column) / count(*)，用来表示字段不重复的比例，比例越大则代表扫描到的记录数越少，唯一键的区分度是1，而一些状态、性别等字段在大数据量下则无限趋近于0，所以类似性别字段不宜作为区分度的索引列。</li>
-<li>尽量扩展索引列而不是新建索引列（这会增加系统负担）。比如，表中已经有了a列的索引，现在需要加入b列的索引，则需要修改原来的索引即可。</li>
-<li>对于经常存取的列避免建立索引。</li>
-<li>所有的“非”类型的判断不会走索引( not , not in, not like, &lt;&gt;, != ,!&gt;,!&lt;  )。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>索引结构</tag>
-        <tag>隔离级别</tag>
       </tags>
   </entry>
   <entry>
@@ -987,131 +1148,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java基础提升_JVM</title>
-    <url>/2021/05/28/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/</url>
-    <content><![CDATA[<h1 id="JVM的定义"><a href="#JVM的定义" class="headerlink" title="JVM的定义"></a>JVM的定义</h1><p>JVM(Java Virtual Machine，Java虚拟机)。<br><br>JVM是JAVA实现跨平台的主要手段，事实上jvm是有较多的实现版本，各种系统下的JVM不同。<br><br>由于jvm是处在Java语言和操作系统之间的，所以它要向上提供对Java的支持，向下与操作系统良好交互。</p>
-<hr>
-<h1 id="JVM中的数据结构"><a href="#JVM中的数据结构" class="headerlink" title="JVM中的数据结构"></a>JVM中的数据结构</h1><p>主要分为<strong>基本类型</strong>和<strong>引用类型</strong>。</p>
-<span id="more"></span>
-
-<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><ul>
-<li>基本类型<ul>
-<li><strong>数值类型</strong><ul>
-<li>整型</li>
-<li>浮点型</li>
-<li>char类型</li>
-</ul>
-</li>
-<li><strong>boolean类型</strong><br><ul>
-<li>true</li>
-<li>false<br><br>&nbsp;&nbsp;（boolean类型的操作会被转化为int类型的操作进行，<br>boolean数组会当成byte数组去操作。1表示true，0表示false。）</li>
-</ul>
-</li>
-<li><strong>returnAddress类型</strong><br><br>&nbsp;&nbsp;是一个指针，指向jvm指令的操作码，<br>在Java中没有与之对应的类型。<h2 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h2></li>
-</ul>
-</li>
-<li>引用类型<ul>
-<li><strong>类类型</strong></li>
-<li><strong>数组类型</strong><ul>
-<li>component类型<br><br>&nbsp;&nbsp;(数组去掉最外层维度后剩下的类型，<br>可能还是一个数组类型（对于多维数组）)</li>
-<li>element类型 </li>
-</ul>
-</li>
-<li><strong>接口类型</strong></li>
-</ul>
-</li>
-</ul>
-<hr>
-<h1 id="JVM中的内存结构"><a href="#JVM中的内存结构" class="headerlink" title="JVM中的内存结构"></a>JVM中的内存结构</h1><ul>
-<li><p><em>运行时公有数据区</em>（线程共享）</p>
-<ul>
-<li><strong>堆</strong>（GC发生的主要区域）<br><br>对象实例和数组<ul>
-<li>新生代 1/3<ul>
-<li>Eden 区 80%</li>
-<li>From Survivor 区 10%</li>
-<li>To Survivor 区 10%</li>
-</ul>
-</li>
-<li>老年代 2/3</li>
-</ul>
-</li>
-<li><strong>方法区</strong>（永久代，Java 8后就把方法区的实现移到了本地内存中的元空间中）<br><br>&nbsp;&nbsp;&nbsp;&nbsp;用于存储被 JVM 加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;指内存的永久保存区域，主要存放 Class 和 Meta（元数据）的信息,Class 在被加载的时候被<br>放入永久区域，它和和存放实例的区域不同,GC 不会在主程序运行期对永久区域进行清理。所以这<br>也导致了永久代的区域会随着加载的 Class 的增多而胀满，最终抛出 OOM 异常。</li>
-</ul>
-</li>
-<li><p><em>运行时私有数据区</em>（线程私有）</p>
-<ul>
-<li><strong>pc寄存器</strong>（程序计数器）<br><br>&nbsp;&nbsp;（计数器记录的是虚拟机字节码指令的地址（当前指令的地址）。如<br>果是Native方法，则为空。<br><br>&nbsp;&nbsp;这个内存区域是唯一一个在虚拟机中没有规定任何 OutOfMemoryError 情况的区域）</li>
-<li><strong>jvm栈</strong>（虚拟机栈）<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是描述java方法执行的内存模型，每个方法在执行的同时都会创建一个栈帧（Stack Frame）<br>用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成<br>的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。<ul>
-<li>栈帧（ Frame） </li>
-</ul>
-</li>
-<li><strong>native方法栈</strong>（本地方法栈）<br><br>调用非java方法时使用</li>
-</ul>
-</li>
-<li><p><em>直接内存</em></p>
-<ul>
-<li><strong>元空间</strong>（java8以后将永久代移动到了元空间中）</li>
-<li><strong>直接内存</strong></li>
-</ul>
-</li>
-</ul>
-<hr>
-<!--more-->
-<h1 id="JVM垃圾回收"><a href="#JVM垃圾回收" class="headerlink" title="JVM垃圾回收"></a>JVM垃圾回收</h1><p>   主要在堆中进行，java8之前还有永久代（也就是方法区），java8后方法区移到了直接内存中的元空间中去了，所以只有堆进行GC，对象实例和数组都是在堆上分配的，GC 也主要对这两类数据进行回收，</p>
-<h2 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h2><p>最容易想到的一种方式是引用计数法，啥叫引用计数法，简单地说，就是对象被引用一次，在它的对象头上加一次引用次数，如果没有被引用（引用次数为 0），则此对象可回收，但此方法无法解决循环引用问题，循环引用后，即使没有真正的引用了，但其引用无法归0。所以现代虚拟机都不用引用计数法来判断对象是否应该被回收。</p>
-<h2 id="可达性算法"><a href="#可达性算法" class="headerlink" title="可达性算法"></a>可达性算法</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;现代虚拟机基本都是采用这种算法来判断对象是否存活，可达性算法的原理是以一系列叫做  GC Root  的对象为起点出发，引出它们指向的下一个节点，再以下个节点为起点，引出此节点指向的下一个结点。。。（这样通过 GC Root 串成的一条线就叫引用链），直到所有的结点都遍历完毕,如果相关对象不在任意一个以 GC Root 为起点的引用链中，则这些对象会被判断为「垃圾」,会被 GC 回收。<br></p>
-<h3 id="GC-Roots"><a href="#GC-Roots" class="headerlink" title="GC Roots"></a>GC Roots</h3><p>哪些对象可以作为 GC Root 呢，有以下几类<br></p>
-<ul>
-<li>虚拟机栈（栈帧中的本地变量表）中引用的对象</li>
-<li>方法区中类静态属性引用的对象</li>
-<li>方法区中常量引用的对象</li>
-<li>本地方法栈中 JNI（即一般说的 Native 方法）引用的对象<h4 id="虚拟机栈中引用的对象"><a href="#虚拟机栈中引用的对象" class="headerlink" title="虚拟机栈中引用的对象"></a>虚拟机栈中引用的对象</h4>如下代码所示，a 是栈帧中的本地变量，当 a = null 时，由于此时 a 充当了 GC Root 的作用，a 与原来指向的实例 new Test() 断开了连接，所以对象会被回收。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">publicclass Test &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	Test a = <span class="keyword">new</span> Test();</span><br><span class="line">	a = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="方法区中类静态属性引用的对象"><a href="#方法区中类静态属性引用的对象" class="headerlink" title="方法区中类静态属性引用的对象"></a>方法区中类静态属性引用的对象</h4>如下代码所示，当栈帧中的本地变量 a = null 时，由于 a 原来指向的对象与 GC Root (变量 a) 断开了连接，所以 a 原来指向的对象会被回收，而由于我们给 s 赋值了变量的引用，s 在此时是类静态属性引用，充当了 GC Root 的作用，它指向的对象依然存活!<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Test s;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	Test a = <span class="keyword">new</span> Test();</span><br><span class="line">	a.s = <span class="keyword">new</span> Test();</span><br><span class="line">	a = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="方法区中常量引用的对象"><a href="#方法区中常量引用的对象" class="headerlink" title="方法区中常量引用的对象"></a>方法区中常量引用的对象</h4>如下代码所示，常量 s 指向的对象并不会因为 a 指向的对象被回收而回收<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Test s = <span class="keyword">new</span> Test();</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	    Test a = <span class="keyword">new</span> Test();</span><br><span class="line">	    a = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="本地方法栈中-JNI-引用的对象"><a href="#本地方法栈中-JNI-引用的对象" class="headerlink" title="本地方法栈中 JNI 引用的对象"></a>本地方法栈中 JNI 引用的对象</h4>这是简单给不清楚本地方法为何物的童鞋简单解释一下：所谓本地方法就是一个 java 调用非 java 代码的接口，该方法并非 Java 实现的，可能由 C 或 Python等其他语言实现的， Java 通过 JNI 来调用本地方法， 而本地方法是以库文件的形式存放的（在 WINDOWS 平台上是 DLL 文件形式，在 UNIX 机器上是 SO 文件形式）。通过调用本地的库文件的内部方法，使 JAVA 可以实现和本地机器的紧密联系，调用系统级的各接口方法，还是不明白？见文末参考，对本地方法定义与使用有详细介绍。</li>
-</ul>
-<p>当调用 Java 方法时，虚拟机会创建一个栈桢并压入 Java 栈，而当它调用的是本地方法时，虚拟机会保持 Java 栈不变，不会在 Java 栈祯中压入新的祯，虚拟机只是简单地动态连接并直接调用指定的本地方法。</p>
-<h3 id="对象可回收，就一定会被回收吗"><a href="#对象可回收，就一定会被回收吗" class="headerlink" title="对象可回收，就一定会被回收吗?"></a>对象可回收，就一定会被回收吗?</h3><p>并不是，对象的 finalize 方法给了对象一次垂死挣扎的机会，当对象不可达（可回收）时，当发生GC时，会先判断对象是否执行了 finalize 方法，如果未执行，则会先执行 finalize 方法，我们可以在此方法里将当前对象与 GC Roots 关联，这样执行 finalize 方法之后，GC 会再次判断对象是否可达，如果不可达，则会被回收，如果可达，则不回收！</p>
-<p>注意： ==finalize 方法只会被执行一次，如果第一次执行 finalize 方法此对象变成了可达确实不会回收，但如果对象再次被 GC，则会忽略 finalize 方法，对象会被回收！这一点切记!==</p>
-<h2 id="垃圾回收主要方法"><a href="#垃圾回收主要方法" class="headerlink" title="垃圾回收主要方法"></a>垃圾回收主要方法</h2><ul>
-<li>标记清除算法<br>顾名思义，先标记可回收的对象，进行清除。<br><br>缺点：剩余的内存不连续</li>
-<li>复制算法<br><br>将内存分为两块，一块空的，一块是已用的，在已用的里面标记出存活的对象，再复制到另一块中，再把原来的那块都清了。<br><br>缺点：可用内存减半；复制的效率低</li>
-<li>标记整理法<br><br>前面两步和标记清除法一样，不同的是它在标记清除法的基础上添加了一个整理的过程 ，即将所有的存活对象都往一端移动,紧邻排列（如图示），再清理掉另一端的所有区域，这样的话就解决了内存碎片的问题。<br><br>缺点：每进一次垃圾清除都要频繁地移动存活的对象，效率十分低下。</li>
-</ul>
-<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>根据大多数java对象的存活特征，所以分代收集算法根据对象存活周期的不同将堆分成==新生代和老生代==（Java8以前还有个永久代）,默认比例为 ==1 : 2==，新生代又分为 ==Eden 区， from Survivor 区（简称S0），to Survivor 区(简称 S1)==,三者的比例为 ==8: 1: 1== ，这样就可以根据新老生代的特点选择最合适的垃圾回收算法，我们把新生代发生的 GC 称为 Young GC（也叫 Minor GC）,老年代发生的 GC 称为 Old GC（也称为 Full GC）。<br></p>
-<ol>
-<li>当 Eden 区将满时，触发 Minor GC。采用复制删除算法。Eden标记出来存活对象 -&gt; 复制到S0中<br></li>
-<li>第二次：Eden 和 S0（或S1）存活对象一起移到 S1（Eden 和 S0 的存活对象年龄+1）, 同时清空 Eden 和 S0 的空间。（后续S0和S1的角色会以此互换以重复上述过程）<br>具体过程：<a href="https://mp.weixin.qq.com/s/_AKQs-xXDHlk84HbwKUzOw">link</a><br></li>
-</ol>
-<p>FULL GC采用标记整理算法</p>
-<h4 id="升级到老年代"><a href="#升级到老年代" class="headerlink" title="升级到老年代"></a>升级到老年代</h4><ul>
-<li>当对象的年龄达到了我们设定的阈值，则会从S0（或S1）晋升到老年代</li>
-<li>大对象 当某个对象分配需要大量的连续内存时，此时对象的创建不会分配在 Eden 区，会直接分配在老年代，因为如果把大对象分配在 Eden 区, Minor GC 后再移动到 S0,S1 会有很大的开销（对象比较大，复制会比较慢，也占空间），也很快会占满 S0,S1 区，所以干脆就直接移到老年代.</li>
-<li>还有一种情况也会让对象晋升到老年代，即在 S0（或S1） 区相同年龄的对象大小之和大于 S0（或S1）空间一半以上时，则年龄大于等于该年龄的对象也会晋升到老年代。<h4 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h4></li>
-</ul>
-<p>在发生 MinorGC 之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象的总空间，如果大于，那么Minor GC 可以确保是安全的,如果不大于，那么虚拟机会查看 HandlePromotionFailure 设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用连续空间是否大于历次晋升到老年代对象的平均大小，如果大于则进行 Minor GC，否则可能进行一次 Full GC。</p>
-<h4 id="GC分析"><a href="#GC分析" class="headerlink" title="GC分析"></a>GC分析</h4><ul>
-<li>通过以下命令查看JVM的启动参数：<br><br><code>ps aux | grep &quot;applicationName=adsearch&quot;</code></li>
-<li>通过观察老年代的使用情况，可以看到：每次FGC后，内存是否有效回收了，否则考虑内存泄漏等原因。</li>
-<li>通过jmap命令查看堆内存中的对象<br><code>jmap -histo 7276 | head -n20</code><br>通过以下命令dump堆内存：<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">jmap -dump:format=b,file=heap 7276</span><br><span class="line">jmap -heap pid</span><br></pre></td></tr></table></figure>
-JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对象所占空间</li>
-</ul>
-<p>   在调试程序时，有时需要查看程序加载的类、内存回收情况、调用的本地接口等。这时候就需要-verbose命令。在myeclipse可以通过右键设置（如下），也可以在命令行输入java -verbose来查看。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-verbose:class 查看类加载情况</span><br><span class="line">-verbose:gc 查看虚拟机中内存回收情况</span><br><span class="line">-verbose:jni 查看本地方法调用的情况</span><br></pre></td></tr></table></figure>
-<h4 id="jvm参数"><a href="#jvm参数" class="headerlink" title="jvm参数"></a>jvm参数</h4><p>-Xms:设置Java程序启动时初始化堆大小<br><br>-Xmx:设置Java程序能获得最大的堆大小 <br><br>-Xmn：可以设置新生代的大小，设置一个比较大的新生代会减少老年代的大小，这个参数对系统性能以及GC行为有很大的影响，新生代大小一般会设置整个堆空间的1/3到1/4左右。<br></p>
-<p>-XX:SurvivorRatio：用来设置新生代中eden空间和from/to空间的比例。含义：-XX:SurvivorRatio=eden/from=eden/to。<br>不同的堆分布情况，对系统执行会产生一定的影响，在实际工作中，应该根据系统的特点做出合理的配置，基本策略：尽可能将对象预留在新生代，减少老年代的GC次数。<br><br>-XX:MetaspaceSize 初始元数据空间大小<br><br>-XX:MaxMetaspaceSize=128m    <br></p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>基础</category>
-        <category>JVM</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mybatis</title>
     <url>/2021/05/26/sql/mybatis/</url>
     <content><![CDATA[<ol>
@@ -1149,61 +1185,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Macbook外接显示器需要注意的设置</title>
-    <url>/2021/05/22/%E7%A1%AC%E4%BB%B6&amp;%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>设备：MacBook Pro2018 A1989<br>系统：BigSur11.2.3<br>外接的显示器：Dell P2319H</p>
-<h2 id="颜色问题"><a href="#颜色问题" class="headerlink" title="颜色问题"></a>颜色问题</h2><p>mac 会将外接显示器识别为TV，会用 YCbCr 色域来输出,我们需要使用脚本来为外接显示器生成强制RGB渲染的颜色描述文件，然后替换掉系统原有颜色描述文件，来使显示器用RGB模式显示。</p>
-<span id="more"></span>
-<p> 一、关闭系统保护</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">进入恢复模式，按下 <span class="keyword">Options</span> 开机，然后再按 Command + R；</span><br><span class="line">在恢复模式下的命令行输入：csrutil authenticated-root <span class="keyword">disable</span>，</span><br><span class="line">然后再重启；</span><br></pre></td></tr></table></figure>
-
-
-<p>  二、生成DisplayVendorID文件夹</p>
-<p>  下载 patch-edid.rb 这个文件到 mac 的Download 文件夹中。</p>
-<pre><code> 打开终端，cd Downloads
-
-  
-   ruby patch-edid.rb
-
-  
-   运行patch-edid.rb脚本后，会产生一个DisplayVendorID-1xxx文件，xxx
-   是编号，每台机器都有区别
-</code></pre>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">重启后，打开终端，命令行输入</span><br><span class="line">sudo mount -o nobrowse -t apfs <span class="regexp">/dev/</span>disk1s5 <span class="regexp">/Users/</span>seven<span class="regexp">/Downloads/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>disk1s5 为 系统盘的设备名，打开磁盘工具，选择系统盘可以看到，如下图：<br>注意最后的 s 和之后的内容要截取掉，比如我的系统盘设备名为 disk1s5s1，则 diskNsM 为 disk1s5。</p>
-<p>四、替换<br>由于挂载到了下载文件夹，挂载好后，进入下载文件夹，就会进入到系统根目录了，我们把配置文件夹复制到相应的系统目录/System/Library/Displays/Contents/Resources/Overrides。 (替换掉这个 DisplayVendorID-5e3 文件夹 )<br>五、重新启用系统保护<br>然后需要重建系统 snapshot，使用到的命令为</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">sudo bless --folder <span class="regexp">/Users/</span>seven<span class="regexp">/Downloads/</span>System<span class="regexp">/Library/</span>CoreServices --bootefi --create-snapshot</span><br></pre></td></tr></table></figure>
-
-<p>六、重新启用系统保护</p>
-<pre><code>在第一步中，我们禁用了系统保护，这是很危险的。完成第三步操作后，可以参照第一步的做法，将csrutil disable改为csrutil enable即可。
-</code></pre>
-<p>重启生效    </p>
-<h2 id="分辨率"><a href="#分辨率" class="headerlink" title="分辨率"></a>分辨率</h2><p>苹果只有在4k或以上的显示器中才会默认开启HiDPI，可以下载RDM软件解决</p>
-<p>参考链接：</p>
-<ul>
-<li><a href="https://blog.csdn.net/shennongminblog/article/details/76361751">https://blog.csdn.net/shennongminblog/article/details/76361751</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/81151642">https://zhuanlan.zhihu.com/p/81151642</a></li>
-<li><a href="https://www.jianshu.com/p/e81792941358">https://www.jianshu.com/p/e81792941358</a></li>
-<li><a href="https://www.douban.com/note/799863659/">https://www.douban.com/note/799863659/</a></li>
-<li><a href="https://www.douban.com/group/topic/116080001/">https://www.douban.com/group/topic/116080001/</a></li>
-<li><a href="https://github.com/xzhih/one-key-hidpi/blob/master/README-zh.md">https://github.com/xzhih/one-key-hidpi/blob/master/README-zh.md</a></li>
-</ul>
-<p>附：<br>LR和PS色彩空间可设置为proRGB，导出时转换为sRGB</p>
-<ul>
-<li><a href="http://www.360doc.com/content/17/1230/11/636843_717618369.shtml">http://www.360doc.com/content/17/1230/11/636843_717618369.shtml</a></li>
-<li><a href="https://www.bilibili.com/video/av459133097/">https://www.bilibili.com/video/av459133097/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>硬件</category>
-        <category>mac</category>
-      </categories>
-      <tags>
-        <tag>硬件</tag>
-        <tag>mac</tag>
       </tags>
   </entry>
   <entry>
@@ -1272,6 +1253,61 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>tcp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Macbook外接显示器需要注意的设置</title>
+    <url>/2021/05/22/%E7%A1%AC%E4%BB%B6&amp;%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>设备：MacBook Pro2018 A1989<br>系统：BigSur11.2.3<br>外接的显示器：Dell P2319H</p>
+<h2 id="颜色问题"><a href="#颜色问题" class="headerlink" title="颜色问题"></a>颜色问题</h2><p>mac 会将外接显示器识别为TV，会用 YCbCr 色域来输出,我们需要使用脚本来为外接显示器生成强制RGB渲染的颜色描述文件，然后替换掉系统原有颜色描述文件，来使显示器用RGB模式显示。</p>
+<span id="more"></span>
+<p> 一、关闭系统保护</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">进入恢复模式，按下 <span class="keyword">Options</span> 开机，然后再按 Command + R；</span><br><span class="line">在恢复模式下的命令行输入：csrutil authenticated-root <span class="keyword">disable</span>，</span><br><span class="line">然后再重启；</span><br></pre></td></tr></table></figure>
+
+
+<p>  二、生成DisplayVendorID文件夹</p>
+<p>  下载 patch-edid.rb 这个文件到 mac 的Download 文件夹中。</p>
+<pre><code> 打开终端，cd Downloads
+
+  
+   ruby patch-edid.rb
+
+  
+   运行patch-edid.rb脚本后，会产生一个DisplayVendorID-1xxx文件，xxx
+   是编号，每台机器都有区别
+</code></pre>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">重启后，打开终端，命令行输入</span><br><span class="line">sudo mount -o nobrowse -t apfs <span class="regexp">/dev/</span>disk1s5 <span class="regexp">/Users/</span>seven<span class="regexp">/Downloads/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>disk1s5 为 系统盘的设备名，打开磁盘工具，选择系统盘可以看到，如下图：<br>注意最后的 s 和之后的内容要截取掉，比如我的系统盘设备名为 disk1s5s1，则 diskNsM 为 disk1s5。</p>
+<p>四、替换<br>由于挂载到了下载文件夹，挂载好后，进入下载文件夹，就会进入到系统根目录了，我们把配置文件夹复制到相应的系统目录/System/Library/Displays/Contents/Resources/Overrides。 (替换掉这个 DisplayVendorID-5e3 文件夹 )<br>五、重新启用系统保护<br>然后需要重建系统 snapshot，使用到的命令为</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">sudo bless --folder <span class="regexp">/Users/</span>seven<span class="regexp">/Downloads/</span>System<span class="regexp">/Library/</span>CoreServices --bootefi --create-snapshot</span><br></pre></td></tr></table></figure>
+
+<p>六、重新启用系统保护</p>
+<pre><code>在第一步中，我们禁用了系统保护，这是很危险的。完成第三步操作后，可以参照第一步的做法，将csrutil disable改为csrutil enable即可。
+</code></pre>
+<p>重启生效    </p>
+<h2 id="分辨率"><a href="#分辨率" class="headerlink" title="分辨率"></a>分辨率</h2><p>苹果只有在4k或以上的显示器中才会默认开启HiDPI，可以下载RDM软件解决</p>
+<p>参考链接：</p>
+<ul>
+<li><a href="https://blog.csdn.net/shennongminblog/article/details/76361751">https://blog.csdn.net/shennongminblog/article/details/76361751</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/81151642">https://zhuanlan.zhihu.com/p/81151642</a></li>
+<li><a href="https://www.jianshu.com/p/e81792941358">https://www.jianshu.com/p/e81792941358</a></li>
+<li><a href="https://www.douban.com/note/799863659/">https://www.douban.com/note/799863659/</a></li>
+<li><a href="https://www.douban.com/group/topic/116080001/">https://www.douban.com/group/topic/116080001/</a></li>
+<li><a href="https://github.com/xzhih/one-key-hidpi/blob/master/README-zh.md">https://github.com/xzhih/one-key-hidpi/blob/master/README-zh.md</a></li>
+</ul>
+<p>附：<br>LR和PS色彩空间可设置为proRGB，导出时转换为sRGB</p>
+<ul>
+<li><a href="http://www.360doc.com/content/17/1230/11/636843_717618369.shtml">http://www.360doc.com/content/17/1230/11/636843_717618369.shtml</a></li>
+<li><a href="https://www.bilibili.com/video/av459133097/">https://www.bilibili.com/video/av459133097/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>硬件</category>
+        <category>mac</category>
+      </categories>
+      <tags>
+        <tag>硬件</tag>
+        <tag>mac</tag>
       </tags>
   </entry>
   <entry>
@@ -1366,6 +1402,33 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>消息队列</title>
+    <url>/2021/05/22/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</url>
+    <content><![CDATA[<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
+<ol>
+<li><strong>异步</strong>、</li>
+<li><strong>削峰</strong>、</li>
+<li><strong>解耦</strong></li>
+</ol>
+<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>比如一个流程下需要正常的业务处理，中间需要发送短信，扣减优惠卷等，可以生产消息进入队列，由短信系统，优惠卷系统异步处理，减少主业务逻辑链路，提升效率。</p>
+<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
+<h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
+<span id="more"></span>
+<h2 id="消息重复消费"><a href="#消息重复消费" class="headerlink" title="消息重复消费"></a>消息重复消费</h2><p>系统重试等原因造成<br>解决方法：</p>
+<ol>
+<li>接口幂等 无论多次执行，其结果都是一样的.更复杂的操作幂等保证是利用唯一交易号(流水号)实现.请求的是相同的流水号的话，判断处理过的话 直接返回成功就行了。</li>
+</ol>
+<h1 id="消息顺序消费"><a href="#消息顺序消费" class="headerlink" title="消息顺序消费"></a>消息顺序消费</h1><p>一个topic下有多个队列，为了保证发送有序，RocketMQ提供了MessageQueueSelector队列选择机制<br>我们可使用Hash取模法，让同一个订单发送到同一个队列中，再使用同步发送，只有同个订单的创建消息发送成功，再发送支付消息。这样，我们保证了发送有序。<br>RocketMQ的topic内的队列机制,可以保证存储满足FIFO（First Input First Output 简单说就是指先进先出）,剩下的只需要消费者顺序消费即可。</p>
+]]></content>
+      <categories>
+        <category>中间件</category>
+        <category>消息队列</category>
+      </categories>
+      <tags>
+        <tag>消息队列</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mysql知识点</title>
     <url>/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/</url>
     <content><![CDATA[<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="用-rownum-rownum-1-实现-rownum-功能"><a href="#用-rownum-rownum-1-实现-rownum-功能" class="headerlink" title="用 @rownum := @rownum+1 实现 rownum 功能"></a>用 @rownum := @rownum+1 实现 rownum 功能</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="variable">@rownum</span> :<span class="operator">=</span> <span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">AS</span> rownum, </span><br><span class="line">               table1.<span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) r ，</span><br><span class="line">       table1;</span><br></pre></td></tr></table></figure>
@@ -1394,33 +1457,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       <tags>
         <tag>mysql</tag>
         <tag>sql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>消息队列</title>
-    <url>/2021/05/22/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</url>
-    <content><![CDATA[<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
-<ol>
-<li><strong>异步</strong>、</li>
-<li><strong>削峰</strong>、</li>
-<li><strong>解耦</strong></li>
-</ol>
-<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>比如一个流程下需要正常的业务处理，中间需要发送短信，扣减优惠卷等，可以生产消息进入队列，由短信系统，优惠卷系统异步处理，减少主业务逻辑链路，提升效率。</p>
-<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
-<h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
-<span id="more"></span>
-<h2 id="消息重复消费"><a href="#消息重复消费" class="headerlink" title="消息重复消费"></a>消息重复消费</h2><p>系统重试等原因造成<br>解决方法：</p>
-<ol>
-<li>接口幂等 无论多次执行，其结果都是一样的.更复杂的操作幂等保证是利用唯一交易号(流水号)实现.请求的是相同的流水号的话，判断处理过的话 直接返回成功就行了。</li>
-</ol>
-<h1 id="消息顺序消费"><a href="#消息顺序消费" class="headerlink" title="消息顺序消费"></a>消息顺序消费</h1><p>一个topic下有多个队列，为了保证发送有序，RocketMQ提供了MessageQueueSelector队列选择机制<br>我们可使用Hash取模法，让同一个订单发送到同一个队列中，再使用同步发送，只有同个订单的创建消息发送成功，再发送支付消息。这样，我们保证了发送有序。<br>RocketMQ的topic内的队列机制,可以保证存储满足FIFO（First Input First Output 简单说就是指先进先出）,剩下的只需要消费者顺序消费即可。</p>
-]]></content>
-      <categories>
-        <category>中间件</category>
-        <category>消息队列</category>
-      </categories>
-      <tags>
-        <tag>消息队列</tag>
       </tags>
   </entry>
   <entry>

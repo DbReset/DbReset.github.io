@@ -26,18 +26,18 @@
   <meta name="description" content="JVM的定义JVM(Java Virtual Machine，Java虚拟机)。JVM是JAVA实现跨平台的主要手段，事实上jvm是有较多的实现版本，各种系统下的JVM不同。由于jvm是处在Java语言和操作系统之间的，所以它要向上提供对Java的支持，向下与操作系统良好交互。  JVM中的数据结构主要分为基本类型和引用类型。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java基础提升_JVM">
-<meta property="og:url" content="http://dbreset.github.io/2021/05/28/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/index.html">
+<meta property="og:url" content="http://dbreset.github.io/2021/07/07/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/index.html">
 <meta property="og:site_name" content="裸泳的猪">
 <meta property="og:description" content="JVM的定义JVM(Java Virtual Machine，Java虚拟机)。JVM是JAVA实现跨平台的主要手段，事实上jvm是有较多的实现版本，各种系统下的JVM不同。由于jvm是处在Java语言和操作系统之间的，所以它要向上提供对Java的支持，向下与操作系统良好交互。  JVM中的数据结构主要分为基本类型和引用类型。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-05-28T14:18:50.157Z">
-<meta property="article:modified_time" content="2021-05-28T14:18:50.157Z">
+<meta property="article:published_time" content="2021-07-07T02:40:28.916Z">
+<meta property="article:modified_time" content="2021-07-07T02:40:28.916Z">
 <meta property="article:author" content="Luo">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://dbreset.github.io/2021/05/28/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/">
+<link rel="canonical" href="http://dbreset.github.io/2021/07/07/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/">
 
 
 <script id="page-configurations">
@@ -195,7 +195,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/28/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/07/07/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -220,7 +220,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-05-28 22:18:50" itemprop="dateCreated datePublished" datetime="2021-05-28T22:18:50+08:00">2021-05-28</time>
+              <time title="创建时间：2021-07-07 10:40:28" itemprop="dateCreated datePublished" datetime="2021-07-07T10:40:28+08:00">2021-07-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -367,8 +367,7 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
 </ul>
 <p>   在调试程序时，有时需要查看程序加载的类、内存回收情况、调用的本地接口等。这时候就需要-verbose命令。在myeclipse可以通过右键设置（如下），也可以在命令行输入java -verbose来查看。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-verbose:class 查看类加载情况</span><br><span class="line">-verbose:gc 查看虚拟机中内存回收情况</span><br><span class="line">-verbose:jni 查看本地方法调用的情况</span><br></pre></td></tr></table></figure>
-<h4 id="jvm参数"><a href="#jvm参数" class="headerlink" title="jvm参数"></a>jvm参数</h4><p>-Xms:设置Java程序启动时初始化堆大小<br><br>-Xmx:设置Java程序能获得最大的堆大小 <br><br>-Xmn：可以设置新生代的大小，设置一个比较大的新生代会减少老年代的大小，这个参数对系统性能以及GC行为有很大的影响，新生代大小一般会设置整个堆空间的1/3到1/4左右。<br></p>
-<p>-XX:SurvivorRatio：用来设置新生代中eden空间和from/to空间的比例。含义：-XX:SurvivorRatio=eden/from=eden/to。<br>不同的堆分布情况，对系统执行会产生一定的影响，在实际工作中，应该根据系统的特点做出合理的配置，基本策略：尽可能将对象预留在新生代，减少老年代的GC次数。<br><br>-XX:MetaspaceSize 初始元数据空间大小<br><br>-XX:MaxMetaspaceSize=128m    <br></p>
+<h4 id="jvm参数"><a href="#jvm参数" class="headerlink" title="jvm参数"></a>jvm参数</h4><p>-Xms:设置Java程序启动时初始化堆大小<br><br>-Xmx:设置Java程序能获得最大的堆大小 <br><br>-Xmn：可以设置新生代的大小，设置一个比较大的新生代会减少老年代的大小，这个参数对系统性能以及GC行为有很大的影响，新生代大小一般会设置整个堆空间的1/3到1/4左右。<br><br>-Xss：栈内存大小，设置单个线程栈大小，一般默认512~1024kb。单个线程栈大小跟操作系统和JDK版本都有关系-Xss = -XX:ThreadStackSize<br><br>-XX:SurvivorRatio：用来设置新生代中eden空间和from/to空间的比例。含义：-XX:SurvivorRatio=eden/from=eden/to。<br>不同的堆分布情况，对系统执行会产生一定的影响，在实际工作中，应该根据系统的特点做出合理的配置，基本策略：尽可能将对象预留在新生代，减少老年代的GC次数。<br><br>-XX:MetaspaceSize 初始元数据空间大小<br><br>-XX:MaxMetaspaceSize=128m    <br></p>
 
     </div>
     
@@ -400,12 +399,12 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/05/26/sql/mybatis/" rel="prev" title="mybatis">
-      <i class="fa fa-chevron-left"></i> mybatis
+    <a href="/2021/07/05/java%E5%9F%BA%E7%A1%80/String%E7%B1%BB/" rel="prev" title="Java基础提升_String类">
+      <i class="fa fa-chevron-left"></i> Java基础提升_String类
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/06/13/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/" rel="next" title="消息队列_Rocketmq">
-      消息队列_Rocketmq <i class="fa fa-chevron-right"></i>
+    <a href="/2021/07/07/sql/mysql%E5%9F%BA%E7%A1%80/" rel="next" title="mysql基础_索引结构_基础概念">
+      mysql基础_索引结构_基础概念 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
