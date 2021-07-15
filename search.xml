@@ -9,6 +9,203 @@
 ]]></content>
   </entry>
   <entry>
+    <title>shell知识点</title>
+    <url>/2021/07/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h2 id="Shell-中数字相加"><a href="#Shell-中数字相加" class="headerlink" title="Shell 中数字相加"></a>Shell 中数字相加</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line">c=`expr $&#123;a&#125; + $&#123;b&#125;`</span><br><span class="line">echo &quot;$c&quot;</span><br><span class="line"></span><br><span class="line">let 命令是 BASH 中用于计算的工具，用于执行一个或多个表达式，变量计算中不需要加上</span><br><span class="line"><span class="meta"> $</span><span class="bash"> 来表示变量。如果表达式中包含了空格或其他特殊字符，则必须引起来。</span></span><br><span class="line"> </span><br><span class="line">let a=5+4</span><br><span class="line">let b=9-3 </span><br><span class="line">echo $a $b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ftp ip.ip.ip.ip</span><br><span class="line"><span class="meta">#</span><span class="bash">获取文件</span></span><br><span class="line">mget</span><br><span class="line"><span class="meta">#</span><span class="bash">上传文件</span></span><br><span class="line">mput</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭确认提示</span></span><br><span class="line">prompt</span><br><span class="line"><span class="meta">#</span><span class="bash">删除文件</span></span><br><span class="line">delete xxx.dat</span><br><span class="line"><span class="meta">#</span><span class="bash">批量删除文件 支持通配</span></span><br><span class="line">mdelete *xxx*</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="awk中输入外部的变量"><a href="#awk中输入外部的变量" class="headerlink" title="awk中输入外部的变量"></a>awk中输入外部的变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意 <span class="string">&quot; 和 &#x27;</span></span></span><br><span class="line">grep kdpl_acct_bal load.sh|awk &#x27;&#123;print &quot;&#x27;$FilePath&#x27;&quot;$4&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h2 id="数字的比较："><a href="#数字的比较：" class="headerlink" title="数字的比较："></a>数字的比较：</h2><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">-<span class="literal">eq</span> 相等（equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ne</span> 不等<span class="built_in">（not</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">gt</span> 大于（greater than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">lt</span> 小于（less than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ge</span> 大于等于 （greater than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">le</span> 小于等于 （less than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">字符串的比较：</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> = <span class="variable">$str2</span> ] 等于</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> != <span class="variable">$str2</span> ] 不等于</span><br><span class="line"></span><br><span class="line">[ -z <span class="variable">$str</span> ] 空字符串返<span class="built_in">回true</span></span><br><span class="line"></span><br><span class="line">[ -n <span class="variable">$str</span> ] 或者 [ <span class="variable">$str</span> ] 非空字符串返<span class="built_in">回true</span></span><br></pre></td></tr></table></figure>
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">grep</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-r 是递归查找</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-n 是显示行号</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-R 查找所有文件包含子目录</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-i 忽略大小写</span></span><br><span class="line">grep -rn &quot;hello,world!&quot; *</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="清文件，腾空间相关"><a href="#清文件，腾空间相关" class="headerlink" title="清文件，腾空间相关"></a>清文件，腾空间相关</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看空间：</span></span><br><span class="line">df -h</span><br><span class="line">du -sh *   //查看当前所有目录及目录大小</span><br><span class="line">du -h --max-depth=1   //列出当前目录每个目录下的大小兑付-</span><br><span class="line">删除：</span><br><span class="line">/bin/rm -rf ./2016*       bin下执行  不进入回收站</span><br></pre></td></tr></table></figure>
+
+<h2 id="查找包含某段信息的文件名"><a href="#查找包含某段信息的文件名" class="headerlink" title="查找包含某段信息的文件名"></a>查找包含某段信息的文件名</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find .|xargs grep -ri &quot;01000000000275&quot; -l </span><br><span class="line">find . -name *.* |xargs grep &quot;2052019052300000000138&quot; -l</span><br><span class="line">ps -ef|grep java //查找进程 java</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="强杀进程"><a href="#强杀进程" class="headerlink" title="强杀进程"></a>强杀进程</h1><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">ps -ef|<span class="keyword">grep</span> job|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> $ORACLE_SID|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> sqlldr|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>unix</category>
+        <category>shell</category>
+        <category>日常使用</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+        <tag>运算</tag>
+        <tag>ftp</tag>
+        <tag>awk</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PMP备考系列_4-章笔记</title>
+    <url>/2021/07/15/pmp/PMP4-6/</url>
+    <content><![CDATA[<h2 id="4-项目整合管理"><a href="#4-项目整合管理" class="headerlink" title="4.项目整合管理"></a>4.项目整合管理</h2><p>项目整合管理包括对隶属于项目管理过程组的各种过程和项目管理活动进行识别、定义、组合、统一和协调的各个过程。<br><br>在项目管理中，整合兼具统一、合并、沟通和建立联系的性质，这些行动<br>应该贯穿项目始终。<br></p>
+]]></content>
+      <categories>
+        <category>PMP</category>
+      </categories>
+      <tags>
+        <tag>PMP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PMP备考系列_1-3章笔记</title>
+    <url>/2021/07/15/pmp/PMP1-3/</url>
+    <content><![CDATA[<h1 id="PMBOK指南笔记"><a href="#PMBOK指南笔记" class="headerlink" title="PMBOK指南笔记"></a>PMBOK指南笔记</h1><h2 id="1-引论"><a href="#1-引论" class="headerlink" title="1.引论"></a>1.引论</h2><blockquote>
+<p>1.1《PMBOK®指南》<br>收录项目管理知识体系中被普遍认可为“良好实践”的那一部分。</p>
+</blockquote>
+<ul>
+<li>所谓<strong>普遍认可</strong>，是指这些知识和做法在<strong>大多数时候适用于大多数项目</strong>。<br></li>
+<li>所谓<strong>良好实践</strong>，在项目管理过程中使用这些知识、技能、工具和技术，<br>能够达成预期的商业价值和成果，<strong>从而提高很多项目成功的可能性</strong>。</li>
+</ul>
+<blockquote>
+<p>1.1.3 道德与专业行为规范</p>
+</blockquote>
+<ul>
+<li>全球项目管理业界定义的最重要的价值观是:<strong>责任、尊重、公正和诚实</strong>。</li>
+</ul>
+<blockquote>
+<p>1.2.1 项目</p>
+</blockquote>
+<ul>
+<li>项目定义：项目是为创造<strong>独特</strong>的产品、服务或成果而进行的<strong>临时性</strong>工作。<br><ul>
+<li>项目的“临时性”是指项目有<strong>明确的起点和终点</strong>。</li>
+<li>项目终止原因 -&gt; 收尾：<ul>
+<li> 达成项目目标</li>
+<li>不会或不能达成目标</li>
+<li>项目资金缺乏或没有可分配资金；</li>
+<li>项目需求不复存在（例如，客户不再要求完成项目，战略或优先级的变更致使项目终止，组织管理层下达终止项目的指示）；</li>
+<li>无法获得所需人力或物力资源；</li>
+<li> 出于法律或便利原因而终止项目。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>可交付成果定义：可交付成果指的是在某一过程、阶段或项目完成时，必须产出的任何独特并可核实的产<br>品、成果或服务能力。可交付成果可能是有形的，也可能是无形的。<ul>
+<li>虽然项目是临时性工作，但其可交付成果可能会在项目的终止后依然存在</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><img src="/2021/07/15/pmp/PMP1-3/pmpflow.jpg" alt="流程"></p>
+<ul>
+<li>项目成功标准：项目章程。</li>
+<li>可交付成果物的验收标准：范围说明书。</li>
+</ul>
+<hr>
+<p> 项目创造商业价值。<br><br> PMI 将商业价值定义为从商业运作中获得的可量化净效益。效益可以是有<br>形的、无形的或两者兼有之。<br><br>无形效益的例子包括:</p>
+<ul>
+<li>商誉；</li>
+<li>品牌认知度;</li>
+<li>声誉.</li>
+</ul>
+<blockquote>
+<p>1.2.2 项目管理的重要性</p>
+</blockquote>
+<p>项目管理<strong>定义</strong>：就是将知识、技能、工具与技术应用于项目活动，以满足项目的要求。</p>
+<blockquote>
+<p>1.2.3 项目、项目集、项目组合以及运营管理之间的关系</p>
+</blockquote>
+<p>从组织的角度来看项目、项目集和项目组合管理：</p>
+<ul>
+<li>项目集和项目管理的重点在于以<strong>“正确”的方式</strong>开展项目集和项目；</li>
+<li>项目组合管理则注重于<strong>开展“正确”的</strong>项目集和项目<br><img src="/2021/07/15/pmp/PMP1-3/%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E9%9B%86-%E9%A1%B9%E7%9B%AE%E7%BB%84%E5%90%88%E7%AE%A1%E7%90%86.jpg" alt="项目-项目集-项目组合管理的比较概述"></li>
+</ul>
+<h4 id="1-2-3-2-项目集管理-（重点是：存在相互依赖的关系）"><a href="#1-2-3-2-项目集管理-（重点是：存在相互依赖的关系）" class="headerlink" title="1.2.3.2 项目集管理 （重点是：存在相互依赖的关系）"></a>1.2.3.2 项目集管理 （重点是：存在相互依赖的关系）</h4><p>项目管理注重项目本身的相互依赖关系，以确定管理项目的最佳方法。<br><br>项目集管理注重作为组成部分的项目与项目集之间的依赖关系，以确定管理这些项目的最佳方法。<br><br>都是管理内部的依赖关系。</p>
+<h4 id="1-2-3-3-项目组合管理-（重点是：存在优先级）"><a href="#1-2-3-3-项目组合管理-（重点是：存在优先级）" class="headerlink" title="1.2.3.3 项目组合管理 （重点是：存在优先级）"></a>1.2.3.3 项目组合管理 （重点是：存在优先级）</h4><p>项目组合是指为实现战略目标而组合在一起管理的项目、项目集、子项目组合和运营工作。<br><br>项目组合中的项目集或项目不一定彼此依赖或直接相关。<br><br>要实现项目组合价值的最大化，需要精心检查项目组合的组成部分。确定组成部分的<strong>优先顺序</strong>，<br>使最有利于组织战略目标的组成部分拥有所需的财力、人力和实物资源。</p>
+<h4 id="1-2-3-4-运营管理"><a href="#1-2-3-4-运营管理" class="headerlink" title="1.2.3.4 运营管理"></a>1.2.3.4 运营管理</h4><p>运营管理关注产品的持续生产和（或）服务的持续运作。</p>
+<h4 id="1-2-3-5-运营与项目管理"><a href="#1-2-3-5-运营与项目管理" class="headerlink" title="1.2.3.5 运营与项目管理"></a>1.2.3.5 运营与项目管理</h4><p>项目与运营会在产品生命周期的不同时点交叉.</p>
+<h4 id="1-2-3-6-组织级项目管理-OPM-和战略"><a href="#1-2-3-6-组织级项目管理-OPM-和战略" class="headerlink" title="1.2.3.6 组织级项目管理 (OPM) 和战略"></a>1.2.3.6 组织级项目管理 (OPM) 和战略</h4><ul>
+<li>项目组合、项目集和项目均需符合组织战略，或由组织战略驱动，并以不同的方式服务于战略目标的实现。</li>
+<li>组织级项目管理 (OPM)。OPM 指为实现战略目标而整合项目组合、<br>项目集和项目管理与组织驱动因素的框架。</li>
+</ul>
+<h4 id="1-2-4-1-项目和开发生命周期"><a href="#1-2-4-1-项目和开发生命周期" class="headerlink" title="1.2.4.1 项目和开发生命周期"></a>1.2.4.1 项目和开发生命周期</h4><p>项目生命周期指项目从启动到完成所经历的一系列阶段。它为项目管理提供了一个基本框架。不论项目涉及的具体工作是什么，这个基本框架都适用。这些阶段之间的关系可以顺序、迭代或交叠进行。<br><br>项目生命周期内通常有一个或多个阶段与产品、服务或成果的开发相关，这些阶段称为开发生命周期。<br><br>开发周期分类：</p>
+<ul>
+<li><strong>预测型生命周期</strong>。在生命周期的早期阶段确定项目范围、时间和成本。也称瀑布性生命周期。主要是范围确定，行业经验足。</li>
+<li> <strong>迭代型生命周期</strong>。迭代方法是通过一系列重复的循环活动来开发产品，而<br>增量方法是渐进地增加产品的功能。</li>
+<li><strong>增量型生命周期</strong>是通过在预定的时间区间内<strong>渐进增加</strong>产品功能的一系列增量来产出可交付成果。</li>
+<li><strong>适应型生命周期</strong>属于敏捷型、迭代型或增量型。<ul>
+<li>敏捷型：1.以较小增量，快速迭代。2.有限增加最有价值的。</li>
+</ul>
+</li>
+<li><strong>混合型生命周期</strong>是预测型生命周期和适应型生命周期的组合。</li>
+</ul>
+<p>由项目管理团队确定各个项目最适合的生命周期。<br><br>项目生命周期与产品生命周期相互独立，后者可能由项目产生。产品生命周期指一个产品从概<br>念、交付、成长、成熟到衰退的整个演变过程的一系列阶段</p>
+<h4 id="1-2-4-2-项目阶段"><a href="#1-2-4-2-项目阶段" class="headerlink" title="1.2.4.2 项目阶段"></a>1.2.4.2 项目阶段</h4><p>项目阶段是一组具有逻辑关系的项目活动的集合，通常以一个或多个可交付成果的完成为结束。<br><br>用处：分为多个阶段的方式有助于更好地掌控项目管理，同时还提供了评估项目绩效并在后续阶段采取必要的纠正或预防措施的机会。</p>
+<h4 id="1-2-4-3-阶段关口"><a href="#1-2-4-3-阶段关口" class="headerlink" title="1.2.4.3 阶段关口"></a>1.2.4.3 阶段关口</h4><p>阶段关口在项目阶段结束时进行，将项目的绩效和进度与项目和业务文件比较。<br>阶段关口可能被称为阶段审查、阶段门、关键决策点和阶段入口或阶段出口（里程碑，杀点）。</p>
+<h4 id="1-2-4-7-项目管理数据和信息"><a href="#1-2-4-7-项目管理数据和信息" class="headerlink" title="1.2.4.7 项目管理数据和信息"></a>1.2.4.7 项目管理数据和信息</h4><ul>
+<li>工作绩效数据。原始观察结果和测量值。</li>
+<li> 工作绩效信息。从各控制过程收集，，并结合相关背景和跨领域关系进行整合分析而得到的绩效数据。</li>
+<li>  工作绩效报告。汇编工作绩效信息所形成的实物或电子项目文件。</li>
+</ul>
+<hr>
+<hr>
+<h2 id="2-项目运行环境"><a href="#2-项目运行环境" class="headerlink" title="2.项目运行环境"></a>2.项目运行环境</h2><blockquote>
+<p>2.2事业环境因素</p>
+</blockquote>
+<p>事业环境因素（EEFs）是指项目团队<strong>不能控制</strong>(可更新EEFS)的，将对项目产生影响、限制或指令作用的各种条件。</p>
+<h3 id="2-2-1-组织内部的事业环境因素"><a href="#2-2-1-组织内部的事业环境因素" class="headerlink" title="2.2.1 组织内部的事业环境因素"></a>2.2.1 组织内部的事业环境因素</h3><ul>
+<li> 组织文化、结构和治理。</li>
+<li> 设施和资源的地理分布。</li>
+<li> 基础设施。</li>
+<li> 信息技术软件。例如包括进度计划软件工具、配置管理系统、进入其他在线自动化系统的网络界面和工作授权系统(PMIS)。</li>
+<li> 资源可用性。</li>
+<li> 员工能力。<h3 id="2-2-2-组织外部的事业环境因素-和人相关"><a href="#2-2-2-组织外部的事业环境因素-和人相关" class="headerlink" title="2.2.2 组织外部的事业环境因素(和人相关)"></a>2.2.2 组织外部的事业环境因素(和人相关)</h3>如：</li>
+<li>市场条件</li>
+<li>法律限制</li>
+</ul>
+<blockquote>
+<p>2.3 组织过程资产</p>
+</blockquote>
+<p>由于组织过程资产存在于组织内部，在整个项目期间，项目团队成员可对组织过程资产进行必要的更新和增补。<br></p>
+<p>组织过程资产可分成以下两大类:</p>
+<ul>
+<li>过程、政策和程序；(PMO项目管理办公室更新)</li>
+<li>组织知识库。</li>
+</ul>
+<h4 id="2-4-4-3-项目管理办公室"><a href="#2-4-4-3-项目管理办公室" class="headerlink" title="2.4.4.3 项目管理办公室"></a>2.4.4.3 项目管理办公室</h4><ul>
+<li>支持型。支持型 PMO 担当顾问的角色。这种类型的 PMO 其实就是一个项目资源库，对项目的控制程度很低。</li>
+<li>控制型。控制型 PMO不仅给项目提供支持，而且通过各种手段要求项目服从。</li>
+<li>指令型。指令型 PMO 直接管理和控制项目。项目经理由 PMO 指定并向其报告。这种类型的 PMO<br>对项目的控制程度很高</li>
+</ul>
+<hr>
+<hr>
+<h2 id="3-项目经理的角色"><a href="#3-项目经理的角色" class="headerlink" title="3.项目经理的角色"></a>3.项目经理的角色</h2><blockquote>
+<p>3.1 概述</p>
+</blockquote>
+<p>项目经理在领导项目团队达成项目目标方面发挥至关重要的作用。<br><br>项目管理角色需要符合组织需求，如同项目管理过程需要符合项目需求一般。<br></p>
+<ul>
+<li>项目经理无需承担项目中的每个角色，但应具备项目管理知识、技术知识、理解和经验。项目经理通过沟通领导项目团队进行规划和协调。</li>
+</ul>
+<blockquote>
+<p>3.2 项目经理的<strong>定义</strong>:项目经理是由执行组织委派，领导团队实现项目目标的个人.</p>
+</blockquote>
+<h3 id="3-3-2-项目"><a href="#3-3-2-项目" class="headerlink" title="3.3.2 项目"></a>3.3.2 项目</h3><p>项目经理领导项目团队实现项目目标和相关方的期望。<br><br>项目经理还充当项目发起人、团队成员与其他相关方之间的<strong>沟通者</strong>。<br><br>项目经理还充当项目发起人、团队成员与其他相关方之间的沟通者，</p>
+<blockquote>
+<p>项目经理的能力</p>
+</blockquote>
+<h3 id="3-4-1-概述"><a href="#3-4-1-概述" class="headerlink" title="3.4.1 概述"></a>3.4.1 概述</h3><p> PMI 人才三角。<br><br> 人才三角重点关注三个关键技能组合：</p>
+<ul>
+<li> 技术项目管理。</li>
+<li>领导力。</li>
+<li>战略和商务管理。</li>
+</ul>
+<h3 id="3-4-2-技术项目管理技能"><a href="#3-4-2-技术项目管理技能" class="headerlink" title="3.4.2 技术项目管理技能"></a>3.4.2 技术项目管理技能</h3><p>技术项目管理技能指有效运用项目管理知识实现项目集或项目的预期成果的能力。</p>
+]]></content>
+      <categories>
+        <category>PMP</category>
+      </categories>
+      <tags>
+        <tag>PMP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>消息队列_Rocketmq</title>
     <url>/2021/07/09/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/</url>
     <content><![CDATA[<h1 id="主流消息队列选型"><a href="#主流消息队列选型" class="headerlink" title="主流消息队列选型"></a>主流消息队列选型</h1><table>
@@ -469,32 +666,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>shell知识点</title>
-    <url>/2021/07/02/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h2 id="Shell-中数字相加"><a href="#Shell-中数字相加" class="headerlink" title="Shell 中数字相加"></a>Shell 中数字相加</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line">c=`expr $&#123;a&#125; + $&#123;b&#125;`</span><br><span class="line">echo &quot;$c&quot;</span><br><span class="line"></span><br><span class="line">let 命令是 BASH 中用于计算的工具，用于执行一个或多个表达式，变量计算中不需要加上</span><br><span class="line"><span class="meta"> $</span><span class="bash"> 来表示变量。如果表达式中包含了空格或其他特殊字符，则必须引起来。</span></span><br><span class="line"> </span><br><span class="line">let a=5+4</span><br><span class="line">let b=9-3 </span><br><span class="line">echo $a $b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ftp ip.ip.ip.ip</span><br><span class="line"><span class="meta">#</span><span class="bash">获取文件</span></span><br><span class="line">mget</span><br><span class="line"><span class="meta">#</span><span class="bash">上传文件</span></span><br><span class="line">mput</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭确认提示</span></span><br><span class="line">prompt</span><br><span class="line"><span class="meta">#</span><span class="bash">删除文件</span></span><br><span class="line">delete xxx.dat</span><br><span class="line"><span class="meta">#</span><span class="bash">批量删除文件 支持通配</span></span><br><span class="line">mdelete *xxx*</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="awk中输入外部的变量"><a href="#awk中输入外部的变量" class="headerlink" title="awk中输入外部的变量"></a>awk中输入外部的变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意 <span class="string">&quot; 和 &#x27;</span></span></span><br><span class="line">grep kdpl_acct_bal load.sh|awk &#x27;&#123;print &quot;&#x27;$FilePath&#x27;&quot;$4&#125;&#x27;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<p>#数字的比较：</p>
-<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">-<span class="literal">eq</span> 相等（equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ne</span> 不等<span class="built_in">（not</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">gt</span> 大于（greater than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">lt</span> 小于（less than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ge</span> 大于等于 （greater than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">le</span> 小于等于 （less than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">字符串的比较：</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> = <span class="variable">$str2</span> ] 等于</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> != <span class="variable">$str2</span> ] 不等于</span><br><span class="line"></span><br><span class="line">[ -z <span class="variable">$str</span> ] 空字符串返<span class="built_in">回true</span></span><br><span class="line"></span><br><span class="line">[ -n <span class="variable">$str</span> ] 或者 [ <span class="variable">$str</span> ] 非空字符串返<span class="built_in">回true</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>unix</category>
-        <category>shell</category>
-        <category>日常使用</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
-        <tag>运算</tag>
-        <tag>ftp</tag>
-        <tag>awk</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>排序算法比较</title>
     <url>/2021/07/01/%E7%AE%97%E6%B3%95%E7%AF%87/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/</url>
     <content><![CDATA[<h3 id="各排序算法比较"><a href="#各排序算法比较" class="headerlink" title="各排序算法比较"></a>各排序算法比较</h3><table>
@@ -949,20 +1120,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>常见的强杀进程的命令</title>
-    <url>/2021/06/15/shell/%E8%BF%9B%E7%A8%8B%E5%BC%BA%E6%9D%80/</url>
-    <content><![CDATA[<h1 id="强杀进程"><a href="#强杀进程" class="headerlink" title="强杀进程"></a>强杀进程</h1><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">ps -ef|<span class="keyword">grep</span> job|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> $ORACLE_SID|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> sqlldr|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>unix</category>
-        <category>shell</category>
-        <category>强杀进程</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>shell中for循环的用法</title>
     <url>/2021/06/15/shell/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>for循环是程序处理中常见的的一种处理逻辑，那么shell中如何使用呢？</p>
@@ -1026,6 +1183,59 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java基础提升_线程池</title>
+    <url>/2021/06/15/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言<br></h1><p>在《阿里巴巴java开发手册》中指出了线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，这样一方面是线程的创建更加规范，可以合理控制开辟线程的数量；另一方面线程的细节管理交给线程池处理，优化了资源的开销。<br><br>而线程池不允许使用Executors去创建，而要通过<strong>ThreadPoolExecutor</strong>方式，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活【消耗内存等】；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险，所以阿里巴巴java开发规范线程池首选ThreadPoolExcutor。<br></p>
+<p>话虽如此但常见的Executor框架还是要有所了解。</p>
+<span id="more"></span>
+<h2 id="常见线程池以及使用"><a href="#常见线程池以及使用" class="headerlink" title="常见线程池以及使用"></a>常见线程池以及使用</h2><h3 id="1-newCacheThreadPoo"><a href="#1-newCacheThreadPoo" class="headerlink" title="1.newCacheThreadPoo"></a>1.newCacheThreadPoo</h3><p>Executors.newCacheThreadPool()：可缓存线程池，先查看池中有没有以前建立的线程，如果有，就直接使用。如果没有，就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务。</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建一个可缓存线程池</span></span><br><span class="line">        ExecutorService cachedThreadPool = <span class="module-access"><span class="module"><span class="identifier">Executors</span>.</span></span><span class="keyword">new</span><span class="constructor">CachedThreadPool()</span>;</span><br><span class="line">         cachedThreadPool.execute(<span class="literal">()</span> -&gt;&#123;</span><br><span class="line">                </span><br><span class="line">                    <span class="comment">// 打印正在执行的缓存线程信息</span></span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>.get<span class="constructor">Name()</span></span><br><span class="line">                            + <span class="string">&quot;正在被执行&quot;</span>);</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="2-newFixedThreadPool"><a href="#2-newFixedThreadPool" class="headerlink" title="2.newFixedThreadPool"></a>2.newFixedThreadPool</h3><p> Executors.newFixedThreadPool(int n)：创建一个可重用固定个数的线程池，以共享的无界队列方式来运行这些线程。</p>
+<h3 id="3-newScheduledThreadPool"><a href="#3-newScheduledThreadPool" class="headerlink" title="3.newScheduledThreadPool"></a>3.newScheduledThreadPool</h3><p>Executors.newScheduledThreadPool(int n)：创建一个定长线程池，支持定时及周期性任务执行</p>
+<h3 id="4-newSingleThreadExecutor"><a href="#4-newSingleThreadExecutor" class="headerlink" title="4.newSingleThreadExecutor"></a>4.newSingleThreadExecutor</h3><p>Executors.newSingleThreadExecutor()：创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
+<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><h3 id="创建方式和主要参数解释"><a href="#创建方式和主要参数解释" class="headerlink" title="创建方式和主要参数解释"></a>创建方式和主要参数解释</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> static final ThreadPoolExecutor THREADPOOL = <span class="keyword">new</span> <span class="constructor">ThreadPoolExecutor(<span class="params">int</span> <span class="params">corePoolSize</span>, <span class="params">int</span> <span class="params">maximumPoolSize</span>,<span class="params">long</span> <span class="params">keepAliveTime</span>, TimeUnit <span class="params">unit</span>,BlockingQueue&lt;Runnable&gt; <span class="params">workQueue</span>,RejectedExecutionHandler <span class="params">handler</span>)</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>corePoolSize： 线程池维护线程的最少数量 （core : 核心）</li>
+<li>maximumPoolSize： 线程池维护线程的最大数量</li>
+<li>keepAliveTime：线程池维护线程所允许的空闲时间</li>
+<li>unit：线程池维护线程所允许的空闲时间的单位</li>
+<li>workQueue：线程池所使用的缓冲队列</li>
+<li>handler：线程池对拒绝任务的处理策略</li>
+</ol>
+<h3 id="内部执行流程解释"><a href="#内部执行流程解释" class="headerlink" title="内部执行流程解释"></a>内部执行流程解释</h3><p>通过 execute(Runnable)方法被添加到线程池，任务就是一个 Runnable类型的对象，任务的执行方法就是 Runnable类型对象的run()方法。<br><br>当一个任务通过execute(Runnable)方法欲添加到线程池时：<br><br>如果此时线程池中的数量小于corePoolSize，即使线程池中的线程都处于空闲状态，也要创建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量等于 corePoolSize，但是缓冲队列 workQueue未满，那么任务被放入缓冲队列。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量小于maximumPoolSize，建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量等于maximumPoolSize，那么通过 handler所指定的策略来处理此任务。<br><br>也就是：处理任务的优先级为：<br><br>核心线程corePoolSize、任务队列workQueue、最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务。<br><br> 当线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止。这样，线程池可以动态的调整池中的线程数。<br></p>
+<ul>
+<li><p>unit可选的参数为java.util.concurrent.TimeUnit中的几个静态属性：NANOSECONDS、MICROSECONDS、MILLISECONDS、SECONDS。</p>
+</li>
+<li><p>workQueue常用的是：java.util.concurrent.ArrayBlockingQueue</p>
+</li>
+<li><p>handler有四个选择：<br><br>ThreadPoolExecutor.AbortPolicy()：抛出java.util.concurrent.RejectedExecutionException异常<br><br>ThreadPoolExecutor.CallerRunsPolicy(): 重试添加当前的任务，他会自动重复调用execute()方法<br><br>ThreadPoolExecutor.DiscardOldestPolicy(): 抛弃旧的任务<br><br>ThreadPoolExecutor.DiscardPolicy(): 抛弃当前的任务<br></p>
+</li>
+</ul>
+<h3 id="如何配置线程池"><a href="#如何配置线程池" class="headerlink" title="如何配置线程池"></a>如何配置线程池</h3><ul>
+<li><p>CPU密集型任务<br><br>尽量使用较小的线程池，一般为CPU核心数+1。 因为CPU密集型任务使得CPU使用率很高，若开过多的线程数，会造成CPU过度切换。</p>
+</li>
+<li><p>IO密集型任务<br><br>可以使用稍大的线程池，一般为2*CPU核心数。 IO密集型任务CPU使用率并不高，因此可以让CPU在等待IO的时候有其他线程去处理别的任务，充分利用CPU时间。</p>
+</li>
+<li><p>混合型任务<br><br>可以将任务分成IO密集型和CPU密集型任务，然后分别用不同的线程池去处理。 只要分完之后两个任务的执行时间相差不大，那么就会比串行执行来的高效。<br>因为如果划分之后两个任务执行时间有数据级的差距，那么拆分没有意义。<br>因为先执行完的任务就要等后执行完的任务，最终的时间仍然取决于后执行完的任务，而且还要加上任务拆分与合并的开销，得不偿失。</p>
+</li>
+</ul>
+<h3 id="execute-和submit-方法"><a href="#execute-和submit-方法" class="headerlink" title="execute()和submit()方法"></a>execute()和submit()方法</h3><p>1、execute()，执行一个任务，没有返回值。<br>2、submit()，提交一个线程任务，有返回值。<br>submit(Callable<T> task)能获取到它的返回值，通过future.get()获取（阻塞直到任务执行完）。一般使用FutureTask+Callable配合使用（IntentService中有体现）。</T></p>
+<p>submit(Runnable task, T result)能通过传入的载体result间接获得线程的返回值。<br>submit(Runnable task)则是没有返回值的，就算获取它的返回值也是null。</p>
+<p>Future.get方法会使取结果的线程进入阻塞状态，知道线程执行完成之后，唤醒取结果的线程，然后返回结果。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>多线程</category>
+        <category>线程池</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
+        <tag>线程池</tag>
       </tags>
   </entry>
   <entry>
@@ -1093,59 +1303,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java基础提升_线程池</title>
-    <url>/2021/06/15/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言<br></h1><p>在《阿里巴巴java开发手册》中指出了线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，这样一方面是线程的创建更加规范，可以合理控制开辟线程的数量；另一方面线程的细节管理交给线程池处理，优化了资源的开销。<br><br>而线程池不允许使用Executors去创建，而要通过<strong>ThreadPoolExecutor</strong>方式，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活【消耗内存等】；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险，所以阿里巴巴java开发规范线程池首选ThreadPoolExcutor。<br></p>
-<p>话虽如此但常见的Executor框架还是要有所了解。</p>
-<span id="more"></span>
-<h2 id="常见线程池以及使用"><a href="#常见线程池以及使用" class="headerlink" title="常见线程池以及使用"></a>常见线程池以及使用</h2><h3 id="1-newCacheThreadPoo"><a href="#1-newCacheThreadPoo" class="headerlink" title="1.newCacheThreadPoo"></a>1.newCacheThreadPoo</h3><p>Executors.newCacheThreadPool()：可缓存线程池，先查看池中有没有以前建立的线程，如果有，就直接使用。如果没有，就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务。</p>
-<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建一个可缓存线程池</span></span><br><span class="line">        ExecutorService cachedThreadPool = <span class="module-access"><span class="module"><span class="identifier">Executors</span>.</span></span><span class="keyword">new</span><span class="constructor">CachedThreadPool()</span>;</span><br><span class="line">         cachedThreadPool.execute(<span class="literal">()</span> -&gt;&#123;</span><br><span class="line">                </span><br><span class="line">                    <span class="comment">// 打印正在执行的缓存线程信息</span></span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>.get<span class="constructor">Name()</span></span><br><span class="line">                            + <span class="string">&quot;正在被执行&quot;</span>);</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="2-newFixedThreadPool"><a href="#2-newFixedThreadPool" class="headerlink" title="2.newFixedThreadPool"></a>2.newFixedThreadPool</h3><p> Executors.newFixedThreadPool(int n)：创建一个可重用固定个数的线程池，以共享的无界队列方式来运行这些线程。</p>
-<h3 id="3-newScheduledThreadPool"><a href="#3-newScheduledThreadPool" class="headerlink" title="3.newScheduledThreadPool"></a>3.newScheduledThreadPool</h3><p>Executors.newScheduledThreadPool(int n)：创建一个定长线程池，支持定时及周期性任务执行</p>
-<h3 id="4-newSingleThreadExecutor"><a href="#4-newSingleThreadExecutor" class="headerlink" title="4.newSingleThreadExecutor"></a>4.newSingleThreadExecutor</h3><p>Executors.newSingleThreadExecutor()：创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
-<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><h3 id="创建方式和主要参数解释"><a href="#创建方式和主要参数解释" class="headerlink" title="创建方式和主要参数解释"></a>创建方式和主要参数解释</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> static final ThreadPoolExecutor THREADPOOL = <span class="keyword">new</span> <span class="constructor">ThreadPoolExecutor(<span class="params">int</span> <span class="params">corePoolSize</span>, <span class="params">int</span> <span class="params">maximumPoolSize</span>,<span class="params">long</span> <span class="params">keepAliveTime</span>, TimeUnit <span class="params">unit</span>,BlockingQueue&lt;Runnable&gt; <span class="params">workQueue</span>,RejectedExecutionHandler <span class="params">handler</span>)</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>corePoolSize： 线程池维护线程的最少数量 （core : 核心）</li>
-<li>maximumPoolSize： 线程池维护线程的最大数量</li>
-<li>keepAliveTime：线程池维护线程所允许的空闲时间</li>
-<li>unit：线程池维护线程所允许的空闲时间的单位</li>
-<li>workQueue：线程池所使用的缓冲队列</li>
-<li>handler：线程池对拒绝任务的处理策略</li>
-</ol>
-<h3 id="内部执行流程解释"><a href="#内部执行流程解释" class="headerlink" title="内部执行流程解释"></a>内部执行流程解释</h3><p>通过 execute(Runnable)方法被添加到线程池，任务就是一个 Runnable类型的对象，任务的执行方法就是 Runnable类型对象的run()方法。<br><br>当一个任务通过execute(Runnable)方法欲添加到线程池时：<br><br>如果此时线程池中的数量小于corePoolSize，即使线程池中的线程都处于空闲状态，也要创建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量等于 corePoolSize，但是缓冲队列 workQueue未满，那么任务被放入缓冲队列。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量小于maximumPoolSize，建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量等于maximumPoolSize，那么通过 handler所指定的策略来处理此任务。<br><br>也就是：处理任务的优先级为：<br><br>核心线程corePoolSize、任务队列workQueue、最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务。<br><br> 当线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止。这样，线程池可以动态的调整池中的线程数。<br></p>
-<ul>
-<li><p>unit可选的参数为java.util.concurrent.TimeUnit中的几个静态属性：NANOSECONDS、MICROSECONDS、MILLISECONDS、SECONDS。</p>
-</li>
-<li><p>workQueue常用的是：java.util.concurrent.ArrayBlockingQueue</p>
-</li>
-<li><p>handler有四个选择：<br><br>ThreadPoolExecutor.AbortPolicy()：抛出java.util.concurrent.RejectedExecutionException异常<br><br>ThreadPoolExecutor.CallerRunsPolicy(): 重试添加当前的任务，他会自动重复调用execute()方法<br><br>ThreadPoolExecutor.DiscardOldestPolicy(): 抛弃旧的任务<br><br>ThreadPoolExecutor.DiscardPolicy(): 抛弃当前的任务<br></p>
-</li>
-</ul>
-<h3 id="如何配置线程池"><a href="#如何配置线程池" class="headerlink" title="如何配置线程池"></a>如何配置线程池</h3><ul>
-<li><p>CPU密集型任务<br><br>尽量使用较小的线程池，一般为CPU核心数+1。 因为CPU密集型任务使得CPU使用率很高，若开过多的线程数，会造成CPU过度切换。</p>
-</li>
-<li><p>IO密集型任务<br><br>可以使用稍大的线程池，一般为2*CPU核心数。 IO密集型任务CPU使用率并不高，因此可以让CPU在等待IO的时候有其他线程去处理别的任务，充分利用CPU时间。</p>
-</li>
-<li><p>混合型任务<br><br>可以将任务分成IO密集型和CPU密集型任务，然后分别用不同的线程池去处理。 只要分完之后两个任务的执行时间相差不大，那么就会比串行执行来的高效。<br>因为如果划分之后两个任务执行时间有数据级的差距，那么拆分没有意义。<br>因为先执行完的任务就要等后执行完的任务，最终的时间仍然取决于后执行完的任务，而且还要加上任务拆分与合并的开销，得不偿失。</p>
-</li>
-</ul>
-<h3 id="execute-和submit-方法"><a href="#execute-和submit-方法" class="headerlink" title="execute()和submit()方法"></a>execute()和submit()方法</h3><p>1、execute()，执行一个任务，没有返回值。<br>2、submit()，提交一个线程任务，有返回值。<br>submit(Callable<T> task)能获取到它的返回值，通过future.get()获取（阻塞直到任务执行完）。一般使用FutureTask+Callable配合使用（IntentService中有体现）。</T></p>
-<p>submit(Runnable task, T result)能通过传入的载体result间接获得线程的返回值。<br>submit(Runnable task)则是没有返回值的，就算获取它的返回值也是null。</p>
-<p>Future.get方法会使取结果的线程进入阻塞状态，知道线程执行完成之后，唤醒取结果的线程，然后返回结果。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>基础</category>
-        <category>多线程</category>
-        <category>线程池</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>多线程</tag>
-        <tag>线程池</tag>
       </tags>
   </entry>
   <entry>
@@ -1328,38 +1485,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>基础知识HTTP</title>
-    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/</url>
-    <content><![CDATA[<h2 id="什么是HTTP？"><a href="#什么是HTTP？" class="headerlink" title="什么是HTTP？"></a>什么是HTTP？</h2><p>HyperText Transfer Protocol（超文本传输协议）,它是一个<strong>无状态的工作在应用层的协议</strong>.<br><br>超文本指的是<strong>HTML</strong>，css，JavaScript和图片等，HTTP的出现是为了接收和发布HTML页面，也可以用于接收一些音频，视频，文件等内容。<br><br>HTTP协议是用于客户端和服务器端之间的通信，用于客户端和服务器端之间的通信有HTTP协议和TCP/IP协议族在内的其他众多的协议。<br></p>
-<h2 id="HTTP的短连接和长连接"><a href="#HTTP的短连接和长连接" class="headerlink" title="HTTP的短连接和长连接"></a>HTTP的短连接和长连接</h2><p>在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。</p>
-<p>而从HTTP/1.1起，默认使用长连接，用以保持连接特性。可以持久连接，TCP连接默认不关闭，可以被多个请求复用，只有在一段时间内，没有请求，就可以自动关闭。使用长连接的HTTP协议，会在响应头加入这行代码：</p>
-<figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 默认：</span></span><br><span class="line"><span class="symbol">Connection:</span><span class="meta">keep</span>-alive</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="HTTP的特点："><a href="#HTTP的特点：" class="headerlink" title="HTTP的特点："></a>HTTP的特点：</h2><p>支持客户端、服务器端模式，简单快速，客户端向服务器端请求服务时，只需传送请求方法和路径，灵活，HTTP允许传输任意类型的数据对象，无状态，HTTP协议是无状态协议，指明协议对于事务处理没有记忆能力。</p>
-<p>HTTP1.1虽然是无状态协议，但是为了实现期望的保持状态功能，于是引入了Cookie技术，有了Cookie，和HTTP协议通信，就可以管理状态了。</p>
-<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p> HTTPS 的全称是 Hypertext Transfer Protocol Secure。<br> 从名称我们可以看出 HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并不是一个新的应用层协议，它其实就是 HTTP + TLS/SSL 协议组合而成，而安全性的保证正是 TLS/SSL 所做的工作。</p>
-<ul>
-<li>HTTP 的默认端口是 80，而 HTTPS 的默认端口是 443。<br>http和https的比对</li>
-<li>数据完整性：内容传输经过完整性校验</li>
-<li>数据隐私性：内容经过对称加密，每个连接生成一个唯一的加密密钥</li>
-<li>身份认证：第三方无法伪造服务端(客户端)身份</li>
-</ul>
-<p>SSL过程<br>建立连接获取证书</p>
-<ol>
-<li>SSL 客户端通过 TCP 和服务器建立连接之后（443 端口），并且在一般的 tcp 连接协商（握<br>手）过程中请求证书。即客户端发出一个消息给服务器，这个消息里面包含了自己可实现的算<br>法列表和其它一些需要的消息，SSL 的服务器端会回应一个数据包，这里面确定了这次通信所<br>需要的算法，然后服务器向客户端返回证书。（证书里面包含了服务器信息：域名。申请证书<br>的公司，公共秘钥）。<br>证书验证</li>
-<li>Client 在收到服务器返回的证书后，判断签发这个证书的公共签发机构，并使用这个机构的公<br>共秘钥确认签名是否有效，客户端还会确保证书中列出的域名就是它正在连接的域名。<br>数据加密和传输</li>
-<li>如果确认证书有效，那么生成对称秘钥并使用服务器的公共秘钥进行加密。然后发送给服务<br>器，服务器使用它的私钥对它进行解密，这样两台计算机可以开始进行对称加密进行通信。</li>
-</ol>
-<figure class="highlight clean"><table><tr><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">客户端-&gt;&gt;服务端: 请求http连接（消息里面包含了自己可实现的算法列表和其它一些需要的消息）</span><br><span class="line">服务端-&gt;&gt;客户端: 返回私钥签名后的证书（公钥）</span><br><span class="line">客户端-&gt;&gt;客户端: 接收证书，用机构的公钥验证证书签名，使用算法产生随机的对称密钥，并且使用公钥对此对称密钥加密</span><br><span class="line">客户端-&gt;&gt;服务端: 发送加密后的堆成密钥</span><br><span class="line">客户端-&gt;&gt;服务端: 通过对称密钥加密的密文进行通信</span><br><span class="line">服务端-&gt;&gt;客户端: 通过对称密钥加密的密文进行通信</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>cs基础</category>
-        <category>http</category>
-      </categories>
-      <tags>
-        <tag>http</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基础概念_分布式事务</title>
     <url>/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
     <content><![CDATA[<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>一般是指要做的或所做的事情。<br>在计算机术语中是指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。<br>事务通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序执行所引起，并用形如begin transaction和end transaction语句（或函数调用）来界定。<br>事务由事务开始(begin transaction)和事务结束(end transaction)之间执行的全体操作组成。</p>
@@ -1400,6 +1525,38 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>基础概念</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识HTTP</title>
+    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/</url>
+    <content><![CDATA[<h2 id="什么是HTTP？"><a href="#什么是HTTP？" class="headerlink" title="什么是HTTP？"></a>什么是HTTP？</h2><p>HyperText Transfer Protocol（超文本传输协议）,它是一个<strong>无状态的工作在应用层的协议</strong>.<br><br>超文本指的是<strong>HTML</strong>，css，JavaScript和图片等，HTTP的出现是为了接收和发布HTML页面，也可以用于接收一些音频，视频，文件等内容。<br><br>HTTP协议是用于客户端和服务器端之间的通信，用于客户端和服务器端之间的通信有HTTP协议和TCP/IP协议族在内的其他众多的协议。<br></p>
+<h2 id="HTTP的短连接和长连接"><a href="#HTTP的短连接和长连接" class="headerlink" title="HTTP的短连接和长连接"></a>HTTP的短连接和长连接</h2><p>在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。</p>
+<p>而从HTTP/1.1起，默认使用长连接，用以保持连接特性。可以持久连接，TCP连接默认不关闭，可以被多个请求复用，只有在一段时间内，没有请求，就可以自动关闭。使用长连接的HTTP协议，会在响应头加入这行代码：</p>
+<figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 默认：</span></span><br><span class="line"><span class="symbol">Connection:</span><span class="meta">keep</span>-alive</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="HTTP的特点："><a href="#HTTP的特点：" class="headerlink" title="HTTP的特点："></a>HTTP的特点：</h2><p>支持客户端、服务器端模式，简单快速，客户端向服务器端请求服务时，只需传送请求方法和路径，灵活，HTTP允许传输任意类型的数据对象，无状态，HTTP协议是无状态协议，指明协议对于事务处理没有记忆能力。</p>
+<p>HTTP1.1虽然是无状态协议，但是为了实现期望的保持状态功能，于是引入了Cookie技术，有了Cookie，和HTTP协议通信，就可以管理状态了。</p>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p> HTTPS 的全称是 Hypertext Transfer Protocol Secure。<br> 从名称我们可以看出 HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并不是一个新的应用层协议，它其实就是 HTTP + TLS/SSL 协议组合而成，而安全性的保证正是 TLS/SSL 所做的工作。</p>
+<ul>
+<li>HTTP 的默认端口是 80，而 HTTPS 的默认端口是 443。<br>http和https的比对</li>
+<li>数据完整性：内容传输经过完整性校验</li>
+<li>数据隐私性：内容经过对称加密，每个连接生成一个唯一的加密密钥</li>
+<li>身份认证：第三方无法伪造服务端(客户端)身份</li>
+</ul>
+<p>SSL过程<br>建立连接获取证书</p>
+<ol>
+<li>SSL 客户端通过 TCP 和服务器建立连接之后（443 端口），并且在一般的 tcp 连接协商（握<br>手）过程中请求证书。即客户端发出一个消息给服务器，这个消息里面包含了自己可实现的算<br>法列表和其它一些需要的消息，SSL 的服务器端会回应一个数据包，这里面确定了这次通信所<br>需要的算法，然后服务器向客户端返回证书。（证书里面包含了服务器信息：域名。申请证书<br>的公司，公共秘钥）。<br>证书验证</li>
+<li>Client 在收到服务器返回的证书后，判断签发这个证书的公共签发机构，并使用这个机构的公<br>共秘钥确认签名是否有效，客户端还会确保证书中列出的域名就是它正在连接的域名。<br>数据加密和传输</li>
+<li>如果确认证书有效，那么生成对称秘钥并使用服务器的公共秘钥进行加密。然后发送给服务<br>器，服务器使用它的私钥对它进行解密，这样两台计算机可以开始进行对称加密进行通信。</li>
+</ol>
+<figure class="highlight clean"><table><tr><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">客户端-&gt;&gt;服务端: 请求http连接（消息里面包含了自己可实现的算法列表和其它一些需要的消息）</span><br><span class="line">服务端-&gt;&gt;客户端: 返回私钥签名后的证书（公钥）</span><br><span class="line">客户端-&gt;&gt;客户端: 接收证书，用机构的公钥验证证书签名，使用算法产生随机的对称密钥，并且使用公钥对此对称密钥加密</span><br><span class="line">客户端-&gt;&gt;服务端: 发送加密后的堆成密钥</span><br><span class="line">客户端-&gt;&gt;服务端: 通过对称密钥加密的密文进行通信</span><br><span class="line">服务端-&gt;&gt;客户端: 通过对称密钥加密的密文进行通信</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>cs基础</category>
+        <category>http</category>
+      </categories>
+      <tags>
+        <tag>http</tag>
       </tags>
   </entry>
   <entry>
