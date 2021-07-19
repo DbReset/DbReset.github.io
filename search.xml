@@ -9,54 +9,8 @@
 ]]></content>
   </entry>
   <entry>
-    <title>shell知识点</title>
-    <url>/2021/07/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h2 id="Shell-中数字相加"><a href="#Shell-中数字相加" class="headerlink" title="Shell 中数字相加"></a>Shell 中数字相加</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line">c=`expr $&#123;a&#125; + $&#123;b&#125;`</span><br><span class="line">echo &quot;$c&quot;</span><br><span class="line"></span><br><span class="line">let 命令是 BASH 中用于计算的工具，用于执行一个或多个表达式，变量计算中不需要加上</span><br><span class="line"><span class="meta"> $</span><span class="bash"> 来表示变量。如果表达式中包含了空格或其他特殊字符，则必须引起来。</span></span><br><span class="line"> </span><br><span class="line">let a=5+4</span><br><span class="line">let b=9-3 </span><br><span class="line">echo $a $b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ftp ip.ip.ip.ip</span><br><span class="line"><span class="meta">#</span><span class="bash">获取文件</span></span><br><span class="line">mget</span><br><span class="line"><span class="meta">#</span><span class="bash">上传文件</span></span><br><span class="line">mput</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭确认提示</span></span><br><span class="line">prompt</span><br><span class="line"><span class="meta">#</span><span class="bash">删除文件</span></span><br><span class="line">delete xxx.dat</span><br><span class="line"><span class="meta">#</span><span class="bash">批量删除文件 支持通配</span></span><br><span class="line">mdelete *xxx*</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="awk中输入外部的变量"><a href="#awk中输入外部的变量" class="headerlink" title="awk中输入外部的变量"></a>awk中输入外部的变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意 <span class="string">&quot; 和 &#x27;</span></span></span><br><span class="line">grep kdpl_acct_bal load.sh|awk &#x27;&#123;print &quot;&#x27;$FilePath&#x27;&quot;$4&#125;&#x27;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<h2 id="数字的比较："><a href="#数字的比较：" class="headerlink" title="数字的比较："></a>数字的比较：</h2><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">-<span class="literal">eq</span> 相等（equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ne</span> 不等<span class="built_in">（not</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">gt</span> 大于（greater than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">lt</span> 小于（less than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ge</span> 大于等于 （greater than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">le</span> 小于等于 （less than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">字符串的比较：</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> = <span class="variable">$str2</span> ] 等于</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> != <span class="variable">$str2</span> ] 不等于</span><br><span class="line"></span><br><span class="line">[ -z <span class="variable">$str</span> ] 空字符串返<span class="built_in">回true</span></span><br><span class="line"></span><br><span class="line">[ -n <span class="variable">$str</span> ] 或者 [ <span class="variable">$str</span> ] 非空字符串返<span class="built_in">回true</span></span><br></pre></td></tr></table></figure>
-<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">grep</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-r 是递归查找</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-n 是显示行号</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-R 查找所有文件包含子目录</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-i 忽略大小写</span></span><br><span class="line">grep -rn &quot;hello,world!&quot; *</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="清文件，腾空间相关"><a href="#清文件，腾空间相关" class="headerlink" title="清文件，腾空间相关"></a>清文件，腾空间相关</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看空间：</span></span><br><span class="line">df -h</span><br><span class="line">du -sh *   //查看当前所有目录及目录大小</span><br><span class="line">du -h --max-depth=1   //列出当前目录每个目录下的大小兑付-</span><br><span class="line">删除：</span><br><span class="line">/bin/rm -rf ./2016*       bin下执行  不进入回收站</span><br></pre></td></tr></table></figure>
-
-<h2 id="查找包含某段信息的文件名"><a href="#查找包含某段信息的文件名" class="headerlink" title="查找包含某段信息的文件名"></a>查找包含某段信息的文件名</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find .|xargs grep -ri &quot;01000000000275&quot; -l </span><br><span class="line">find . -name *.* |xargs grep &quot;2052019052300000000138&quot; -l</span><br><span class="line">ps -ef|grep java //查找进程 java</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="强杀进程"><a href="#强杀进程" class="headerlink" title="强杀进程"></a>强杀进程</h1><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">ps -ef|<span class="keyword">grep</span> job|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> $ORACLE_SID|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> sqlldr|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>unix</category>
-        <category>shell</category>
-        <category>日常使用</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
-        <tag>运算</tag>
-        <tag>ftp</tag>
-        <tag>awk</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PMP备考系列_4-章笔记</title>
-    <url>/2021/07/15/pmp/PMP4-6/</url>
-    <content><![CDATA[<h2 id="4-项目整合管理"><a href="#4-项目整合管理" class="headerlink" title="4.项目整合管理"></a>4.项目整合管理</h2><p>项目整合管理包括对隶属于项目管理过程组的各种过程和项目管理活动进行识别、定义、组合、统一和协调的各个过程。<br><br>在项目管理中，整合兼具统一、合并、沟通和建立联系的性质，这些行动<br>应该贯穿项目始终。<br></p>
-]]></content>
-      <categories>
-        <category>PMP</category>
-      </categories>
-      <tags>
-        <tag>PMP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PMP备考系列_1-3章笔记</title>
-    <url>/2021/07/15/pmp/PMP1-3/</url>
+    <url>/2021/07/19/pmp/PMP1-3/</url>
     <content><![CDATA[<h1 id="PMBOK指南笔记"><a href="#PMBOK指南笔记" class="headerlink" title="PMBOK指南笔记"></a>PMBOK指南笔记</h1><h2 id="1-引论"><a href="#1-引论" class="headerlink" title="1.引论"></a>1.引论</h2><blockquote>
 <p>1.1《PMBOK®指南》<br>收录项目管理知识体系中被普遍认可为“良好实践”的那一部分。</p>
 </blockquote>
@@ -68,12 +22,11 @@
 <p>1.1.3 道德与专业行为规范</p>
 </blockquote>
 <ul>
-<li>全球项目管理业界定义的最重要的价值观是:<strong>责任、尊重、公正和诚实</strong>。</li>
-</ul>
+<li>全球项目管理业界定义的最重要的价值观是:<strong>责任、尊重、公正和诚实</strong>。<span id="more"></span>
 <blockquote>
 <p>1.2.1 项目</p>
 </blockquote>
-<ul>
+</li>
 <li>项目定义：项目是为创造<strong>独特</strong>的产品、服务或成果而进行的<strong>临时性</strong>工作。<br><ul>
 <li>项目的“临时性”是指项目有<strong>明确的起点和终点</strong>。</li>
 <li>项目终止原因 -&gt; 收尾：<ul>
@@ -93,7 +46,7 @@
 </li>
 </ul>
 <hr>
-<p><img src="/2021/07/15/pmp/PMP1-3/pmpflow.jpg" alt="流程"></p>
+<p><img src="/2021/07/19/pmp/PMP1-3/pmpflow.jpg" alt="流程"></p>
 <ul>
 <li>项目成功标准：项目章程。</li>
 <li>可交付成果物的验收标准：范围说明书。</li>
@@ -115,7 +68,7 @@
 <p>从组织的角度来看项目、项目集和项目组合管理：</p>
 <ul>
 <li>项目集和项目管理的重点在于以<strong>“正确”的方式</strong>开展项目集和项目；</li>
-<li>项目组合管理则注重于<strong>开展“正确”的</strong>项目集和项目<br><img src="/2021/07/15/pmp/PMP1-3/%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E9%9B%86-%E9%A1%B9%E7%9B%AE%E7%BB%84%E5%90%88%E7%AE%A1%E7%90%86.jpg" alt="项目-项目集-项目组合管理的比较概述"></li>
+<li>项目组合管理则注重于<strong>开展“正确”的</strong>项目集和项目<br><img src="/2021/07/19/pmp/PMP1-3/%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E9%9B%86-%E9%A1%B9%E7%9B%AE%E7%BB%84%E5%90%88%E7%AE%A1%E7%90%86.jpg" alt="项目-项目集-项目组合管理的比较概述"></li>
 </ul>
 <h4 id="1-2-3-2-项目集管理-（重点是：存在相互依赖的关系）"><a href="#1-2-3-2-项目集管理-（重点是：存在相互依赖的关系）" class="headerlink" title="1.2.3.2 项目集管理 （重点是：存在相互依赖的关系）"></a>1.2.3.2 项目集管理 （重点是：存在相互依赖的关系）</h4><p>项目管理注重项目本身的相互依赖关系，以确定管理项目的最佳方法。<br><br>项目集管理注重作为组成部分的项目与项目集之间的依赖关系，以确定管理这些项目的最佳方法。<br><br>都是管理内部的依赖关系。</p>
 <h4 id="1-2-3-3-项目组合管理-（重点是：存在优先级）"><a href="#1-2-3-3-项目组合管理-（重点是：存在优先级）" class="headerlink" title="1.2.3.3 项目组合管理 （重点是：存在优先级）"></a>1.2.3.3 项目组合管理 （重点是：存在优先级）</h4><p>项目组合是指为实现战略目标而组合在一起管理的项目、项目集、子项目组合和运营工作。<br><br>项目组合中的项目集或项目不一定彼此依赖或直接相关。<br><br>要实现项目组合价值的最大化，需要精心检查项目组合的组成部分。确定组成部分的<strong>优先顺序</strong>，<br>使最有利于组织战略目标的组成部分拥有所需的财力、人力和实物资源。</p>
@@ -169,14 +122,31 @@
 <li>过程、政策和程序；(PMO项目管理办公室更新)</li>
 <li>组织知识库。</li>
 </ul>
-<h4 id="2-4-4-3-项目管理办公室"><a href="#2-4-4-3-项目管理办公室" class="headerlink" title="2.4.4.3 项目管理办公室"></a>2.4.4.3 项目管理办公室</h4><ul>
+<h2 id="2-4-组织系统"><a href="#2-4-组织系统" class="headerlink" title="2.4 组织系统"></a>2.4 组织系统</h2><p>组织结构<br>项目中人员或组织的组织结构对日后的项目影响深远，PMBOK定义了几种组织结构，分别是：</p>
+<ul>
+<li>职能型组织</li>
+<li>矩阵型组织</li>
+<li>项目型组织 </li>
+</ul>
+<ol>
+<li><p>项目型：将所有的能兵强将集结在一起，财务部、业务部、IT管理部等的精英们脱离原有的岗位。形成一个正式的部门，并由项目经理领导。这样的优势是项目经理的权利很强、资源充足，所有的项目经理都希望有这样的团队。但是就公司而言，单独团队对公司整体资源的浪费，是显而易见的；对被抽调的个人而言，脱离了原有的岗位。待项目结束之后，精英们将无家可归。（我就亲眼见过无家可归的人，某很有负罪感）</p>
+</li>
+<li><p> 职能型：对于项目经理来说，这种情况可是最惨淡的了，无权无资源彻底杯具了。所有项目人员还在属部门里面供职，仅仅花费小部分的时间来处理项目的事情。特别他们还有相应的职能经理，这样的双重管理，对于项目来说是最可怕的了。当然好处也是有的，就公司来说。为这个项目消耗的资源不是很多。个人来说，还在自己的萝卜坑里面。</p>
+</li>
+<li><p>矩阵型：可能是最微妙的组织关系了，分为弱矩阵，平衡矩阵，强矩阵。那么这个强、弱、平衡关系是如何界定的呢。就是项目经理与职能经理的权利的强弱关系决定；</p>
+</li>
+</ol>
+<p>项目经理&gt;职能经理=强矩阵<br>项目经理=职能经理=平衡矩阵<br>项目经理 &lt; 职能经理=弱矩阵<br>弱矩阵（Weak Matrix）、平衡矩阵（Balanced Matrix）、强矩阵（Strong Matrix）是矩阵型组织的三类细分，它们的区别主要是职能经理与项目经理之间的权力大小。职能经理与项目经理之间的权力基本相等时是平衡矩阵，两个极端分别是弱矩阵和强矩阵。</p>
+<p>其优点与职能型一样，对于公司资源均衡；对于个人岗位还在；对于你，项目经理来说横向沟通顺畅。缺点是：双重管理，纵向沟通困难。</p>
+<p>矩阵型组织是PMP考试的一个重点，在美国，很多项目都是在矩阵型组织中进行的。<br><img src="/2021/07/19/pmp/PMP1-3/2-1.jpg" alt="组织结构"></p>
+<h4 id="2-4-4-3-项目管理办公室（PMO）"><a href="#2-4-4-3-项目管理办公室（PMO）" class="headerlink" title="2.4.4.3 项目管理办公室（PMO）"></a>2.4.4.3 项目管理办公室（PMO）</h4><ul>
 <li>支持型。支持型 PMO 担当顾问的角色。这种类型的 PMO 其实就是一个项目资源库，对项目的控制程度很低。</li>
 <li>控制型。控制型 PMO不仅给项目提供支持，而且通过各种手段要求项目服从。</li>
 <li>指令型。指令型 PMO 直接管理和控制项目。项目经理由 PMO 指定并向其报告。这种类型的 PMO<br>对项目的控制程度很高</li>
 </ul>
 <hr>
 <hr>
-<h2 id="3-项目经理的角色"><a href="#3-项目经理的角色" class="headerlink" title="3.项目经理的角色"></a>3.项目经理的角色</h2><blockquote>
+<h2 id="3-项目经理的角色-第6版中扩充，重要性增加"><a href="#3-项目经理的角色-第6版中扩充，重要性增加" class="headerlink" title="3.项目经理的角色(第6版中扩充，重要性增加)"></a>3.项目经理的角色(第6版中扩充，重要性增加)</h2><blockquote>
 <p>3.1 概述</p>
 </blockquote>
 <p>项目经理在领导项目团队达成项目目标方面发挥至关重要的作用。<br><br>项目管理角色需要符合组织需求，如同项目管理过程需要符合项目需求一般。<br></p>
@@ -184,11 +154,12 @@
 <li>项目经理无需承担项目中的每个角色，但应具备项目管理知识、技术知识、理解和经验。项目经理通过沟通领导项目团队进行规划和协调。</li>
 </ul>
 <blockquote>
-<p>3.2 项目经理的<strong>定义</strong>:项目经理是由执行组织委派，领导团队实现项目目标的个人.</p>
+<p>3.2 项目经理的<strong>定义</strong></p>
 </blockquote>
-<h3 id="3-3-2-项目"><a href="#3-3-2-项目" class="headerlink" title="3.3.2 项目"></a>3.3.2 项目</h3><p>项目经理领导项目团队实现项目目标和相关方的期望。<br><br>项目经理还充当项目发起人、团队成员与其他相关方之间的<strong>沟通者</strong>。<br><br>项目经理还充当项目发起人、团队成员与其他相关方之间的沟通者，</p>
-<blockquote>
-<p>项目经理的能力</p>
+<p>项目经理是由执行组织委派，领导团队<br>实现项目目标的个人.</p>
+<h3 id="3-3-2-项目"><a href="#3-3-2-项目" class="headerlink" title="3.3.2 项目"></a>3.3.2 项目</h3><p>项目经理领导项目团队<strong>实现项目目标</strong>和<strong>相关方的期望</strong>。<br><br>项目经理还充当项目发起人、团队成员与其他相关方之间的<strong>沟通者</strong>。项目经理使用<strong>软技能</strong>（例如人际关系技能和人员管理技能）来平衡项目相关方之间相互冲突和竞争的目标，以达成共识。<br><br>成功的项目经理可以持续和有效地使用某些基本技能。<br></p>
+<h3 id="3-3-3-组织"><a href="#3-3-3-组织" class="headerlink" title="3.3.3 组织"></a>3.3.3 组织</h3><h3 id="3-3-4-行业"><a href="#3-3-4-行业" class="headerlink" title="3.3.4 行业"></a>3.3.4 行业</h3><blockquote>
+<p>3.4项目经理的能力</p>
 </blockquote>
 <h3 id="3-4-1-概述"><a href="#3-4-1-概述" class="headerlink" title="3.4.1 概述"></a>3.4.1 概述</h3><p> PMI 人才三角。<br><br> 人才三角重点关注三个关键技能组合：</p>
 <ul>
@@ -197,12 +168,171 @@
 <li>战略和商务管理。</li>
 </ul>
 <h3 id="3-4-2-技术项目管理技能"><a href="#3-4-2-技术项目管理技能" class="headerlink" title="3.4.2 技术项目管理技能"></a>3.4.2 技术项目管理技能</h3><p>技术项目管理技能指有效运用项目管理知识实现项目集或项目的预期成果的能力。</p>
+<p><img src="/2021/07/19/pmp/PMP1-3/5%E5%A4%A7%E8%BF%87%E7%A8%8B-10%E4%B8%AA%E7%9F%A5%E8%AF%86%E9%A2%86%E5%9F%9F.jpg" alt="5大过程-10个知识领域"></p>
 ]]></content>
       <categories>
         <category>PMP</category>
       </categories>
       <tags>
         <tag>PMP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PMP备考系列_4-章笔记</title>
+    <url>/2021/07/18/pmp/PMP4-6/</url>
+    <content><![CDATA[<h1 id="4-项目整合管理"><a href="#4-项目整合管理" class="headerlink" title="4.项目整合管理"></a>4.项目整合管理</h1><p>项目整合管理包括对隶属于项目管理过程组的各种过程和项目管理活动进行识别、定义、组合、统一和协调的各个过程。<br><br>在项目管理中，整合兼具统一、合并、沟通和建立联系的性质，这些行动<br>应该贯穿项目始终。<br></p>
+<blockquote>
+<p>项目整合管理的核心概念</p>
+</blockquote>
+<ul>
+<li>项目整合管理由项目经理负责。</li>
+<li>项目整合管理的责任不能被授权或转移。只能由项目经理负责整<br>合所有其他知识领域的成果，并掌握项目总体情况。</li>
+<li>项目经理必须对整个项目承担最终责任。</li>
+</ul>
+<span id="more"></span>
+<blockquote>
+<p>项目整合管理的发展趋势和新兴实践</p>
+</blockquote>
+<ul>
+<li>项目整合管理知识领域要求整合所有其他知识领域的成果。</li>
+</ul>
+<blockquote>
+<p>在敏捷或适应型环境中需要考虑的因素</p>
+</blockquote>
+<ul>
+<li>迭代和敏捷方法能够促进团队成员以相关领域专家的身份参与整合管理。团队成员自行决定计划<br>及其组件的整合方式</li>
+<li>在适应型环境下，《整合管理的核心概念》中所述的对项目经理的期望保持不变，但把对具体产品的规划和交付授权给团队来控制。(服务型项目经理)</li>
+</ul>
+<h2 id="4-1制定项目章程"><a href="#4-1制定项目章程" class="headerlink" title="4.1制定项目章程"></a>4.1制定项目章程</h2><ul>
+<li><strong>定义</strong>：是编写一份正式批准项目并授权项目经理在项目活动中使用组织资源的文件的过程。</li>
+<li><strong>作用</strong> ：明确项目与组织战略目标之间的直接联系，确立项目的正式地位，并展示组织对项目的承诺。</li>
+</ul>
+<p>项目章程一旦被批准，就标志着项目的正式启动。在项目中，应尽早确认并任命项目经理，最好在制定项目章程时就任命，且总应在规划开始之前任命。项目章程可由发起人编制，或者由项目经理与发起机构合作编制。<br><br>项目章程授权项目经理规划、执行和控制项目。<br><br>尽早任命项目经理，发起人合作编制项目章程 授权项目经理。<br><br>项目启动者或发起人应该具有一定的职权，能为项目获取资金并提供资源。<br><br>不要把项目章程看作合同，因为其中未承诺报酬或金钱或用于交换的对价。<br></p>
+<ul>
+<li>项目由项目以外的机构启动。</li>
+<li>项目启动者有职权为项目获取资金提供资源。</li>
+<li>项目章程不是合同<h3 id="4-1-1-制定项目章程：输入"><a href="#4-1-1-制定项目章程：输入" class="headerlink" title="4.1.1 制定项目章程：输入"></a>4.1.1 制定项目章程：输入</h3><h4 id="4-1-1-1-商业文件"><a href="#4-1-1-1-商业文件" class="headerlink" title="4.1.1.1 商业文件"></a>4.1.1.1 商业文件</h4></li>
+<li>商业文件需要定期审核<br></li>
+</ul>
+<p><strong>商业论证</strong>从商业视角描述必要的信息，并且据此决定项目的期望结果是否值得所需投资。高于项目级别的经理和高管们通常使用该文件作为<strong>决策的依据</strong>。一般情况下，商业论证会包含<strong>商业需求和成本效益分析</strong></p>
+<h4 id="4-1-1-2-协议"><a href="#4-1-1-2-协议" class="headerlink" title="4.1.1.2 协议"></a>4.1.1.2 协议</h4><p>协议用于定义启动项目的初衷。</p>
+<h3 id="4-1-2-制定项目章程：工具与技术"><a href="#4-1-2-制定项目章程：工具与技术" class="headerlink" title="4.1.2 制定项目章程：工具与技术"></a>4.1.2 制定项目章程：工具与技术</h3><h4 id="4-1-2-1-专家判断"><a href="#4-1-2-1-专家判断" class="headerlink" title="4.1.2.1 专家判断"></a>4.1.2.1 专家判断</h4><ul>
+<li>人人都可以是专家<h4 id="4-1-2-2-数据收集"><a href="#4-1-2-2-数据收集" class="headerlink" title="4.1.2.2 数据收集"></a>4.1.2.2 数据收集</h4></li>
+<li><strong>头脑风暴</strong>。本技术用于在短时间内获得大量创意，适用于团队环境，需要引导者进行引导。头脑风暴由两个部分构成：创意产生和创意分析（<strong>收集信息时不要分析</strong>）。</li>
+</ul>
+<h2 id="4-2制定项目管理计划"><a href="#4-2制定项目管理计划" class="headerlink" title="4.2制定项目管理计划"></a>4.2制定项目管理计划</h2><p><strong>定义</strong>：是定义、准备和协调项目计划的所有组成部分，并把它们整合为一份综合项目管理计划的过程。<br><br><strong>作用</strong>：生成一份综合文件，用于确定所有项目工作的基础及其执<br>行方式，它仅开展一次或仅在项目的预定义点开展。<br><br>项目管理计划<strong>确定</strong>项目的<strong>执行、监控和收尾方式</strong>。<br><br>项目管理计划应<strong>基准化</strong>，即，至少应规定项目的<strong>范围、时间和成本</strong>方面的基准，以便据此考核项目执行情况和管理项目绩效。在确定基准之前，可能要对项目管理计划进行<strong>多次更新</strong>，且这些更新无需遵循正式流程。</p>
+<h3 id="4-2-1-制定项目管理计划：输入"><a href="#4-2-1-制定项目管理计划：输入" class="headerlink" title="4.2.1 制定项目管理计划：输入"></a>4.2.1 制定项目管理计划：输入</h3><h4 id="4-2-1-1-项目章程"><a href="#4-2-1-1-项目章程" class="headerlink" title="4.2.1.1 项目章程"></a>4.2.1.1 项目章程</h4><ul>
+<li>项目章程=初始项目规划的起始点。<h4 id="4-2-2-4-会议"><a href="#4-2-2-4-会议" class="headerlink" title="4.2.2.4 会议"></a>4.2.2.4 会议</h4></li>
+</ul>
+<p><strong>项目开工会议</strong>通常意味着规划阶段结束和执行阶段开始。</p>
+<h3 id="4-2-3-制定项目管理计划：输出"><a href="#4-2-3-制定项目管理计划：输出" class="headerlink" title="4.2.3 制定项目管理计划：输出"></a>4.2.3 制定项目管理计划：输出</h3><h4 id="4-2-3-1-项目管理计划"><a href="#4-2-3-1-项目管理计划" class="headerlink" title="4.2.3.1 项目管理计划"></a>4.2.3.1 项目管理计划</h4><p>项目管理计划是说明项目执行、监控和收尾方式的一份文件，它整合并综合了所有子管理计划和基准，以及管理项目所需的其他信息。<br><img src="/2021/07/18/pmp/PMP4-6/4.2.jpg" alt="制定项目管理计划"></p>
+<h2 id="4-3-指导与管理项目工作"><a href="#4-3-指导与管理项目工作" class="headerlink" title="4.3 指导与管理项目工作"></a>4.3 指导与管理项目工作</h2><p>指导与管理项目工作是为实现项目目标而<strong>领导和执行项目管理计划</strong>中所确定的工作，并实施<strong>已批准变更</strong>的过程。<br><br>本过程的主要<strong>作用</strong>是，对项目工作和可交付成果开展<strong>综合管理</strong>，以<strong>提高</strong>项目<strong>成功的可能性</strong>。<br><img src="/2021/07/18/pmp/PMP4-6/4-6.jpg" alt="制定项目管理计划"></p>
+<ul>
+<li>指导与管理项目工作包括执行计划的项目活动，以完成项目可交付成果并达成既定目标。</li>
+<li>指导与管理项目工作还要求回顾所有项目变更的影响，并实施已批准的<strong>变更，包括纠正措施、预防措施和（或）缺陷补救</strong>。<br></li>
+</ul>
+<p>收集工作绩效数据并传达给合适的控制过程做进一步分析。</p>
+<h4 id="4-3-1-3-批准的变更请求"><a href="#4-3-1-3-批准的变更请求" class="headerlink" title="4.3.1.3 批准的变更请求"></a>4.3.1.3 批准的变更请求</h4><p>批准的变更请求是实施整体变更控制过程的输出，包括经项目经理审查和批准的变更请求，必要时可经变更**控制委员会 **(CCB) 审查和批准。</p>
+<h3 id="4-3-3-指导与管理项目工作：输出"><a href="#4-3-3-指导与管理项目工作：输出" class="headerlink" title="4.3.3 指导与管理项目工作：输出"></a>4.3.3 指导与管理项目工作：输出</h3><h4 id="4-3-3-1-可交付成果"><a href="#4-3-3-1-可交付成果" class="headerlink" title="4.3.3.1 可交付成果"></a>4.3.3.1 可交付成果</h4><p>可交付成果是在某一过程、阶段或项目完成时，必须产出的任何独特并可核实的产品、成果或服务能力。</p>
+<h4 id="4-3-3-2-工作绩效数据"><a href="#4-3-3-2-工作绩效数据" class="headerlink" title="4.3.3.2 工作绩效数据"></a>4.3.3.2 工作绩效数据</h4><p>工作绩效数据是在执行项目工作的过程中，从每个正在执行的活动中收集到的原始观察结果和测量值。</p>
+<h4 id="4-3-3-4-变更请求"><a href="#4-3-3-4-变更请求" class="headerlink" title="4.3.3.4 变更请求"></a>4.3.3.4 变更请求</h4><p>变更请求是关于修改任何文件、可交付成果或基准的正式提议。</p>
+<h2 id="4-4-管理项目知识"><a href="#4-4-管理项目知识" class="headerlink" title="4.4 管理项目知识"></a>4.4 管理项目知识</h2><ul>
+<li><p><strong>定义</strong>：管理项目知识是使用现有知识并生成新知识，以实现项目目标，并且帮助组织学习的过程。</p>
+</li>
+<li><p>本过程的主要<strong>作用</strong>是，利用已有的组织知识来创造或改进项目成果，并且使当前项目创造的知识可用于支持组织运营和未来的项目或阶段。</p>
+</li>
+<li><p>知识通常分为“<strong>显性知识</strong>”（易使用文字、图片和数字进行编撰的知识）和“<strong>隐性知识</strong>”（个体知识以及难以明确表达的知识，如信念、洞察力、经验和“诀窍”）两种。</p>
+</li>
+<li><p>关键活动是<strong>知识分享</strong>和<strong>知识集成</strong>（不同领域的知识、情境知识和项目管理知识）。</p>
+<ul>
+<li>显性知识缺乏情景易于分享。</li>
+<li>隐性知识蕴含情景很难编撰。<ul>
+<li>所以，知识管理最重要的环节就是营造一种相互信任的氛围，激励人<br>们分享知识或关注他人的知识。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在实践中，联合使用知识管理工具和技术（用于人际互动）以及信息<br>管理工具和技术（用于编撰显性知识）来分享知识</p>
+</li>
+</ul>
+<h4 id="4-4-2-3-信息管理"><a href="#4-4-2-3-信息管理" class="headerlink" title="4.4.2.3 信息管理"></a>4.4.2.3 信息管理</h4><p>知识和信息管理工具与技术应与项目过程和过程责任人相对应。</p>
+<h3 id="4-4-3-管理项目知识：输出"><a href="#4-4-3-管理项目知识：输出" class="headerlink" title="4.4.3 管理项目知识：输出"></a>4.4.3 管理项目知识：输出</h3><h4 id="4-4-3-1-经验教训登记册"><a href="#4-4-3-1-经验教训登记册" class="headerlink" title="4.4.3.1 经验教训登记册"></a>4.4.3.1 经验教训登记册</h4><p>经验教训登记册可以包含情况的类别和描述，经验教训登记册还可包括与情况相关的影响、建议和行动方案。</p>
+<h2 id="4-5-监控项目工作"><a href="#4-5-监控项目工作" class="headerlink" title="4.5 监控项目工作"></a>4.5 监控项目工作</h2><ul>
+<li>监控项目工作是跟踪、审查和报告整体项目进展，以实现项目管理计划中确定的绩效目标的过程。</li>
+<li>本过程的主要作用是，<strong>让相关方了解项目的当前状态并认可</strong>为处理绩效问题而采取的行动，以及通过成本和进度预测，<strong>让相关方了解未来项目状态</strong>。<h3 id="4-5-1-监控项目工作：输入"><a href="#4-5-1-监控项目工作：输入" class="headerlink" title="4.5.1 监控项目工作：输入"></a>4.5.1 监控项目工作：输入</h3><h4 id="4-5-1-3-工作绩效信息"><a href="#4-5-1-3-工作绩效信息" class="headerlink" title="4.5.1.3 工作绩效信息"></a>4.5.1.3 工作绩效信息</h4>在工作<strong>执行过程</strong>中<strong>收集工作绩效数据</strong>，再交由<strong>控制过程做进一步分析</strong>。<br><br>项目期间通过控制过程收集绩效数据，与计划和其他变量比较，为工作绩效提供背景。<br><h3 id="4-5-3-监控项目工作：输出"><a href="#4-5-3-监控项目工作：输出" class="headerlink" title="4.5.3 监控项目工作：输出"></a>4.5.3 监控项目工作：输出</h3><h4 id="4-5-3-1-工作绩效报告"><a href="#4-5-3-1-工作绩效报告" class="headerlink" title="4.5.3.1 工作绩效报告"></a>4.5.3.1 工作绩效报告</h4></li>
+<li>基于工作绩效信息，以实体或电子形式编制工作绩效报告，以制定决策、采取行动或引起关注。</li>
+<li>工作绩效报告的示例包括状态报告和进展报告。</li>
+</ul>
+<h2 id="4-6-实施整体变更控制"><a href="#4-6-实施整体变更控制" class="headerlink" title="4.6 实施整体变更控制"></a>4.6 实施整体变更控制</h2><ul>
+<li>实施整体变更控制是审查所有变更请求、批准变更，管理对可交付成果、项目文件和项目管理计划的变更，并对变更处理结果进行沟通的过程。</li>
+<li>主要作用是确保对项目中已记录在案的变更做综合评审。</li>
+<li>实施整体变更控制过程贯穿项目始终，项目经理对此承担最终责任。</li>
+<li>一旦确定了项目基准，就必须通过本过程来处理变更请求。</li>
+<li>在批准变更之前，可能需要了解变更对进度的影响和对成本的影响。</li>
+<li><strong>变更控制委员会（CCB）</strong>CCB是一个正式组成的团体，负责审查、评价、批准、推迟或否决项目变更，以及记录和传达变更处理决定</li>
+</ul>
+<h2 id="4-7-结束项目或阶段"><a href="#4-7-结束项目或阶段" class="headerlink" title="4.7 结束项目或阶段"></a>4.7 结束项目或阶段</h2><ul>
+<li>结束项目或阶段是终结项目、阶段或合同的所有活动的过程。本过程的主要作用是，存档项目或阶段信息，完成计划的工作，释放组织团队资源以展开新的工作。</li>
+</ul>
+<h1 id="5-项目范围管理"><a href="#5-项目范围管理" class="headerlink" title="5.项目范围管理"></a>5.项目范围管理</h1><p>项目范围管理包括确保项目做且只做所需的全部工作，以成功完成项目的各个过程。管理项目范围主要在于定义和控制哪些工作应该包括在项目内，哪些不应该包括在项目内</p>
+<blockquote>
+<p>项目范围管理的核心概念<br><img src="/2021/07/18/pmp/PMP4-6/5-1.jpg" alt="制定项目管理计划"></p>
+</blockquote>
+<ul>
+<li><strong>产品范围</strong>。某项产品、服务或成果所具有的特征和功能。<strong>决定项目范围</strong>。</li>
+<li>项目范围。为交付具有规定特性与功能的产品、服务或成果而必须完成的工作。项目范围有时也包括产品范围。<strong>服务于产品范围</strong></li>
+<li>预测型：项目开始对可交付成果定义，通过实施整体变更控制过程进行更新。</li>
+<li>适应型：每次迭代开始定义可交付成果。</li>
+<li>在每次迭代中，都会重复开展三个过程：收集需求、定义范围和创建 WBS。相反，在预测型项目中，这些过程在项目开始时开展，并在必要时<strong>通过实施整体变更控制过程进行更新</strong>。</li>
+<li>在预测型项目中，经过批准的项目范围说明书、工作分解结构（WBS）和相应的 WBS 词典构成项目范围基准。</li>
+<li>而采用适应型生命周期的项目，则使用未完项（包括产品需<br>求和用户故事）反映当前需求.</li>
+<li>项目范围的完成情况是根据<strong>项目管理计划来衡量</strong>的，而产品范围的完成情况是根据<strong>产品需求来衡量的</strong>。</li>
+<li>确认范围是正式验收已完成的项目可交付成果的过程。<br>控制质量过程-&gt; 核实的可交付成果 -&gt; 确认范围过程 -&gt; 验收的可交付成果<br></li>
+</ul>
+<p><img src="/2021/07/18/pmp/PMP4-6/5-2.jpg" alt="预测型和适应型生命周期之管理范围的对比"></p>
+<p>项目经理与商业分析师之间应该是伙伴式合作关系。</p>
+<h2 id="5-1-规划范围管理"><a href="#5-1-规划范围管理" class="headerlink" title="5.1 规划范围管理"></a>5.1 规划范围管理</h2><p>规划范围管理是为记录如何定义、确认和控制项目范围及产品范围，而创建范围管理计划的过程。</p>
+<p>范围管理计划是项目或项目集管理计划的组成部分，描述将如何定义、制定、监督、控制和确认项目范围。</p>
+]]></content>
+      <categories>
+        <category>PMP</category>
+      </categories>
+      <tags>
+        <tag>PMP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shell知识点</title>
+    <url>/2021/07/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h2 id="Shell-中数字相加"><a href="#Shell-中数字相加" class="headerlink" title="Shell 中数字相加"></a>Shell 中数字相加</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line">c=`expr $&#123;a&#125; + $&#123;b&#125;`</span><br><span class="line">echo &quot;$c&quot;</span><br><span class="line"></span><br><span class="line">let 命令是 BASH 中用于计算的工具，用于执行一个或多个表达式，变量计算中不需要加上</span><br><span class="line"><span class="meta"> $</span><span class="bash"> 来表示变量。如果表达式中包含了空格或其他特殊字符，则必须引起来。</span></span><br><span class="line"> </span><br><span class="line">let a=5+4</span><br><span class="line">let b=9-3 </span><br><span class="line">echo $a $b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ftp ip.ip.ip.ip</span><br><span class="line"><span class="meta">#</span><span class="bash">获取文件</span></span><br><span class="line">mget</span><br><span class="line"><span class="meta">#</span><span class="bash">上传文件</span></span><br><span class="line">mput</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭确认提示</span></span><br><span class="line">prompt</span><br><span class="line"><span class="meta">#</span><span class="bash">删除文件</span></span><br><span class="line">delete xxx.dat</span><br><span class="line"><span class="meta">#</span><span class="bash">批量删除文件 支持通配</span></span><br><span class="line">mdelete *xxx*</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="awk中输入外部的变量"><a href="#awk中输入外部的变量" class="headerlink" title="awk中输入外部的变量"></a>awk中输入外部的变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意 <span class="string">&quot; 和 &#x27;</span></span></span><br><span class="line">grep kdpl_acct_bal load.sh|awk &#x27;&#123;print &quot;&#x27;$FilePath&#x27;&quot;$4&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h2 id="数字的比较："><a href="#数字的比较：" class="headerlink" title="数字的比较："></a>数字的比较：</h2><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">-<span class="literal">eq</span> 相等（equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ne</span> 不等<span class="built_in">（not</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">gt</span> 大于（greater than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">lt</span> 小于（less than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ge</span> 大于等于 （greater than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">le</span> 小于等于 （less than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">字符串的比较：</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> = <span class="variable">$str2</span> ] 等于</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> != <span class="variable">$str2</span> ] 不等于</span><br><span class="line"></span><br><span class="line">[ -z <span class="variable">$str</span> ] 空字符串返<span class="built_in">回true</span></span><br><span class="line"></span><br><span class="line">[ -n <span class="variable">$str</span> ] 或者 [ <span class="variable">$str</span> ] 非空字符串返<span class="built_in">回true</span></span><br></pre></td></tr></table></figure>
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">grep</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-r 是递归查找</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-n 是显示行号</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-R 查找所有文件包含子目录</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-i 忽略大小写</span></span><br><span class="line">grep -rn &quot;hello,world!&quot; *</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="清文件，腾空间相关"><a href="#清文件，腾空间相关" class="headerlink" title="清文件，腾空间相关"></a>清文件，腾空间相关</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看空间：</span></span><br><span class="line">df -h</span><br><span class="line">du -sh *   //查看当前所有目录及目录大小</span><br><span class="line">du -h --max-depth=1   //列出当前目录每个目录下的大小兑付-</span><br><span class="line">删除：</span><br><span class="line">/bin/rm -rf ./2016*       bin下执行  不进入回收站</span><br></pre></td></tr></table></figure>
+
+<h2 id="查找包含某段信息的文件名"><a href="#查找包含某段信息的文件名" class="headerlink" title="查找包含某段信息的文件名"></a>查找包含某段信息的文件名</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find .|xargs grep -ri &quot;01000000000275&quot; -l </span><br><span class="line">find . -name *.* |xargs grep &quot;2052019052300000000138&quot; -l</span><br><span class="line">ps -ef|grep java //查找进程 java</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="强杀进程"><a href="#强杀进程" class="headerlink" title="强杀进程"></a>强杀进程</h1><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">ps -ef|<span class="keyword">grep</span> job|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> $ORACLE_SID|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> sqlldr|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>unix</category>
+        <category>shell</category>
+        <category>日常使用</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+        <tag>运算</tag>
+        <tag>ftp</tag>
+        <tag>awk</tag>
       </tags>
   </entry>
   <entry>
@@ -1485,6 +1615,38 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>基础知识HTTP</title>
+    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/</url>
+    <content><![CDATA[<h2 id="什么是HTTP？"><a href="#什么是HTTP？" class="headerlink" title="什么是HTTP？"></a>什么是HTTP？</h2><p>HyperText Transfer Protocol（超文本传输协议）,它是一个<strong>无状态的工作在应用层的协议</strong>.<br><br>超文本指的是<strong>HTML</strong>，css，JavaScript和图片等，HTTP的出现是为了接收和发布HTML页面，也可以用于接收一些音频，视频，文件等内容。<br><br>HTTP协议是用于客户端和服务器端之间的通信，用于客户端和服务器端之间的通信有HTTP协议和TCP/IP协议族在内的其他众多的协议。<br></p>
+<h2 id="HTTP的短连接和长连接"><a href="#HTTP的短连接和长连接" class="headerlink" title="HTTP的短连接和长连接"></a>HTTP的短连接和长连接</h2><p>在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。</p>
+<p>而从HTTP/1.1起，默认使用长连接，用以保持连接特性。可以持久连接，TCP连接默认不关闭，可以被多个请求复用，只有在一段时间内，没有请求，就可以自动关闭。使用长连接的HTTP协议，会在响应头加入这行代码：</p>
+<figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 默认：</span></span><br><span class="line"><span class="symbol">Connection:</span><span class="meta">keep</span>-alive</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="HTTP的特点："><a href="#HTTP的特点：" class="headerlink" title="HTTP的特点："></a>HTTP的特点：</h2><p>支持客户端、服务器端模式，简单快速，客户端向服务器端请求服务时，只需传送请求方法和路径，灵活，HTTP允许传输任意类型的数据对象，无状态，HTTP协议是无状态协议，指明协议对于事务处理没有记忆能力。</p>
+<p>HTTP1.1虽然是无状态协议，但是为了实现期望的保持状态功能，于是引入了Cookie技术，有了Cookie，和HTTP协议通信，就可以管理状态了。</p>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p> HTTPS 的全称是 Hypertext Transfer Protocol Secure。<br> 从名称我们可以看出 HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并不是一个新的应用层协议，它其实就是 HTTP + TLS/SSL 协议组合而成，而安全性的保证正是 TLS/SSL 所做的工作。</p>
+<ul>
+<li>HTTP 的默认端口是 80，而 HTTPS 的默认端口是 443。<br>http和https的比对</li>
+<li>数据完整性：内容传输经过完整性校验</li>
+<li>数据隐私性：内容经过对称加密，每个连接生成一个唯一的加密密钥</li>
+<li>身份认证：第三方无法伪造服务端(客户端)身份</li>
+</ul>
+<p>SSL过程<br>建立连接获取证书</p>
+<ol>
+<li>SSL 客户端通过 TCP 和服务器建立连接之后（443 端口），并且在一般的 tcp 连接协商（握<br>手）过程中请求证书。即客户端发出一个消息给服务器，这个消息里面包含了自己可实现的算<br>法列表和其它一些需要的消息，SSL 的服务器端会回应一个数据包，这里面确定了这次通信所<br>需要的算法，然后服务器向客户端返回证书。（证书里面包含了服务器信息：域名。申请证书<br>的公司，公共秘钥）。<br>证书验证</li>
+<li>Client 在收到服务器返回的证书后，判断签发这个证书的公共签发机构，并使用这个机构的公<br>共秘钥确认签名是否有效，客户端还会确保证书中列出的域名就是它正在连接的域名。<br>数据加密和传输</li>
+<li>如果确认证书有效，那么生成对称秘钥并使用服务器的公共秘钥进行加密。然后发送给服务<br>器，服务器使用它的私钥对它进行解密，这样两台计算机可以开始进行对称加密进行通信。</li>
+</ol>
+<figure class="highlight clean"><table><tr><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">客户端-&gt;&gt;服务端: 请求http连接（消息里面包含了自己可实现的算法列表和其它一些需要的消息）</span><br><span class="line">服务端-&gt;&gt;客户端: 返回私钥签名后的证书（公钥）</span><br><span class="line">客户端-&gt;&gt;客户端: 接收证书，用机构的公钥验证证书签名，使用算法产生随机的对称密钥，并且使用公钥对此对称密钥加密</span><br><span class="line">客户端-&gt;&gt;服务端: 发送加密后的堆成密钥</span><br><span class="line">客户端-&gt;&gt;服务端: 通过对称密钥加密的密文进行通信</span><br><span class="line">服务端-&gt;&gt;客户端: 通过对称密钥加密的密文进行通信</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>cs基础</category>
+        <category>http</category>
+      </categories>
+      <tags>
+        <tag>http</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基础概念_分布式事务</title>
     <url>/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
     <content><![CDATA[<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>一般是指要做的或所做的事情。<br>在计算机术语中是指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。<br>事务通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序执行所引起，并用形如begin transaction和end transaction语句（或函数调用）来界定。<br>事务由事务开始(begin transaction)和事务结束(end transaction)之间执行的全体操作组成。</p>
@@ -1525,38 +1687,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>基础概念</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识HTTP</title>
-    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/</url>
-    <content><![CDATA[<h2 id="什么是HTTP？"><a href="#什么是HTTP？" class="headerlink" title="什么是HTTP？"></a>什么是HTTP？</h2><p>HyperText Transfer Protocol（超文本传输协议）,它是一个<strong>无状态的工作在应用层的协议</strong>.<br><br>超文本指的是<strong>HTML</strong>，css，JavaScript和图片等，HTTP的出现是为了接收和发布HTML页面，也可以用于接收一些音频，视频，文件等内容。<br><br>HTTP协议是用于客户端和服务器端之间的通信，用于客户端和服务器端之间的通信有HTTP协议和TCP/IP协议族在内的其他众多的协议。<br></p>
-<h2 id="HTTP的短连接和长连接"><a href="#HTTP的短连接和长连接" class="headerlink" title="HTTP的短连接和长连接"></a>HTTP的短连接和长连接</h2><p>在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。</p>
-<p>而从HTTP/1.1起，默认使用长连接，用以保持连接特性。可以持久连接，TCP连接默认不关闭，可以被多个请求复用，只有在一段时间内，没有请求，就可以自动关闭。使用长连接的HTTP协议，会在响应头加入这行代码：</p>
-<figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 默认：</span></span><br><span class="line"><span class="symbol">Connection:</span><span class="meta">keep</span>-alive</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="HTTP的特点："><a href="#HTTP的特点：" class="headerlink" title="HTTP的特点："></a>HTTP的特点：</h2><p>支持客户端、服务器端模式，简单快速，客户端向服务器端请求服务时，只需传送请求方法和路径，灵活，HTTP允许传输任意类型的数据对象，无状态，HTTP协议是无状态协议，指明协议对于事务处理没有记忆能力。</p>
-<p>HTTP1.1虽然是无状态协议，但是为了实现期望的保持状态功能，于是引入了Cookie技术，有了Cookie，和HTTP协议通信，就可以管理状态了。</p>
-<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p> HTTPS 的全称是 Hypertext Transfer Protocol Secure。<br> 从名称我们可以看出 HTTPS 要比 HTTPS 多了 secure 安全性这个概念，实际上， HTTPS 并不是一个新的应用层协议，它其实就是 HTTP + TLS/SSL 协议组合而成，而安全性的保证正是 TLS/SSL 所做的工作。</p>
-<ul>
-<li>HTTP 的默认端口是 80，而 HTTPS 的默认端口是 443。<br>http和https的比对</li>
-<li>数据完整性：内容传输经过完整性校验</li>
-<li>数据隐私性：内容经过对称加密，每个连接生成一个唯一的加密密钥</li>
-<li>身份认证：第三方无法伪造服务端(客户端)身份</li>
-</ul>
-<p>SSL过程<br>建立连接获取证书</p>
-<ol>
-<li>SSL 客户端通过 TCP 和服务器建立连接之后（443 端口），并且在一般的 tcp 连接协商（握<br>手）过程中请求证书。即客户端发出一个消息给服务器，这个消息里面包含了自己可实现的算<br>法列表和其它一些需要的消息，SSL 的服务器端会回应一个数据包，这里面确定了这次通信所<br>需要的算法，然后服务器向客户端返回证书。（证书里面包含了服务器信息：域名。申请证书<br>的公司，公共秘钥）。<br>证书验证</li>
-<li>Client 在收到服务器返回的证书后，判断签发这个证书的公共签发机构，并使用这个机构的公<br>共秘钥确认签名是否有效，客户端还会确保证书中列出的域名就是它正在连接的域名。<br>数据加密和传输</li>
-<li>如果确认证书有效，那么生成对称秘钥并使用服务器的公共秘钥进行加密。然后发送给服务<br>器，服务器使用它的私钥对它进行解密，这样两台计算机可以开始进行对称加密进行通信。</li>
-</ol>
-<figure class="highlight clean"><table><tr><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">客户端-&gt;&gt;服务端: 请求http连接（消息里面包含了自己可实现的算法列表和其它一些需要的消息）</span><br><span class="line">服务端-&gt;&gt;客户端: 返回私钥签名后的证书（公钥）</span><br><span class="line">客户端-&gt;&gt;客户端: 接收证书，用机构的公钥验证证书签名，使用算法产生随机的对称密钥，并且使用公钥对此对称密钥加密</span><br><span class="line">客户端-&gt;&gt;服务端: 发送加密后的堆成密钥</span><br><span class="line">客户端-&gt;&gt;服务端: 通过对称密钥加密的密文进行通信</span><br><span class="line">服务端-&gt;&gt;客户端: 通过对称密钥加密的密文进行通信</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>cs基础</category>
-        <category>http</category>
-      </categories>
-      <tags>
-        <tag>http</tag>
       </tags>
   </entry>
   <entry>
