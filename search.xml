@@ -9,6 +9,142 @@
 ]]></content>
   </entry>
   <entry>
+    <title>设计模式</title>
+    <url>/2021/07/23/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="1-请列举出在-JDK-中几个常用的设计模式？"><a href="#1-请列举出在-JDK-中几个常用的设计模式？" class="headerlink" title="1.请列举出在 JDK 中几个常用的设计模式？"></a>1.请列举出在 JDK 中几个常用的设计模式？</h1><p>单例模式（Singleton pattern）用于 Runtime，Calendar 和其他的一些类中。工厂模式<br>（Factory pattern）被用于各种不可变的类如 Boolean，像 Boolean.valueOf，观察者模式<br>（Observer pattern）被用于 Swing 和很多的事件监听中。装饰器设计模式（Decorator<br>design pattern）被用于多个 Java IO 类中。</p>
+<h1 id="2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？"><a href="#2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？" class="headerlink" title="2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？"></a>2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？</h1><p>设计模式是世界上各种各样程序员用来解决特定设计问题的尝试和测试的方法。设计模式<br>是代码可用性的延伸</p>
+<h1 id="3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式"><a href="#3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式" class="headerlink" title="3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式"></a>3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式</h1><p>单例模式重点在于在整个系统上共享一些创建时较耗资源的对象。整个应用中只维护一个<br>特定类实例，它被所有组件共同使用。Java.lang.Runtime 是单例模式的经典例子。从 Java<br>5 开始你可以使用枚举（enum）来实现线程安全的单例。</p>
+<h1 id="4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？"><a href="#4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？" class="headerlink" title="4.在 Java 中，什么叫观察者设计模式（observer design pattern）？"></a>4.在 Java 中，什么叫观察者设计模式（observer design pattern）？</h1><p>观察者模式是基于对象的状态变化和观察者的通讯，以便他们作出相应的操作。简单的例<br>子就是一个天气系统，当天气变化时必须在展示给公众的视图中进行反映。这个视图对象<br>是一个主体，而不同的视图是观察者。</p>
+<h1 id="5-使用工厂模式最主要的好处是什么？在哪里使用？"><a href="#5-使用工厂模式最主要的好处是什么？在哪里使用？" class="headerlink" title="5.使用工厂模式最主要的好处是什么？在哪里使用？"></a>5.使用工厂模式最主要的好处是什么？在哪里使用？</h1><p>工厂模式的最大好处是增加了创建对象时的封装层次。如果你使用工厂来创建对象，之后<br>你可以使用更高级和更高性能的实现来替换原始的产品实现或类，这不需要在调用层做任<br>何修改。</p>
+<h1 id="6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？"><a href="#6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？" class="headerlink" title="6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？"></a>6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？</h1><p>装饰模式增加强了单个对象的能力。Java IO 到处都使用了装饰模式，典型例子就是<br>Buffered 系列类如 BufferedReader 和 BufferedWriter，它们增强了 Reader 和 Writer 对象，<br>以实现提升性能的 Buffer 层次的读取和写入。</p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>springMVC框架总述</title>
+    <url>/2021/07/23/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/</url>
+    <content><![CDATA[<h1 id="什么是MVC"><a href="#什么是MVC" class="headerlink" title="什么是MVC"></a>什么是MVC</h1><ul>
+<li>M代表模型（Model）<br>模型其实就是数据，dao，bean</li>
+<li>V代表视图（View）<br>网页，jsp等用来展示数据的模型</li>
+<li>C代表Controller<br>把不同的数据展示在不同的视图上，处理请求的分发，Servlet扮演的就是这样的角色<br><img src="/2021/07/23/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/model-view-controller.jpg" alt="MVC"></li>
+</ul>
+<h1 id="SpringMVC的流程"><a href="#SpringMVC的流程" class="headerlink" title="SpringMVC的流程"></a>SpringMVC的流程</h1><ol>
+<li>用户发送请求至前端控制器DispatcherServlet；</li>
+<li>DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handler；</li>
+<li>处理器映射器根据请求url找到具体的处理器Handler，生成处理器对象及处理器拦截器(如果有则生成)，一并返回给DispatcherServlet；</li>
+<li>DispatcherServlet 调用 HandlerAdapter处理器适配器，请求执行Handler；</li>
+<li>HandlerAdapter 经过适配调用 具体处理器进行处理业务逻辑；</li>
+<li>Handler执行完成返回ModelAndView；</li>
+<li>HandlerAdapter将Handler执行结果ModelAndView返回给DispatcherServlet；</li>
+<li>DispatcherServlet将ModelAndView传给ViewResolver视图解析器进行解析；</li>
+<li>ViewResolver解析后返回具体View；</li>
+<li>DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）</li>
+<li>DispatcherServlet响应用户。</li>
+</ol>
+<h1 id="SpringMVC常用的注解有哪些？"><a href="#SpringMVC常用的注解有哪些？" class="headerlink" title="SpringMVC常用的注解有哪些？"></a>SpringMVC常用的注解有哪些？</h1><p><strong>@RequestMapping</strong>：用于处理请求 url 映射的注解，可用于类或方法上。用于类上，则表示类中的所有响应请求的方法都是以该地址作为父路径。</p>
+<p><strong>@RequestBody</strong>：注解实现接收http请求的json数据，将json转换为java对象。</p>
+<p><strong>@ResponseBody</strong>：注解实现将conreoller方法返回对象转化为json对象响应给客户。</p>
+<h2 id="SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？"><a href="#SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？" class="headerlink" title="SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？"></a>SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？</h2><p>答：一般用@Controller注解，也可以使用@RestController，@RestController注解相当于@ResponseBody ＋ @Controller，表示是表现层，除此之外，一般不用别的注解代替。</p>
+<h2 id="SpringMvc里面拦截器是怎么写的："><a href="#SpringMvc里面拦截器是怎么写的：" class="headerlink" title="SpringMvc里面拦截器是怎么写的："></a>SpringMvc里面拦截器是怎么写的：</h2><p>有两种写法，一种是实现HandlerInterceptor接口，另外一种是继承适配器类，接着在接口方法当中，实现处理逻辑；然后在SpringMvc的配置文件中配置拦截器即可：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置SpringMvc的拦截器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mvc:interceptors</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置一个拦截器的Bean就可以了 默认是对所有请求都拦截 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myInterceptor&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.zwp.action.MyHandlerInterceptor&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">&lt;!-- 只针对部分请求拦截 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:interceptor</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">mvc:mapping</span> <span class="attr">path</span>=<span class="string">&quot;/modelMap.do&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;com.zwp.action.MyHandlerInterceptorAdapter&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:interceptor</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:interceptors</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>java</category>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>springboot框架总述</title>
+    <url>/2021/07/23/spring/springboot/springboot/</url>
+    <content><![CDATA[<h1 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h1><p>pom.xml中有父项目</p>
+<ul>
+<li>spring-boot-dependencies：核心依赖在父工程中</li>
+<li>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库</li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>spring框架总述</title>
+    <url>/2021/07/23/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/</url>
+    <content><![CDATA[<h1 id="1-spring是什么"><a href="#1-spring是什么" class="headerlink" title="1.spring是什么"></a>1.spring是什么</h1><p>Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为了解决企业应用开发<br>的复杂性而创建的。Spring 的核心是控制反转（<strong>IoC</strong>）和面向切面编程（<strong>AOP</strong>）。<br></p>
+<hr>
+<h2 id="2-IOC控制反转"><a href="#2-IOC控制反转" class="headerlink" title="2.IOC控制反转"></a>2.IOC控制反转</h2><p>控制反转（IoC，Inversion of Control），是一个概念，是一种思想。指将传统上由程序代<br>码直接操控的对象调用权交给容器，通过容器来实现对象的装配和管理。控制反转就是对对<br>象控制权的转移，从程序代码本身反转到了外部容器。通过容器实现对象的创建，属性赋值，<br>依赖的管理。<br><br>spring对于IOC思想的具体实现就是：<strong>DI</strong>（依赖注入：DI(Dependency Injection)，程序代码不做定位查询，这些工作由容器自行<br>完成。）</p>
+<h3 id="DI具体用法和实现"><a href="#DI具体用法和实现" class="headerlink" title="DI具体用法和实现"></a>DI具体用法和实现</h3><h4 id="ApplicationContext-接口（容器）"><a href="#ApplicationContext-接口（容器）" class="headerlink" title="ApplicationContext 接口（容器）"></a>ApplicationContext 接口（容器）</h4><p>ApplicationContext 用于加载 Spring 的配置文件，在程序中充当“容器”的角色。其实现<br>类有：<strong>ClassPathXmlApplicationContext</strong>(常用)，FileSystemXmlApplicationContext。<br></p>
+<ul>
+<li>若 Spring 配置文件存放在项目的类路径下，则使用 ClassPathXmlApplicationContext 实现<br>类进行加载。</li>
+<li>ApplicationContext 容器，会在容器对象初始化时，将其中的所有对象一次性全部装配好。<br>以后代码中若要使用到这些对象，只需从内存中直接获取即可。执行效率较高。但占用内存。<span id="more"></span>
+<h4 id="注入分类"><a href="#注入分类" class="headerlink" title="注入分类:"></a>注入分类:<br></h4>bean 实例在调用无参构造器创建对象后，就要对 bean 对象的属性进行初始化。初始化<br>是由容器自动完成的，称为注入。<br>根据注入方式的不同，常用的有两类：<strong>set 注入、构造注入</strong>。</li>
+<li>Set注入：其实就是直接设置要的值<ul>
+<li>简单类型（设置property标签，通过value=”设置”）</li>
+<li>引用类型 （设置property标签，通过ref=”设置”）</li>
+</ul>
+</li>
+<li>构造注入：在构造调用者实例的同时，完成被调用者的实例化。即使用构造器设置依赖关系。<ul>
+<li>设置<constructor-arg>标签 name=”指定参数名称” value=”设置” 。（可选index）</constructor-arg></li>
+</ul>
+</li>
+</ul>
+<h5 id="引用类型属性自动注入"><a href="#引用类型属性自动注入" class="headerlink" title="引用类型属性自动注入"></a>引用类型属性自动注入</h5><p>对于引用类型属性的注入，也可不在配置文件中显示的注入。可以通过为<bean>标签<br>设置 autowire 属性值，为引用类型属性进行隐式自动注入（默认是不自动注入引用类型属<br>性）。根据自动注入判断标准的不同，可以分为两种：<br><br>byName：根据名称自动注入<br><br>byType： 根据类型自动注入<br><br>直接在bean标签内加上   autowire=”byName”</bean></p>
+<h4 id="为应用指定多个-Spring-配置文件"><a href="#为应用指定多个-Spring-配置文件" class="headerlink" title="为应用指定多个 Spring 配置文件"></a>为应用指定多个 Spring 配置文件</h4><p>在实际应用里，随着应用规模的增加，系统中 Bean 数量也大量增加，导致配置文件变<br>得非常庞大、臃肿。为了避免这种情况的产生，提高配置文件的可读性与可维护性，可以将<br>Spring 配置文件分解成多个配置文件。<br>包含关系的配置文件：<br><br>多个配置文件中有一个总文件，总配置文件将各其它子文件通过<import>引入。在 Java<br>代码中只需要使用总配置文件对容器进行初始化即可。<br><br>也可使用通配符*。但，此时要求父配置文件名不能满足*所能匹配的格式，否则将出现<br>循环递归包含。<br></import></p>
+<h3 id="基于注解的-DI"><a href="#基于注解的-DI" class="headerlink" title="基于注解的 DI"></a>基于注解的 DI</h3><p>对于 DI 使用注解，将不再需要在 Spring 配置文件中声明 bean 实例。<br><br>Spring 中使用注解，需要在 Spring 配置文件中<strong>配置组件扫描器</strong>，用于在指定的基本包中扫描注解。<br>指定多个包的三种方式：<br><br>1)使用多个 context:component-scan 指定不同的包路<br><br>2)指定 base-package 的值使用分隔符<br><br>3)base-package 是指定到父包名<br></p>
+<h5 id="注解方式声明bean"><a href="#注解方式声明bean" class="headerlink" title="注解方式声明bean"></a>注解方式声明bean</h5><ul>
+<li>定义 Bean 的注解@Component</li>
+<li>@Repository 用于对 DAO 实现类进行注解</li>
+<li>@Service 用于对 Service 实现类进行注解</li>
+<li>@Controller 用于对 Controller 实现类进行注解<br></li>
+</ul>
+<p>这三个注解与@Component 都可以创建对象，但这三个注解还有其他的含义：<br></p>
+<p>@Service创建业务层对象，业务层对象可以加入事务功能，<br><br>@Controller 注解创建的对象可以作为处理器接收用户的请求。<br><br>@Repository，@Service，@Controller 是对@Component 注解的细化，标注不同层的对象。即持久层对象，业务层对象，控制层对象。<br></p>
+<h5 id="简单类型属性注入-Value"><a href="#简单类型属性注入-Value" class="headerlink" title="简单类型属性注入@Value"></a>简单类型属性注入@Value</h5><p>需要在属性上使用注解@Value，该注解的 value 属性用于指定要注入的值。<br>使用该注解完成属性注入时，类中无需 setter。</p>
+<figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    @Value(<span class="string">&quot;张三&quot;</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> name;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="AutoWired"><a href="#AutoWired" class="headerlink" title="@AutoWired"></a>@AutoWired</h4><h5 id="byType-自动注入-Autowired"><a href="#byType-自动注入-Autowired" class="headerlink" title="byType 自动注入@Autowired"></a>byType 自动注入@Autowired</h5><p>该注解默认使用<strong>按类型自动装配 Bean</strong></p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="symbol">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> age;</span><br><span class="line">	<span class="comment">/******/</span></span><br><span class="line">    @Autowired</span><br><span class="line">    <span class="keyword">private</span> School school;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="byName-自动注入-Autowired-与-Qualifier"><a href="#byName-自动注入-Autowired-与-Qualifier" class="headerlink" title="byName 自动注入@Autowired 与@Qualifier"></a>byName 自动注入@Autowired 与@Qualifier</h5><p>需要在引用属性上联合使用注解@Autowired 与@Qualifier。@Qualifier 的 value 属性用<br>于指定要匹配的 Bean 的 id 值。类中无需 set 方法，也可加到 set 方法上。<br><br>@Autowired 还有一个属性 required，默认值为 true，表示当匹配失败后，会终止程序运<br>行。若将其值设置为 false，则匹配失败，将被忽略，未匹配的属性值为 null。<br></p>
+<h4 id="JDK-注解-Resource-自动注入"><a href="#JDK-注解-Resource-自动注入" class="headerlink" title="JDK 注解@Resource 自动注入"></a>JDK 注解@Resource 自动注入</h4><p>Spring提供了对 jdk中@Resource注解的支持。@Resource 注解既可以按名称匹配Bean，<br>也可以按类型匹配 Bean。默认是按名称注入。使用该注解，要求 JDK 必须是 6 及以上版本。<br>@Resource 可在属性上，也可在 set 方法上。<br></p>
+<p>@Resource 注解若不带任何参数，采用<strong>默认按名称的方式</strong>注入，按名称不能注入 bean，<br>则会按照类型进行 Bean 的匹配注入。</p>
+<hr>
+<h2 id="3-AOP面向切面编程"><a href="#3-AOP面向切面编程" class="headerlink" title="3.AOP面向切面编程"></a>3.AOP面向切面编程</h2><p>AOP（Aspect Orient Programming），面向切面编程。面向切面编程是从动态角度考虑程<br>序运行过程。<br><br>AOP 底层，就是采用动态代理模式实现的。采用了两种代理：<strong>JDK 的动态代理，与 CGLIB的动态代理。</strong><br></p>
+<p>JDK动态代理，必须要实现接口<br>    - 创建目标类<br>    - 创建<strong>InvocationHandler</strong>接口的实现类重写<strong>Invoke</strong>，在这个类实现给目标方法增加功能<br>    - 使用JDK中的类<strong>proxy</strong>，创建代理对象，实现创建对象的能力，在使用代理对象调用方法</p>
+<p>CGLIB的动态代理，原理是继承，通过继承目标类生成代理类，只要求目标类不是final修饰的就行</p>
+<h3 id="Aop术语"><a href="#Aop术语" class="headerlink" title="Aop术语"></a>Aop术语</h3><ol>
+<li>切面（Aspect）<br><br>切面泛指交叉业务逻辑。上例中的事务处理、日志处理就可以理解为切面。常用的切面<br>是通知（Advice）。实际就是对主业务逻辑的一种增强。</li>
+<li>连接点（JoinPoint）<br><br>连接点指可以被切面织入的具体方法。通常业务接口中的方法均为连接点。</li>
+<li>切入点（Pointcut）<br><br>切入点指声明的一个或多个连接点的集合。通过切入点指定一组方法。<br><br>被标记为 final 的方法是不能作为连接点与切入点的。因为最终的是不能被修改的，不<br>能被增强的。</li>
+<li>目标对象（Target）<br><br>目 标 对 象 指 将 要 被 增 强 的 对 象 。 即 包 含 主 业 务 逻 辑 的 类 的 对 象 。 上 例 中 的<br>StudentServiceImpl 的对象若被增强，则该类称为目标类，该类对象称为目标对象。当然，<br>不被增强，也就无所谓目标不目标了。</li>
+<li>通知（Advice）<br>通知表示切面的执行时间，Advice 也叫增强。上例中的 MyInvocationHandler 就可以理<br>解为是一种通知。换个角度来说，通知定义了增强代码切入到目标代码的时间点，是目标方<br>法执行之前执行，还是之后执行等。通知类型不同，切入时间不同。<br></li>
+</ol>
+<p><strong>切入点定义切入的位置，通知定义切入的时间</strong>。</p>
+<h4 id="AOP的主要实践-aspectj"><a href="#AOP的主要实践-aspectj" class="headerlink" title="AOP的主要实践 aspectj"></a>AOP的主要实践 aspectj</h4><p> aspectj有两种实现方式：<br><br> 1.使用xml配置<br> 2.使用注解（常用5个：@Before，@AfterReturning，@Around，@AfterThrowing，@After）</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>spring</category>
+        <category>IOC&amp;AOP</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>Spring</tag>
+        <tag>Ioc</tag>
+        <tag>Aop</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PMP备考系列_1-3章笔记</title>
     <url>/2021/07/23/pmp/PMP1-3/</url>
     <content><![CDATA[<h1 id="PMBOK指南笔记"><a href="#PMBOK指南笔记" class="headerlink" title="PMBOK指南笔记"></a>PMBOK指南笔记</h1><h2 id="1-引论"><a href="#1-引论" class="headerlink" title="1.引论"></a>1.引论</h2><blockquote>
@@ -376,18 +512,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
         <tag>Feign</tag>
         <tag>Hystrix</tag>
         <tag>Zuul</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>设计模式</title>
-    <url>/2021/07/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="1-请列举出在-JDK-中几个常用的设计模式？"><a href="#1-请列举出在-JDK-中几个常用的设计模式？" class="headerlink" title="1.请列举出在 JDK 中几个常用的设计模式？"></a>1.请列举出在 JDK 中几个常用的设计模式？</h1><p>单例模式（Singleton pattern）用于 Runtime，Calendar 和其他的一些类中。工厂模式<br>（Factory pattern）被用于各种不可变的类如 Boolean，像 Boolean.valueOf，观察者模式<br>（Observer pattern）被用于 Swing 和很多的事件监听中。装饰器设计模式（Decorator<br>design pattern）被用于多个 Java IO 类中。<br>2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？<br>设计模式是世界上各种各样程序员用来解决特定设计问题的尝试和测试的方法。设计模式<br>是代码可用性的延伸<br>3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式<br>单例模式重点在于在整个系统上共享一些创建时较耗资源的对象。整个应用中只维护一个<br>特定类实例，它被所有组件共同使用。Java.lang.Runtime 是单例模式的经典例子。从 Java<br>5 开始你可以使用枚举（enum）来实现线程安全的单例。<br>4.在 Java 中，什么叫观察者设计模式（observer design pattern）？<br>观察者模式是基于对象的状态变化和观察者的通讯，以便他们作出相应的操作。简单的例<br>子就是一个天气系统，当天气变化时必须在展示给公众的视图中进行反映。这个视图对象<br>是一个主体，而不同的视图是观察者。<br>5.使用工厂模式最主要的好处是什么？在哪里使用？<br>工厂模式的最大好处是增加了创建对象时的封装层次。如果你使用工厂来创建对象，之后<br>你可以使用更高级和更高性能的实现来替换原始的产品实现或类，这不需要在调用层做任<br>何修改。<br>6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类<br>层次？<br>装饰模式增加强了单个对象的能力。Java IO 到处都使用了装饰模式，典型例子就是<br>Buffered 系列类如 BufferedReader 和 BufferedWriter，它们增强了 Reader 和 Writer 对象，<br>以实现提升性能的 Buffer 层次的读取和写入。</p>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
@@ -987,68 +1111,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>spring框架总述</title>
-    <url>/2021/06/25/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/</url>
-    <content><![CDATA[<h1 id="1-spring是什么"><a href="#1-spring是什么" class="headerlink" title="1.spring是什么"></a>1.spring是什么</h1><p>Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为了解决企业应用开发<br>的复杂性而创建的。Spring 的核心是控制反转（<strong>IoC</strong>）和面向切面编程（<strong>AOP</strong>）。<br></p>
-<hr>
-<h2 id="2-IOC控制反转"><a href="#2-IOC控制反转" class="headerlink" title="2.IOC控制反转"></a>2.IOC控制反转</h2><p>控制反转（IoC，Inversion of Control），是一个概念，是一种思想。指将传统上由程序代<br>码直接操控的对象调用权交给容器，通过容器来实现对象的装配和管理。控制反转就是对对<br>象控制权的转移，从程序代码本身反转到了外部容器。通过容器实现对象的创建，属性赋值，<br>依赖的管理。<br><br>spring对于IOC思想的具体实现就是：<strong>DI</strong>（依赖注入：DI(Dependency Injection)，程序代码不做定位查询，这些工作由容器自行<br>完成。）</p>
-<h3 id="DI具体用法和实现"><a href="#DI具体用法和实现" class="headerlink" title="DI具体用法和实现"></a>DI具体用法和实现</h3><h4 id="ApplicationContext-接口（容器）"><a href="#ApplicationContext-接口（容器）" class="headerlink" title="ApplicationContext 接口（容器）"></a>ApplicationContext 接口（容器）</h4><p>ApplicationContext 用于加载 Spring 的配置文件，在程序中充当“容器”的角色。其实现<br>类有：<strong>ClassPathXmlApplicationContext</strong>(常用)，FileSystemXmlApplicationContext。<br></p>
-<ul>
-<li>若 Spring 配置文件存放在项目的类路径下，则使用 ClassPathXmlApplicationContext 实现<br>类进行加载。</li>
-<li>ApplicationContext 容器，会在容器对象初始化时，将其中的所有对象一次性全部装配好。<br>以后代码中若要使用到这些对象，只需从内存中直接获取即可。执行效率较高。但占用内存。<span id="more"></span>
-<h4 id="注入分类"><a href="#注入分类" class="headerlink" title="注入分类:"></a>注入分类:<br></h4>bean 实例在调用无参构造器创建对象后，就要对 bean 对象的属性进行初始化。初始化<br>是由容器自动完成的，称为注入。<br>根据注入方式的不同，常用的有两类：<strong>set 注入、构造注入</strong>。</li>
-<li>Set注入：其实就是直接设置要的值<ul>
-<li>简单类型（设置property标签，通过value=”设置”）</li>
-<li>引用类型 （设置property标签，通过ref=”设置”）</li>
-</ul>
-</li>
-<li>构造注入：在构造调用者实例的同时，完成被调用者的实例化。即使用构造器设置依赖关系。<ul>
-<li>设置<constructor-arg>标签 name=”指定参数名称” value=”设置” 。（可选index）</constructor-arg></li>
-</ul>
-</li>
-</ul>
-<h5 id="引用类型属性自动注入"><a href="#引用类型属性自动注入" class="headerlink" title="引用类型属性自动注入"></a>引用类型属性自动注入</h5><p>对于引用类型属性的注入，也可不在配置文件中显示的注入。可以通过为<bean>标签<br>设置 autowire 属性值，为引用类型属性进行隐式自动注入（默认是不自动注入引用类型属<br>性）。根据自动注入判断标准的不同，可以分为两种：<br><br>byName：根据名称自动注入<br><br>byType： 根据类型自动注入<br><br>直接在bean标签内加上   autowire=”byName”</bean></p>
-<h4 id="为应用指定多个-Spring-配置文件"><a href="#为应用指定多个-Spring-配置文件" class="headerlink" title="为应用指定多个 Spring 配置文件"></a>为应用指定多个 Spring 配置文件</h4><p>在实际应用里，随着应用规模的增加，系统中 Bean 数量也大量增加，导致配置文件变<br>得非常庞大、臃肿。为了避免这种情况的产生，提高配置文件的可读性与可维护性，可以将<br>Spring 配置文件分解成多个配置文件。<br>包含关系的配置文件：<br><br>多个配置文件中有一个总文件，总配置文件将各其它子文件通过<import>引入。在 Java<br>代码中只需要使用总配置文件对容器进行初始化即可。<br><br>也可使用通配符*。但，此时要求父配置文件名不能满足*所能匹配的格式，否则将出现<br>循环递归包含。<br></import></p>
-<h3 id="基于注解的-DI"><a href="#基于注解的-DI" class="headerlink" title="基于注解的 DI"></a>基于注解的 DI</h3><p>对于 DI 使用注解，将不再需要在 Spring 配置文件中声明 bean 实例。<br><br>Spring 中使用注解，需要在 Spring 配置文件中<strong>配置组件扫描器</strong>，用于在指定的基本包中扫描注解。<br>指定多个包的三种方式：<br><br>1)使用多个 context:component-scan 指定不同的包路<br><br>2)指定 base-package 的值使用分隔符<br><br>3)base-package 是指定到父包名<br></p>
-<h5 id="注解方式声明bean"><a href="#注解方式声明bean" class="headerlink" title="注解方式声明bean"></a>注解方式声明bean</h5><ul>
-<li>定义 Bean 的注解@Component</li>
-<li>@Repository 用于对 DAO 实现类进行注解</li>
-<li>@Service 用于对 Service 实现类进行注解</li>
-<li>@Controller 用于对 Controller 实现类进行注解<br></li>
-</ul>
-<p>这三个注解与@Component 都可以创建对象，但这三个注解还有其他的含义：<br></p>
-<p>@Service创建业务层对象，业务层对象可以加入事务功能，<br><br>@Controller 注解创建的对象可以作为处理器接收用户的请求。<br><br>@Repository，@Service，@Controller 是对@Component 注解的细化，标注不同层的对象。即持久层对象，业务层对象，控制层对象。<br></p>
-<h5 id="简单类型属性注入-Value"><a href="#简单类型属性注入-Value" class="headerlink" title="简单类型属性注入@Value"></a>简单类型属性注入@Value</h5><p>需要在属性上使用注解@Value，该注解的 value 属性用于指定要注入的值。<br>使用该注解完成属性注入时，类中无需 setter。</p>
-<figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    @Value(<span class="string">&quot;张三&quot;</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> name;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="AutoWired"><a href="#AutoWired" class="headerlink" title="@AutoWired"></a>@AutoWired</h4><h5 id="byType-自动注入-Autowired"><a href="#byType-自动注入-Autowired" class="headerlink" title="byType 自动注入@Autowired"></a>byType 自动注入@Autowired</h5><p>该注解默认使用<strong>按类型自动装配 Bean</strong></p>
-<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="symbol">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> age;</span><br><span class="line">	<span class="comment">/******/</span></span><br><span class="line">    @Autowired</span><br><span class="line">    <span class="keyword">private</span> School school;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="byName-自动注入-Autowired-与-Qualifier"><a href="#byName-自动注入-Autowired-与-Qualifier" class="headerlink" title="byName 自动注入@Autowired 与@Qualifier"></a>byName 自动注入@Autowired 与@Qualifier</h5><p>需要在引用属性上联合使用注解@Autowired 与@Qualifier。@Qualifier 的 value 属性用<br>于指定要匹配的 Bean 的 id 值。类中无需 set 方法，也可加到 set 方法上。<br><br>@Autowired 还有一个属性 required，默认值为 true，表示当匹配失败后，会终止程序运<br>行。若将其值设置为 false，则匹配失败，将被忽略，未匹配的属性值为 null。<br></p>
-<h4 id="JDK-注解-Resource-自动注入"><a href="#JDK-注解-Resource-自动注入" class="headerlink" title="JDK 注解@Resource 自动注入"></a>JDK 注解@Resource 自动注入</h4><p>Spring提供了对 jdk中@Resource注解的支持。@Resource 注解既可以按名称匹配Bean，<br>也可以按类型匹配 Bean。默认是按名称注入。使用该注解，要求 JDK 必须是 6 及以上版本。<br>@Resource 可在属性上，也可在 set 方法上。<br></p>
-<p>@Resource 注解若不带任何参数，采用<strong>默认按名称的方式</strong>注入，按名称不能注入 bean，<br>则会按照类型进行 Bean 的匹配注入。</p>
-<hr>
-<h2 id="3-AOP面向切面编程"><a href="#3-AOP面向切面编程" class="headerlink" title="3.AOP面向切面编程"></a>3.AOP面向切面编程</h2><p>AOP（Aspect Orient Programming），面向切面编程。面向切面编程是从动态角度考虑程<br>序运行过程。<br><br>AOP 底层，就是采用动态代理模式实现的。采用了两种代理：<strong>JDK 的动态代理，与 CGLIB的动态代理。</strong><br></p>
-<h3 id="Aop术语"><a href="#Aop术语" class="headerlink" title="Aop术语"></a>Aop术语</h3><ol>
-<li>切面（Aspect）<br><br>切面泛指交叉业务逻辑。上例中的事务处理、日志处理就可以理解为切面。常用的切面<br>是通知（Advice）。实际就是对主业务逻辑的一种增强。</li>
-<li>连接点（JoinPoint）<br><br>连接点指可以被切面织入的具体方法。通常业务接口中的方法均为连接点。</li>
-<li>切入点（Pointcut）<br><br>切入点指声明的一个或多个连接点的集合。通过切入点指定一组方法。<br><br>被标记为 final 的方法是不能作为连接点与切入点的。因为最终的是不能被修改的，不<br>能被增强的。</li>
-<li>目标对象（Target）<br><br>目 标 对 象 指 将 要 被 增 强 的 对 象 。 即 包 含 主 业 务 逻 辑 的 类 的 对 象 。 上 例 中 的<br>StudentServiceImpl 的对象若被增强，则该类称为目标类，该类对象称为目标对象。当然，<br>不被增强，也就无所谓目标不目标了。</li>
-<li>通知（Advice）<br>通知表示切面的执行时间，Advice 也叫增强。上例中的 MyInvocationHandler 就可以理<br>解为是一种通知。换个角度来说，通知定义了增强代码切入到目标代码的时间点，是目标方<br>法执行之前执行，还是之后执行等。通知类型不同，切入时间不同。<br></li>
-</ol>
-<p><strong>切入点定义切入的位置，通知定义切入的时间</strong>。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>spring</category>
-        <category>IOC&amp;AOP</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>Spring</tag>
-        <tag>Ioc</tag>
-        <tag>Aop</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>常见英文</title>
     <url>/2021/06/25/codeEnglish/code_language/</url>
     <content><![CDATA[<p>one write;read everywhere.</p>
@@ -1408,59 +1470,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>Java基础提升_线程池</title>
-    <url>/2021/06/15/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言<br></h1><p>在《阿里巴巴java开发手册》中指出了线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，这样一方面是线程的创建更加规范，可以合理控制开辟线程的数量；另一方面线程的细节管理交给线程池处理，优化了资源的开销。<br><br>而线程池不允许使用Executors去创建，而要通过<strong>ThreadPoolExecutor</strong>方式，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活【消耗内存等】；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险，所以阿里巴巴java开发规范线程池首选ThreadPoolExcutor。<br></p>
-<p>话虽如此但常见的Executor框架还是要有所了解。</p>
-<span id="more"></span>
-<h2 id="常见线程池以及使用"><a href="#常见线程池以及使用" class="headerlink" title="常见线程池以及使用"></a>常见线程池以及使用</h2><h3 id="1-newCacheThreadPoo"><a href="#1-newCacheThreadPoo" class="headerlink" title="1.newCacheThreadPoo"></a>1.newCacheThreadPoo</h3><p>Executors.newCacheThreadPool()：可缓存线程池，先查看池中有没有以前建立的线程，如果有，就直接使用。如果没有，就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务。</p>
-<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建一个可缓存线程池</span></span><br><span class="line">        ExecutorService cachedThreadPool = <span class="module-access"><span class="module"><span class="identifier">Executors</span>.</span></span><span class="keyword">new</span><span class="constructor">CachedThreadPool()</span>;</span><br><span class="line">         cachedThreadPool.execute(<span class="literal">()</span> -&gt;&#123;</span><br><span class="line">                </span><br><span class="line">                    <span class="comment">// 打印正在执行的缓存线程信息</span></span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>.get<span class="constructor">Name()</span></span><br><span class="line">                            + <span class="string">&quot;正在被执行&quot;</span>);</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="2-newFixedThreadPool"><a href="#2-newFixedThreadPool" class="headerlink" title="2.newFixedThreadPool"></a>2.newFixedThreadPool</h3><p> Executors.newFixedThreadPool(int n)：创建一个可重用固定个数的线程池，以共享的无界队列方式来运行这些线程。</p>
-<h3 id="3-newScheduledThreadPool"><a href="#3-newScheduledThreadPool" class="headerlink" title="3.newScheduledThreadPool"></a>3.newScheduledThreadPool</h3><p>Executors.newScheduledThreadPool(int n)：创建一个定长线程池，支持定时及周期性任务执行</p>
-<h3 id="4-newSingleThreadExecutor"><a href="#4-newSingleThreadExecutor" class="headerlink" title="4.newSingleThreadExecutor"></a>4.newSingleThreadExecutor</h3><p>Executors.newSingleThreadExecutor()：创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
-<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><h3 id="创建方式和主要参数解释"><a href="#创建方式和主要参数解释" class="headerlink" title="创建方式和主要参数解释"></a>创建方式和主要参数解释</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> static final ThreadPoolExecutor THREADPOOL = <span class="keyword">new</span> <span class="constructor">ThreadPoolExecutor(<span class="params">int</span> <span class="params">corePoolSize</span>, <span class="params">int</span> <span class="params">maximumPoolSize</span>,<span class="params">long</span> <span class="params">keepAliveTime</span>, TimeUnit <span class="params">unit</span>,BlockingQueue&lt;Runnable&gt; <span class="params">workQueue</span>,RejectedExecutionHandler <span class="params">handler</span>)</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>corePoolSize： 线程池维护线程的最少数量 （core : 核心）</li>
-<li>maximumPoolSize： 线程池维护线程的最大数量</li>
-<li>keepAliveTime：线程池维护线程所允许的空闲时间</li>
-<li>unit：线程池维护线程所允许的空闲时间的单位</li>
-<li>workQueue：线程池所使用的缓冲队列</li>
-<li>handler：线程池对拒绝任务的处理策略</li>
-</ol>
-<h3 id="内部执行流程解释"><a href="#内部执行流程解释" class="headerlink" title="内部执行流程解释"></a>内部执行流程解释</h3><p>通过 execute(Runnable)方法被添加到线程池，任务就是一个 Runnable类型的对象，任务的执行方法就是 Runnable类型对象的run()方法。<br><br>当一个任务通过execute(Runnable)方法欲添加到线程池时：<br><br>如果此时线程池中的数量小于corePoolSize，即使线程池中的线程都处于空闲状态，也要创建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量等于 corePoolSize，但是缓冲队列 workQueue未满，那么任务被放入缓冲队列。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量小于maximumPoolSize，建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量等于maximumPoolSize，那么通过 handler所指定的策略来处理此任务。<br><br>也就是：处理任务的优先级为：<br><br>核心线程corePoolSize、任务队列workQueue、最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务。<br><br> 当线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止。这样，线程池可以动态的调整池中的线程数。<br></p>
-<ul>
-<li><p>unit可选的参数为java.util.concurrent.TimeUnit中的几个静态属性：NANOSECONDS、MICROSECONDS、MILLISECONDS、SECONDS。</p>
-</li>
-<li><p>workQueue常用的是：java.util.concurrent.ArrayBlockingQueue</p>
-</li>
-<li><p>handler有四个选择：<br><br>ThreadPoolExecutor.AbortPolicy()：抛出java.util.concurrent.RejectedExecutionException异常<br><br>ThreadPoolExecutor.CallerRunsPolicy(): 重试添加当前的任务，他会自动重复调用execute()方法<br><br>ThreadPoolExecutor.DiscardOldestPolicy(): 抛弃旧的任务<br><br>ThreadPoolExecutor.DiscardPolicy(): 抛弃当前的任务<br></p>
-</li>
-</ul>
-<h3 id="如何配置线程池"><a href="#如何配置线程池" class="headerlink" title="如何配置线程池"></a>如何配置线程池</h3><ul>
-<li><p>CPU密集型任务<br><br>尽量使用较小的线程池，一般为CPU核心数+1。 因为CPU密集型任务使得CPU使用率很高，若开过多的线程数，会造成CPU过度切换。</p>
-</li>
-<li><p>IO密集型任务<br><br>可以使用稍大的线程池，一般为2*CPU核心数。 IO密集型任务CPU使用率并不高，因此可以让CPU在等待IO的时候有其他线程去处理别的任务，充分利用CPU时间。</p>
-</li>
-<li><p>混合型任务<br><br>可以将任务分成IO密集型和CPU密集型任务，然后分别用不同的线程池去处理。 只要分完之后两个任务的执行时间相差不大，那么就会比串行执行来的高效。<br>因为如果划分之后两个任务执行时间有数据级的差距，那么拆分没有意义。<br>因为先执行完的任务就要等后执行完的任务，最终的时间仍然取决于后执行完的任务，而且还要加上任务拆分与合并的开销，得不偿失。</p>
-</li>
-</ul>
-<h3 id="execute-和submit-方法"><a href="#execute-和submit-方法" class="headerlink" title="execute()和submit()方法"></a>execute()和submit()方法</h3><p>1、execute()，执行一个任务，没有返回值。<br>2、submit()，提交一个线程任务，有返回值。<br>submit(Callable<T> task)能获取到它的返回值，通过future.get()获取（阻塞直到任务执行完）。一般使用FutureTask+Callable配合使用（IntentService中有体现）。</T></p>
-<p>submit(Runnable task, T result)能通过传入的载体result间接获得线程的返回值。<br>submit(Runnable task)则是没有返回值的，就算获取它的返回值也是null。</p>
-<p>Future.get方法会使取结果的线程进入阻塞状态，知道线程执行完成之后，唤醒取结果的线程，然后返回结果。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>基础</category>
-        <category>多线程</category>
-        <category>线程池</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>多线程</tag>
-        <tag>线程池</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Shell脚本中$</title>
     <url>/2021/06/15/shell/shell%20%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84$%20/</url>
     <content><![CDATA[<h1 id="Shell脚本中-0、-、-、-、-、-、"><a href="#Shell脚本中-0、-、-、-、-、-、" class="headerlink" title="Shell脚本中$0、$?、$!、$$、$*、$#、$@"></a>Shell脚本中$0、$?、$!、$$、$*、$#、$@</h1><h2 id="1"><a href="#1" class="headerlink" title="1. $$"></a>1. $$</h2><p>Shell本身的PID（ProcessID）</p>
@@ -1528,6 +1537,59 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>Java基础提升_线程池</title>
+    <url>/2021/06/15/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言<br></h1><p>在《阿里巴巴java开发手册》中指出了线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，这样一方面是线程的创建更加规范，可以合理控制开辟线程的数量；另一方面线程的细节管理交给线程池处理，优化了资源的开销。<br><br>而线程池不允许使用Executors去创建，而要通过<strong>ThreadPoolExecutor</strong>方式，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活【消耗内存等】；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险，所以阿里巴巴java开发规范线程池首选ThreadPoolExcutor。<br></p>
+<p>话虽如此但常见的Executor框架还是要有所了解。</p>
+<span id="more"></span>
+<h2 id="常见线程池以及使用"><a href="#常见线程池以及使用" class="headerlink" title="常见线程池以及使用"></a>常见线程池以及使用</h2><h3 id="1-newCacheThreadPoo"><a href="#1-newCacheThreadPoo" class="headerlink" title="1.newCacheThreadPoo"></a>1.newCacheThreadPoo</h3><p>Executors.newCacheThreadPool()：可缓存线程池，先查看池中有没有以前建立的线程，如果有，就直接使用。如果没有，就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务。</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建一个可缓存线程池</span></span><br><span class="line">        ExecutorService cachedThreadPool = <span class="module-access"><span class="module"><span class="identifier">Executors</span>.</span></span><span class="keyword">new</span><span class="constructor">CachedThreadPool()</span>;</span><br><span class="line">         cachedThreadPool.execute(<span class="literal">()</span> -&gt;&#123;</span><br><span class="line">                </span><br><span class="line">                    <span class="comment">// 打印正在执行的缓存线程信息</span></span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>.get<span class="constructor">Name()</span></span><br><span class="line">                            + <span class="string">&quot;正在被执行&quot;</span>);</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="2-newFixedThreadPool"><a href="#2-newFixedThreadPool" class="headerlink" title="2.newFixedThreadPool"></a>2.newFixedThreadPool</h3><p> Executors.newFixedThreadPool(int n)：创建一个可重用固定个数的线程池，以共享的无界队列方式来运行这些线程。</p>
+<h3 id="3-newScheduledThreadPool"><a href="#3-newScheduledThreadPool" class="headerlink" title="3.newScheduledThreadPool"></a>3.newScheduledThreadPool</h3><p>Executors.newScheduledThreadPool(int n)：创建一个定长线程池，支持定时及周期性任务执行</p>
+<h3 id="4-newSingleThreadExecutor"><a href="#4-newSingleThreadExecutor" class="headerlink" title="4.newSingleThreadExecutor"></a>4.newSingleThreadExecutor</h3><p>Executors.newSingleThreadExecutor()：创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
+<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><h3 id="创建方式和主要参数解释"><a href="#创建方式和主要参数解释" class="headerlink" title="创建方式和主要参数解释"></a>创建方式和主要参数解释</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> static final ThreadPoolExecutor THREADPOOL = <span class="keyword">new</span> <span class="constructor">ThreadPoolExecutor(<span class="params">int</span> <span class="params">corePoolSize</span>, <span class="params">int</span> <span class="params">maximumPoolSize</span>,<span class="params">long</span> <span class="params">keepAliveTime</span>, TimeUnit <span class="params">unit</span>,BlockingQueue&lt;Runnable&gt; <span class="params">workQueue</span>,RejectedExecutionHandler <span class="params">handler</span>)</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>corePoolSize： 线程池维护线程的最少数量 （core : 核心）</li>
+<li>maximumPoolSize： 线程池维护线程的最大数量</li>
+<li>keepAliveTime：线程池维护线程所允许的空闲时间</li>
+<li>unit：线程池维护线程所允许的空闲时间的单位</li>
+<li>workQueue：线程池所使用的缓冲队列</li>
+<li>handler：线程池对拒绝任务的处理策略</li>
+</ol>
+<h3 id="内部执行流程解释"><a href="#内部执行流程解释" class="headerlink" title="内部执行流程解释"></a>内部执行流程解释</h3><p>通过 execute(Runnable)方法被添加到线程池，任务就是一个 Runnable类型的对象，任务的执行方法就是 Runnable类型对象的run()方法。<br><br>当一个任务通过execute(Runnable)方法欲添加到线程池时：<br><br>如果此时线程池中的数量小于corePoolSize，即使线程池中的线程都处于空闲状态，也要创建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量等于 corePoolSize，但是缓冲队列 workQueue未满，那么任务被放入缓冲队列。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量小于maximumPoolSize，建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量等于maximumPoolSize，那么通过 handler所指定的策略来处理此任务。<br><br>也就是：处理任务的优先级为：<br><br>核心线程corePoolSize、任务队列workQueue、最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务。<br><br> 当线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止。这样，线程池可以动态的调整池中的线程数。<br></p>
+<ul>
+<li><p>unit可选的参数为java.util.concurrent.TimeUnit中的几个静态属性：NANOSECONDS、MICROSECONDS、MILLISECONDS、SECONDS。</p>
+</li>
+<li><p>workQueue常用的是：java.util.concurrent.ArrayBlockingQueue</p>
+</li>
+<li><p>handler有四个选择：<br><br>ThreadPoolExecutor.AbortPolicy()：抛出java.util.concurrent.RejectedExecutionException异常<br><br>ThreadPoolExecutor.CallerRunsPolicy(): 重试添加当前的任务，他会自动重复调用execute()方法<br><br>ThreadPoolExecutor.DiscardOldestPolicy(): 抛弃旧的任务<br><br>ThreadPoolExecutor.DiscardPolicy(): 抛弃当前的任务<br></p>
+</li>
+</ul>
+<h3 id="如何配置线程池"><a href="#如何配置线程池" class="headerlink" title="如何配置线程池"></a>如何配置线程池</h3><ul>
+<li><p>CPU密集型任务<br><br>尽量使用较小的线程池，一般为CPU核心数+1。 因为CPU密集型任务使得CPU使用率很高，若开过多的线程数，会造成CPU过度切换。</p>
+</li>
+<li><p>IO密集型任务<br><br>可以使用稍大的线程池，一般为2*CPU核心数。 IO密集型任务CPU使用率并不高，因此可以让CPU在等待IO的时候有其他线程去处理别的任务，充分利用CPU时间。</p>
+</li>
+<li><p>混合型任务<br><br>可以将任务分成IO密集型和CPU密集型任务，然后分别用不同的线程池去处理。 只要分完之后两个任务的执行时间相差不大，那么就会比串行执行来的高效。<br>因为如果划分之后两个任务执行时间有数据级的差距，那么拆分没有意义。<br>因为先执行完的任务就要等后执行完的任务，最终的时间仍然取决于后执行完的任务，而且还要加上任务拆分与合并的开销，得不偿失。</p>
+</li>
+</ul>
+<h3 id="execute-和submit-方法"><a href="#execute-和submit-方法" class="headerlink" title="execute()和submit()方法"></a>execute()和submit()方法</h3><p>1、execute()，执行一个任务，没有返回值。<br>2、submit()，提交一个线程任务，有返回值。<br>submit(Callable<T> task)能获取到它的返回值，通过future.get()获取（阻塞直到任务执行完）。一般使用FutureTask+Callable配合使用（IntentService中有体现）。</T></p>
+<p>submit(Runnable task, T result)能通过传入的载体result间接获得线程的返回值。<br>submit(Runnable task)则是没有返回值的，就算获取它的返回值也是null。</p>
+<p>Future.get方法会使取结果的线程进入阻塞状态，知道线程执行完成之后，唤醒取结果的线程，然后返回结果。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>多线程</category>
+        <category>线程池</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
+        <tag>线程池</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mybatis</title>
     <url>/2021/05/26/sql/mybatis/</url>
     <content><![CDATA[<ol>
@@ -1565,74 +1627,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识TCP</title>
-    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
-    <content><![CDATA[<p>&nbsp;</p>
-<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
-<ul>
-<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
-</li>
-<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
-</li>
-<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
-</li>
-</ul>
-<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
-<ul>
-<li>Socket：由 IP 地址和端口号组成</li>
-<li>序列号：用来解决乱序问题等</li>
-<li>窗口大小：用来做流量控制</li>
-</ul>
-<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
-<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
-<li>源地址</li>
-<li>源端口</li>
-<li>目的地址</li>
-<li>目的端口<span id="more"></span>
-<h2 id="有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？"><a href="#有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？" class="headerlink" title="有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？"></a>有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？</h2>主要受限于服务器的资源，第一是文件描述符限制，TCP连接中得socket是文件得，所以受文件描述符限制，这个由系统参数ulimit 配置，但这个也受限于系统内存，内存不大，参数设置得过大也无法实现。</li>
-</ul>
-<h2 id="UDP-和-TCP-有什么区别呢？分别的应用场景是？"><a href="#UDP-和-TCP-有什么区别呢？分别的应用场景是？" class="headerlink" title="UDP 和 TCP 有什么区别呢？分别的应用场景是？"></a>UDP 和 TCP 有什么区别呢？分别的应用场景是？</h2><p>UDP 是不需要连接，即刻传输数据。且可以一对多，多对多。UDP 是尽最大努力交付，不保证可靠交付数据。UDP没有流量控制。UDP首部只有 8 个字节，并且是固定不变的，开销较小<br><br>TCP则是面向连接的，只能一对一，TCP比较可靠数据可以无差错、不丢失、不重复、按需到达，可以进行流量控制。<br></p>
-<p>一句话来说UDP比较高效，舍弃了可靠性，TCP则是专注于点对点的高质量传输。<br><br><strong>TCP：</strong><br><br>FTP 文件传输<br><br>HTTP / HTTPS<br><br><br><strong>UDP</strong><br><br>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于：</p>
-<p>包总量较少的通信，如 DNS 、SNMP 等</p>
-<p>视频、音频等多媒体通信</p>
-<p>广播通信</p>
-<h2 id="为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？"><a href="#为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？" class="headerlink" title="为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？"></a>为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？</h2><p>原因是 TCP 有可变长的「选项」字段，而 UDP 头部长度则是不会变化的，无需多一个字段去记录 UDP 的首部长度。</p>
-<h2 id="三次握手，四次挥手"><a href="#三次握手，四次挥手" class="headerlink" title="三次握手，四次挥手"></a>三次握手，四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
-<li>一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态;<br></li>
-<li>客户端发起一个SYN请求，同时送过去随机生成的客户端序列号client_isn,之后客户端处于 SYN-SENT 状态。<br></li>
-<li>服务端接收到SYN请求，返回一个ACK和服务端的SYN，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1，生成一个服务端的序列号server_isn，传送给客户端，之后服务端处于 SYN-RCVD 状态;<br></li>
-<li>客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。</li>
-<li>服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。</li>
-</ol>
-<h3 id="三次握手的意义"><a href="#三次握手的意义" class="headerlink" title="三次握手的意义"></a>三次握手的意义</h3><p>阻止历史重复连接的初始化（主要原因）</p>
-<p>三次握手才可以同步双方的初始序列号</p>
-<p>三次握手才可以避免资源浪费<br></p>
-<p>从上面的过程可以发现<strong>第三次握手是可以携带数据的，前两次握手是不可以携带数据</strong>的。</p>
-<h3 id="如何在-Linux-系统中查看-TCP-状态？"><a href="#如何在-Linux-系统中查看-TCP-状态？" class="headerlink" title="如何在 Linux 系统中查看 TCP 状态？"></a>如何在 Linux 系统中查看 TCP 状态？</h3><p>TCP 的连接状态查看，在 Linux 可以通过 <strong>netstat -napt</strong> 命令查看。</p>
-<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
-<li>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</li>
-<li>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</li>
-<li>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</li>
-<li>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</li>
-<li>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态</li>
-<li>服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</li>
-<li>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭。</li>
-</ol>
-<p><strong>主动关闭连接的，才有 TIME_WAIT 状态。</strong></p>
-<h2 id="TCP性能的优化"><a href="#TCP性能的优化" class="headerlink" title="TCP性能的优化"></a>TCP性能的优化</h2><p>tcp_syn_retries 控制SYN包重传的次数，默认值是5</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">echo <span class="number">5</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/net/i</span>pv4/tcp_syn_retries</span><br></pre></td></tr></table></figure>
-<h2 id="如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？"><a href="#如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？" class="headerlink" title="如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？"></a>如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -s |grep &quot;SYNs to LISTEN&quot;</span><br></pre></td></tr></table></figure>
-<p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
-<h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>cs基础</category>
-        <category>tcp</category>
-      </categories>
-      <tags>
-        <tag>tcp</tag>
       </tags>
   </entry>
   <entry>
@@ -1704,6 +1698,74 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识TCP</title>
+    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
+    <content><![CDATA[<p>&nbsp;</p>
+<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
+<ul>
+<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
+</li>
+<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
+</li>
+<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
+</li>
+</ul>
+<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
+<ul>
+<li>Socket：由 IP 地址和端口号组成</li>
+<li>序列号：用来解决乱序问题等</li>
+<li>窗口大小：用来做流量控制</li>
+</ul>
+<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
+<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
+<li>源地址</li>
+<li>源端口</li>
+<li>目的地址</li>
+<li>目的端口<span id="more"></span>
+<h2 id="有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？"><a href="#有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？" class="headerlink" title="有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？"></a>有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？</h2>主要受限于服务器的资源，第一是文件描述符限制，TCP连接中得socket是文件得，所以受文件描述符限制，这个由系统参数ulimit 配置，但这个也受限于系统内存，内存不大，参数设置得过大也无法实现。</li>
+</ul>
+<h2 id="UDP-和-TCP-有什么区别呢？分别的应用场景是？"><a href="#UDP-和-TCP-有什么区别呢？分别的应用场景是？" class="headerlink" title="UDP 和 TCP 有什么区别呢？分别的应用场景是？"></a>UDP 和 TCP 有什么区别呢？分别的应用场景是？</h2><p>UDP 是不需要连接，即刻传输数据。且可以一对多，多对多。UDP 是尽最大努力交付，不保证可靠交付数据。UDP没有流量控制。UDP首部只有 8 个字节，并且是固定不变的，开销较小<br><br>TCP则是面向连接的，只能一对一，TCP比较可靠数据可以无差错、不丢失、不重复、按需到达，可以进行流量控制。<br></p>
+<p>一句话来说UDP比较高效，舍弃了可靠性，TCP则是专注于点对点的高质量传输。<br><br><strong>TCP：</strong><br><br>FTP 文件传输<br><br>HTTP / HTTPS<br><br><br><strong>UDP</strong><br><br>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于：</p>
+<p>包总量较少的通信，如 DNS 、SNMP 等</p>
+<p>视频、音频等多媒体通信</p>
+<p>广播通信</p>
+<h2 id="为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？"><a href="#为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？" class="headerlink" title="为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？"></a>为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？</h2><p>原因是 TCP 有可变长的「选项」字段，而 UDP 头部长度则是不会变化的，无需多一个字段去记录 UDP 的首部长度。</p>
+<h2 id="三次握手，四次挥手"><a href="#三次握手，四次挥手" class="headerlink" title="三次握手，四次挥手"></a>三次握手，四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
+<li>一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态;<br></li>
+<li>客户端发起一个SYN请求，同时送过去随机生成的客户端序列号client_isn,之后客户端处于 SYN-SENT 状态。<br></li>
+<li>服务端接收到SYN请求，返回一个ACK和服务端的SYN，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1，生成一个服务端的序列号server_isn，传送给客户端，之后服务端处于 SYN-RCVD 状态;<br></li>
+<li>客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。</li>
+<li>服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。</li>
+</ol>
+<h3 id="三次握手的意义"><a href="#三次握手的意义" class="headerlink" title="三次握手的意义"></a>三次握手的意义</h3><p>阻止历史重复连接的初始化（主要原因）</p>
+<p>三次握手才可以同步双方的初始序列号</p>
+<p>三次握手才可以避免资源浪费<br></p>
+<p>从上面的过程可以发现<strong>第三次握手是可以携带数据的，前两次握手是不可以携带数据</strong>的。</p>
+<h3 id="如何在-Linux-系统中查看-TCP-状态？"><a href="#如何在-Linux-系统中查看-TCP-状态？" class="headerlink" title="如何在 Linux 系统中查看 TCP 状态？"></a>如何在 Linux 系统中查看 TCP 状态？</h3><p>TCP 的连接状态查看，在 Linux 可以通过 <strong>netstat -napt</strong> 命令查看。</p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
+<li>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</li>
+<li>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</li>
+<li>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</li>
+<li>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</li>
+<li>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态</li>
+<li>服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</li>
+<li>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭。</li>
+</ol>
+<p><strong>主动关闭连接的，才有 TIME_WAIT 状态。</strong></p>
+<h2 id="TCP性能的优化"><a href="#TCP性能的优化" class="headerlink" title="TCP性能的优化"></a>TCP性能的优化</h2><p>tcp_syn_retries 控制SYN包重传的次数，默认值是5</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">echo <span class="number">5</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/net/i</span>pv4/tcp_syn_retries</span><br></pre></td></tr></table></figure>
+<h2 id="如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？"><a href="#如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？" class="headerlink" title="如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？"></a>如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -s |grep &quot;SYNs to LISTEN&quot;</span><br></pre></td></tr></table></figure>
+<p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
+<h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>cs基础</category>
+        <category>tcp</category>
+      </categories>
+      <tags>
+        <tag>tcp</tag>
       </tags>
   </entry>
   <entry>
