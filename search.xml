@@ -9,6 +9,100 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Java基础提升_多线程</title>
+    <url>/2021/08/03/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
+    <content><![CDATA[<h2 id="线程创建方式"><a href="#线程创建方式" class="headerlink" title="线程创建方式"></a>线程创建方式</h2><ol>
+<li>继承Thread类<ul>
+<li>start()方法是一个 native 方法,它将启动一个新线<br>程，并执行 run()方法。</li>
+</ul>
+</li>
+<li>实现runnable接口，<ul>
+<li>当一个类已经有继承了，此时可通过实现runnable接口来创建线程</li>
+</ul>
+</li>
+<li>采用线程池，实现callable接口（有返回）,ExecutorService<ul>
+<li>有返回值的任务必须实现 Callable 接口。执行<br>Callable 任务后，可以获取一个 Future 的对象，在该对象上调用 get 就可以获取到 Callable 任务<br>返回的 Object 了，再结合线程池接口 ExecutorService 就可以实现传说中有返回结果的多线程<br>了。</li>
+</ul>
+</li>
+</ol>
+<h2 id="多线程中的主要问题"><a href="#多线程中的主要问题" class="headerlink" title="多线程中的主要问题"></a>多线程中的主要问题</h2><ol>
+<li>可见性问题<br><br> volatile修饰，保证了多线程之间的内存可见性</li>
+<li>原子性问题<br><br> AtomicInteger<br></li>
+<li>有序性问题<br><br> volatile 防止指令重排序</li>
+<li>死锁的问题<br></li>
+</ol>
+<h2 id="synchronized-关键字"><a href="#synchronized-关键字" class="headerlink" title="synchronized 关键字"></a>synchronized 关键字</h2><h3 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h3><ol>
+<li>修饰一个==代码块==，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； </li>
+<li>修饰一个==方法==，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； </li>
+<li>修改一个==静态的方法==，其作用的范围是整个静态方法，作用的对象是这个==类的所有对象==； </li>
+<li>修改一个==类==，其作用的范围是synchronized后面括号括起来的部分，作用主的对象是这个类的所有对象。<h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3></li>
+<li>修饰代码块时：<br>synchronized是JVM层面的，同步语句块的实现使用的是 monitorenter 和 monitorexit 指令，其中 monitorenter 指令指向同步代码块的开始位置，monitorexit 指令则指明同步代码块的结束位置。当执行 monitorenter 指令时，线程试图获取锁也就是获取 monitor(monitor对象存在于每个==Java对象的对象头==中，synchronized 锁便是通过这种方式获取锁的，也是为什么Java中任意对象可以作为锁的原因)</li>
+<li>synchronized 修饰方法时：<br>synchronized 修饰的方法并没有 monitorenter 指令和 monitorexit 指令，取得代之的确实是 ACC_SYNCHRONIZED 标识，该标识指明了该方法是一个同步方法，JVM 通过该 ACC_SYNCHRONIZED 访问标志来辨别一个方法是否声明为同步方法，从而执行相应的同步调用。</li>
+</ol>
+<h2 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h2><p>作用：保证变量的可见性然后还有一个作用是防止指令重排序。</p>
+<h3 id="synchronized关键字和volatile关键字比较"><a href="#synchronized关键字和volatile关键字比较" class="headerlink" title="synchronized关键字和volatile关键字比较"></a>synchronized关键字和volatile关键字比较</h3><ul>
+<li>volatile关键字是线程同步的轻量级实现，所以volatile性能肯定比synchronized关键字要好。但是volatile关键字只能用于变量而synchronized关键字可以修饰方法以及代码块。synchronized关键字在JavaSE1.6之后进行了主要包括为了减少获得锁和释放锁带来的性能消耗而引入的偏向锁和轻量级锁以及其它各种优化之后执行效率有了显著提升，实际开发中使用 synchronized 关键字的场景还是更多一些。</li>
+<li>多线程访问volatile关键字不会发生阻塞，而synchronized关键字可能会发生阻塞</li>
+<li>volatile关键字能保证数据的可见性，但不能保证数据的原子性。synchronized关键字两者都能保证。</li>
+<li>volatile关键字主要用于解决变量在多个线程之间的可见性，而 synchronized关键字解决的是多个线程之间访问资源的同步性。<h3 id="wait和notify"><a href="#wait和notify" class="headerlink" title="wait和notify"></a>wait和notify</h3>wait和notify这两个方法是一对，wait方法阻塞当前线程，而notify是唤醒被wait方法阻塞的线程。<br></li>
+</ul>
+<ol>
+<li><p>wait()、notify/notifyAll() 方法是Object的本地final方法，无法被重写。</p>
+</li>
+<li><p>wait()使当前线程阻塞，前提是 必须先获得锁，一般配合synchronized 关键字使用，即，一般在synchronized 同步代码块里使用 wait()、notify/notifyAll() 方法。</p>
+</li>
+<li><p> 由于 wait()、notify/notifyAll() 在synchronized 代码块执行，说明当前线程一定是获取了锁的。<br><br>当线程执行wait()方法时候，会释放当前的锁，然后让出CPU，进入等待状态。<br>只有当 notify/notifyAll() 被执行时候，才会唤醒一个或多个正处于等待状态的线程，然后继续往下执行，直到执行完synchronized 代码块的代码或是中途遇到wait() ，再次释放锁。<br>也就是说，notify/notifyAll() 的执行只是唤醒沉睡的线程，而不会立即释放锁，锁的释放要看代码块的具体执行情况。所以在编程中，尽量在使用了notify/notifyAll() 后立即退出临界区，以唤醒其他线程让其获得锁</p>
+</li>
+<li><p>wait() 需要被try catch包围，以便发生异常中断也可以使wait等待的线程唤醒。</p>
+</li>
+<li><p>notify 和wait 的顺序不能错，如果A线程先执行notify方法，B线程在执行wait方法，那么B线程是无法被唤醒的。</p>
+</li>
+<li><p>notify 和 notifyAll的区别<br>notify方法只唤醒一个等待（对象的）线程并使该线程开始执行。所以如果有多个线程等待一个对象，这个方法只会唤醒其中一个线程，选择哪个线程取决于操作系统对多线程管理的实现。notifyAll 会唤醒所有等待(对象的)线程，尽管哪一个线程将会第一个处理取决于操作系统的实现。如果当前情况下有多个线程需要被唤醒，推荐使用notifyAll 方法。比如在生产者-消费者里面的使用，每次都需要唤醒所有的消费者或是生产者，以判断程序是否可以继续往下执行。</p>
+</li>
+<li><p>在多线程中要测试某个条件的变化，使用if 还是while？<br>　　要注意，notify唤醒沉睡的线程后，线程会接着上次的执行继续往下执行。所以在进行条件判断时候，可以先把 wait 语句忽略不计来进行考虑；显然，要确保程序一定要执行，并且要保证程序直到满足一定的条件再执行，要使用while进行等待，</p>
+</li>
+</ol>
+<h2 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h2><p>join() 定义在Thread.java中。<br>join() 的作用：让“主线程”等待“子线程”结束之后才能继续运行。<br>注意：如果线程被生成了，但还未被起动，调用它的 join() 方法是没有作用的，将直接继续向下执行</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 主线程</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Father</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        <span class="type">Son</span> s = <span class="keyword">new</span> <span class="type">Son</span>();</span><br><span class="line">        s.start();</span><br><span class="line">        s.join();</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子线程</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="ThreadLocal详解"><a href="#ThreadLocal详解" class="headerlink" title="ThreadLocal详解"></a>ThreadLocal详解</h2><p>作用：</p>
+<ol>
+<li>每个线程独立的变量 </li>
+<li>可以贯穿整个线程的全局变量，避免参数传递</li>
+</ol>
+<h3 id="InheritableThreadLocal"><a href="#InheritableThreadLocal" class="headerlink" title="InheritableThreadLocal"></a>InheritableThreadLocal</h3><p>如果我想共享线程的ThreadLocal数据怎么办？使用InheritableThreadLocal可以实现多个线程访问ThreadLocal的值，我们在主线程中创建一个InheritableThreadLocal的实例，然后在子线程中得到这个InheritableThreadLocal实例设置的值。</p>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>另外开坑写单独篇</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java错题集</title>
+    <url>/2021/08/03/java%E5%9F%BA%E7%A1%80/Java%E9%94%99%E9%A2%98%E9%9B%86/</url>
+    <content><![CDATA[<ol>
+<li>String.split()<br><br>使用,时可以不用</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testStringsplit</span><span class="params">()</span></span>&#123;</span><br><span class="line">      String s = <span class="string">&quot;119001,119002&quot;</span>;</span><br><span class="line">      List&lt;String&gt; slst = Arrays.asList(s.split(<span class="string">&quot;,&quot;</span>));</span><br><span class="line">      <span class="comment">//split里面是正则  使用|时要转义！！！！</span></span><br><span class="line">      <span class="comment">//List&lt;String&gt; slst = Arrays.asList(s.split(&quot;\\|&quot;));</span></span><br><span class="line">      <span class="keyword">for</span>(String i :slst)&#123;</span><br><span class="line">          System.out.println(i);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">slst.contain(<span class="string">&quot;119001&quot;</span>);<span class="comment">//return true</span></span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>错题集</category>
+      </categories>
+      <tags>
+        <tag>错题集</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>编程基础之网络知识篇</title>
     <url>/2021/08/03/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E4%B9%8BIP/</url>
     <content><![CDATA[<h1 id="IP分类（IPV4）"><a href="#IP分类（IPV4）" class="headerlink" title="IP分类（IPV4）"></a>IP分类（IPV4）</h1><p>IP地址由四段组成，每个字段是一个字节，8位，最大值是255。<br><br>IP地址由两部分组成，即网络地址和主机地址。网络地址表示其属于互联网的哪一个网络，主机地址表示其属于该网络中的哪一台主机。二者是主从关系。<br><br>IP地址的四大类型标识的是网络中的某台主机。IPv4的地址长度为32位，共4个字节，但实际中我们用点分十进制记法。<br><br><img src="/2021/08/03/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E4%B9%8BIP/five-ipv4.png" alt="IP分类"></p>
@@ -2173,33 +2267,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>消息队列</title>
-    <url>/2021/05/22/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</url>
-    <content><![CDATA[<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
-<ol>
-<li><strong>异步</strong>、</li>
-<li><strong>削峰</strong>、</li>
-<li><strong>解耦</strong></li>
-</ol>
-<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>比如一个流程下需要正常的业务处理，中间需要发送短信，扣减优惠卷等，可以生产消息进入队列，由短信系统，优惠卷系统异步处理，减少主业务逻辑链路，提升效率。</p>
-<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
-<h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
-<span id="more"></span>
-<h2 id="消息重复消费"><a href="#消息重复消费" class="headerlink" title="消息重复消费"></a>消息重复消费</h2><p>系统重试等原因造成<br>解决方法：</p>
-<ol>
-<li>接口幂等 无论多次执行，其结果都是一样的.更复杂的操作幂等保证是利用唯一交易号(流水号)实现.请求的是相同的流水号的话，判断处理过的话 直接返回成功就行了。</li>
-</ol>
-<h1 id="消息顺序消费"><a href="#消息顺序消费" class="headerlink" title="消息顺序消费"></a>消息顺序消费</h1><p>一个topic下有多个队列，为了保证发送有序，RocketMQ提供了MessageQueueSelector队列选择机制<br>我们可使用Hash取模法，让同一个订单发送到同一个队列中，再使用同步发送，只有同个订单的创建消息发送成功，再发送支付消息。这样，我们保证了发送有序。<br>RocketMQ的topic内的队列机制,可以保证存储满足FIFO（First Input First Output 简单说就是指先进先出）,剩下的只需要消费者顺序消费即可。</p>
-]]></content>
-      <categories>
-        <category>中间件</category>
-        <category>消息队列</category>
-      </categories>
-      <tags>
-        <tag>消息队列</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql知识点</title>
     <url>/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/</url>
     <content><![CDATA[<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="用-rownum-rownum-1-实现-rownum-功能"><a href="#用-rownum-rownum-1-实现-rownum-功能" class="headerlink" title="用 @rownum := @rownum+1 实现 rownum 功能"></a>用 @rownum := @rownum+1 实现 rownum 功能</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="variable">@rownum</span> :<span class="operator">=</span> <span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">AS</span> rownum, </span><br><span class="line">               table1.<span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) r ，</span><br><span class="line">       table1;</span><br></pre></td></tr></table></figure>
@@ -2228,6 +2295,33 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       <tags>
         <tag>mysql</tag>
         <tag>sql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>消息队列</title>
+    <url>/2021/05/22/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</url>
+    <content><![CDATA[<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
+<ol>
+<li><strong>异步</strong>、</li>
+<li><strong>削峰</strong>、</li>
+<li><strong>解耦</strong></li>
+</ol>
+<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>比如一个流程下需要正常的业务处理，中间需要发送短信，扣减优惠卷等，可以生产消息进入队列，由短信系统，优惠卷系统异步处理，减少主业务逻辑链路，提升效率。</p>
+<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
+<h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
+<span id="more"></span>
+<h2 id="消息重复消费"><a href="#消息重复消费" class="headerlink" title="消息重复消费"></a>消息重复消费</h2><p>系统重试等原因造成<br>解决方法：</p>
+<ol>
+<li>接口幂等 无论多次执行，其结果都是一样的.更复杂的操作幂等保证是利用唯一交易号(流水号)实现.请求的是相同的流水号的话，判断处理过的话 直接返回成功就行了。</li>
+</ol>
+<h1 id="消息顺序消费"><a href="#消息顺序消费" class="headerlink" title="消息顺序消费"></a>消息顺序消费</h1><p>一个topic下有多个队列，为了保证发送有序，RocketMQ提供了MessageQueueSelector队列选择机制<br>我们可使用Hash取模法，让同一个订单发送到同一个队列中，再使用同步发送，只有同个订单的创建消息发送成功，再发送支付消息。这样，我们保证了发送有序。<br>RocketMQ的topic内的队列机制,可以保证存储满足FIFO（First Input First Output 简单说就是指先进先出）,剩下的只需要消费者顺序消费即可。</p>
+]]></content>
+      <categories>
+        <category>中间件</category>
+        <category>消息队列</category>
+      </categories>
+      <tags>
+        <tag>消息队列</tag>
       </tags>
   </entry>
   <entry>
