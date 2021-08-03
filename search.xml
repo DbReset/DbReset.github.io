@@ -9,6 +9,344 @@
 ]]></content>
   </entry>
   <entry>
+    <title>编程基础之网络知识篇</title>
+    <url>/2021/08/03/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E4%B9%8BIP/</url>
+    <content><![CDATA[<h1 id="IP分类（IPV4）"><a href="#IP分类（IPV4）" class="headerlink" title="IP分类（IPV4）"></a>IP分类（IPV4）</h1><p>IP地址由四段组成，每个字段是一个字节，8位，最大值是255。<br><br>IP地址由两部分组成，即网络地址和主机地址。网络地址表示其属于互联网的哪一个网络，主机地址表示其属于该网络中的哪一台主机。二者是主从关系。<br><br>IP地址的四大类型标识的是网络中的某台主机。IPv4的地址长度为32位，共4个字节，但实际中我们用点分十进制记法。<br><br><img src="/2021/08/03/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E4%B9%8BIP/five-ipv4.png" alt="IP分类"></p>
+<p>IP地址根据网络号和主机号来分，分为A、B、C三类及特殊地址D、E。   全0和全1的都保留不用。</p>
+<p>A类：(<strong>1.0.0.0-126.0.0.0</strong>)（默认子网掩码：255.0.0.0或 0xFF000000）第一个字节为网络号，后三个字节为主机号。该类IP地址的最前面为“0”，所以地址的网络号取值于1~126之间。一般用于大型网络。</p>
+<p>B类：(<strong>128.0.0.0-191.255.0.0</strong>)（默认子网掩码：255.255.0.0或0xFFFF0000）前两个字节为网络号，后两个字节为主机号。该类IP地址的最前面为“10”，所以地址的网络号取值于128~191之间。一般用于中等规模网络。</p>
+<p>C类：(<strong>192.0.0.0-223.255.255.0</strong>)（子网掩码：255.255.255.0或 0xFFFFFF00）前三个字节为网络号，最后一个字节为主机号。该类IP地址的最前面为“110”，所以地址的网络号取值于192~223之间。一般用于小型网络。</p>
+<p>D类：是多播地址。该类IP地址的最前面为“1110”，所以地址的网络号取值于224~239之间。一般用于多路广播用户[1]  。</p>
+<p>E类：是保留地址。该类IP地址的最前面为“1111”，所以地址的网络号取值于240~255之间。</p>
+<h2 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h2><ul>
+<li><p>作用：首相IP地址是以网络号和主机号来标示网络上的主机，子网掩码就是用来标记ip中哪些位是表示的网络号，哪些是主机位。</p>
+</li>
+<li><p>表示：同IP地址一样，子网掩码是由长度为<strong>32位二进制</strong>数组成的一个地址，IP地址如果某位是<strong>网络地址</strong>，则子网掩码为<strong>1</strong>，主机地址则为0。</p>
+</li>
+<li><p>子网掩码的表示方式：</p>
+<p>例子：192.168.1.100/24，其子网掩码表示为255.255.255.0，二进制表示为11111111.11111111.11111111.00000000</p>
+<pre><code>- **点分十进制表示法**（”例子中的255.255.255.0“）
+- **CIDR斜线记法**（例子中的”/24“）
+</code></pre>
+</li>
+</ul>
+<h2 id="特殊地址"><a href="#特殊地址" class="headerlink" title="特殊地址"></a>特殊地址</h2><p>在IP地址3种主要类型里，各保留了3个区域作为私有地址，其地址范围如下：<br>A类地址：10.0.0.0～10.255.255.255<br>B类地址：172.16.0.0～172.31.255.255<br>C类地址：192.168.0.0～192.168.255.255</p>
+<p>回送地址：127.0.0.1。 也是本机地址，等效于localhost或本机IP。一般用于测试使用。例如：ping 127.0.0.1来测试本机TCP/IP是否正常。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>IP</category>
+      </categories>
+      <tags>
+        <tag>IP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis持久化和集群高可用</title>
+    <url>/2021/08/03/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h2><h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><ul>
+<li>RDB做镜像全量持久化<br><br>是对 Redis 中的数据执行周期性的持久化。<br><ul>
+<li>优点：<br><br>RDB对Redis的性能影响非常小，是因为在同步数据的时候他只是fork了一个子进程去做持久化的，<br>而且他在数据恢复的时候速度比AOF来的快。适合做快照之类的备份。<br></li>
+<li>缺点：<br><br>RDB都是快照文件，生成时间间隔可能比较大（默认5分钟），可能丢失数据,<br>还有就是RDB在生成数据快照的时候，如果文件很大，客户端可能会暂停几毫秒甚至几秒.</li>
+</ul>
+</li>
+</ul>
+<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><ul>
+<li>AOF做增量持久化。<br><br>  AOF 机制对每条写入命令作为日志，以 append-only 的模式写入一个日志文件中，因为这个模式是只追加的方式，所以没有任何磁盘寻址的开销，所以很快，有点像Mysql中的binlog。<ul>
+<li>优点：<br><br>可能丢失的数据少（1秒），<br><br>AOF日志可读性好，可对有问题的命令做修改.</li>
+<li>缺点：<br><br>AOF文件体积较大。<br><br>AOF开启后，Redis支持写的QPS会比RDB支持写的要低</li>
+</ul>
+</li>
+</ul>
+<h3 id="总结：RDB和AOF配合使用"><a href="#总结：RDB和AOF配合使用" class="headerlink" title="总结：RDB和AOF配合使用"></a>总结：RDB和AOF配合使用</h3><p>因为RDB会耗费较长时间，不够实时，在停机的时候会导致大量丢失数据，所以需要AOF来配合使用。在redis实例重启时，会使用RDB持久化文件重新构建内存，再使用AOF重放近期的操作指令来实现完整恢复重启之前的状态。</p>
+<hr>
+<h2 id="Redis集群高可用"><a href="#Redis集群高可用" class="headerlink" title="Redis集群高可用"></a>Redis集群高可用</h2><p>Redis的集群高可用方案常见的有3种：</p>
+<ol>
+<li>主从同步/复制</li>
+<li>哨兵模式</li>
+<li>Cluster 集群</li>
+</ol>
+<h3 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h3><h4 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h4><ol>
+<li>从服务器连接主服务器，发送SYNC命令； </li>
+<li>主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令； </li>
+<li>主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令； </li>
+<li>从服务器收到快照文件后丢弃所有旧数据，载入收到的快照； </li>
+<li>主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令； </li>
+<li>从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；（从服务器初始化完成）</li>
+<li>主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令（从服务器初始化完成后的操作）<h4 id="主从复制优缺点："><a href="#主从复制优缺点：" class="headerlink" title="主从复制优缺点："></a>主从复制优缺点：</h4>优点：</li>
+</ol>
+<ul>
+<li>支持主从复制，主机会自动将数据同步到从机，可以进行读写分离</li>
+<li>为了分载Master的读操作压力，Slave服务器可以为客户端提供只读操作的服务，写服务仍然必须由Master来完成</li>
+<li>Slave同样可以接受其它Slaves的连接和同步请求，这样可以有效的分载Master的同步压力。</li>
+<li>Master Server是以非阻塞的方式为Slaves提供服务。所以在Master-Slave同步期间，客户端仍然可以提交查询或修改请求。</li>
+<li>Slave Server同样是以非阻塞的方式完成数据同步。在同步期间，如果有客户端提交查询请求，Redis则返回同步之前的数据.<br>缺点：</li>
+<li>Redis不具备自动容错和恢复功能，主机从机的宕机都会导致前端部分读写请求失败，需要等待机器重启或者手动切换前端的IP才能恢复。</li>
+<li>主机宕机，宕机前有部分数据未能及时同步到从机，切换IP后还会引入数据不一致的问题，降低了系统的可用性。</li>
+<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li>
+</ul>
+<h3 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h3><p>当主服务器中断服务后，可以将一个从服务器升级为主服务器，以便继续提供服务，但是这个过程需要人工手动来操作。 为此，Redis 2.8中提供了哨兵工具来实现自动化的系统监控和故障恢复功能。</p>
+<p>哨兵的作用就是监控Redis系统的运行状况。它的功能包括以下两个。</p>
+<ol>
+<li>监控主服务器和从服务器是否正常运行。 </li>
+<li>主服务器出现故障时自动将从服务器转换为主服务器。<br>哨兵组件的主要作用：</li>
+</ol>
+<ul>
+<li>集群监控：负责监控 Redis master 和 slave 进程是否正常工作。</li>
+<li>消息通知：如果某个 Redis 实例有故障，那么哨兵负责发送消息作为报警通知给管理员。</li>
+<li>故障转移：如果 master node 挂掉了，会自动转移到 slave node 上。</li>
+</ul>
+<p>配置中心：如果故障转移发生了，通知 client 客户端新的 master 地址。</p>
+<h4 id="哨兵的工作方式："><a href="#哨兵的工作方式：" class="headerlink" title="哨兵的工作方式："></a>哨兵的工作方式：</h4><ol>
+<li>每个Sentinel（哨兵）进程以每秒钟一次的频率向整个集群中的Master主服务器，Slave从服务器以及其他Sentinel（哨兵）进程发送一个 PING 命令。</li>
+<li>如果一个实例（instance）距离最后一次有效回复 PING 命令的时间超过 down-after-milliseconds 选项所指定的值， 则这个实例会被 Sentinel（哨兵）进程标记为主观下线（SDOWN）</li>
+<li>如果一个Master主服务器被标记为主观下线（SDOWN），则正在监视这个Master主服务器的所有 Sentinel（哨兵）进程要以每秒一次的频率确认Master主服务器的确进入了主观下线状态</li>
+<li>当有足够数量的 Sentinel（哨兵）进程（大于等于配置文件指定的值）在指定的时间范围内确认Master主服务器进入了主观下线状态（SDOWN）， 则Master主服务器会被标记为客观下线（ODOWN）</li>
+<li>在一般情况下， 每个 Sentinel（哨兵）进程会以每 10 秒一次的频率向集群中的所有Master主服务器、Slave从服务器发送 INFO 命令。<br>当Master主服务器被 Sentinel（哨兵）进程标记为客观下线（ODOWN）时，Sentinel（哨兵）进程向下线的 Master主服务器的所有 Slave从服务器发送 INFO 命令的频率会从 10 秒一次改为每秒一次。</li>
+<li>若没有足够数量的 Sentinel（哨兵）进程同意 Master主服务器下线， Master主服务器的客观下线状态就会被移除。若 Master主服务器重新向 Sentinel（哨兵）进程发送 PING 命令返回有效回复，Master主服务器的主观下线状态就会被移除。<br>哨兵模式的优缺点</li>
+</ol>
+<p>优点：</p>
+<ul>
+<li>哨兵模式是基于主从模式的，所有主从的优点，哨兵模式都具有。</li>
+<li>主从可以自动切换，系统更健壮，可用性更高。<br><br>缺点：</li>
+<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li>
+</ul>
+<h4 id="Redis-Cluster集群"><a href="#Redis-Cluster集群" class="headerlink" title="Redis-Cluster集群"></a>Redis-Cluster集群</h4><p>redis的哨兵模式基本已经可以实现高可用，读写分离 ，但是在这种模式下每台redis服务器都存储相同的数据，很浪费内存，同时主从模式还是不能很好<strong>解决过多的写</strong>（只有一个master写）所以在redis3.0上加入了cluster模式，实现的redis的分布式存储，也就是说每台redis节点上存储不同的内容。</p>
+<p> Redis-Cluster采用无中心结构,它的特点如下：</p>
+<p>所有的redis节点彼此互联(PING-PONG机制),内部使用二进制协议优化传输速度和带宽。</p>
+<p>节点的fail是通过集群中超过半数的节点检测失效时才生效。</p>
+<p>客户端与redis节点直连,不需要中间代理层.客户端不需要连接集群所有节点,连接集群中任何一个可用节点即可。</p>
+<h4 id="Redis-Cluster集群原理："><a href="#Redis-Cluster集群原理：" class="headerlink" title="Redis-Cluster集群原理："></a>Redis-Cluster集群原理：</h4><p>在redis的每一个节点上，都有这么两个东西，一个是插槽（slot），它的的取值范围是：0-16383。还有一个就是cluster，可以理解为是一个集群管理的插件。当我们的存取的key到达的时候，redis会根据crc16的算法得出一个结果，然后把结果对 16384 求余数，这样每个 key 都会对应一个编号在 0-16383 之间的哈希槽，通过这个值，去找到对应的插槽所对应的节点，然后直接自动跳转到这个对应的节点上进行存取操作。</p>
+<p>为了保证高可用，redis-cluster集群引入了主从模式，一个主节点对应一个或者多个从节点，当主节点宕机的时候，就会启用从节点。当其它主节点ping一个主节点A时，如果半数以上的主节点与A通信超时，那么认为主节点A宕机了。如果主节点A和它的从节点A1都宕机了，那么该集群就无法再提供服务了。</p>
+<p>集群里面，故障转移是由集群中其他在线的主节点负责进行的，所以集群不必另外使用Redis Sentinel。</p>
+<p>参考：<a href="https://www.cnblogs.com/cqming/p/11191079.html">https://www.cnblogs.com/cqming/p/11191079.html</a></p>
+]]></content>
+      <categories>
+        <category>中间件</category>
+        <category>nosql</category>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>股票主要技术指标解析</title>
+    <url>/2021/08/03/k%E7%BA%BF%E6%8C%87%E6%A0%87/%E8%82%A1%E7%A5%A8%E4%B8%BB%E8%A6%81%E6%8A%80%E6%9C%AF%E6%8C%87%E6%A0%87%E8%A7%A3%E6%9E%90/</url>
+    <content><![CDATA[<h1 id="MA"><a href="#MA" class="headerlink" title="MA"></a>MA</h1><p>Moving Average - 移动平均线 ，将一定时期内的证券价格（指数）<strong>加以平均</strong>，并把不同时间的<strong>平均值</strong>连接起来，形成一根MA，用以观察证券价格变动趋势的一种技术指标。</p>
+<ul>
+<li>MA(X,N)，X的N日简单移动平均，算法为(X1+X2+X3+…+Xn)/N。</li>
+</ul>
+<h2 id="SMA"><a href="#SMA" class="headerlink" title="SMA"></a>SMA</h2><p>Simple Moving Average-简单移动平均,  对近期数值可以赋予更高权重，这也是SMA和MA最明显的区别。</p>
+<ul>
+<li><p>SMA（x，n，m），X的N日移动平均，M为权重，如Y=(X<em>M+Y’</em>(N-M))/N。其中Y’表示上一周期Y值，N必须大于M</p>
+</li>
+<li><p>SMA=p1+(1-a)*p2+(1-a)² *p3+(1-a)³ *p4+…/1+(1-a)+(1-a)²+(1-a)³+…</p>
+<p>随着时间的回推，数值的权重呈现指数级缩小，由此SMA可以达到给予近期数值更高的权重，更贴合市场价格的表现。(p1当天价格，p2昨天价格。。。，a为平滑指数)</p>
+</li>
+</ul>
+<h2 id="EMA"><a href="#EMA" class="headerlink" title="EMA"></a>EMA</h2><p>Exponential Moving Average-指数移动平均值</p>
+<ul>
+<li><p>EMA（x，n）－指数移动平均，又名EXPMA，各数值的加权影响力随时间而<strong>指数式</strong>递减，越近期的数据加权影响力越重。</p>
+</li>
+<li><p>数学本质上SMA和EMA同属于指数移动平均，只不过EMA属于SMA的一个特例，赋予了今日更高的权重，相同数值天数条件下比SMA均线表现更加敏感。</p>
+<p>EMA(X,N)就相当于SMA(X,N+1,2)。</p>
+</li>
+</ul>
+<h2 id="WMA"><a href="#WMA" class="headerlink" title="WMA"></a>WMA</h2><p>weighted moving average - 加权移动平均，指计算平均值时将个别数据<a href="https://zh.wikipedia.org/wiki/%E4%B9%98%E6%B3%95">乘</a>以不同数值。</p>
+]]></content>
+      <categories>
+        <category>K线</category>
+        <category>技术指标</category>
+      </categories>
+      <tags>
+        <tag>MA</tag>
+        <tag>BOLL - MACD - KDJ - RSI - WR</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>springboot框架总述</title>
+    <url>/2021/08/03/spring/springboot/springboot/</url>
+    <content><![CDATA[<h1 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h1><p>pom.xml中有父项目</p>
+<ul>
+<li>spring-boot-dependencies：核心依赖在父工程中</li>
+<li>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</li>
+</ul>
+<h1 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h1><p>启动器是一套方便的依赖没描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
+<h1 id="springboot-如何内置的tomcat"><a href="#springboot-如何内置的tomcat" class="headerlink" title="springboot 如何内置的tomcat"></a>springboot 如何内置的tomcat</h1><p>大致流程如下</p>
+<ol>
+<li>通过自动装配默认加载了DispatcherServlet，所有请求都会转发到DispatcherServlet</li>
+<li>DispatcherServlet的doService方法中拿到HttpServletRequest和HttpServletResponse对象</li>
+<li>从HttpServletRequest可以拿到我们的http头、url请求等信息</li>
+<li>根据获取的信息，从ioc容器中找到对应的Controller对应的action，进行反射调用</li>
+<li>根据HttpServletResponse返回调用结果给浏览器渲染<br></li>
+</ol>
+<p>springboot默认创建了一个DispatcherServlet来处理http请求<br>    - 不用再配置DispatcherServlet 简单的说就是默认加载META-INF/spring.factories定义的类，然后我们就可以在spring.factories中找到我们的关键类DispatcherServletAutoConfiguration</p>
+<h1 id="springboot启动原理"><a href="#springboot启动原理" class="headerlink" title="springboot启动原理"></a>springboot启动原理</h1><p><img src="/2021/08/03/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>synchronized 和 ReentrantLock</title>
+    <url>/2021/08/03/java%E5%9F%BA%E7%A1%80/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/</url>
+    <content><![CDATA[<h2 id="经典面试题："><a href="#经典面试题：" class="headerlink" title="经典面试题："></a>经典面试题：</h2><h4 id="synchronized-和-ReentrantLock-区别是什么？"><a href="#synchronized-和-ReentrantLock-区别是什么？" class="headerlink" title="synchronized 和 ReentrantLock 区别是什么？"></a>synchronized 和 ReentrantLock 区别是什么？</h4><ol>
+<li>synchronized 竞争锁时会一直等待；ReentrantLock 可以尝试获取锁，并得到获取结果</li>
+<li>synchronized 获取锁无法设置超时；ReentrantLock 可以设置获取锁的超时时间</li>
+<li>synchronized 无法实现公平锁；ReentrantLock 可以满足公平锁，即先等待先获取到锁</li>
+<li>synchronized 控制等待和唤醒需要结合加锁对象的 wait() 和 notify()、notifyAll()；ReentrantLock 控制等待和唤醒需要结合 Condition 的 await() 和 signal()、signalAll() 方法</li>
+<li>synchronized 是 JVM 层面实现的；ReentrantLock 是 JDK 代码层面实现</li>
+<li>synchronized 在加锁代码块执行完或者出现异常，自动释放锁；ReentrantLock 不会自动释放锁，需要在 finally{} 代码块显示释放</li>
+</ol>
+<p>ReentrantLock主要利用CAS+AQS队列来实现。它支持公平锁和非公平锁，两者的实现类似。</p>
+<ul>
+<li>AQS（AbstractQueuedSynchronizer）抽象的队列式的同步器。是一个用于构建锁和同步容器的框架。事实上concurrent包内许多类都是基于AQS构建。<br>AQS使用一个FIFO的队列表示排队等待锁的线程，队列头节点称作“哨兵节点”或者“哑节点”，它不与任何线程关联。其他的节点与等待线程关联，每个节点维护一个等待状态waitStatus</li>
+</ul>
+<p>ReentrantLock的基本实现可以概括为：先通过CAS尝试获取锁。如果此时已经有线程占据了锁，那就加入AQS队列并且被挂起。当锁被释放之后，排在CLH队列队首的线程会被唤醒，然后CAS再次尝试获取锁。在这个时候，如果：</p>
+<p>非公平锁：如果同时还有另一个线程进来尝试获取，那么有可能会让这个线程抢先获取；</p>
+<p>公平锁：如果同时还有另一个线程进来尝试获取，当它发现自己不是在队首的话，就会排到队尾，由队首的线程获取到锁。</p>
+<p>使用示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        doSomeThing();</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        <span class="comment">// ignored</span></span><br><span class="line">    &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/fuyuwei2015/article/details/83719444">ReentrantLock原理</a>    </p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
+        <tag>ReentrantLock</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常见英文</title>
+    <url>/2021/08/03/codeEnglish/code_language/</url>
+    <content><![CDATA[<p>one write;read everywhere.</p>
+<ul>
+<li>Algorithm  算法</li>
+<li>Array 数组</li>
+<li>Atomic 原子的</li>
+<li>Capacity 容量</li>
+<li>Constructor 构造器</li>
+<li>Diagram 图解</li>
+<li>Dispatcher 调度器 分发器</li>
+<li>Duplicate  完全一样的; 复制的;</li>
+<li>Element 要素; 基本部分 </li>
+<li>Enterprise 企业</li>
+<li>Exclusively 独占 isHeldExclusively（）</li>
+<li>fetch 拿来</li>
+<li>filter 过滤</li>
+<li>Generic 泛型</li>
+<li>Hierarchical 分等级的, 等级的, 分层, 层次, 分层的 hierarchy 等级制度(尤指社会或组织); 统治集团; 层次体系;</li>
+<li>Implements 实现</li>
+<li>Inherited 继承(金钱、财产等), 经遗传获得(品质、身体特征等), 接替(责任等), 继任 inherit的过去分词和过去式</li>
+<li>interpreter 翻译人员</li>
+<li>isolation 隔离</li>
+<li>priority 优先级</li>
+<li>propagation 传播</li>
+<li>protocol 协议</li>
+<li>Qualifier 预选赛</li>
+<li>reference 参考</li>
+<li>Retention 维持</li>
+<li>Serializable 可序列化的 </li>
+<li>stamped 盖章</li>
+<li>Statement 说明</li>
+<li>transient 短暂的  临时工; java中 不可反序列</li>
+<li>vector 向量</li>
+<li>mandatory 强制的</li>
+<li>nested 嵌套的</li>
+</ul>
+]]></content>
+      <categories>
+        <category>英文</category>
+      </categories>
+      <tags>
+        <tag>code_language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础概念_分布式事务</title>
+    <url>/2021/08/03/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
+    <content><![CDATA[<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>一般是指要做的或所做的事情。<br>在计算机术语中是指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。<br>事务通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序执行所引起，并用形如begin transaction和end transaction语句（或函数调用）来界定。<br>事务由事务开始(begin transaction)和事务结束(end transaction)之间执行的全体操作组成。</p>
+<span id="more"></span>
+<p>事务<strong>是恢复和并发控制</strong>的<strong>基本单位</strong>。</p>
+<h2 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h2><p>事务应该具有4个属性：<strong>原子性、一致性、隔离性、持久性</strong>。这四个属性通常称为<strong>ACID</strong>特性。</p>
+<ul>
+<li><p><strong>原子性（atomicity）</strong>：一个事务是一个不可分割的工作单位，事务中包括的操作要么都做，要么都不做。</p>
+</li>
+<li><p><strong>一致性（consistency）</strong>：事务必须是使数据库从一个一致性状态变到另一个一致性状态。一致性与原子性是密切相关的。</p>
+</li>
+<li><p><strong>隔离性（isolation）</strong>：一个事务的执行不能被其他事务干扰。即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰。</p>
+</li>
+<li><p><strong>持久性（durability）</strong>：持久性也称永久性（permanence），指一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。接下来的其他操作或故障不应该对其有任何影响。</p>
+</li>
+</ul>
+<h2 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h2><p>分布式系统最基础的理论</p>
+<p>在分布式系统中，</p>
+<h3 id="一致性（Consistency）、"><a href="#一致性（Consistency）、" class="headerlink" title="一致性（Consistency）、"></a>一致性（<em>C</em>onsistency）、</h3><h3 id="可用性（Availability）"><a href="#可用性（Availability）" class="headerlink" title="可用性（Availability）"></a>可用性（<em>A</em>vailability）</h3><h3 id="分区容忍性（Partition-Tolerance）"><a href="#分区容忍性（Partition-Tolerance）" class="headerlink" title="分区容忍性（Partition Tolerance）"></a>分区容忍性（<em>P</em>artition Tolerance）</h3><p>3个要素最多只能<strong>同时满足两个</strong>，不可兼得。其中，分区容忍性又是不可或缺的。</p>
+<p>（eureka 保证了可用性，实现最终一致性。）<br>（zookeeper CP，ookeeper在选举leader时，会停止服务，直到选举成功之后才会再次对外提供服务）</p>
+<h2 id="BASE-理论"><a href="#BASE-理论" class="headerlink" title="BASE 理论"></a>BASE 理论</h2><p>核心思想：</p>
+<h3 id="基本可用（Basically-Available）："><a href="#基本可用（Basically-Available）：" class="headerlink" title="基本可用（Basically Available）："></a>基本可用（Basically Available）：</h3><p>指分布式系统在出现故障时，允许损失部分的可用性来保证核心可用。</p>
+<h3 id="软状态（Soft-State）"><a href="#软状态（Soft-State）" class="headerlink" title="软状态（Soft State）"></a>软状态（Soft State）</h3><p>指允许分布式系统存在中间状态，该中间状态不会影响到系统的整体可用性。</p>
+<h3 id="最终一致性（Eventual-Consistency）："><a href="#最终一致性（Eventual-Consistency）：" class="headerlink" title="最终一致性（Eventual Consistency）："></a>最终一致性（Eventual Consistency）：</h3><p>指分布式系统中的所有副本数据经过一定时间后，最终能够达到一致的状态。</p>
+<p><strong>分布式事务</strong></p>
+<ul>
+<li>2pc（两段式提交）</li>
+<li>3pc（三段式提交）</li>
+<li>TCC（Try、Confirm、Cancel）   </li>
+<li>最大努力通知</li>
+<li>XA</li>
+<li>本地消息表（ebay研发出的）</li>
+<li>半消息/最终一致性（RocketMQ）</li>
+</ul>
+]]></content>
+      <categories>
+        <category>基础概念</category>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>基础概念</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Eureka</title>
+    <url>/2021/08/03/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/</url>
+    <content><![CDATA[<h1 id="Eureka-Server：注册中心服务端"><a href="#Eureka-Server：注册中心服务端" class="headerlink" title="Eureka Server：注册中心服务端"></a>Eureka Server：注册中心服务端</h1><p>注册中心服务端主要对外提供了三个功能：</p>
+<ul>
+<li>服务注册<br>服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表</li>
+<li>提供注册表<br> 服务消费者在调用服务时，如果 Eureka Client 没有缓存注册表的话，会从 Eureka Server 获取最新的注册表<ul>
+<li>注册表的数据结构：registry的<strong>CocurrentHashMap</strong>，就是注册表的核心结构。同时维护注册表、拉取注册表、更新心跳时间，全部<strong>发生在内存里</strong>！这是Eureka Server非常核心的一个点。</li>
+</ul>
+</li>
+<li>同步状态</li>
+</ul>
+<h2 id="高可用原理"><a href="#高可用原理" class="headerlink" title="高可用原理"></a>高可用原理</h2><p>其实每一个服务端（这里指实例）都内置了一个Eureka Client，也就是说一个服务端可以接受其他Client的注册，也可以作为一个Client注册到其他Server上，被其他Client发现和调用。一个服务端实例你可以理解为由一个Server+Client组成。</p>
+<p><img src="/2021/08/03/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/Eureka%5CEureka.jpg" alt="Eureka"></p>
+<p> Eureka Server 集群相互之间通过 Replicate 来同步数据，相互之间<strong>不区分主节点和从节点</strong>，所有的节点都是平等的。在这种架构中，节点通过彼此互相注册来提高可用性，每个节点需要添加一个或多个有效的 serviceUrl 指向其他节点</p>
+<p>如果某台 Eureka Server 宕机，Eureka Client 的请求会自动切换到新的 Eureka Server 节点。当宕机的服务器重新恢复后，Eureka 会再次将其纳入到服务器集群管理之中。当节点开始接受客户端请求时，所有的操作都会进行节点间复制，将请求复制到其它 Eureka Server 当前所知的所有节点中。</p>
+<p>另外 Eureka Server 的同步遵循着一个非常简单的原则：只要有一条边将节点连接，就可以进行信息传播与同步。所以，如果存在多个节点，只需要将节点之间两两连接起来形成通路，那么其它注册中心都可以共享信息。每个 Eureka Server 同时也是 Eureka Client，多个 Eureka Server 之间通过 P2P 的方式完成服务注册表的同步。</p>
+<p>Eureka Server 集群之间的状态是采用异步方式同步的，所以不保证节点间的状态一定是一致的，不过基本能保证最终状态是一致的。</p>
+<p><strong>Eurka 保证 AP</strong>，优先保证可用性，牺牲了一定的一致性。相对的zookeeper则是保证了CP，牺牲了部分的可用性。</p>
+]]></content>
+      <categories>
+        <category>基础概念</category>
+        <category>分布式</category>
+        <category>Erueka</category>
+      </categories>
+      <tags>
+        <tag>Eureka</tag>
+        <tag>Eureka高可用</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>设计模式_单例模式</title>
     <url>/2021/08/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>单例模式是比较常见的一种设计模式，目的是保证<strong>一个类只能有一个实例</strong>，而且<strong>自行实例化</strong>（不对外开放new ）并向整个系统提供这个实例，避免频繁创建对象，节约内存。</p>
@@ -219,100 +557,6 @@
       </categories>
       <tags>
         <tag>PMP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>springboot框架总述</title>
-    <url>/2021/08/01/spring/springboot/springboot/</url>
-    <content><![CDATA[<h1 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h1><p>pom.xml中有父项目</p>
-<ul>
-<li>spring-boot-dependencies：核心依赖在父工程中</li>
-<li>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</li>
-</ul>
-<h1 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h1><p>启动器是一套方便的依赖没描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
-<h1 id="springboot-如何内置的tomcat"><a href="#springboot-如何内置的tomcat" class="headerlink" title="springboot 如何内置的tomcat"></a>springboot 如何内置的tomcat</h1><p>大致流程如下</p>
-<ol>
-<li>通过自动装配默认加载了DispatcherServlet，所有请求都会转发到DispatcherServlet</li>
-<li>DispatcherServlet的doService方法中拿到HttpServletRequest和HttpServletResponse对象</li>
-<li>从HttpServletRequest可以拿到我们的http头、url请求等信息</li>
-<li>根据获取的信息，从ioc容器中找到对应的Controller对应的action，进行反射调用</li>
-<li>根据HttpServletResponse返回调用结果给浏览器渲染<br></li>
-</ol>
-<p>springboot默认创建了一个DispatcherServlet来处理http请求<br>    - 不用再配置DispatcherServlet 简单的说就是默认加载META-INF/spring.factories定义的类，然后我们就可以在spring.factories中找到我们的关键类DispatcherServletAutoConfiguration</p>
-<h1 id="springboot启动原理"><a href="#springboot启动原理" class="headerlink" title="springboot启动原理"></a>springboot启动原理</h1><p><img src="/2021/08/01/spring/springboot/springboot/springboot%5Cspringboot_start.jpg" alt="springboot_start"></p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>股票主要技术指标解析</title>
-    <url>/2021/08/01/k%E7%BA%BF%E6%8C%87%E6%A0%87/%E8%82%A1%E7%A5%A8%E4%B8%BB%E8%A6%81%E6%8A%80%E6%9C%AF%E6%8C%87%E6%A0%87%E8%A7%A3%E6%9E%90/</url>
-    <content><![CDATA[<h1 id="MA"><a href="#MA" class="headerlink" title="MA"></a>MA</h1><p>Moving Average - 移动平均线 ，将一定时期内的证券价格（指数）<strong>加以平均</strong>，并把不同时间的<strong>平均值</strong>连接起来，形成一根MA，用以观察证券价格变动趋势的一种技术指标。</p>
-<ul>
-<li>MA(X,N)，X的N日简单移动平均，算法为(X1+X2+X3+…+Xn)/N。</li>
-</ul>
-<h2 id="SMA"><a href="#SMA" class="headerlink" title="SMA"></a>SMA</h2><p>Simple Moving Average-简单移动平均,  对近期数值可以赋予更高权重，这也是SMA和MA最明显的区别。</p>
-<ul>
-<li><p>SMA（x，n，m），X的N日移动平均，M为权重，如Y=(X<em>M+Y’</em>(N-M))/N。其中Y’表示上一周期Y值，N必须大于M</p>
-</li>
-<li><p>SMA=p1+(1-a)*p2+(1-a)² *p3+(1-a)³ *p4+…/1+(1-a)+(1-a)²+(1-a)³+…</p>
-<p>随着时间的回推，数值的权重呈现指数级缩小，由此SMA可以达到给予近期数值更高的权重，更贴合市场价格的表现。(p1当天价格，p2昨天价格。。。，a为平滑指数)</p>
-</li>
-</ul>
-<h2 id="EMA"><a href="#EMA" class="headerlink" title="EMA"></a>EMA</h2><p>Exponential Moving Average-指数移动平均值</p>
-<ul>
-<li><p>EMA（x，n）－指数移动平均，又名EXPMA，各数值的加权影响力随时间而<strong>指数式</strong>递减，越近期的数据加权影响力越重。</p>
-</li>
-<li><p>数学本质上SMA和EMA同属于指数移动平均，只不过EMA属于SMA的一个特例，赋予了今日更高的权重，相同数值天数条件下比SMA均线表现更加敏感。</p>
-<p>EMA(X,N)就相当于SMA(X,N+1,2)。</p>
-</li>
-</ul>
-<h2 id="WMA"><a href="#WMA" class="headerlink" title="WMA"></a>WMA</h2><p>weighted moving average - 加权移动平均，指计算平均值时将个别数据<a href="https://zh.wikipedia.org/wiki/%E4%B9%98%E6%B3%95">乘</a>以不同数值。</p>
-]]></content>
-      <categories>
-        <category>MA</category>
-        <category>BOLL</category>
-        <category>MACD</category>
-        <category>KDJ</category>
-        <category>RSI</category>
-        <category>WR</category>
-      </categories>
-      <tags>
-        <tag>K线</tag>
-        <tag>技术指标</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>synchronized 和 ReentrantLock</title>
-    <url>/2021/08/01/java%E5%9F%BA%E7%A1%80/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/</url>
-    <content><![CDATA[<h2 id="经典面试题："><a href="#经典面试题：" class="headerlink" title="经典面试题："></a>经典面试题：</h2><h4 id="synchronized-和-ReentrantLock-区别是什么？"><a href="#synchronized-和-ReentrantLock-区别是什么？" class="headerlink" title="synchronized 和 ReentrantLock 区别是什么？"></a>synchronized 和 ReentrantLock 区别是什么？</h4><ol>
-<li>synchronized 竞争锁时会一直等待；ReentrantLock 可以尝试获取锁，并得到获取结果</li>
-<li>synchronized 获取锁无法设置超时；ReentrantLock 可以设置获取锁的超时时间</li>
-<li>synchronized 无法实现公平锁；ReentrantLock 可以满足公平锁，即先等待先获取到锁</li>
-<li>synchronized 控制等待和唤醒需要结合加锁对象的 wait() 和 notify()、notifyAll()；ReentrantLock 控制等待和唤醒需要结合 Condition 的 await() 和 signal()、signalAll() 方法</li>
-<li>synchronized 是 JVM 层面实现的；ReentrantLock 是 JDK 代码层面实现</li>
-<li>synchronized 在加锁代码块执行完或者出现异常，自动释放锁；ReentrantLock 不会自动释放锁，需要在 finally{} 代码块显示释放</li>
-</ol>
-<p>ReentrantLock主要利用CAS+AQS队列来实现。它支持公平锁和非公平锁，两者的实现类似。</p>
-<p>使用示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        doSomeThing();</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        <span class="comment">// ignored</span></span><br><span class="line">    &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="https://blog.csdn.net/fuyuwei2015/article/details/83719444">ReentrantLock原理</a>    </p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>基础</category>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>多线程</tag>
-        <tag>ReentrantLock</tag>
       </tags>
   </entry>
   <entry>
@@ -912,8 +1156,8 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>java</tag>
-        <tag>springcloud</tag>
         <tag>Eureka</tag>
+        <tag>springcloud</tag>
         <tag>Ribbon</tag>
         <tag>Feign</tag>
         <tag>Hystrix</tag>
@@ -1216,27 +1460,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>编程基础之网络知识篇</title>
-    <url>/2021/07/05/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E4%B9%8BIP/</url>
-    <content><![CDATA[<h1 id="IP分类（IPV4）"><a href="#IP分类（IPV4）" class="headerlink" title="IP分类（IPV4）"></a>IP分类（IPV4）</h1><p>IP地址由四段组成，每个字段是一个字节，8位，最大值是255。<br><br>IP地址由两部分组成，即网络地址和主机地址。网络地址表示其属于互联网的哪一个网络，主机地址表示其属于该网络中的哪一台主机。二者是主从关系。<br><br>IP地址的四大类型标识的是网络中的某台主机。IPv4的地址长度为32位，共4个字节，但实际中我们用点分十进制记法。<br><br><img src="/2021/07/05/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E4%B9%8BIP/five-ipv4.png" alt="IP分类"></p>
-<p>IP地址根据网络号和主机号来分，分为A、B、C三类及特殊地址D、E。   全0和全1的都保留不用。</p>
-<p>A类：(<strong>1.0.0.0-126.0.0.0</strong>)（默认子网掩码：255.0.0.0或 0xFF000000）第一个字节为网络号，后三个字节为主机号。该类IP地址的最前面为“0”，所以地址的网络号取值于1~126之间。一般用于大型网络。</p>
-<p>B类：(<strong>128.0.0.0-191.255.0.0</strong>)（默认子网掩码：255.255.0.0或0xFFFF0000）前两个字节为网络号，后两个字节为主机号。该类IP地址的最前面为“10”，所以地址的网络号取值于128~191之间。一般用于中等规模网络。</p>
-<p>C类：(<strong>192.0.0.0-223.255.255.0</strong>)（子网掩码：255.255.255.0或 0xFFFFFF00）前三个字节为网络号，最后一个字节为主机号。该类IP地址的最前面为“110”，所以地址的网络号取值于192~223之间。一般用于小型网络。</p>
-<p>D类：是多播地址。该类IP地址的最前面为“1110”，所以地址的网络号取值于224~239之间。一般用于多路广播用户[1]  。</p>
-<p>E类：是保留地址。该类IP地址的最前面为“1111”，所以地址的网络号取值于240~255之间。</p>
-<h2 id="特殊地址"><a href="#特殊地址" class="headerlink" title="特殊地址"></a>特殊地址</h2><p>在IP地址3种主要类型里，各保留了3个区域作为私有地址，其地址范围如下：<br>A类地址：10.0.0.0～10.255.255.255<br>B类地址：172.16.0.0～172.31.255.255<br>C类地址：192.168.0.0～192.168.255.255</p>
-<p>回送地址：127.0.0.1。 也是本机地址，等效于localhost或本机IP。一般用于测试使用。例如：ping 127.0.0.1来测试本机TCP/IP是否正常。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>IP</category>
-      </categories>
-      <tags>
-        <tag>IP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java基础提升_Object</title>
     <url>/2021/07/05/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/</url>
     <content><![CDATA[<p>Object类  是类层次结构的根类。</p>
@@ -1393,52 +1616,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>常见英文</title>
-    <url>/2021/06/25/codeEnglish/code_language/</url>
-    <content><![CDATA[<p>one write;read everywhere.</p>
-<ul>
-<li>Algorithm  算法</li>
-<li>Array 数组</li>
-<li>Atomic 原子的</li>
-<li>Capacity 容量</li>
-<li>Constructor 构造器</li>
-<li>Diagram 图解</li>
-<li>Dispatcher 调度器 分发器</li>
-<li>Duplicate  完全一样的; 复制的;</li>
-<li>Element 要素; 基本部分 </li>
-<li>Enterprise 企业</li>
-<li>Exclusively 独占 isHeldExclusively（）</li>
-<li>fetch 拿来</li>
-<li>filter 过滤</li>
-<li>Generic 泛型</li>
-<li>Hierarchical 分等级的, 等级的, 分层, 层次, 分层的 hierarchy 等级制度(尤指社会或组织); 统治集团; 层次体系;</li>
-<li>Implements 实现</li>
-<li>Inherited 继承(金钱、财产等), 经遗传获得(品质、身体特征等), 接替(责任等), 继任 inherit的过去分词和过去式</li>
-<li>interpreter 翻译人员</li>
-<li>isolation 隔离</li>
-<li>priority 优先级</li>
-<li>propagation 传播</li>
-<li>protocol 协议</li>
-<li>Qualifier 预选赛</li>
-<li>reference 参考</li>
-<li>Retention 维持</li>
-<li>Serializable 可序列化的 </li>
-<li>stamped 盖章</li>
-<li>Statement 说明</li>
-<li>transient 短暂的  临时工; java中 不可反序列</li>
-<li>vector 向量</li>
-<li>mandatory 强制的</li>
-<li>nested 嵌套的</li>
-</ul>
-]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>code_language</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>spring框架_事务管理</title>
     <url>/2021/06/25/spring/spring/spring%E6%A1%86%E6%9E%B6_%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h1 id="spring事务管理"><a href="#spring事务管理" class="headerlink" title="spring事务管理"></a>spring事务管理</h1><h2 id="Spring定义了7种传播行为："><a href="#Spring定义了7种传播行为：" class="headerlink" title="Spring定义了7种传播行为："></a>Spring定义了7种传播行为：</h2><ol>
@@ -1503,93 +1680,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       <tags>
         <tag>java</tag>
         <tag>ThreadLocal</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis持久化和集群高可用</title>
-    <url>/2021/06/17/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h2><h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><ul>
-<li>RDB做镜像全量持久化<br><br>是对 Redis 中的数据执行周期性的持久化。<br><ul>
-<li>优点：<br><br>RDB对Redis的性能影响非常小，是因为在同步数据的时候他只是fork了一个子进程去做持久化的，<br>而且他在数据恢复的时候速度比AOF来的快。适合做快照之类的备份。<br></li>
-<li>缺点：<br><br>RDB都是快照文件，生成时间间隔可能比较大（默认5分钟），可能丢失数据,<br>还有就是RDB在生成数据快照的时候，如果文件很大，客户端可能会暂停几毫秒甚至几秒.</li>
-</ul>
-</li>
-</ul>
-<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><ul>
-<li>AOF做增量持久化。<br><br>AOF 机制对每条写入命令作为日志，以 append-only 的模式写入一个日志文件中，因为这个模式是只追加的方式，所以没有任何磁盘寻址的开销，所以很快，有点像Mysql中的binlog。<ul>
-<li>优点：<br><br>可能丢失的数据少（1秒），<br><br>AOF日志可读性好，可对有问题的命令做修改.</li>
-<li>缺点：<br><br>AOF文件体积较大。<br><br>AOF开启后，Redis支持写的QPS会比RDB支持写的要低</li>
-</ul>
-</li>
-</ul>
-<h3 id="总结：RDB和AOF配合使用"><a href="#总结：RDB和AOF配合使用" class="headerlink" title="总结：RDB和AOF配合使用"></a>总结：RDB和AOF配合使用</h3><p>因为RDB会耗费较长时间，不够实时，在停机的时候会导致大量丢失数据，所以需要AOF来配合使用。在redis实例重启时，会使用RDB持久化文件重新构建内存，再使用AOF重放近期的操作指令来实现完整恢复重启之前的状态。</p>
-<hr>
-<h2 id="Redis集群高可用"><a href="#Redis集群高可用" class="headerlink" title="Redis集群高可用"></a>Redis集群高可用</h2><p>Redis的集群高可用方案常见的有3种：</p>
-<ol>
-<li>主从同步/复制</li>
-<li>哨兵模式</li>
-<li>Cluster 集群</li>
-</ol>
-<h3 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h3><h4 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h4><ol>
-<li>从服务器连接主服务器，发送SYNC命令； </li>
-<li>主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令； </li>
-<li>主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令； </li>
-<li>从服务器收到快照文件后丢弃所有旧数据，载入收到的快照； </li>
-<li>主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令； </li>
-<li>从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；（从服务器初始化完成）</li>
-<li>主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令（从服务器初始化完成后的操作）<h4 id="主从复制优缺点："><a href="#主从复制优缺点：" class="headerlink" title="主从复制优缺点："></a>主从复制优缺点：</h4>优点：</li>
-</ol>
-<ul>
-<li>支持主从复制，主机会自动将数据同步到从机，可以进行读写分离</li>
-<li>为了分载Master的读操作压力，Slave服务器可以为客户端提供只读操作的服务，写服务仍然必须由Master来完成</li>
-<li>Slave同样可以接受其它Slaves的连接和同步请求，这样可以有效的分载Master的同步压力。</li>
-<li>Master Server是以非阻塞的方式为Slaves提供服务。所以在Master-Slave同步期间，客户端仍然可以提交查询或修改请求。</li>
-<li>Slave Server同样是以非阻塞的方式完成数据同步。在同步期间，如果有客户端提交查询请求，Redis则返回同步之前的数据.<br>缺点：</li>
-<li>Redis不具备自动容错和恢复功能，主机从机的宕机都会导致前端部分读写请求失败，需要等待机器重启或者手动切换前端的IP才能恢复。</li>
-<li>主机宕机，宕机前有部分数据未能及时同步到从机，切换IP后还会引入数据不一致的问题，降低了系统的可用性。</li>
-<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li>
-</ul>
-<h3 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h3><p>当主服务器中断服务后，可以将一个从服务器升级为主服务器，以便继续提供服务，但是这个过程需要人工手动来操作。 为此，Redis 2.8中提供了哨兵工具来实现自动化的系统监控和故障恢复功能。</p>
-<p>哨兵的作用就是监控Redis系统的运行状况。它的功能包括以下两个。</p>
-<ol>
-<li>监控主服务器和从服务器是否正常运行。 </li>
-<li>主服务器出现故障时自动将从服务器转换为主服务器。<br>哨兵组件的主要作用：</li>
-</ol>
-<ul>
-<li>集群监控：负责监控 Redis master 和 slave 进程是否正常工作。</li>
-<li>消息通知：如果某个 Redis 实例有故障，那么哨兵负责发送消息作为报警通知给管理员。</li>
-<li>故障转移：如果 master node 挂掉了，会自动转移到 slave node 上。</li>
-</ul>
-<p>配置中心：如果故障转移发生了，通知 client 客户端新的 master 地址。</p>
-<h4 id="哨兵的工作方式："><a href="#哨兵的工作方式：" class="headerlink" title="哨兵的工作方式："></a>哨兵的工作方式：</h4><ol>
-<li>每个Sentinel（哨兵）进程以每秒钟一次的频率向整个集群中的Master主服务器，Slave从服务器以及其他Sentinel（哨兵）进程发送一个 PING 命令。</li>
-<li>如果一个实例（instance）距离最后一次有效回复 PING 命令的时间超过 down-after-milliseconds 选项所指定的值， 则这个实例会被 Sentinel（哨兵）进程标记为主观下线（SDOWN）</li>
-<li>如果一个Master主服务器被标记为主观下线（SDOWN），则正在监视这个Master主服务器的所有 Sentinel（哨兵）进程要以每秒一次的频率确认Master主服务器的确进入了主观下线状态</li>
-<li>当有足够数量的 Sentinel（哨兵）进程（大于等于配置文件指定的值）在指定的时间范围内确认Master主服务器进入了主观下线状态（SDOWN）， 则Master主服务器会被标记为客观下线（ODOWN）</li>
-<li>在一般情况下， 每个 Sentinel（哨兵）进程会以每 10 秒一次的频率向集群中的所有Master主服务器、Slave从服务器发送 INFO 命令。<br>当Master主服务器被 Sentinel（哨兵）进程标记为客观下线（ODOWN）时，Sentinel（哨兵）进程向下线的 Master主服务器的所有 Slave从服务器发送 INFO 命令的频率会从 10 秒一次改为每秒一次。</li>
-<li>若没有足够数量的 Sentinel（哨兵）进程同意 Master主服务器下线， Master主服务器的客观下线状态就会被移除。若 Master主服务器重新向 Sentinel（哨兵）进程发送 PING 命令返回有效回复，Master主服务器的主观下线状态就会被移除。<br>哨兵模式的优缺点</li>
-</ol>
-<p>优点：</p>
-<ul>
-<li>哨兵模式是基于主从模式的，所有主从的优点，哨兵模式都具有。</li>
-<li>主从可以自动切换，系统更健壮，可用性更高。<br><br>缺点：</li>
-<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li>
-</ul>
-<h4 id="Redis-Cluster集群"><a href="#Redis-Cluster集群" class="headerlink" title="Redis-Cluster集群"></a>Redis-Cluster集群</h4><p>redis的哨兵模式基本已经可以实现高可用，读写分离 ，但是在这种模式下每台redis服务器都存储相同的数据，很浪费内存，所以在redis3.0上加入了cluster模式，实现的redis的分布式存储，也就是说每台redis节点上存储不同的内容。</p>
-<p> Redis-Cluster采用无中心结构,它的特点如下：</p>
-<p>所有的redis节点彼此互联(PING-PONG机制),内部使用二进制协议优化传输速度和带宽。</p>
-<p>节点的fail是通过集群中超过半数的节点检测失效时才生效。</p>
-<p>客户端与redis节点直连,不需要中间代理层.客户端不需要连接集群所有节点,连接集群中任何一个可用节点即可。</p>
-<h4 id="Redis-Cluster集群原理："><a href="#Redis-Cluster集群原理：" class="headerlink" title="Redis-Cluster集群原理："></a>Redis-Cluster集群原理：</h4><p>在redis的每一个节点上，都有这么两个东西，一个是插槽（slot），它的的取值范围是：0-16383。还有一个就是cluster，可以理解为是一个集群管理的插件。当我们的存取的key到达的时候，redis会根据crc16的算法得出一个结果，然后把结果对 16384 求余数，这样每个 key 都会对应一个编号在 0-16383 之间的哈希槽，通过这个值，去找到对应的插槽所对应的节点，然后直接自动跳转到这个对应的节点上进行存取操作。</p>
-<p>为了保证高可用，redis-cluster集群引入了主从模式，一个主节点对应一个或者多个从节点，当主节点宕机的时候，就会启用从节点。当其它主节点ping一个主节点A时，如果半数以上的主节点与A通信超时，那么认为主节点A宕机了。如果主节点A和它的从节点A1都宕机了，那么该集群就无法再提供服务了。</p>
-]]></content>
-      <categories>
-        <category>中间件</category>
-        <category>nosql</category>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -1980,6 +2070,22 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>算法基础之贪心算法</title>
+    <url>/2021/05/22/%E7%AE%97%E6%B3%95%E7%AF%87/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。<br>贪心算法的理解： 整个问题的最优解一定由在贪心策略中存在的子问题的最优解得来的。</p>
+<span id="more"></span>
+
+<p>贪心算法经典之找零钱</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ChangeMoney</span><span class="params">(<span class="keyword">int</span>  money)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[] moneybox = &#123;<span class="number">100</span>, <span class="number">50</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span>[] changArray = <span class="keyword">new</span> <span class="keyword">int</span>[moneybox.length];</span><br><span class="line">        Arrays.sort(moneybox);</span><br><span class="line">        <span class="comment">//  System.out.println(Arrays.toString(changArray));</span></span><br><span class="line">        <span class="keyword">int</span> change = money;</span><br><span class="line">        <span class="keyword">if</span> (money &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (change &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = moneybox.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; change - moneybox[i] &gt;= <span class="number">0</span>; j++) &#123;</span><br><span class="line">                        <span class="keyword">int</span> tmp = change - moneybox[i];</span><br><span class="line">                        <span class="keyword">if</span> (tmp &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                            change = tmp;</span><br><span class="line">                            changArray[i] = j;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">0</span>; p &lt; moneybox.length; p++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (changArray[p] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;需要找零&quot;</span> + moneybox[p] + <span class="string">&quot; &quot;</span> + changArray[p] + <span class="string">&quot;张&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Macbook外接显示器需要注意的设置</title>
     <url>/2021/05/22/%E7%A1%AC%E4%BB%B6&amp;%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>设备：MacBook Pro2018 A1989<br>系统：BigSur11.2.3<br>外接的显示器：Dell P2319H</p>
@@ -2032,65 +2138,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       <tags>
         <tag>硬件</tag>
         <tag>mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>算法基础之贪心算法</title>
-    <url>/2021/05/22/%E7%AE%97%E6%B3%95%E7%AF%87/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<p>所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。<br>贪心算法的理解： 整个问题的最优解一定由在贪心策略中存在的子问题的最优解得来的。</p>
-<span id="more"></span>
-
-<p>贪心算法经典之找零钱</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ChangeMoney</span><span class="params">(<span class="keyword">int</span>  money)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[] moneybox = &#123;<span class="number">100</span>, <span class="number">50</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span>[] changArray = <span class="keyword">new</span> <span class="keyword">int</span>[moneybox.length];</span><br><span class="line">        Arrays.sort(moneybox);</span><br><span class="line">        <span class="comment">//  System.out.println(Arrays.toString(changArray));</span></span><br><span class="line">        <span class="keyword">int</span> change = money;</span><br><span class="line">        <span class="keyword">if</span> (money &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (change &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = moneybox.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; change - moneybox[i] &gt;= <span class="number">0</span>; j++) &#123;</span><br><span class="line">                        <span class="keyword">int</span> tmp = change - moneybox[i];</span><br><span class="line">                        <span class="keyword">if</span> (tmp &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                            change = tmp;</span><br><span class="line">                            changArray[i] = j;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">0</span>; p &lt; moneybox.length; p++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (changArray[p] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;需要找零&quot;</span> + moneybox[p] + <span class="string">&quot; &quot;</span> + changArray[p] + <span class="string">&quot;张&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础概念_分布式事务</title>
-    <url>/2021/05/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
-    <content><![CDATA[<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>一般是指要做的或所做的事情。<br>在计算机术语中是指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)。<br>事务通常由高级数据库操纵语言或编程语言（如SQL，C++或Java）书写的用户程序执行所引起，并用形如begin transaction和end transaction语句（或函数调用）来界定。<br>事务由事务开始(begin transaction)和事务结束(end transaction)之间执行的全体操作组成。</p>
-<span id="more"></span>
-<p>事务<strong>是恢复和并发控制</strong>的<strong>基本单位</strong>。</p>
-<h2 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h2><p>事务应该具有4个属性：<strong>原子性、一致性、隔离性、持久性</strong>。这四个属性通常称为<strong>ACID</strong>特性。</p>
-<ul>
-<li><p><strong>原子性（atomicity）</strong>：一个事务是一个不可分割的工作单位，事务中包括的操作要么都做，要么都不做。</p>
-</li>
-<li><p><strong>一致性（consistency）</strong>：事务必须是使数据库从一个一致性状态变到另一个一致性状态。一致性与原子性是密切相关的。</p>
-</li>
-<li><p><strong>隔离性（isolation）</strong>：一个事务的执行不能被其他事务干扰。即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰。</p>
-</li>
-<li><p><strong>持久性（durability）</strong>：持久性也称永久性（permanence），指一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。接下来的其他操作或故障不应该对其有任何影响。</p>
-</li>
-</ul>
-<h2 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h2><p>分布式系统最基础的理论</p>
-<p>在分布式系统中，</p>
-<h3 id="一致性（Consistency）、"><a href="#一致性（Consistency）、" class="headerlink" title="一致性（Consistency）、"></a>一致性（<em>C</em>onsistency）、</h3><h3 id="可用性（Availability）"><a href="#可用性（Availability）" class="headerlink" title="可用性（Availability）"></a>可用性（<em>A</em>vailability）</h3><h3 id="分区容忍性（Partition-Tolerance）"><a href="#分区容忍性（Partition-Tolerance）" class="headerlink" title="分区容忍性（Partition Tolerance）"></a>分区容忍性（<em>P</em>artition Tolerance）</h3><p>3个要素最多只能<strong>同时满足两个</strong>，不可兼得。其中，分区容忍性又是不可或缺的。</p>
-<h2 id="BASE-理论"><a href="#BASE-理论" class="headerlink" title="BASE 理论"></a>BASE 理论</h2><p>核心思想：</p>
-<h3 id="基本可用（Basically-Available）："><a href="#基本可用（Basically-Available）：" class="headerlink" title="基本可用（Basically Available）："></a>基本可用（Basically Available）：</h3><p>指分布式系统在出现故障时，允许损失部分的可用性来保证核心可用。</p>
-<h3 id="软状态（Soft-State）"><a href="#软状态（Soft-State）" class="headerlink" title="软状态（Soft State）"></a>软状态（Soft State）</h3><p>指允许分布式系统存在中间状态，该中间状态不会影响到系统的整体可用性。</p>
-<h3 id="最终一致性（Eventual-Consistency）："><a href="#最终一致性（Eventual-Consistency）：" class="headerlink" title="最终一致性（Eventual Consistency）："></a>最终一致性（Eventual Consistency）：</h3><p>指分布式系统中的所有副本数据经过一定时间后，最终能够达到一致的状态。</p>
-<p><strong>分布式事务</strong></p>
-<ul>
-<li>2pc（两段式提交）</li>
-<li>3pc（三段式提交）</li>
-<li>TCC（Try、Confirm、Cancel）   </li>
-<li>最大努力通知</li>
-<li>XA</li>
-<li>本地消息表（ebay研发出的）</li>
-<li>半消息/最终一致性（RocketMQ）</li>
-</ul>
-]]></content>
-      <categories>
-        <category>基础概念</category>
-        <category>分布式</category>
-      </categories>
-      <tags>
-        <tag>基础概念</tag>
       </tags>
   </entry>
   <entry>
