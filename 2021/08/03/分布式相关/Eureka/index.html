@@ -30,14 +30,14 @@
 <meta property="og:site_name" content="裸泳的猪">
 <meta property="og:description" content="Eureka Server：注册中心服务端注册中心服务端主要对外提供了三个功能：  服务注册服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表 提供注册表 服务消费者在调用服务时，如果 Eureka Client 没有缓存注册表的话，会从 Eu">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://dbreset.github.io/2021/08/03/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/Eureka%5CEureka.jpg">
+<meta property="og:image" content="http://dbreset.github.io/2021/08/03/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/Eureka.jpg">
 <meta property="article:published_time" content="2021-08-03T01:02:10.337Z">
 <meta property="article:modified_time" content="2021-08-03T01:02:10.337Z">
 <meta property="article:author" content="Luo">
 <meta property="article:tag" content="Eureka">
 <meta property="article:tag" content="Eureka高可用">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://dbreset.github.io/2021/08/03/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/Eureka%5CEureka.jpg">
+<meta name="twitter:image" content="http://dbreset.github.io/2021/08/03/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/Eureka.jpg">
 
 <link rel="canonical" href="http://dbreset.github.io/2021/08/03/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/">
 
@@ -270,7 +270,7 @@
 <li>同步状态</li>
 </ul>
 <h2 id="高可用原理"><a href="#高可用原理" class="headerlink" title="高可用原理"></a>高可用原理</h2><p>其实每一个服务端（这里指实例）都内置了一个Eureka Client，也就是说一个服务端可以接受其他Client的注册，也可以作为一个Client注册到其他Server上，被其他Client发现和调用。一个服务端实例你可以理解为由一个Server+Client组成。</p>
-<p><img src="/2021/08/03/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/Eureka%5CEureka.jpg" alt="Eureka"></p>
+<p><img src="/2021/08/03/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/Eureka.jpg" alt="Eureka"></p>
 <p> Eureka Server 集群相互之间通过 Replicate 来同步数据，相互之间<strong>不区分主节点和从节点</strong>，所有的节点都是平等的。在这种架构中，节点通过彼此互相注册来提高可用性，每个节点需要添加一个或多个有效的 serviceUrl 指向其他节点</p>
 <p>如果某台 Eureka Server 宕机，Eureka Client 的请求会自动切换到新的 Eureka Server 节点。当宕机的服务器重新恢复后，Eureka 会再次将其纳入到服务器集群管理之中。当节点开始接受客户端请求时，所有的操作都会进行节点间复制，将请求复制到其它 Eureka Server 当前所知的所有节点中。</p>
 <p>另外 Eureka Server 的同步遵循着一个非常简单的原则：只要有一条边将节点连接，就可以进行信息传播与同步。所以，如果存在多个节点，只需要将节点之间两两连接起来形成通路，那么其它注册中心都可以共享信息。每个 Eureka Server 同时也是 Eureka Client，多个 Eureka Server 之间通过 P2P 的方式完成服务注册表的同步。</p>
