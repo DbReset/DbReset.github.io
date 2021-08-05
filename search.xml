@@ -9,6 +9,397 @@
 ]]></content>
   </entry>
   <entry>
+    <title>设计模式</title>
+    <url>/2021/08/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="1-请列举出在-JDK-中几个常用的设计模式？"><a href="#1-请列举出在-JDK-中几个常用的设计模式？" class="headerlink" title="1.请列举出在 JDK 中几个常用的设计模式？"></a>1.请列举出在 JDK 中几个常用的设计模式？</h1><p>单例模式（Singleton pattern）用于 Runtime，Calendar 和其他的一些类中。工厂模式<br>（Factory pattern）被用于各种不可变的类如 Boolean，像 Boolean.valueOf，观察者模式<br>（Observer pattern）被用于 Swing 和很多的事件监听中。装饰器设计模式（Decorator<br>design pattern）被用于多个 Java IO 类中。</p>
+<h1 id="2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？"><a href="#2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？" class="headerlink" title="2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？"></a>2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？</h1><p>设计模式是世界上各种各样程序员用来解决特定设计问题的尝试和测试的方法。设计模式<br>是代码可用性的延伸</p>
+<h1 id="3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式"><a href="#3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式" class="headerlink" title="3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式"></a>3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式</h1><p>单例模式重点在于在整个系统上共享一些创建时较耗资源的对象。整个应用中只维护一个<br>特定类实例，它被所有组件共同使用。Java.lang.Runtime 是单例模式的经典例子。从 Java<br>5 开始你可以使用枚举（enum）来实现线程安全的单例。</p>
+<span id="more"></span>
+
+<h1 id="4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？"><a href="#4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？" class="headerlink" title="4.在 Java 中，什么叫观察者设计模式（observer design pattern）？"></a>4.在 Java 中，什么叫观察者设计模式（observer design pattern）？</h1><p>观察者模式是基于对象的状态变化和观察者的通讯，以便他们作出相应的操作。简单的例<br>子就是一个天气系统，当天气变化时必须在展示给公众的视图中进行反映。这个视图对象<br>是一个主体，而不同的视图是观察者。</p>
+<h1 id="5-使用工厂模式最主要的好处是什么？在哪里使用？"><a href="#5-使用工厂模式最主要的好处是什么？在哪里使用？" class="headerlink" title="5.使用工厂模式最主要的好处是什么？在哪里使用？"></a>5.使用工厂模式最主要的好处是什么？在哪里使用？</h1><p>工厂模式的最大好处是增加了创建对象时的封装层次。如果你使用工厂来创建对象，之后<br>你可以使用更高级和更高性能的实现来替换原始的产品实现或类，这不需要在调用层做任<br>何修改。</p>
+<h1 id="6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？"><a href="#6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？" class="headerlink" title="6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？"></a>6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？</h1><p>装饰模式增加强了单个对象的能力。Java IO 到处都使用了装饰模式，典型例子就是<br>Buffered 系列类如 BufferedReader 和 BufferedWriter，它们增强了 Reader 和 Writer 对象，<br>以实现提升性能的 Buffer 层次的读取和写入。</p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+        <category>常见面试</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java基础提升_线程池</title>
+    <url>/2021/08/05/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言<br></h1><p>在《阿里巴巴java开发手册》中指出了线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，这样一方面是线程的创建更加规范，可以合理控制开辟线程的数量；另一方面线程的细节管理交给线程池处理，优化了资源的开销。<br><br>而线程池不允许使用Executors去创建，而要通过<strong>ThreadPoolExecutor</strong>方式，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活【消耗内存等】；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险，所以阿里巴巴java开发规范线程池首选ThreadPoolExcutor。<br></p>
+<p>话虽如此但常见的Executor框架还是要有所了解。</p>
+<span id="more"></span>
+<h2 id="常见线程池以及使用"><a href="#常见线程池以及使用" class="headerlink" title="常见线程池以及使用"></a>常见线程池以及使用</h2><h3 id="1-newCacheThreadPool"><a href="#1-newCacheThreadPool" class="headerlink" title="1.newCacheThreadPool"></a>1.newCacheThreadPool</h3><p>Executors.newCacheThreadPool()：可缓存线程池，先查看池中有没有以前建立的线程，如果有，就直接使用。如果没有，就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务。</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建一个可缓存线程池</span></span><br><span class="line">        ExecutorService cachedThreadPool = <span class="module-access"><span class="module"><span class="identifier">Executors</span>.</span></span><span class="keyword">new</span><span class="constructor">CachedThreadPool()</span>;</span><br><span class="line">         cachedThreadPool.execute(<span class="literal">()</span> -&gt;&#123;</span><br><span class="line">                </span><br><span class="line">                    <span class="comment">// 打印正在执行的缓存线程信息</span></span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>.get<span class="constructor">Name()</span></span><br><span class="line">                            + <span class="string">&quot;正在被执行&quot;</span>);</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="2-newFixedThreadPool"><a href="#2-newFixedThreadPool" class="headerlink" title="2.newFixedThreadPool"></a>2.newFixedThreadPool</h3><p> Executors.newFixedThreadPool(int n)：创建一个可重用固定个数的线程池，以共享的无界队列方式来运行这些线程。</p>
+<h3 id="3-newScheduledThreadPool"><a href="#3-newScheduledThreadPool" class="headerlink" title="3.newScheduledThreadPool"></a>3.newScheduledThreadPool</h3><p>Executors.newScheduledThreadPool(int n)：创建一个定长线程池，支持定时及周期性任务执行</p>
+<h3 id="4-newSingleThreadExecutor"><a href="#4-newSingleThreadExecutor" class="headerlink" title="4.newSingleThreadExecutor"></a>4.newSingleThreadExecutor</h3><p>Executors.newSingleThreadExecutor()：创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
+<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><h3 id="创建方式和主要参数解释"><a href="#创建方式和主要参数解释" class="headerlink" title="创建方式和主要参数解释"></a>创建方式和主要参数解释</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> static final ThreadPoolExecutor THREADPOOL = <span class="keyword">new</span> <span class="constructor">ThreadPoolExecutor(<span class="params">int</span> <span class="params">corePoolSize</span>, <span class="params">int</span> <span class="params">maximumPoolSize</span>,<span class="params">long</span> <span class="params">keepAliveTime</span>, TimeUnit <span class="params">unit</span>,BlockingQueue&lt;Runnable&gt; <span class="params">workQueue</span>,RejectedExecutionHandler <span class="params">handler</span>)</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>corePoolSize： 线程池维护线程的最少数量 （core : 核心）</li>
+<li>maximumPoolSize： 线程池维护线程的最大数量</li>
+<li>keepAliveTime：线程池维护线程所允许的空闲时间</li>
+<li>unit：线程池维护线程所允许的空闲时间的单位</li>
+<li>workQueue：线程池所使用的缓冲队列</li>
+<li>handler：线程池对拒绝任务的处理策略</li>
+</ol>
+<h3 id="内部执行流程解释"><a href="#内部执行流程解释" class="headerlink" title="内部执行流程解释"></a>内部执行流程解释</h3><p>通过 execute(Runnable)方法被添加到线程池，任务就是一个 Runnable类型的对象，任务的执行方法就是 Runnable类型对象的run()方法。<br><br>当一个任务通过execute(Runnable)方法欲添加到线程池时：<br><br>如果此时线程池中的数量小于corePoolSize，即使线程池中的线程都处于空闲状态，也要创建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量等于 corePoolSize，但是缓冲队列 workQueue未满，那么任务被放入缓冲队列。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量小于maximumPoolSize，建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量等于maximumPoolSize，那么通过 handler所指定的策略来处理此任务。<br><br>也就是：处理任务的优先级为：<br><br>核心线程corePoolSize、任务队列workQueue、最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务。<br><br> 当线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止。这样，线程池可以动态的调整池中的线程数。<br></p>
+<ul>
+<li><p>unit可选的参数为java.util.concurrent.TimeUnit中的几个静态属性：NANOSECONDS、MICROSECONDS、MILLISECONDS、SECONDS。</p>
+</li>
+<li><p>workQueue常用的是：java.util.concurrent.ArrayBlockingQueue</p>
+</li>
+<li><p>handler有四个选择：<br><br>ThreadPoolExecutor.AbortPolicy()：抛出java.util.concurrent.RejectedExecutionException异常<br><br>ThreadPoolExecutor.CallerRunsPolicy(): 重试添加当前的任务，他会自动重复调用execute()方法<br><br>ThreadPoolExecutor.DiscardOldestPolicy(): 抛弃旧的任务<br><br>ThreadPoolExecutor.DiscardPolicy(): 抛弃当前的任务<br></p>
+</li>
+</ul>
+<h3 id="如何配置线程池"><a href="#如何配置线程池" class="headerlink" title="如何配置线程池"></a>如何配置线程池</h3><ul>
+<li><p>CPU密集型任务<br><br>尽量使用较小的线程池，一般为CPU核心数+1。 因为CPU密集型任务使得CPU使用率很高，若开过多的线程数，会造成CPU过度切换。</p>
+</li>
+<li><p>IO密集型任务<br><br>可以使用稍大的线程池，一般为2*CPU核心数。 IO密集型任务CPU使用率并不高，因此可以让CPU在等待IO的时候有其他线程去处理别的任务，充分利用CPU时间。</p>
+</li>
+<li><p>混合型任务<br><br>可以将任务分成IO密集型和CPU密集型任务，然后分别用不同的线程池去处理。 只要分完之后两个任务的执行时间相差不大，那么就会比串行执行来的高效。<br>因为如果划分之后两个任务执行时间有数据级的差距，那么拆分没有意义。<br>因为先执行完的任务就要等后执行完的任务，最终的时间仍然取决于后执行完的任务，而且还要加上任务拆分与合并的开销，得不偿失。</p>
+</li>
+</ul>
+<h3 id="execute-和submit-方法"><a href="#execute-和submit-方法" class="headerlink" title="execute()和submit()方法"></a>execute()和submit()方法</h3><p>1、execute()，执行一个任务，没有返回值。<br>2、submit()，提交一个线程任务，有返回值。<br>submit(Callable<T> task)能获取到它的返回值，通过future.get()获取（阻塞直到任务执行完）。一般使用FutureTask+Callable配合使用（IntentService中有体现）。</T></p>
+<p>submit(Runnable task, T result)能通过传入的载体result间接获得线程的返回值。<br>submit(Runnable task)则是没有返回值的，就算获取它的返回值也是null。</p>
+<p>Future.get方法会使取结果的线程进入阻塞状态，知道线程执行完成之后，唤醒取结果的线程，然后返回结果。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>多线程</category>
+        <category>线程池</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
+        <tag>线程池</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>java基础_基础特征和相关概念</title>
+    <url>/2021/08/05/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80_%E5%9F%BA%E7%A1%80%E7%89%B9%E5%BE%81%E5%92%8C%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/</url>
+    <content><![CDATA[<h1 id="面向对象的三大基本特征，五大基本原则"><a href="#面向对象的三大基本特征，五大基本原则" class="headerlink" title="面向对象的三大基本特征，五大基本原则"></a>面向对象的三大基本特征，五大基本原则</h1><h2 id="三大基本特征：封装、继承、多态"><a href="#三大基本特征：封装、继承、多态" class="headerlink" title="三大基本特征：封装、继承、多态"></a>三大基本特征：<strong>封装、继承、多态</strong></h2><h3 id="1-封装"><a href="#1-封装" class="headerlink" title="1. 封装"></a>1. 封装</h3><p>　　封装就是隐藏对象的属性和实现细节，仅对外公开接口，控制在程序中属性的读和修改的访问级别，将抽象得到的数据和行为（或功能）相结合，形成一个有机的整体，也就是将数据与操作数据的源代码进行有机的结合，形成“类”，其中数据和函数都是类的成员。<br>封装的<strong>目的</strong>是增强安全性和简化编程，使用者不必了解具体的实现细节，而只是要通过外部接口，以特定的访问权限来使用类的成员。<br>（面向对象的不就是使用程序处理事情时以对象为中心去分析吗，与面向过程不同，面向过程关心处理的逻辑、流程等问题，而不关心事件主体。而面向对象即面向主体，所以我们在解决问题时应该先进行对象的封装（对象是封装类的实例，比如张三是人，人是一个封装类，张三只是对象中的一个实例、一个对象）。比如我们日常生活中的小兔子、小绵羊都可以封装为一个类）。</p>
+<h3 id="2-继承"><a href="#2-继承" class="headerlink" title="2. 继承"></a>2. 继承</h3><p>　　继承是面向对象的基本特征之一，继承机制允许创建分等级层次的类。继承就是子类继承父类的特征和行为，使得子类对象（实例）具有父类的实例域和方法，或子类从父类继承方法，使得子类具有父类相同的行为。</p>
+<h3 id="3-多态"><a href="#3-多态" class="headerlink" title="3. 多态"></a>3. 多态</h3><p>　　多态同一个行为具有多个不同表现形式或形态的能力。是指一个类实例（对象）的相同方法在不同情形有不同表现形式。多态机制使具有不同内部结构的对象可以共享相同的外部接口。这意味着，虽然针对不同对象的具体操作不同，但通过一个公共的类，它们（那些操作）可以通过相同的方式予以调用。</p>
+<p>多态存在的三个<strong>必要条件</strong>：</p>
+<ul>
+<li>继承</li>
+<li>重写（子类继承父类后对父类方法进行重新定义）</li>
+<li>父类引用指向子类对象</li>
+</ul>
+<p>多态的优点：</p>
+<ul>
+<li>消除类型之间的耦合关系</li>
+<li>可替换性</li>
+<li>可扩充性</li>
+<li>接口性</li>
+<li>灵活性</li>
+<li>简化性</li>
+</ul>
+<p>　　简言之，多态其实是在继承的基础上的。比如说今天我们要去动物园参观动物，那么你说我们去参观兔子、参观绵羊、参观狮子、参观豹子都是对的，但你不能说我们去参观汽车。在这个例子中，子类具有多态性：除了使用自己的身份，还能充当父类。</p>
+<p>ps可参照此篇博文:<a href="https://www.cnblogs.com/vamei/archive/2013/04/01/2992662.html">https://www.cnblogs.com/vamei/archive/2013/04/01/2992662.html</a></p>
+<span id="more"></span>
+
+<p>扩展知识点：</p>
+<h2 id="RTTI"><a href="#RTTI" class="headerlink" title="RTTI"></a>RTTI</h2><p>运行时类型识别(RTTI, Run-Time Type Identification)是Java中非常有用的机制，在Java运行时，RTTI维护类的相关信息。<br>多态(polymorphism)是基于RTTI实现的。RTTI的功能主要是由Class这个类实现的。
+　　</p>
+<h2 id="五大基本原则"><a href="#五大基本原则" class="headerlink" title="五大基本原则"></a>五大基本原则</h2><h3 id="1、单一职责原则（SRP）"><a href="#1、单一职责原则（SRP）" class="headerlink" title="1、单一职责原则（SRP）"></a>1、单一职责原则（SRP）</h3><p>　　一个类应该有且只有一个去改变它的理由，这意味着一个类应该只有一项工作。</p>
+<p>　　比如在职员类里，将工程师、销售人员、销售经理这些情况都放在职员类里考虑，其结果将会非常混乱，在这个假设下，职员类里的每个方法都要if else判断是哪种情况，从类结构上来说将会十分臃肿。</p>
+<h3 id="2、开放封闭原则（OCP）"><a href="#2、开放封闭原则（OCP）" class="headerlink" title="2、开放封闭原则（OCP）"></a>2、开放封闭原则（OCP）</h3><p>　　对象或实体应该对扩展开放，对修改封闭。</p>
+<p>　　更改封闭即是在我们对模块进行扩展时，勿需对原有程序代码和DLL进行修改或重新编译文件！这个原则对我们在设计类的时候很有帮助，坚持这个原则就必须尽量考虑接口封装，抽象机制和多态技术！</p>
+<h3 id="3、里氏替换原则（LSP）"><a href="#3、里氏替换原则（LSP）" class="headerlink" title="3、里氏替换原则（LSP）"></a>3、里氏替换原则（LSP）</h3><p>　　在对象 x 为类型 T 时 q(x) 成立，那么当 S 是 T 的子类时，对象 y 为类型 S 时 q(y) 也应成立。（即对父类的调用同样适用于子类）</p>
+<h3 id="4、依赖倒置原则（DIP）"><a href="#4、依赖倒置原则（DIP）" class="headerlink" title="4、依赖倒置原则（DIP）"></a>4、依赖倒置原则（DIP）</h3><p>　　高层次的模块不应该依赖于低层次的模块，他们都应该依赖于抽象。具体实现应该依赖于抽象，而不是抽象依赖于实现。</p>
+<p>　　可以这样理解，上面我举例子的时候先说了兔子和绵羊，然后才推出食草动物。但如果我们继续认识了牛、马等食草动物，我们会发现我们需要不断调整食草动物的描述，这样程序会变得僵化，所以我们不应该让子类依赖于实体，不应该让父类模块依赖于子类模块。所以我们需要将食草动物设计为抽象类，即抽象类或接口。这样下层只需要实现相应的细节而不会影响父类。</p>
+<h3 id="5、接口隔离原则（ISP）"><a href="#5、接口隔离原则（ISP）" class="headerlink" title="5、接口隔离原则（ISP）"></a>5、接口隔离原则（ISP）</h3><p>　　不应强迫客户端实现一个它用不上的接口，或是说客户端不应该被迫依赖它们不使用的方法，使用多个专门的接口比使用单个接口要好的多！</p>
+<p>　　比如，为了减少接口的定义，将许多类似的方法都放在一个接口中，最后会发现，维护和实现接口的时候花了太多精力，而接口所定义的操作相当于对客户端的一种承诺，这种承诺当然是越少越好，越精练越好，过多的承诺带来的就是你的大量精力和时间去维护！</p>
+<hr>
+<h2 id="对象引用"><a href="#对象引用" class="headerlink" title="对象引用"></a>对象引用</h2><p>基本类型变量的值传递，意味着变量本身被复制，并传递给Java方法。<strong>Java方法对变量的修改不会影响到原变量</strong>。</p>
+<p>引用的值传递，意味着对象的地址被复制，并传递给Java方法。<strong>Java方法根据该引用的访问将会影响对象</strong>。</p>
+<p>即 基础类型可以直接用= 赋值，不会影响原变量，而复合类型使用=赋值时，之后复合变量改变后，原值也会改变</p>
+<hr>
+<h1 id="java基础类和对应封装类"><a href="#java基础类和对应封装类" class="headerlink" title="java基础类和对应封装类"></a>java基础类和对应封装类</h1><table>
+<thead>
+<tr>
+<th>基本类型</th>
+<th>大小（字节）</th>
+<th>默认值</th>
+<th>封装类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>byte</td>
+<td>1</td>
+<td>byte（0）</td>
+<td>Byte</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td>char</td>
+<td>2</td>
+<td>\uoooo(null)</td>
+<td>Character</td>
+</tr>
+<tr>
+<td>short</td>
+<td>2</td>
+<td>short（0）</td>
+<td>Short</td>
+</tr>
+<tr>
+<td>int</td>
+<td>4</td>
+<td>0</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>long</td>
+<td>8</td>
+<td>0L</td>
+<td>Long</td>
+</tr>
+<tr>
+<td>float</td>
+<td>4</td>
+<td>0.0f</td>
+<td>Float</td>
+</tr>
+<tr>
+<td>double</td>
+<td>8</td>
+<td>0.0d</td>
+<td>Double</td>
+</tr>
+</tbody></table>
+<p>注：提供封装类是为了更好的对数据基本类型进行操作。java的集合部分，只允许存储引用类型。</p>
+<hr>
+<h2 id="equals与-的区别"><a href="#equals与-的区别" class="headerlink" title="equals与==的区别"></a>equals与==的区别</h2><ol>
+<li>使用==比较原生类型如：boolean、int、char等等，使用equals()比较对象。</li>
+<li>==是判断两个变量或实例是不是指向同一个内存空间。 equals是判断两个变量或实例所指向的内存空间的值是不是相同。</li>
+<li>==是指对内存地址进行比较。 equals()是对字符串的内容进行比较。</li>
+<li>==指引用是否相同。 equals()指的是值是否相同。</li>
+</ol>
+<h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><p>参考：<br><br><a href="https://www.cnblogs.com/coprince/p/8603492.html">https://www.cnblogs.com/coprince/p/8603492.html</a></p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>基础概念</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java基础提升_多线程</title>
+    <url>/2021/08/05/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
+    <content><![CDATA[<h2 id="线程创建方式"><a href="#线程创建方式" class="headerlink" title="线程创建方式"></a>线程创建方式</h2><ol>
+<li>继承Thread类<ul>
+<li>start()方法是一个 native 方法,它将启动一个新线程，并执行 run()方法。</li>
+</ul>
+</li>
+<li>实现runnable接口，<ul>
+<li>当一个类已经有继承了，此时可通过实现runnable接口来创建线程</li>
+</ul>
+</li>
+<li>采用线程池，实现callable接口（有返回）,ExecutorService<ul>
+<li>有返回值的任务必须实现 Callable 接口。执行Callable 任务后，可以获取一个 Future 的对象，在该对象上调用 get 就可以获取到 Callable 任务返回的 Object 了，再结合线程池接口 ExecutorService 就可以实现传说中有返回结果的多线程了。</li>
+</ul>
+</li>
+</ol>
+<h2 id="多线程中的主要问题"><a href="#多线程中的主要问题" class="headerlink" title="多线程中的主要问题"></a>多线程中的主要问题</h2><ol>
+<li>可见性问题<br> volatile修饰，保证了多线程之间的内存可见性</li>
+<li>原子性问题<br> AtomicInteger</li>
+<li>有序性问题<br> volatile 防止指令重排序</li>
+<li>死锁的问题</li>
+</ol>
+<h2 id="synchronized-关键字"><a href="#synchronized-关键字" class="headerlink" title="synchronized 关键字"></a>synchronized 关键字</h2><h3 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h3><ol>
+<li><p>修饰一个<strong>代码块</strong>，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； </p>
+</li>
+<li><p>修饰一个<strong>方法</strong>，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； </p>
+</li>
+<li><p>修改一个<strong>静态的方法</strong>，其作用的范围是整个静态方法，作用的对象是这个==类的所有对象==； </p>
+</li>
+<li><p>修改一个<strong>类</strong>，其作用的范围是synchronized后面括号括起来的部分，作用主的对象是这个类的所有对象。</p>
+<span id="more"></span>
+<h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3></li>
+<li><p>修饰代码块时：<br>synchronized是JVM层面的，同步语句块的实现使用的是<strong>monitorenter 和 monitorexit</strong>指令，其中 monitorenter 指令指向同步代码块的开始位置，monitorexit 指令则指明同步代码块的结束位置。当执行 monitorenter 指令时，线程试图获取锁也就是获取 monitor(monitor对象存在于每个<strong>Java对象的对象头</strong>中，synchronized 锁便是通过这种方式获取锁的，也是为什么Java中任意对象可以作为原因)</p>
+</li>
+<li><p>synchronized 修饰方法时：<br>synchronized 修饰的方法并没有 monitorenter 指令和 monitorexit 指令，取而代之的确实是 ACC_SYNCHRONIZED 标识，该标识指明了该方法是一个同步方法，JVM 通过该 ACC_SYNCHRONIZED 访问标志来辨别一个方法是否声明为同步方法，从而执行相应的同步调用。</p>
+</li>
+</ol>
+<h2 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h2><p>作用：保证变量的可见性然后还有一个作用是防止指令重排序。</p>
+<h3 id="synchronized关键字和volatile关键字比较"><a href="#synchronized关键字和volatile关键字比较" class="headerlink" title="synchronized关键字和volatile关键字比较"></a>synchronized关键字和volatile关键字比较</h3><ul>
+<li>volatile关键字是线程同步的轻量级实现，所以volatile性能肯定比synchronized关键字要好。但是<strong>volatile关键字只能用于变量</strong>而synchronized关键字可以修饰方法以及代码块。synchronized关键字在JavaSE1.6之后进行了主要包括为了减少获得锁和释放锁带来的性能消耗而引入的偏向锁和轻量级锁以及其它各种优化之后执行效率有了显著提升，实际开发中使用 synchronized 关键字的场景还是更多一些。</li>
+<li>多线程访问volatile关键字不会发生阻塞，而synchronized关键字可能会发生阻塞</li>
+<li>volatile关键字能保证数据的可见性，但不能保证数据的原子性。synchronized关键字两者都能保证。</li>
+<li>volatile关键字主要用于解决变量在多个线程之间的可见性，而 synchronized关键字解决的是多个线程之间访问资源的同步性。<h3 id="wait和notify"><a href="#wait和notify" class="headerlink" title="wait和notify"></a>wait和notify</h3>wait和notify这两个方法是一对，wait方法阻塞当前线程，而notify是唤醒被wait方法阻塞的线程。<br></li>
+</ul>
+<ol>
+<li><p>wait()、notify/notifyAll() 方法是Object的本地final方法，无法被重写。</p>
+</li>
+<li><p>wait()使当前线程阻塞，前提是 必须先获得锁，一般配合synchronized 关键字使用，即，一般在synchronized 同步代码块里使用 wait()、notify/notifyAll() 方法。</p>
+</li>
+<li><p> 由于 wait()、notify/notifyAll() 在synchronized 代码块执行，说明当前线程一定是获取了锁的。<br><br>当线程执行wait()方法时候，会释放当前的锁，然后让出CPU，进入等待状态。<br>只有当 notify/notifyAll() 被执行时候，才会唤醒一个或多个正处于等待状态的线程，然后继续往下执行，直到执行完synchronized 代码块的代码或是中途遇到wait() ，再次释放锁。<br>也就是说，notify/notifyAll() 的执行只是唤醒沉睡的线程，而不会立即释放锁，锁的释放要看代码块的具体执行情况。所以在编程中，尽量在使用了notify/notifyAll() 后立即退出临界区，以唤醒其他线程让其获得锁</p>
+</li>
+<li><p>wait() 需要被try catch包围，以便发生异常中断也可以使wait等待的线程唤醒。</p>
+</li>
+<li><p>notify 和wait 的顺序不能错，如果A线程先执行notify方法，B线程在执行wait方法，那么B线程是无法被唤醒的。</p>
+</li>
+<li><p>notify 和 notifyAll的区别<br>notify方法只唤醒一个等待（对象的）线程并使该线程开始执行。所以如果有多个线程等待一个对象，这个方法只会唤醒其中一个线程，选择哪个线程取决于操作系统对多线程管理的实现。notifyAll 会唤醒所有等待(对象的)线程，尽管哪一个线程将会第一个处理取决于操作系统的实现。如果当前情况下有多个线程需要被唤醒，推荐使用notifyAll 方法。比如在生产者-消费者里面的使用，每次都需要唤醒所有的消费者或是生产者，以判断程序是否可以继续往下执行。</p>
+</li>
+<li><p>在多线程中要测试某个条件的变化，使用if 还是while？<br>　　要注意，notify唤醒沉睡的线程后，线程会接着上次的执行继续往下执行。所以在进行条件判断时候，可以先把 wait 语句忽略不计来进行考虑；显然，要确保程序一定要执行，并且要保证程序直到满足一定的条件再执行，要使用while进行等待，</p>
+</li>
+</ol>
+<h2 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h2><p>join() 定义在Thread.java中。<br>join() 的作用：让“主线程”等待“子线程”结束之后才能继续运行。<br>注意：如果线程被生成了，但还未被起动，调用它的 join() 方法是没有作用的，将直接继续向下执行</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 主线程</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Father</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        <span class="type">Son</span> s = <span class="keyword">new</span> <span class="type">Son</span>();</span><br><span class="line">        s.start();</span><br><span class="line">        s.join();</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子线程</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="ThreadLocal详解"><a href="#ThreadLocal详解" class="headerlink" title="ThreadLocal详解"></a>ThreadLocal详解</h2><p>作用：</p>
+<ol>
+<li>每个线程独立的变量 </li>
+<li>可以贯穿整个线程的全局变量，避免参数传递</li>
+</ol>
+<h3 id="InheritableThreadLocal"><a href="#InheritableThreadLocal" class="headerlink" title="InheritableThreadLocal"></a>InheritableThreadLocal</h3><p>如果我想共享线程的ThreadLocal数据怎么办？使用InheritableThreadLocal可以实现多个线程访问ThreadLocal的值，我们在主线程中创建一个InheritableThreadLocal的实例，然后在子线程中得到这个InheritableThreadLocal实例设置的值。</p>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>另外开坑写单独篇</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java基础提升_IO模型</title>
+    <url>/2021/08/05/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_IO%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<p>在研究java的IO模型前有必要先对操作系统的IO模型有个认识。</p>
+<h1 id="操作系统层面的IO模型"><a href="#操作系统层面的IO模型" class="headerlink" title="操作系统层面的IO模型"></a>操作系统层面的IO模型</h1><p>在Linux(UNIX)操作系统中，共有五种IO模型，分别是：</p>
+<ol>
+<li><p><strong>阻塞IO模型</strong></p>
+<ul>
+<li>阻塞 I/O 是最简单的 I/O 模型，一般表现为进程或线程等待某个条件，如果条件不满足，则一直等下去。条件满足，则进行下一步操作。</li>
+</ul>
+</li>
+<li><p><strong>非阻塞IO模型</strong></p>
+<ul>
+<li>应用进程与内核交互，目的未达到之前，不再一味的等着，而是直接返回。然后通过轮询的方式，不停的去问内核数据准备有没有准备好。如果某一次轮询发现数据已经准备好了，那就把数据拷贝到用户空间中。</li>
+</ul>
+</li>
+<li><p><strong>IO复用模型</strong></p>
+<ul>
+<li>多个进程的IO可以注册到同一个管道上，这个管道会统一和内核进行交互。当管道中的某一个请求需要的数据准备好之后，进程再把对应的数据拷贝到用户空间中。</li>
+</ul>
+</li>
+<li><p><strong>信号驱动IO模型</strong></p>
+<ul>
+<li>应用进程在读取文件时通知内核，如果某个 socket 的某个事件发生时，请向我发一个信号。在收到信号后，信号对应的处理函数会进行后续处理。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<blockquote>
+<p>以上模型都是<strong>同步</strong>的，原因是因为，无论以上那种模型，真正的数据拷贝过程，都是同步进行的。信号驱动IO模型只能说 数据准备阶段是异步，数据拷贝操作还是同步的。只有<strong>系统将数据已经全都从内核空间拷贝到用户空间然后再发信号通知线程已经完成</strong>。</p>
+</blockquote>
+<ol start="5">
+<li><strong>异步IO模型</strong>。<ul>
+<li>应用进程把IO请求传给内核后，完全由内核去操作文件拷贝。内核完成相关操作后，会发信号告诉应用进程本次IO已经完成。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<span id="more"></span>
+
+<h1 id="java中三种IO模型"><a href="#java中三种IO模型" class="headerlink" title="java中三种IO模型"></a>java中三种IO模型</h1><p><strong>在Java中，主要有三种IO模型：</strong></p>
+<ul>
+<li>阻塞IO（BIO/Blocking I/O）<ul>
+<li><strong>同步阻塞</strong>I/O模式，数据的读取写入必须阻塞在一个线程内等待其完成。</li>
+</ul>
+</li>
+<li>非阻塞IO（NIO）<ul>
+<li>一种叫非阻塞IO（Non-blocking I/O），另一种也叫新的IO（New I/O），其实是同一个概念。它是一种<strong>同步非阻塞</strong>的I/O模型，也是<strong>I/O多路复用的基础</strong>。</li>
+<li>NIO是一种基于<strong>通道和缓冲区</strong>的I/O方式，它可以使用Native函数库<strong>直接分配堆外内存</strong>（区别于JVM的运行时数据区），然后通过一个存储在Java堆里面的DirectByteBuffer对象作为这块内存的直接引用进行操作。这样能在一些场景显著提高性能，因为避免了在Java堆和Native堆中来回复制数据。</li>
+</ul>
+</li>
+<li>异步IO（AIO/Asynchronous I/O）<ul>
+<li>AIO 也就是 NIO 2。在 Java 7 中引入了 NIO 的改进版 NIO 2,它是<strong>异步非阻塞</strong>的IO模型。异步 IO 是基于事件和回调机制实现的，也就是应用操作之后会直接返回，不会堵塞在那里，当后台处理完成，操作系统会通知相应的线程进行后续的操作。(目前来说使用还不广泛，netty使用的是NIO)</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<h2 id="NIO与BIO的区别"><a href="#NIO与BIO的区别" class="headerlink" title="NIO与BIO的区别"></a>NIO与BIO的区别</h2><p>1）BIO以流的方式处理数据，而NIO以<strong>块的方式</strong>处理数据，块I/O的效率比流I/O高很多；</p>
+<p>2）BIO是阻塞的，NIO是<strong>非阻塞</strong>的；</p>
+<p>3）BIO基于字节流和字符流进行操作，而NIO基于<strong>Channel（通道）和Buffer（缓冲区）进行操作</strong>，数据总是从通道读取到缓冲区中，或者从缓冲区写入到通道中。<strong>Selector（选择器）用于监听多个通道</strong>的时间（比如：连接请求，数据到达等），因此使用<strong>单个线程就可以监听多个客户端通道</strong>；</p>
+<p>4）BIO是单向的，如：InputStream, OutputStream；而<strong>NIO是双向的</strong>，既可以用来进行读操作，又可以用来进行写操作。</p>
+</blockquote>
+<h1 id="NIO主要组件介绍"><a href="#NIO主要组件介绍" class="headerlink" title="NIO主要组件介绍"></a>NIO主要组件介绍</h1><h2 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h2><p>Buffer（缓冲区）是一个用于存储特定基本类型数据的容器。除了boolean外，其余每种基本类型都有一个对应的buffer类。</p>
+<p>Buffer类的子类(基础类型中<strong>除了boolean</strong>外都有对应的buffer)有：</p>
+<ul>
+<li>ByteBuffer</li>
+<li>CharBuffer</li>
+<li>DoubleBuffer</li>
+<li>FloatBuffer</li>
+<li>IntBuffer</li>
+<li>LongBuffer</li>
+<li>ShortBuffer</li>
+</ul>
+<h3 id="Buffer常用方法"><a href="#Buffer常用方法" class="headerlink" title="Buffer常用方法"></a>Buffer常用方法</h3><ol>
+<li>建立缓冲区分配容量：allocate(capacity)</li>
+<li>装载数据：put() 及其重载方法</li>
+<li>改变缓冲区的读写模式：flip()</li>
+<li>获取数据：get() 及其重载方法</li>
+<li>标记：mark()/reset()</li>
+<li>判断：remaining()：返回当前位置与限制之间的元素数；<br>hasRemaining()：判断当前位置与限制之间是否还有元素存在；<br>isReadOnly()：判断此缓冲区是否为只读缓冲区；<br>clear()：清空缓冲区，只是将缓冲区的三个属性恢复到初始状态，其中的数据依然存在。</li>
+</ol>
+<h2 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h2><p>Channel（通道）表示到实体，如硬件设备、文件、网络套接字或可以执行一个或多个不同 I/O 操作（如读取或写入）的程序组件的开放的连接。</p>
+<p>Channel接口的常用实现类有：</p>
+<ul>
+<li>FileChannel（对应文件IO）</li>
+<li>DatagramChannel（对应UDP）</li>
+<li>SocketChannel和ServerSocketChannel（对应TCP的客户端和服务器端）</li>
+</ul>
+<p>Channel和IO中的Stream（流）是差不多一个等级的。</p>
+<h2 id="Selector"><a href="#Selector" class="headerlink" title="Selector"></a>Selector</h2><p>Selector（选择器）用于监听多个通道的事件（比如：连接打开，数据到达）。因此，单个的线程可以监听多个数据通道。即用选择器，借助单一线程，就可对数量庞大的活动I/O通道实施监控和维护。</p>
+<h1 id="IO多路复用"><a href="#IO多路复用" class="headerlink" title="IO多路复用"></a>IO多路复用</h1><p>IO多路复用（IO Multiplexing) 是这么一种机制：程序注册一组socket文件描述符给操作系统，表示“我要监视这些fd是否有IO事件发生，有了就告诉程序处理”。</p>
+<p>IO多路复用是要和NIO一起使用的。尽管在操作系统级别，NIO和IO多路复用是两个相对独立的事情。NIO仅仅是指IO API总是能立刻返回，不会被Blocking；而IO多路复用仅仅是操作系统提供的一种便利的通知机制。操作系统并不会强制这俩必须得一起用——你可以用NIO，但不用IO多路复用；也可以只用IO多路复用 + BIO，这时效果还是当前线程被卡住。但是，<strong>IO多路复用和NIO是要配合一起使用才有实际意义</strong>。因此，在使用IO多路复用之前，请总是先把fd设为<code>O_NONBLOCK</code>。</p>
+<p>对IO多路复用，还存在一些常见的误解，比如：</p>
+<ul>
+<li><p><strong>❌IO多路复用是指多个数据流共享同一个Socket</strong>。其实IO多路复用说的是多个Socket，只不过操作系统是一起监听他们的事件而已。</p>
+<blockquote>
+<p>多个数据流共享同一个TCP连接的场景的确是有，比如Http2 Multiplexing就是指Http2通讯中中多个逻辑的数据流共享同一个TCP连接。但这与IO多路复用是完全不同的问题。</p>
+</blockquote>
+</li>
+<li><p><strong>❌IO多路复用是NIO，所以总是不Block的</strong>。其实IO多路复用的关键API调用(<code>select</code>，<code>poll</code>，<code>epoll_wait</code>）总是Block的。</p>
+</li>
+<li><p>❌<strong>IO多路复用和NIO一起减少了IO</strong>。实际上，IO本身（网络数据的收发）无论用不用IO多路复用和NIO，都没有变化。请求的数据该是多少还是多少；网络上该传输多少数据还是多少数据。IO多路复用和NIO一起仅仅是解决了调度的问题，避免CPU在这个过程中的浪费，使系统的瓶颈更容易触达到网络带宽，而非CPU或者内存。要提高IO吞吐，还是提高硬件的容量（例如，用支持更大带宽的网线、网卡和交换机）和依靠并发传输（例如HDFS的数据多副本并发传输）。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>IO模型</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>BIO</tag>
+        <tag>NIO</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>设计模式_单例模式</title>
     <url>/2021/08/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>单例模式是比较常见的一种设计模式，目的是保证<strong>一个类只能有一个实例</strong>，而且<strong>自行实例化</strong>（不对外开放new ）并向整个系统提供这个实例，避免频繁创建对象，节约内存。</p>
@@ -40,24 +431,6 @@
       </categories>
       <tags>
         <tag>单例模式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>设计模式</title>
-    <url>/2021/08/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="1-请列举出在-JDK-中几个常用的设计模式？"><a href="#1-请列举出在-JDK-中几个常用的设计模式？" class="headerlink" title="1.请列举出在 JDK 中几个常用的设计模式？"></a>1.请列举出在 JDK 中几个常用的设计模式？</h1><p>单例模式（Singleton pattern）用于 Runtime，Calendar 和其他的一些类中。工厂模式<br>（Factory pattern）被用于各种不可变的类如 Boolean，像 Boolean.valueOf，观察者模式<br>（Observer pattern）被用于 Swing 和很多的事件监听中。装饰器设计模式（Decorator<br>design pattern）被用于多个 Java IO 类中。</p>
-<h1 id="2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？"><a href="#2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？" class="headerlink" title="2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？"></a>2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？</h1><p>设计模式是世界上各种各样程序员用来解决特定设计问题的尝试和测试的方法。设计模式<br>是代码可用性的延伸</p>
-<h1 id="3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式"><a href="#3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式" class="headerlink" title="3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式"></a>3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式</h1><p>单例模式重点在于在整个系统上共享一些创建时较耗资源的对象。整个应用中只维护一个<br>特定类实例，它被所有组件共同使用。Java.lang.Runtime 是单例模式的经典例子。从 Java<br>5 开始你可以使用枚举（enum）来实现线程安全的单例。</p>
-<h1 id="4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？"><a href="#4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？" class="headerlink" title="4.在 Java 中，什么叫观察者设计模式（observer design pattern）？"></a>4.在 Java 中，什么叫观察者设计模式（observer design pattern）？</h1><p>观察者模式是基于对象的状态变化和观察者的通讯，以便他们作出相应的操作。简单的例<br>子就是一个天气系统，当天气变化时必须在展示给公众的视图中进行反映。这个视图对象<br>是一个主体，而不同的视图是观察者。</p>
-<h1 id="5-使用工厂模式最主要的好处是什么？在哪里使用？"><a href="#5-使用工厂模式最主要的好处是什么？在哪里使用？" class="headerlink" title="5.使用工厂模式最主要的好处是什么？在哪里使用？"></a>5.使用工厂模式最主要的好处是什么？在哪里使用？</h1><p>工厂模式的最大好处是增加了创建对象时的封装层次。如果你使用工厂来创建对象，之后<br>你可以使用更高级和更高性能的实现来替换原始的产品实现或类，这不需要在调用层做任<br>何修改。</p>
-<h1 id="6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？"><a href="#6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？" class="headerlink" title="6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？"></a>6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？</h1><p>装饰模式增加强了单个对象的能力。Java IO 到处都使用了装饰模式，典型例子就是<br>Buffered 系列类如 BufferedReader 和 BufferedWriter，它们增强了 Reader 和 Writer 对象，<br>以实现提升性能的 Buffer 层次的读取和写入。</p>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-        <category>常见面试</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
@@ -266,82 +639,6 @@
       </categories>
       <tags>
         <tag>PMP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java基础提升_多线程</title>
-    <url>/2021/08/05/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
-    <content><![CDATA[<h2 id="线程创建方式"><a href="#线程创建方式" class="headerlink" title="线程创建方式"></a>线程创建方式</h2><ol>
-<li>继承Thread类<ul>
-<li>start()方法是一个 native 方法,它将启动一个新线程，并执行 run()方法。</li>
-</ul>
-</li>
-<li>实现runnable接口，<ul>
-<li>当一个类已经有继承了，此时可通过实现runnable接口来创建线程</li>
-</ul>
-</li>
-<li>采用线程池，实现callable接口（有返回）,ExecutorService<ul>
-<li>有返回值的任务必须实现 Callable 接口。执行Callable 任务后，可以获取一个 Future 的对象，在该对象上调用 get 就可以获取到 Callable 任务返回的 Object 了，再结合线程池接口 ExecutorService 就可以实现传说中有返回结果的多线程了。</li>
-</ul>
-</li>
-</ol>
-<h2 id="多线程中的主要问题"><a href="#多线程中的主要问题" class="headerlink" title="多线程中的主要问题"></a>多线程中的主要问题</h2><ol>
-<li>可见性问题<br> volatile修饰，保证了多线程之间的内存可见性</li>
-<li>原子性问题<br> AtomicInteger</li>
-<li>有序性问题<br> volatile 防止指令重排序</li>
-<li>死锁的问题</li>
-</ol>
-<h2 id="synchronized-关键字"><a href="#synchronized-关键字" class="headerlink" title="synchronized 关键字"></a>synchronized 关键字</h2><h3 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h3><ol>
-<li>修饰一个<strong>代码块</strong>，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； </li>
-<li>修饰一个<strong>方法</strong>，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； </li>
-<li>修改一个<strong>静态的方法</strong>，其作用的范围是整个静态方法，作用的对象是这个==类的所有对象==； </li>
-<li>修改一个<strong>类</strong>，其作用的范围是synchronized后面括号括起来的部分，作用主的对象是这个类的所有对象。<h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3></li>
-<li>修饰代码块时：<br>synchronized是JVM层面的，同步语句块的实现使用的是<strong>monitorenter 和 monitorexit</strong>指令，其中 monitorenter 指令指向同步代码块的开始位置，monitorexit 指令则指明同步代码块的结束位置。当执行 monitorenter 指令时，线程试图获取锁也就是获取 monitor(monitor对象存在于每个<strong>Java对象的对象头</strong>中，synchronized 锁便是通过这种方式获取锁的，也是为什么Java中任意对象可以作为原因)</li>
-<li>synchronized 修饰方法时：<br>synchronized 修饰的方法并没有 monitorenter 指令和 monitorexit 指令，取而代之的确实是 ACC_SYNCHRONIZED 标识，该标识指明了该方法是一个同步方法，JVM 通过该 ACC_SYNCHRONIZED 访问标志来辨别一个方法是否声明为同步方法，从而执行相应的同步调用。</li>
-</ol>
-<h2 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h2><p>作用：保证变量的可见性然后还有一个作用是防止指令重排序。</p>
-<h3 id="synchronized关键字和volatile关键字比较"><a href="#synchronized关键字和volatile关键字比较" class="headerlink" title="synchronized关键字和volatile关键字比较"></a>synchronized关键字和volatile关键字比较</h3><ul>
-<li>volatile关键字是线程同步的轻量级实现，所以volatile性能肯定比synchronized关键字要好。但是<strong>volatile关键字只能用于变量</strong>而synchronized关键字可以修饰方法以及代码块。synchronized关键字在JavaSE1.6之后进行了主要包括为了减少获得锁和释放锁带来的性能消耗而引入的偏向锁和轻量级锁以及其它各种优化之后执行效率有了显著提升，实际开发中使用 synchronized 关键字的场景还是更多一些。</li>
-<li>多线程访问volatile关键字不会发生阻塞，而synchronized关键字可能会发生阻塞</li>
-<li>volatile关键字能保证数据的可见性，但不能保证数据的原子性。synchronized关键字两者都能保证。</li>
-<li>volatile关键字主要用于解决变量在多个线程之间的可见性，而 synchronized关键字解决的是多个线程之间访问资源的同步性。<h3 id="wait和notify"><a href="#wait和notify" class="headerlink" title="wait和notify"></a>wait和notify</h3>wait和notify这两个方法是一对，wait方法阻塞当前线程，而notify是唤醒被wait方法阻塞的线程。<br></li>
-</ul>
-<ol>
-<li><p>wait()、notify/notifyAll() 方法是Object的本地final方法，无法被重写。</p>
-</li>
-<li><p>wait()使当前线程阻塞，前提是 必须先获得锁，一般配合synchronized 关键字使用，即，一般在synchronized 同步代码块里使用 wait()、notify/notifyAll() 方法。</p>
-</li>
-<li><p> 由于 wait()、notify/notifyAll() 在synchronized 代码块执行，说明当前线程一定是获取了锁的。<br><br>当线程执行wait()方法时候，会释放当前的锁，然后让出CPU，进入等待状态。<br>只有当 notify/notifyAll() 被执行时候，才会唤醒一个或多个正处于等待状态的线程，然后继续往下执行，直到执行完synchronized 代码块的代码或是中途遇到wait() ，再次释放锁。<br>也就是说，notify/notifyAll() 的执行只是唤醒沉睡的线程，而不会立即释放锁，锁的释放要看代码块的具体执行情况。所以在编程中，尽量在使用了notify/notifyAll() 后立即退出临界区，以唤醒其他线程让其获得锁</p>
-</li>
-<li><p>wait() 需要被try catch包围，以便发生异常中断也可以使wait等待的线程唤醒。</p>
-</li>
-<li><p>notify 和wait 的顺序不能错，如果A线程先执行notify方法，B线程在执行wait方法，那么B线程是无法被唤醒的。</p>
-</li>
-<li><p>notify 和 notifyAll的区别<br>notify方法只唤醒一个等待（对象的）线程并使该线程开始执行。所以如果有多个线程等待一个对象，这个方法只会唤醒其中一个线程，选择哪个线程取决于操作系统对多线程管理的实现。notifyAll 会唤醒所有等待(对象的)线程，尽管哪一个线程将会第一个处理取决于操作系统的实现。如果当前情况下有多个线程需要被唤醒，推荐使用notifyAll 方法。比如在生产者-消费者里面的使用，每次都需要唤醒所有的消费者或是生产者，以判断程序是否可以继续往下执行。</p>
-</li>
-<li><p>在多线程中要测试某个条件的变化，使用if 还是while？<br>　　要注意，notify唤醒沉睡的线程后，线程会接着上次的执行继续往下执行。所以在进行条件判断时候，可以先把 wait 语句忽略不计来进行考虑；显然，要确保程序一定要执行，并且要保证程序直到满足一定的条件再执行，要使用while进行等待，</p>
-</li>
-</ol>
-<h2 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h2><p>join() 定义在Thread.java中。<br>join() 的作用：让“主线程”等待“子线程”结束之后才能继续运行。<br>注意：如果线程被生成了，但还未被起动，调用它的 join() 方法是没有作用的，将直接继续向下执行</p>
-<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 主线程</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Father</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        <span class="type">Son</span> s = <span class="keyword">new</span> <span class="type">Son</span>();</span><br><span class="line">        s.start();</span><br><span class="line">        s.join();</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子线程</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="ThreadLocal详解"><a href="#ThreadLocal详解" class="headerlink" title="ThreadLocal详解"></a>ThreadLocal详解</h2><p>作用：</p>
-<ol>
-<li>每个线程独立的变量 </li>
-<li>可以贯穿整个线程的全局变量，避免参数传递</li>
-</ol>
-<h3 id="InheritableThreadLocal"><a href="#InheritableThreadLocal" class="headerlink" title="InheritableThreadLocal"></a>InheritableThreadLocal</h3><p>如果我想共享线程的ThreadLocal数据怎么办？使用InheritableThreadLocal可以实现多个线程访问ThreadLocal的值，我们在主线程中创建一个InheritableThreadLocal的实例，然后在子线程中得到这个InheritableThreadLocal实例设置的值。</p>
-<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>另外开坑写单独篇</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>基础</category>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -698,123 +995,6 @@
       <tags>
         <tag>Eureka</tag>
         <tag>Eureka高可用</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>java基础_基础特征和相关概念</title>
-    <url>/2021/08/01/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80_%E5%9F%BA%E7%A1%80%E7%89%B9%E5%BE%81%E5%92%8C%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/</url>
-    <content><![CDATA[<h1 id="面向对象的三大基本特征，五大基本原则"><a href="#面向对象的三大基本特征，五大基本原则" class="headerlink" title="面向对象的三大基本特征，五大基本原则"></a>面向对象的三大基本特征，五大基本原则</h1><h2 id="三大基本特征：封装、继承、多态"><a href="#三大基本特征：封装、继承、多态" class="headerlink" title="三大基本特征：封装、继承、多态"></a>三大基本特征：<strong>封装、继承、多态</strong></h2><h3 id="1-封装"><a href="#1-封装" class="headerlink" title="1. 封装"></a>1. 封装</h3><p>　　封装就是隐藏对象的属性和实现细节，仅对外公开接口，控制在程序中属性的读和修改的访问级别，将抽象得到的数据和行为（或功能）相结合，形成一个有机的整体，也就是将数据与操作数据的源代码进行有机的结合，形成“类”，其中数据和函数都是类的成员。<br>封装的<strong>目的</strong>是增强安全性和简化编程，使用者不必了解具体的实现细节，而只是要通过外部接口，以特定的访问权限来使用类的成员。<br>（面向对象的不就是使用程序处理事情时以对象为中心去分析吗，与面向过程不同，面向过程关心处理的逻辑、流程等问题，而不关心事件主体。而面向对象即面向主体，所以我们在解决问题时应该先进行对象的封装（对象是封装类的实例，比如张三是人，人是一个封装类，张三只是对象中的一个实例、一个对象）。比如我们日常生活中的小兔子、小绵羊都可以封装为一个类）。</p>
-<h3 id="2-继承"><a href="#2-继承" class="headerlink" title="2. 继承"></a>2. 继承</h3><p>　　继承是面向对象的基本特征之一，继承机制允许创建分等级层次的类。继承就是子类继承父类的特征和行为，使得子类对象（实例）具有父类的实例域和方法，或子类从父类继承方法，使得子类具有父类相同的行为。</p>
-<h3 id="3-多态"><a href="#3-多态" class="headerlink" title="3. 多态"></a>3. 多态</h3><p>　　多态同一个行为具有多个不同表现形式或形态的能力。是指一个类实例（对象）的相同方法在不同情形有不同表现形式。多态机制使具有不同内部结构的对象可以共享相同的外部接口。这意味着，虽然针对不同对象的具体操作不同，但通过一个公共的类，它们（那些操作）可以通过相同的方式予以调用。</p>
-<p>多态存在的三个<strong>必要条件</strong>：</p>
-<ul>
-<li>继承</li>
-<li>重写（子类继承父类后对父类方法进行重新定义）</li>
-<li>父类引用指向子类对象</li>
-</ul>
-<p>多态的优点：</p>
-<ul>
-<li>消除类型之间的耦合关系</li>
-<li>可替换性</li>
-<li>可扩充性</li>
-<li>接口性</li>
-<li>灵活性</li>
-<li>简化性</li>
-</ul>
-<p>　　简言之，多态其实是在继承的基础上的。比如说今天我们要去动物园参观动物，那么你说我们去参观兔子、参观绵羊、参观狮子、参观豹子都是对的，但你不能说我们去参观汽车。在这个例子中，子类具有多态性：除了使用自己的身份，还能充当父类。</p>
-<p>　　<br>ps可参照此篇博文:<a href="https://www.cnblogs.com/vamei/archive/2013/04/01/2992662.html">https://www.cnblogs.com/vamei/archive/2013/04/01/2992662.html</a></p>
-<p>扩展知识点：</p>
-<h2 id="RTTI"><a href="#RTTI" class="headerlink" title="RTTI"></a>RTTI</h2><p>运行时类型识别(RTTI, Run-Time Type Identification)是Java中非常有用的机制，在Java运行时，RTTI维护类的相关信息。<br>多态(polymorphism)是基于RTTI实现的。RTTI的功能主要是由Class这个类实现的。
-　　</p>
-<h2 id="五大基本原则"><a href="#五大基本原则" class="headerlink" title="五大基本原则"></a>五大基本原则</h2><h3 id="1、单一职责原则（SRP）"><a href="#1、单一职责原则（SRP）" class="headerlink" title="1、单一职责原则（SRP）"></a>1、单一职责原则（SRP）</h3><p>　　一个类应该有且只有一个去改变它的理由，这意味着一个类应该只有一项工作。</p>
-<p>　　比如在职员类里，将工程师、销售人员、销售经理这些情况都放在职员类里考虑，其结果将会非常混乱，在这个假设下，职员类里的每个方法都要if else判断是哪种情况，从类结构上来说将会十分臃肿。</p>
-<h3 id="2、开放封闭原则（OCP）"><a href="#2、开放封闭原则（OCP）" class="headerlink" title="2、开放封闭原则（OCP）"></a>2、开放封闭原则（OCP）</h3><p>　　对象或实体应该对扩展开放，对修改封闭。</p>
-<p>　　更改封闭即是在我们对模块进行扩展时，勿需对原有程序代码和DLL进行修改或重新编译文件！这个原则对我们在设计类的时候很有帮助，坚持这个原则就必须尽量考虑接口封装，抽象机制和多态技术！</p>
-<h3 id="3、里氏替换原则（LSP）"><a href="#3、里氏替换原则（LSP）" class="headerlink" title="3、里氏替换原则（LSP）"></a>3、里氏替换原则（LSP）</h3><p>　　在对象 x 为类型 T 时 q(x) 成立，那么当 S 是 T 的子类时，对象 y 为类型 S 时 q(y) 也应成立。（即对父类的调用同样适用于子类）</p>
-<h3 id="4、依赖倒置原则（DIP）"><a href="#4、依赖倒置原则（DIP）" class="headerlink" title="4、依赖倒置原则（DIP）"></a>4、依赖倒置原则（DIP）</h3><p>　　高层次的模块不应该依赖于低层次的模块，他们都应该依赖于抽象。具体实现应该依赖于抽象，而不是抽象依赖于实现。</p>
-<p>　　可以这样理解，上面我举例子的时候先说了兔子和绵羊，然后才推出食草动物。但如果我们继续认识了牛、马等食草动物，我们会发现我们需要不断调整食草动物的描述，这样程序会变得僵化，所以我们不应该让子类依赖于实体，不应该让父类模块依赖于子类模块。所以我们需要将食草动物设计为抽象类，即抽象类或接口。这样下层只需要实现相应的细节而不会影响父类。</p>
-<h3 id="5、接口隔离原则（ISP）"><a href="#5、接口隔离原则（ISP）" class="headerlink" title="5、接口隔离原则（ISP）"></a>5、接口隔离原则（ISP）</h3><p>　　不应强迫客户端实现一个它用不上的接口，或是说客户端不应该被迫依赖它们不使用的方法，使用多个专门的接口比使用单个接口要好的多！</p>
-<p>　　比如，为了减少接口的定义，将许多类似的方法都放在一个接口中，最后会发现，维护和实现接口的时候花了太多精力，而接口所定义的操作相当于对客户端的一种承诺，这种承诺当然是越少越好，越精练越好，过多的承诺带来的就是你的大量精力和时间去维护！</p>
-<hr>
-<h2 id="对象引用"><a href="#对象引用" class="headerlink" title="对象引用"></a>对象引用</h2><p>基本类型变量的值传递，意味着变量本身被复制，并传递给Java方法。<strong>Java方法对变量的修改不会影响到原变量</strong>。</p>
-<p>引用的值传递，意味着对象的地址被复制，并传递给Java方法。<strong>Java方法根据该引用的访问将会影响对象</strong>。</p>
-<p>即 基础类型可以直接用= 赋值，不会影响原变量，而复合类型使用=赋值时，之后复合变量改变后，原值也会改变</p>
-<hr>
-<h1 id="java基础类和对应封装类"><a href="#java基础类和对应封装类" class="headerlink" title="java基础类和对应封装类"></a>java基础类和对应封装类</h1><table>
-<thead>
-<tr>
-<th>基本类型</th>
-<th>大小（字节）</th>
-<th>默认值</th>
-<th>封装类</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>byte</td>
-<td>1</td>
-<td>byte（0）</td>
-<td>Byte</td>
-</tr>
-<tr>
-<td>boolean</td>
-<td>-</td>
-<td>false</td>
-<td>Boolean</td>
-</tr>
-<tr>
-<td>char</td>
-<td>2</td>
-<td>\uoooo(null)</td>
-<td>Character</td>
-</tr>
-<tr>
-<td>short</td>
-<td>2</td>
-<td>short（0）</td>
-<td>Short</td>
-</tr>
-<tr>
-<td>int</td>
-<td>4</td>
-<td>0</td>
-<td>Integer</td>
-</tr>
-<tr>
-<td>long</td>
-<td>8</td>
-<td>0L</td>
-<td>Long</td>
-</tr>
-<tr>
-<td>float</td>
-<td>4</td>
-<td>0.0f</td>
-<td>Float</td>
-</tr>
-<tr>
-<td>double</td>
-<td>8</td>
-<td>0.0d</td>
-<td>Double</td>
-</tr>
-</tbody></table>
-<p>注：提供封装类是为了更好的对数据基本类型进行操作。java的集合部分，只允许存储引用类型。</p>
-<hr>
-<h2 id="equals与-的区别"><a href="#equals与-的区别" class="headerlink" title="equals与==的区别"></a>equals与==的区别</h2><ol>
-<li>使用==比较原生类型如：boolean、int、char等等，使用equals()比较对象。</li>
-<li>==是判断两个变量或实例是不是指向同一个内存空间。 equals是判断两个变量或实例所指向的内存空间的值是不是相同。</li>
-<li>==是指对内存地址进行比较。 equals()是对字符串的内容进行比较。</li>
-<li>==指引用是否相同。 equals()指的是值是否相同。</li>
-</ol>
-<h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><p>参考：<br><br><a href="https://www.cnblogs.com/coprince/p/8603492.html">https://www.cnblogs.com/coprince/p/8603492.html</a></p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>基础</category>
-        <category>基础概念</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -2033,59 +2213,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>Java基础提升_线程池</title>
-    <url>/2021/06/15/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言<br></h1><p>在《阿里巴巴java开发手册》中指出了线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，这样一方面是线程的创建更加规范，可以合理控制开辟线程的数量；另一方面线程的细节管理交给线程池处理，优化了资源的开销。<br><br>而线程池不允许使用Executors去创建，而要通过<strong>ThreadPoolExecutor</strong>方式，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活【消耗内存等】；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险，所以阿里巴巴java开发规范线程池首选ThreadPoolExcutor。<br></p>
-<p>话虽如此但常见的Executor框架还是要有所了解。</p>
-<span id="more"></span>
-<h2 id="常见线程池以及使用"><a href="#常见线程池以及使用" class="headerlink" title="常见线程池以及使用"></a>常见线程池以及使用</h2><h3 id="1-newCacheThreadPoo"><a href="#1-newCacheThreadPoo" class="headerlink" title="1.newCacheThreadPoo"></a>1.newCacheThreadPoo</h3><p>Executors.newCacheThreadPool()：可缓存线程池，先查看池中有没有以前建立的线程，如果有，就直接使用。如果没有，就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务。</p>
-<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建一个可缓存线程池</span></span><br><span class="line">        ExecutorService cachedThreadPool = <span class="module-access"><span class="module"><span class="identifier">Executors</span>.</span></span><span class="keyword">new</span><span class="constructor">CachedThreadPool()</span>;</span><br><span class="line">         cachedThreadPool.execute(<span class="literal">()</span> -&gt;&#123;</span><br><span class="line">                </span><br><span class="line">                    <span class="comment">// 打印正在执行的缓存线程信息</span></span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>.get<span class="constructor">Name()</span></span><br><span class="line">                            + <span class="string">&quot;正在被执行&quot;</span>);</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="2-newFixedThreadPool"><a href="#2-newFixedThreadPool" class="headerlink" title="2.newFixedThreadPool"></a>2.newFixedThreadPool</h3><p> Executors.newFixedThreadPool(int n)：创建一个可重用固定个数的线程池，以共享的无界队列方式来运行这些线程。</p>
-<h3 id="3-newScheduledThreadPool"><a href="#3-newScheduledThreadPool" class="headerlink" title="3.newScheduledThreadPool"></a>3.newScheduledThreadPool</h3><p>Executors.newScheduledThreadPool(int n)：创建一个定长线程池，支持定时及周期性任务执行</p>
-<h3 id="4-newSingleThreadExecutor"><a href="#4-newSingleThreadExecutor" class="headerlink" title="4.newSingleThreadExecutor"></a>4.newSingleThreadExecutor</h3><p>Executors.newSingleThreadExecutor()：创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
-<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><h3 id="创建方式和主要参数解释"><a href="#创建方式和主要参数解释" class="headerlink" title="创建方式和主要参数解释"></a>创建方式和主要参数解释</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> static final ThreadPoolExecutor THREADPOOL = <span class="keyword">new</span> <span class="constructor">ThreadPoolExecutor(<span class="params">int</span> <span class="params">corePoolSize</span>, <span class="params">int</span> <span class="params">maximumPoolSize</span>,<span class="params">long</span> <span class="params">keepAliveTime</span>, TimeUnit <span class="params">unit</span>,BlockingQueue&lt;Runnable&gt; <span class="params">workQueue</span>,RejectedExecutionHandler <span class="params">handler</span>)</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>corePoolSize： 线程池维护线程的最少数量 （core : 核心）</li>
-<li>maximumPoolSize： 线程池维护线程的最大数量</li>
-<li>keepAliveTime：线程池维护线程所允许的空闲时间</li>
-<li>unit：线程池维护线程所允许的空闲时间的单位</li>
-<li>workQueue：线程池所使用的缓冲队列</li>
-<li>handler：线程池对拒绝任务的处理策略</li>
-</ol>
-<h3 id="内部执行流程解释"><a href="#内部执行流程解释" class="headerlink" title="内部执行流程解释"></a>内部执行流程解释</h3><p>通过 execute(Runnable)方法被添加到线程池，任务就是一个 Runnable类型的对象，任务的执行方法就是 Runnable类型对象的run()方法。<br><br>当一个任务通过execute(Runnable)方法欲添加到线程池时：<br><br>如果此时线程池中的数量小于corePoolSize，即使线程池中的线程都处于空闲状态，也要创建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量等于 corePoolSize，但是缓冲队列 workQueue未满，那么任务被放入缓冲队列。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量小于maximumPoolSize，建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量等于maximumPoolSize，那么通过 handler所指定的策略来处理此任务。<br><br>也就是：处理任务的优先级为：<br><br>核心线程corePoolSize、任务队列workQueue、最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务。<br><br> 当线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止。这样，线程池可以动态的调整池中的线程数。<br></p>
-<ul>
-<li><p>unit可选的参数为java.util.concurrent.TimeUnit中的几个静态属性：NANOSECONDS、MICROSECONDS、MILLISECONDS、SECONDS。</p>
-</li>
-<li><p>workQueue常用的是：java.util.concurrent.ArrayBlockingQueue</p>
-</li>
-<li><p>handler有四个选择：<br><br>ThreadPoolExecutor.AbortPolicy()：抛出java.util.concurrent.RejectedExecutionException异常<br><br>ThreadPoolExecutor.CallerRunsPolicy(): 重试添加当前的任务，他会自动重复调用execute()方法<br><br>ThreadPoolExecutor.DiscardOldestPolicy(): 抛弃旧的任务<br><br>ThreadPoolExecutor.DiscardPolicy(): 抛弃当前的任务<br></p>
-</li>
-</ul>
-<h3 id="如何配置线程池"><a href="#如何配置线程池" class="headerlink" title="如何配置线程池"></a>如何配置线程池</h3><ul>
-<li><p>CPU密集型任务<br><br>尽量使用较小的线程池，一般为CPU核心数+1。 因为CPU密集型任务使得CPU使用率很高，若开过多的线程数，会造成CPU过度切换。</p>
-</li>
-<li><p>IO密集型任务<br><br>可以使用稍大的线程池，一般为2*CPU核心数。 IO密集型任务CPU使用率并不高，因此可以让CPU在等待IO的时候有其他线程去处理别的任务，充分利用CPU时间。</p>
-</li>
-<li><p>混合型任务<br><br>可以将任务分成IO密集型和CPU密集型任务，然后分别用不同的线程池去处理。 只要分完之后两个任务的执行时间相差不大，那么就会比串行执行来的高效。<br>因为如果划分之后两个任务执行时间有数据级的差距，那么拆分没有意义。<br>因为先执行完的任务就要等后执行完的任务，最终的时间仍然取决于后执行完的任务，而且还要加上任务拆分与合并的开销，得不偿失。</p>
-</li>
-</ul>
-<h3 id="execute-和submit-方法"><a href="#execute-和submit-方法" class="headerlink" title="execute()和submit()方法"></a>execute()和submit()方法</h3><p>1、execute()，执行一个任务，没有返回值。<br>2、submit()，提交一个线程任务，有返回值。<br>submit(Callable<T> task)能获取到它的返回值，通过future.get()获取（阻塞直到任务执行完）。一般使用FutureTask+Callable配合使用（IntentService中有体现）。</T></p>
-<p>submit(Runnable task, T result)能通过传入的载体result间接获得线程的返回值。<br>submit(Runnable task)则是没有返回值的，就算获取它的返回值也是null。</p>
-<p>Future.get方法会使取结果的线程进入阻塞状态，知道线程执行完成之后，唤醒取结果的线程，然后返回结果。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>基础</category>
-        <category>多线程</category>
-        <category>线程池</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>多线程</tag>
-        <tag>线程池</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mybatis</title>
     <url>/2021/05/26/sql/mybatis/</url>
     <content><![CDATA[<ol>
@@ -2123,6 +2250,74 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识TCP</title>
+    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
+    <content><![CDATA[<p>&nbsp;</p>
+<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
+<ul>
+<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
+</li>
+<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
+</li>
+<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
+</li>
+</ul>
+<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
+<ul>
+<li>Socket：由 IP 地址和端口号组成</li>
+<li>序列号：用来解决乱序问题等</li>
+<li>窗口大小：用来做流量控制</li>
+</ul>
+<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
+<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
+<li>源地址</li>
+<li>源端口</li>
+<li>目的地址</li>
+<li>目的端口<span id="more"></span>
+<h2 id="有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？"><a href="#有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？" class="headerlink" title="有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？"></a>有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？</h2>主要受限于服务器的资源，第一是文件描述符限制，TCP连接中得socket是文件得，所以受文件描述符限制，这个由系统参数ulimit 配置，但这个也受限于系统内存，内存不大，参数设置得过大也无法实现。</li>
+</ul>
+<h2 id="UDP-和-TCP-有什么区别呢？分别的应用场景是？"><a href="#UDP-和-TCP-有什么区别呢？分别的应用场景是？" class="headerlink" title="UDP 和 TCP 有什么区别呢？分别的应用场景是？"></a>UDP 和 TCP 有什么区别呢？分别的应用场景是？</h2><p>UDP 是不需要连接，即刻传输数据。且可以一对多，多对多。UDP 是尽最大努力交付，不保证可靠交付数据。UDP没有流量控制。UDP首部只有 8 个字节，并且是固定不变的，开销较小<br><br>TCP则是面向连接的，只能一对一，TCP比较可靠数据可以无差错、不丢失、不重复、按需到达，可以进行流量控制。<br></p>
+<p>一句话来说UDP比较高效，舍弃了可靠性，TCP则是专注于点对点的高质量传输。<br><br><strong>TCP：</strong><br><br>FTP 文件传输<br><br>HTTP / HTTPS<br><br><br><strong>UDP</strong><br><br>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于：</p>
+<p>包总量较少的通信，如 DNS 、SNMP 等</p>
+<p>视频、音频等多媒体通信</p>
+<p>广播通信</p>
+<h2 id="为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？"><a href="#为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？" class="headerlink" title="为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？"></a>为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？</h2><p>原因是 TCP 有可变长的「选项」字段，而 UDP 头部长度则是不会变化的，无需多一个字段去记录 UDP 的首部长度。</p>
+<h2 id="三次握手，四次挥手"><a href="#三次握手，四次挥手" class="headerlink" title="三次握手，四次挥手"></a>三次握手，四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
+<li>一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态;<br></li>
+<li>客户端发起一个SYN请求，同时送过去随机生成的客户端序列号client_isn,之后客户端处于 SYN-SENT 状态。<br></li>
+<li>服务端接收到SYN请求，返回一个ACK和服务端的SYN，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1，生成一个服务端的序列号server_isn，传送给客户端，之后服务端处于 SYN-RCVD 状态;<br></li>
+<li>客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。</li>
+<li>服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。</li>
+</ol>
+<h3 id="三次握手的意义"><a href="#三次握手的意义" class="headerlink" title="三次握手的意义"></a>三次握手的意义</h3><p>阻止历史重复连接的初始化（主要原因）</p>
+<p>三次握手才可以同步双方的初始序列号</p>
+<p>三次握手才可以避免资源浪费<br></p>
+<p>从上面的过程可以发现<strong>第三次握手是可以携带数据的，前两次握手是不可以携带数据</strong>的。</p>
+<h3 id="如何在-Linux-系统中查看-TCP-状态？"><a href="#如何在-Linux-系统中查看-TCP-状态？" class="headerlink" title="如何在 Linux 系统中查看 TCP 状态？"></a>如何在 Linux 系统中查看 TCP 状态？</h3><p>TCP 的连接状态查看，在 Linux 可以通过 <strong>netstat -napt</strong> 命令查看。</p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
+<li>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</li>
+<li>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</li>
+<li>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</li>
+<li>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</li>
+<li>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态</li>
+<li>服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</li>
+<li>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭。</li>
+</ol>
+<p><strong>主动关闭连接的，才有 TIME_WAIT 状态。</strong></p>
+<h2 id="TCP性能的优化"><a href="#TCP性能的优化" class="headerlink" title="TCP性能的优化"></a>TCP性能的优化</h2><p>tcp_syn_retries 控制SYN包重传的次数，默认值是5</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">echo <span class="number">5</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/net/i</span>pv4/tcp_syn_retries</span><br></pre></td></tr></table></figure>
+<h2 id="如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？"><a href="#如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？" class="headerlink" title="如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？"></a>如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -s |grep &quot;SYNs to LISTEN&quot;</span><br></pre></td></tr></table></figure>
+<p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
+<h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>cs基础</category>
+        <category>tcp</category>
+      </categories>
+      <tags>
+        <tag>tcp</tag>
       </tags>
   </entry>
   <entry>
@@ -2194,74 +2389,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识TCP</title>
-    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
-    <content><![CDATA[<p>&nbsp;</p>
-<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
-<ul>
-<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
-</li>
-<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
-</li>
-<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
-</li>
-</ul>
-<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
-<ul>
-<li>Socket：由 IP 地址和端口号组成</li>
-<li>序列号：用来解决乱序问题等</li>
-<li>窗口大小：用来做流量控制</li>
-</ul>
-<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
-<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
-<li>源地址</li>
-<li>源端口</li>
-<li>目的地址</li>
-<li>目的端口<span id="more"></span>
-<h2 id="有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？"><a href="#有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？" class="headerlink" title="有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？"></a>有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？</h2>主要受限于服务器的资源，第一是文件描述符限制，TCP连接中得socket是文件得，所以受文件描述符限制，这个由系统参数ulimit 配置，但这个也受限于系统内存，内存不大，参数设置得过大也无法实现。</li>
-</ul>
-<h2 id="UDP-和-TCP-有什么区别呢？分别的应用场景是？"><a href="#UDP-和-TCP-有什么区别呢？分别的应用场景是？" class="headerlink" title="UDP 和 TCP 有什么区别呢？分别的应用场景是？"></a>UDP 和 TCP 有什么区别呢？分别的应用场景是？</h2><p>UDP 是不需要连接，即刻传输数据。且可以一对多，多对多。UDP 是尽最大努力交付，不保证可靠交付数据。UDP没有流量控制。UDP首部只有 8 个字节，并且是固定不变的，开销较小<br><br>TCP则是面向连接的，只能一对一，TCP比较可靠数据可以无差错、不丢失、不重复、按需到达，可以进行流量控制。<br></p>
-<p>一句话来说UDP比较高效，舍弃了可靠性，TCP则是专注于点对点的高质量传输。<br><br><strong>TCP：</strong><br><br>FTP 文件传输<br><br>HTTP / HTTPS<br><br><br><strong>UDP</strong><br><br>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于：</p>
-<p>包总量较少的通信，如 DNS 、SNMP 等</p>
-<p>视频、音频等多媒体通信</p>
-<p>广播通信</p>
-<h2 id="为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？"><a href="#为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？" class="headerlink" title="为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？"></a>为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？</h2><p>原因是 TCP 有可变长的「选项」字段，而 UDP 头部长度则是不会变化的，无需多一个字段去记录 UDP 的首部长度。</p>
-<h2 id="三次握手，四次挥手"><a href="#三次握手，四次挥手" class="headerlink" title="三次握手，四次挥手"></a>三次握手，四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
-<li>一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态;<br></li>
-<li>客户端发起一个SYN请求，同时送过去随机生成的客户端序列号client_isn,之后客户端处于 SYN-SENT 状态。<br></li>
-<li>服务端接收到SYN请求，返回一个ACK和服务端的SYN，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1，生成一个服务端的序列号server_isn，传送给客户端，之后服务端处于 SYN-RCVD 状态;<br></li>
-<li>客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。</li>
-<li>服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。</li>
-</ol>
-<h3 id="三次握手的意义"><a href="#三次握手的意义" class="headerlink" title="三次握手的意义"></a>三次握手的意义</h3><p>阻止历史重复连接的初始化（主要原因）</p>
-<p>三次握手才可以同步双方的初始序列号</p>
-<p>三次握手才可以避免资源浪费<br></p>
-<p>从上面的过程可以发现<strong>第三次握手是可以携带数据的，前两次握手是不可以携带数据</strong>的。</p>
-<h3 id="如何在-Linux-系统中查看-TCP-状态？"><a href="#如何在-Linux-系统中查看-TCP-状态？" class="headerlink" title="如何在 Linux 系统中查看 TCP 状态？"></a>如何在 Linux 系统中查看 TCP 状态？</h3><p>TCP 的连接状态查看，在 Linux 可以通过 <strong>netstat -napt</strong> 命令查看。</p>
-<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
-<li>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</li>
-<li>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</li>
-<li>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</li>
-<li>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</li>
-<li>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态</li>
-<li>服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</li>
-<li>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭。</li>
-</ol>
-<p><strong>主动关闭连接的，才有 TIME_WAIT 状态。</strong></p>
-<h2 id="TCP性能的优化"><a href="#TCP性能的优化" class="headerlink" title="TCP性能的优化"></a>TCP性能的优化</h2><p>tcp_syn_retries 控制SYN包重传的次数，默认值是5</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">echo <span class="number">5</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/net/i</span>pv4/tcp_syn_retries</span><br></pre></td></tr></table></figure>
-<h2 id="如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？"><a href="#如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？" class="headerlink" title="如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？"></a>如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -s |grep &quot;SYNs to LISTEN&quot;</span><br></pre></td></tr></table></figure>
-<p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
-<h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>cs基础</category>
-        <category>tcp</category>
-      </categories>
-      <tags>
-        <tag>tcp</tag>
       </tags>
   </entry>
   <entry>
