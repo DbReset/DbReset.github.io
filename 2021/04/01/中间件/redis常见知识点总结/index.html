@@ -281,11 +281,23 @@
 <li>设置热点数据永远不过期</li>
 </ol>
 <h2 id="Redis分布式锁"><a href="#Redis分布式锁" class="headerlink" title="Redis分布式锁"></a>Redis分布式锁</h2><p>先拿setnx来争抢锁，抢到之后，再用expire给锁加一个过期时间防止锁忘记了释放。（setnx和expire可以合成一条指令，防止setnx之后执行expire之前进程意外crash或者要重启维护）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set key value [EX seconds] [PX milliseconds] [NX|XX]</span><br><span class="line">EX seconds：设置失效时长，单位秒</span><br><span class="line">PX milliseconds：设置失效时长，单位毫秒</span><br><span class="line">NX：key不存在时设置value，成功返回OK，失败返回(nil)</span><br><span class="line">XX：key存在时设置value，成功返回OK，失败返回(nil)</span><br></pre></td></tr></table></figure>
+
+
+
+
 <h2 id="双写一致性问题"><a href="#双写一致性问题" class="headerlink" title="双写一致性问题"></a>双写一致性问题</h2><p>两个请求同时修改同一个数据，可能导致脏数据。</p>
 <ul>
-<li>严格要求 “缓存+数据库” 必须保持一致性 ： 读请求和写请求串行化</li>
-<li>Cache Aside Pattern(旁路缓存方案)<br><br>最经典的缓存+数据库读写的模式，就是 Cache Aside Pattern。<br><br>读的时候，先读缓存，缓存没有的话，就读数据库，然后取出数据后放入缓存，同时返回响应。<br><br>更新的时候，先更新数据库，然后再<strong>删除</strong>缓存<br>注：(区别于更新缓存，如果是更新，在1和2两个并发写发生时，由于无法保证时序，此时不管先操作缓存还是先操作数据库，都可能出现：（1）请求1先操作数据库，请求2后操作数据库（2）请求2先set了缓存，请求1后set了缓存导致，数据库与缓存之间的数据不一致。)</li>
+<li><p>严格要求 “缓存+数据库” 必须保持一致性 ： 读请求和写请求串行化</p>
+</li>
+<li><p>Cache Aside Pattern(旁路缓存方案)<br><br>最经典的缓存+数据库读写的模式，就是 Cache Aside Pattern。<br><br>读的时候，先读缓存，缓存没有的话，就读数据库，然后取出数据后放入缓存，同时返回响应。<br><br>更新的时候，先更新数据库，然后再<strong>删除</strong>缓存<br>注：(区别于更新缓存，如果是更新，在1和2两个并发写发生时，由于无法保证时序，此时不管先操作缓存还是先操作数据库，都可能出现：（1）请求1先操作数据库，请求2后操作数据库（2）请求2先set了缓存，请求1后set了缓存导致，数据库与缓存之间的数据不一致。)</p>
+</li>
 </ul>
+<h2 id="延时双删"><a href="#延时双删" class="headerlink" title="延时双删"></a>延时双删</h2><p>  上面这种方案，是先更新数据库，再删除缓存，但是改了库，清理缓存前，有部分事务还是会拿到旧缓存，这样如果再更新了缓存之后就还是不对的。可以采用延时双删策略。</p>
+<p>  在更新数据库前，清理缓存，再执行更新操作，然后第二次清空缓存之前，多延时一会儿，等B更新缓存结束了，再删除缓存，这样就缓存就不存在了，其他事务查询到的为新缓存。</p>
+<p>  延时是确保 <strong>修改数据库 -&gt; 清空缓存前，其他事务的更改缓存操作已经执行完。</strong></p>
+<p>  采用延时删最后一次缓存，但这其中难免还是会大量的查询到旧缓存数据的。</p>
+<p>  这个时候可以采用通过加锁来解决，一次性不让太多的线程都来请求，另外从图上看，我们可以尽量缩短<code>第一次删除缓存</code>和<code>更新数据库</code>的时间差。</p>
 <h2 id="redis的过期策略以及内存淘汰机制"><a href="#redis的过期策略以及内存淘汰机制" class="headerlink" title="redis的过期策略以及内存淘汰机制"></a>redis的过期策略以及内存淘汰机制</h2><blockquote>
 <p>分析:比如你redis只能存5G数据，可是你写了10G，那会删5G的数据。怎么删的？还有，你的数据已经设置了过期时间，但是时间到了，内存占用率还是比较高，有思考过原因么? <br><br>回答: redis采用的是定期删除+惰性删除 + 淘汰策略。<br></p>
 </blockquote>
@@ -405,7 +417,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="nav-number">1.</span> <span class="nav-text">缓存穿透</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="nav-number">2.</span> <span class="nav-text">缓存击穿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="nav-number">3.</span> <span class="nav-text">缓存雪崩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">4.</span> <span class="nav-text">Redis分布式锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">双写一致性问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis%E7%9A%84%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5%E4%BB%A5%E5%8F%8A%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E6%9C%BA%E5%88%B6"><span class="nav-number">6.</span> <span class="nav-text">redis的过期策略以及内存淘汰机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E6%9C%9F%E5%88%A0%E9%99%A4-%E6%83%B0%E6%80%A7%E5%88%A0%E9%99%A4-%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84%E5%91%A2"><span class="nav-number">6.0.1.</span> <span class="nav-text">定期删除+惰性删除 + 淘汰策略是如何工作的呢?</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="nav-number">1.</span> <span class="nav-text">缓存穿透</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="nav-number">2.</span> <span class="nav-text">缓存击穿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="nav-number">3.</span> <span class="nav-text">缓存雪崩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">4.</span> <span class="nav-text">Redis分布式锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">双写一致性问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%B6%E6%97%B6%E5%8F%8C%E5%88%A0"><span class="nav-number">6.</span> <span class="nav-text">延时双删</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis%E7%9A%84%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5%E4%BB%A5%E5%8F%8A%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E6%9C%BA%E5%88%B6"><span class="nav-number">7.</span> <span class="nav-text">redis的过期策略以及内存淘汰机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E6%9C%9F%E5%88%A0%E9%99%A4-%E6%83%B0%E6%80%A7%E5%88%A0%E9%99%A4-%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84%E5%91%A2"><span class="nav-number">7.0.1.</span> <span class="nav-text">定期删除+惰性删除 + 淘汰策略是如何工作的呢?</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -428,7 +440,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">48</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

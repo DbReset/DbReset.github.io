@@ -9,11 +9,271 @@
 ]]></content>
   </entry>
   <entry>
+    <title>设计模式_单例模式</title>
+    <url>/2021/08/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>单例模式是比较常见的一种设计模式，目的是保证<strong>一个类只能有一个实例</strong>，而且<strong>自行实例化</strong>（不对外开放new ）并向整个系统提供这个实例，避免频繁创建对象，节约内存。</p>
+<h1 id="典型应用场景"><a href="#典型应用场景" class="headerlink" title="典型应用场景"></a>典型应用场景</h1><ul>
+<li>多线程的线程池的设计一般也是采用单例模式，这是由于线程池要方便对池中的线程进行控制。</li>
+<li>应用程序的日志应用，一般都何用单例模式实现，这一般是由于共享的日志文件一直处于打开状态，因为只能有一个实例去操作，否则内容不好追加。</li>
+<li>网站的计数器，一般也是采用单例模式实现，否则难以同步<h1 id="饿汉式和懒汉式，"><a href="#饿汉式和懒汉式，" class="headerlink" title="饿汉式和懒汉式，"></a>饿汉式和懒汉式，</h1>饿汉式：在类加载时就完成了初始化，所以类加载比较慢，但获取对象的速度快。<br><br>懒汉式：在类加载时不初始化，等到第一次被使用时才初始化。</li>
+</ul>
+<h2 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h2><p>在类加载的时候就完成了实例化，避免了多线程的同步问题。缺点就是浪费内存。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h2><h3 id="双重检查"><a href="#双重检查" class="headerlink" title="双重检查"></a>双重检查</h3><p>这种写法用了两个if判断，也就是Double-Check，并且同步的不是方法，而是代码块，效率较高</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword"> private</span><span class="keyword"> static</span> volatile Singleton instance;</span><br><span class="line"></span><br><span class="line">   <span class="keyword"> private</span> Singleton() &#123;&#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword"> public</span><span class="keyword"> static</span> Singleton getInstance() &#123;</span><br><span class="line">       <span class="built_in"> if </span>(instance == null) &#123;</span><br><span class="line">            synchronized (Singleton.class) &#123;</span><br><span class="line">               <span class="built_in"> if </span>(instance == null) &#123;</span><br><span class="line">                   <span class="built_in"> instance </span>=<span class="built_in"> new </span>Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">       <span class="built_in"> return </span>instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>为什么要做两次判断呢？这是为了线程安全考虑，还是那个场景，对象还没实例化，两个线程A和B同时访问静态方法并同时运行到第一个if判断语句，这时线程A先进入同步代码块中实例化对象，结束之后线程B也进入同步代码块，如果没有第二个if判断语句，那么线程B也同样会执行实例化对象的操作了。</p>
+</blockquote>
+<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>静态内部类方式在Singleton类被装载时并不会立即实例化，而是在需要实例化时，调用getInstance方法，才会装载SingletonInstance类，从而完成对象的实例化。</p>
+<p>同时，因为类的静态属性只会在第一次加载类的时候初始化，也就保证了SingletonInstance中的对象只会被实例化一次，并且这个过程也是线程安全的。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonInstance</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonInstance.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="枚举方式"><a href="#枚举方式" class="headerlink" title="枚举方式"></a>枚举方式</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Singleton</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;doSomething&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用：</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">void</span> <span class="function"><span class="title">main</span>(<span class="params"><span class="built_in">String</span>[] args</span>)</span> &#123;</span><br><span class="line">        Singleton.INSTANCE.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>设计模式</category>
+        <category>单例模式</category>
+      </categories>
+      <tags>
+        <tag>单例模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式</title>
+    <url>/2021/08/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="1-请列举出在-JDK-中几个常用的设计模式？"><a href="#1-请列举出在-JDK-中几个常用的设计模式？" class="headerlink" title="1.请列举出在 JDK 中几个常用的设计模式？"></a>1.请列举出在 JDK 中几个常用的设计模式？</h1><p>单例模式（Singleton pattern）用于 Runtime，Calendar 和其他的一些类中。工厂模式<br>（Factory pattern）被用于各种不可变的类如 Boolean，像 Boolean.valueOf，观察者模式<br>（Observer pattern）被用于 Swing 和很多的事件监听中。装饰器设计模式（Decorator<br>design pattern）被用于多个 Java IO 类中。</p>
+<h1 id="2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？"><a href="#2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？" class="headerlink" title="2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？"></a>2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？</h1><p>设计模式是世界上各种各样程序员用来解决特定设计问题的尝试和测试的方法。设计模式<br>是代码可用性的延伸</p>
+<h1 id="3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式"><a href="#3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式" class="headerlink" title="3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式"></a>3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式</h1><p>单例模式重点在于在整个系统上共享一些创建时较耗资源的对象。整个应用中只维护一个<br>特定类实例，它被所有组件共同使用。Java.lang.Runtime 是单例模式的经典例子。从 Java<br>5 开始你可以使用枚举（enum）来实现线程安全的单例。</p>
+<h1 id="4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？"><a href="#4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？" class="headerlink" title="4.在 Java 中，什么叫观察者设计模式（observer design pattern）？"></a>4.在 Java 中，什么叫观察者设计模式（observer design pattern）？</h1><p>观察者模式是基于对象的状态变化和观察者的通讯，以便他们作出相应的操作。简单的例<br>子就是一个天气系统，当天气变化时必须在展示给公众的视图中进行反映。这个视图对象<br>是一个主体，而不同的视图是观察者。</p>
+<h1 id="5-使用工厂模式最主要的好处是什么？在哪里使用？"><a href="#5-使用工厂模式最主要的好处是什么？在哪里使用？" class="headerlink" title="5.使用工厂模式最主要的好处是什么？在哪里使用？"></a>5.使用工厂模式最主要的好处是什么？在哪里使用？</h1><p>工厂模式的最大好处是增加了创建对象时的封装层次。如果你使用工厂来创建对象，之后<br>你可以使用更高级和更高性能的实现来替换原始的产品实现或类，这不需要在调用层做任<br>何修改。</p>
+<h1 id="6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？"><a href="#6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？" class="headerlink" title="6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？"></a>6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？</h1><p>装饰模式增加强了单个对象的能力。Java IO 到处都使用了装饰模式，典型例子就是<br>Buffered 系列类如 BufferedReader 和 BufferedWriter，它们增强了 Reader 和 Writer 对象，<br>以实现提升性能的 Buffer 层次的读取和写入。</p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+        <category>常见面试</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PMP备考系列_4-章笔记</title>
+    <url>/2021/08/05/pmp/PMP4-6/</url>
+    <content><![CDATA[<h1 id="4-项目整合管理"><a href="#4-项目整合管理" class="headerlink" title="4.项目整合管理"></a>4.项目整合管理</h1><p>项目整合管理包括对隶属于项目管理过程组的各种过程和项目管理活动进行识别、定义、组合、统一和协调的各个过程。<br><br>在项目管理中，整合兼具统一、合并、沟通和建立联系的性质，这些行动<br>应该贯穿项目始终。<br></p>
+<blockquote>
+<p>项目整合管理的核心概念</p>
+</blockquote>
+<ul>
+<li>项目整合管理由项目经理负责。</li>
+<li>项目整合管理的责任不能被授权或转移。只能由项目经理负责整<br>合所有其他知识领域的成果，并掌握项目总体情况。</li>
+<li>项目经理必须对整个项目承担最终责任。</li>
+</ul>
+<span id="more"></span>
+<blockquote>
+<p>项目整合管理的发展趋势和新兴实践</p>
+</blockquote>
+<ul>
+<li>项目整合管理知识领域要求整合所有其他知识领域的成果。</li>
+</ul>
+<blockquote>
+<p>在敏捷或适应型环境中需要考虑的因素</p>
+</blockquote>
+<ul>
+<li>迭代和敏捷方法能够促进团队成员以相关领域专家的身份参与整合管理。团队成员自行决定计划<br>及其组件的整合方式</li>
+<li>在适应型环境下，《整合管理的核心概念》中所述的对项目经理的期望保持不变，但把对具体产品的规划和交付授权给团队来控制。(服务型项目经理)</li>
+</ul>
+<h2 id="4-1制定项目章程"><a href="#4-1制定项目章程" class="headerlink" title="4.1制定项目章程"></a>4.1制定项目章程</h2><ul>
+<li><strong>定义</strong>：是编写一份正式批准项目并授权项目经理在项目活动中使用组织资源的文件的过程。</li>
+<li><strong>作用</strong> ：明确项目与组织战略目标之间的直接联系，确立项目的正式地位，并展示组织对项目的承诺。</li>
+</ul>
+<p>项目章程一旦被批准，就标志着项目的正式启动。在项目中，应尽早确认并任命项目经理，最好在制定项目章程时就任命，且总应在规划开始之前任命。项目章程可由发起人编制，或者由项目经理与发起机构合作编制。<br><br>项目章程授权项目经理规划、执行和控制项目。<br><br>尽早任命项目经理，发起人合作编制项目章程 授权项目经理。<br><br>项目启动者或发起人应该具有一定的职权，能为项目获取资金并提供资源。<br><br>不要把项目章程看作合同，因为其中未承诺报酬或金钱或用于交换的对价。<br></p>
+<ul>
+<li>项目由项目以外的机构启动。</li>
+<li>项目启动者有职权为项目获取资金提供资源。</li>
+<li>项目章程不是合同<h3 id="4-1-1-制定项目章程：输入"><a href="#4-1-1-制定项目章程：输入" class="headerlink" title="4.1.1 制定项目章程：输入"></a>4.1.1 制定项目章程：输入</h3><h4 id="4-1-1-1-商业文件"><a href="#4-1-1-1-商业文件" class="headerlink" title="4.1.1.1 商业文件"></a>4.1.1.1 商业文件</h4></li>
+<li>商业文件需要定期审核<br></li>
+</ul>
+<p><strong>商业论证</strong>从商业视角描述必要的信息，并且据此决定项目的期望结果是否值得所需投资。高于项目级别的经理和高管们通常使用该文件作为<strong>决策的依据</strong>。一般情况下，商业论证会包含<strong>商业需求和成本效益分析</strong></p>
+<h4 id="4-1-1-2-协议"><a href="#4-1-1-2-协议" class="headerlink" title="4.1.1.2 协议"></a>4.1.1.2 协议</h4><p>协议用于定义启动项目的初衷。</p>
+<h3 id="4-1-2-制定项目章程：工具与技术"><a href="#4-1-2-制定项目章程：工具与技术" class="headerlink" title="4.1.2 制定项目章程：工具与技术"></a>4.1.2 制定项目章程：工具与技术</h3><h4 id="4-1-2-1-专家判断"><a href="#4-1-2-1-专家判断" class="headerlink" title="4.1.2.1 专家判断"></a>4.1.2.1 专家判断</h4><ul>
+<li>人人都可以是专家<h4 id="4-1-2-2-数据收集"><a href="#4-1-2-2-数据收集" class="headerlink" title="4.1.2.2 数据收集"></a>4.1.2.2 数据收集</h4></li>
+<li><strong>头脑风暴</strong>。本技术用于在短时间内获得大量创意，适用于团队环境，需要引导者进行引导。头脑风暴由两个部分构成：创意产生和创意分析（<strong>收集信息时不要分析</strong>）。</li>
+</ul>
+<h2 id="4-2制定项目管理计划"><a href="#4-2制定项目管理计划" class="headerlink" title="4.2制定项目管理计划"></a>4.2制定项目管理计划</h2><p><strong>定义</strong>：是定义、准备和协调项目计划的所有组成部分，并把它们整合为一份综合项目管理计划的过程。<br><br><strong>作用</strong>：生成一份综合文件，用于确定所有项目工作的基础及其执<br>行方式，它仅开展一次或仅在项目的预定义点开展。<br><br>项目管理计划<strong>确定</strong>项目的<strong>执行、监控和收尾方式</strong>。<br><br>项目管理计划应<strong>基准化</strong>，即，至少应规定项目的<strong>范围、时间和成本</strong>方面的基准，以便据此考核项目执行情况和管理项目绩效。在确定基准之前，可能要对项目管理计划进行<strong>多次更新</strong>，且这些更新无需遵循正式流程。</p>
+<h3 id="4-2-1-制定项目管理计划：输入"><a href="#4-2-1-制定项目管理计划：输入" class="headerlink" title="4.2.1 制定项目管理计划：输入"></a>4.2.1 制定项目管理计划：输入</h3><h4 id="4-2-1-1-项目章程"><a href="#4-2-1-1-项目章程" class="headerlink" title="4.2.1.1 项目章程"></a>4.2.1.1 项目章程</h4><ul>
+<li>项目章程=初始项目规划的起始点。<h4 id="4-2-2-4-会议"><a href="#4-2-2-4-会议" class="headerlink" title="4.2.2.4 会议"></a>4.2.2.4 会议</h4></li>
+</ul>
+<p><strong>项目开工会议</strong>通常意味着规划阶段结束和执行阶段开始。</p>
+<h3 id="4-2-3-制定项目管理计划：输出"><a href="#4-2-3-制定项目管理计划：输出" class="headerlink" title="4.2.3 制定项目管理计划：输出"></a>4.2.3 制定项目管理计划：输出</h3><h4 id="4-2-3-1-项目管理计划"><a href="#4-2-3-1-项目管理计划" class="headerlink" title="4.2.3.1 项目管理计划"></a>4.2.3.1 项目管理计划</h4><p>项目管理计划是说明项目执行、监控和收尾方式的一份文件，它整合并综合了所有子管理计划和基准，以及管理项目所需的其他信息。<br><img src="/2021/08/05/pmp/PMP4-6/4.2.jpg" alt="制定项目管理计划"></p>
+<h2 id="4-3-指导与管理项目工作"><a href="#4-3-指导与管理项目工作" class="headerlink" title="4.3 指导与管理项目工作"></a>4.3 指导与管理项目工作</h2><p>指导与管理项目工作是为实现项目目标而<strong>领导和执行项目管理计划</strong>中所确定的工作，并实施<strong>已批准变更</strong>的过程。<br><br>本过程的主要<strong>作用</strong>是，对项目工作和可交付成果开展<strong>综合管理</strong>，以<strong>提高</strong>项目<strong>成功的可能性</strong>。<br><img src="/2021/08/05/pmp/PMP4-6/4-6.jpg" alt="制定项目管理计划"></p>
+<ul>
+<li>指导与管理项目工作包括执行计划的项目活动，以完成项目可交付成果并达成既定目标。</li>
+<li>指导与管理项目工作还要求回顾所有项目变更的影响，并实施已批准的<strong>变更，包括纠正措施、预防措施和（或）缺陷补救</strong>。<br></li>
+</ul>
+<p>收集工作绩效数据并传达给合适的控制过程做进一步分析。</p>
+<h4 id="4-3-1-3-批准的变更请求"><a href="#4-3-1-3-批准的变更请求" class="headerlink" title="4.3.1.3 批准的变更请求"></a>4.3.1.3 批准的变更请求</h4><p>批准的变更请求是实施整体变更控制过程的输出，包括经项目经理审查和批准的变更请求，必要时可经变更**控制委员会 **(CCB) 审查和批准。</p>
+<h3 id="4-3-3-指导与管理项目工作：输出"><a href="#4-3-3-指导与管理项目工作：输出" class="headerlink" title="4.3.3 指导与管理项目工作：输出"></a>4.3.3 指导与管理项目工作：输出</h3><h4 id="4-3-3-1-可交付成果"><a href="#4-3-3-1-可交付成果" class="headerlink" title="4.3.3.1 可交付成果"></a>4.3.3.1 可交付成果</h4><p>可交付成果是在某一过程、阶段或项目完成时，必须产出的任何独特并可核实的产品、成果或服务能力。</p>
+<h4 id="4-3-3-2-工作绩效数据"><a href="#4-3-3-2-工作绩效数据" class="headerlink" title="4.3.3.2 工作绩效数据"></a>4.3.3.2 工作绩效数据</h4><p>工作绩效数据是在执行项目工作的过程中，从每个正在执行的活动中收集到的原始观察结果和测量值。</p>
+<h4 id="4-3-3-4-变更请求"><a href="#4-3-3-4-变更请求" class="headerlink" title="4.3.3.4 变更请求"></a>4.3.3.4 变更请求</h4><p>变更请求是关于修改任何文件、可交付成果或基准的正式提议。</p>
+<h2 id="4-4-管理项目知识"><a href="#4-4-管理项目知识" class="headerlink" title="4.4 管理项目知识"></a>4.4 管理项目知识</h2><ul>
+<li><p><strong>定义</strong>：管理项目知识是使用现有知识并生成新知识，以实现项目目标，并且帮助组织学习的过程。</p>
+</li>
+<li><p>本过程的主要<strong>作用</strong>是，利用已有的组织知识来创造或改进项目成果，并且使当前项目创造的知识可用于支持组织运营和未来的项目或阶段。</p>
+</li>
+<li><p>知识通常分为“<strong>显性知识</strong>”（易使用文字、图片和数字进行编撰的知识）和“<strong>隐性知识</strong>”（个体知识以及难以明确表达的知识，如信念、洞察力、经验和“诀窍”）两种。</p>
+</li>
+<li><p>关键活动是<strong>知识分享</strong>和<strong>知识集成</strong>（不同领域的知识、情境知识和项目管理知识）。</p>
+<ul>
+<li>显性知识缺乏情景易于分享。</li>
+<li>隐性知识蕴含情景很难编撰。<ul>
+<li>所以，知识管理最重要的环节就是营造一种相互信任的氛围，激励人<br>们分享知识或关注他人的知识。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在实践中，联合使用知识管理工具和技术（用于人际互动）以及信息<br>管理工具和技术（用于编撰显性知识）来分享知识</p>
+</li>
+</ul>
+<h4 id="4-4-2-3-信息管理"><a href="#4-4-2-3-信息管理" class="headerlink" title="4.4.2.3 信息管理"></a>4.4.2.3 信息管理</h4><p>知识和信息管理工具与技术应与项目过程和过程责任人相对应。</p>
+<h3 id="4-4-3-管理项目知识：输出"><a href="#4-4-3-管理项目知识：输出" class="headerlink" title="4.4.3 管理项目知识：输出"></a>4.4.3 管理项目知识：输出</h3><h4 id="4-4-3-1-经验教训登记册"><a href="#4-4-3-1-经验教训登记册" class="headerlink" title="4.4.3.1 经验教训登记册"></a>4.4.3.1 经验教训登记册</h4><p>经验教训登记册可以包含情况的类别和描述，经验教训登记册还可包括与情况相关的影响、建议和行动方案。</p>
+<h2 id="4-5-监控项目工作"><a href="#4-5-监控项目工作" class="headerlink" title="4.5 监控项目工作"></a>4.5 监控项目工作</h2><ul>
+<li>监控项目工作是跟踪、审查和报告整体项目进展，以实现项目管理计划中确定的绩效目标的过程。</li>
+<li>本过程的主要作用是，<strong>让相关方了解项目的当前状态并认可</strong>为处理绩效问题而采取的行动，以及通过成本和进度预测，<strong>让相关方了解未来项目状态</strong>。<h3 id="4-5-1-监控项目工作：输入"><a href="#4-5-1-监控项目工作：输入" class="headerlink" title="4.5.1 监控项目工作：输入"></a>4.5.1 监控项目工作：输入</h3><h4 id="4-5-1-3-工作绩效信息"><a href="#4-5-1-3-工作绩效信息" class="headerlink" title="4.5.1.3 工作绩效信息"></a>4.5.1.3 工作绩效信息</h4>在工作<strong>执行过程</strong>中<strong>收集工作绩效数据</strong>，再交由<strong>控制过程做进一步分析</strong>。<br><br>项目期间通过控制过程收集绩效数据，与计划和其他变量比较，为工作绩效提供背景。<br><h3 id="4-5-3-监控项目工作：输出"><a href="#4-5-3-监控项目工作：输出" class="headerlink" title="4.5.3 监控项目工作：输出"></a>4.5.3 监控项目工作：输出</h3><h4 id="4-5-3-1-工作绩效报告"><a href="#4-5-3-1-工作绩效报告" class="headerlink" title="4.5.3.1 工作绩效报告"></a>4.5.3.1 工作绩效报告</h4></li>
+<li>基于工作绩效信息，以实体或电子形式编制工作绩效报告，以制定决策、采取行动或引起关注。</li>
+<li>工作绩效报告的示例包括状态报告和进展报告。</li>
+</ul>
+<h2 id="4-6-实施整体变更控制"><a href="#4-6-实施整体变更控制" class="headerlink" title="4.6 实施整体变更控制"></a>4.6 实施整体变更控制</h2><ul>
+<li>实施整体变更控制是审查所有变更请求、批准变更，管理对可交付成果、项目文件和项目管理计划的变更，并对变更处理结果进行沟通的过程。</li>
+<li>主要作用是确保对项目中已记录在案的变更做综合评审。</li>
+<li>实施整体变更控制过程贯穿项目始终，项目经理对此承担最终责任。</li>
+<li>一旦确定了项目基准，就必须通过本过程来处理变更请求。</li>
+<li>在批准变更之前，可能需要了解变更对进度的影响和对成本的影响。</li>
+<li><strong>变更控制委员会（CCB）</strong>CCB是一个正式组成的团体，负责审查、评价、批准、推迟或否决项目变更，以及记录和传达变更处理决定</li>
+</ul>
+<h2 id="4-7-结束项目或阶段"><a href="#4-7-结束项目或阶段" class="headerlink" title="4.7 结束项目或阶段"></a>4.7 结束项目或阶段</h2><ul>
+<li><p>结束项目或阶段是终结项目、阶段或合同的所有活动的过程。本过程的主要作用是，存档项目或阶段信息，完成计划的工作，释放组织团队资源以展开新的工作。</p>
+<hr>
+</li>
+</ul>
+<h1 id="5-项目范围管理"><a href="#5-项目范围管理" class="headerlink" title="5.项目范围管理"></a>5.项目范围管理</h1><p>项目范围管理包括确保项目<strong>做且只做所需</strong>的全部工作，以成功完成项目的各个过程。管理项目范围主要在于定义和控制哪些工作应该包括在项目内，哪些不应该包括在项目内。</p>
+<blockquote>
+<p>项目范围管理的核心概念<br><img src="/2021/08/05/pmp/PMP4-6/5-1.jpg" alt="制定项目管理计划"></p>
+</blockquote>
+<ul>
+<li><strong>产品范围</strong>。某项产品、服务或成果所具有的特征和功能。<strong>决定了项目范围</strong>。</li>
+<li><strong>项目范围</strong>。为交付具有规定特性与功能的产品、服务或成果而必须完成的工作。项目范围有时也包括产品范围。<strong>服务于产品范围</strong></li>
+<li>预测型：项目开始对可交付成果定义，通过实施整体变更控制过程进行更新。</li>
+<li>适应型：每次迭代开始定义可交付成果。</li>
+<li>在每次迭代中，都会重复开展三个过程：收集需求、定义范围和创建 WBS。相反，在预测型项目中，这些过程在项目开始时开展，并在必要时<strong>通过实施整体变更控制过程进行更新</strong>。</li>
+<li>在预测型项目中，经过批准的项目范围说明书、工作分解结构（WBS）和相应的 WBS 词典构成项目范围基准。</li>
+<li>而采用适应型生命周期的项目，则使用未完项（包括产品需<br>求和用户故事）反映当前需求.</li>
+<li>项目范围的完成情况是根据<strong>项目管理计划来衡量</strong>的，而产品范围的完成情况是根据<strong>产品需求来衡量的</strong>。</li>
+<li>确认范围是正式验收已完成的项目可交付成果的过程。<br>控制质量过程-&gt; 核实的可交付成果 -&gt; 确认范围过程 -&gt; 验收的可交付成果<br></li>
+</ul>
+<p><img src="/2021/08/05/pmp/PMP4-6/5-2.jpg" alt="预测型和适应型生命周期之管理范围的对比"></p>
+<p>如果项目已配备商业分析师，那么，与需求管理相关的活动便是该角色的职责。而项目经理则负责确保这些活动在项目管理计划有所安排，并且在预算内按时完成，同时能够创造价值。<br><br>项目经理与商业分析师之间应该是伙伴式合作关系。</p>
+<h2 id="5-1-规划范围管理"><a href="#5-1-规划范围管理" class="headerlink" title="5.1 规划范围管理"></a>5.1 规划范围管理</h2><ul>
+<li>定义：规划范围管理是为记录如何定义、确认和控制项目范围及产品范围，而创建范围管理计划的过程。</li>
+<li>作用： 在整个项目期间对如何管理范围提供指南和方向。<br><br>范围管理计划是项目或项目集管理计划的组成部分，描述将如何定义、制定、监督、控制和确认项目范围。</li>
+</ul>
+<h2 id="5-2-收集需求"><a href="#5-2-收集需求" class="headerlink" title="5.2 收集需求"></a>5.2 收集需求</h2><p>收集需求是为实现目标而确定、记录并管理相关方的需要和需求的过程。</p>
+<p>需求将成为工作分解结 构（WBS）的基础，也将成为成本、进度、质量和采购规划的基础。</p>
+<h3 id="5-2-2-收集需求：工具与技术"><a href="#5-2-2-收集需求：工具与技术" class="headerlink" title="5.2.2 收集需求：工具与技术"></a>5.2.2 收集需求：工具与技术</h3><h4 id="5-2-2-2-数据收集"><a href="#5-2-2-2-数据收集" class="headerlink" title="5.2.2.2 数据收集"></a>5.2.2.2 数据收集</h4><ul>
+<li><p><strong>头脑风暴</strong>- 多种创意</p>
+</li>
+<li><p><strong>访谈</strong>- 访谈也可用于获取机密信息。</p>
+</li>
+<li><p><strong>问卷调查</strong> 问卷调查方法 非常适用于以下情况：受众多样化，需要快速完成调查，受访者地理位置分散，并且适合开 展统计分析。</p>
+</li>
+<li><p><strong>标杆对照</strong> 标杆对照所采用的可 比组织可以是内部的，也可以是外部的。</p>
+<h4 id><a href="#" class="headerlink" title></a></h4><h4 id="5-2-2-3-数据分析"><a href="#5-2-2-3-数据分析" class="headerlink" title="5.2.2.3 数据分析"></a>5.2.2.3 数据分析</h4></li>
+</ul>
+<p>文件分析包括审核和评 估任何相关的文件信息。</p>
+<h4 id="5-2-2-6-人际关系与团队技能"><a href="#5-2-2-6-人际关系与团队技能" class="headerlink" title="5.2.2.6 人际关系与团队技能"></a>5.2.2.6 人际关系与团队技能</h4><ul>
+<li><p>名义小组技术：名义小组技术是一种结构化的头脑风暴形式</p>
+</li>
+<li><p>观察和交谈：当产品使用者<strong>难以或不愿清晰说明他们的需求</strong>时，就特别需要通过观察来了解他们的 工作细节。</p>
+</li>
+<li><p>引导：引导与主题研讨会结合使用。</p>
+</li>
+<li><h4 id="5-2-2-7-系统交互图"><a href="#5-2-2-7-系统交互图" class="headerlink" title="5.2.2.7 系统交互图"></a>5.2.2.7 系统交互图</h4></li>
+</ul>
+<p>系统交互图是范围模型的一个例子，<strong>它是对产品范围的可视化描绘</strong>。</p>
+<h4 id="5-2-2-8-原型法"><a href="#5-2-2-8-原型法" class="headerlink" title="5.2.2.8 原型法"></a>5.2.2.8 原型法</h4><p>原型法是指在实际制造预期产品之前，先造出该产品的模型，并据此征求对需求的早期反馈。</p>
+<p>故事板是一种原型技术，通过一系列的图像或图示来展示顺序或导航路径。</p>
+<h3 id="5-2-3-收集需求：输出"><a href="#5-2-3-收集需求：输出" class="headerlink" title="5.2.3 收集需求：输出"></a>5.2.3 收集需求：输出</h3><h4 id="5-2-3-1-需求文件"><a href="#5-2-3-1-需求文件" class="headerlink" title="5.2.3.1 需求文件"></a>5.2.3.1 需求文件</h4><p>需求文件描述各种单一需求将如何满足与项目相关的业务需求。</p>
+<p>只有明确的（可测量和可测试的）、可跟踪的、完整 的、相互协调的，且主要相关方愿意认可的需求，才能作为基准。</p>
+<h4 id="5-2-3-2-需求跟踪矩阵"><a href="#5-2-3-2-需求跟踪矩阵" class="headerlink" title="5.2.3.2 需求跟踪矩阵"></a>5.2.3.2 需求跟踪矩阵</h4><p>需求跟踪矩阵是把产品需求从其来源连接到能满足需求的可交付成果的一种表格。</p>
+<h2 id="5-3-定义范围"><a href="#5-3-定义范围" class="headerlink" title="5.3 定义范围"></a>5.3 定义范围</h2><p>定义范围是制定项目和产品详细描述的过程。本过程的主要作用是，描述产品、服务或成果的边界和验收标准。</p>
+<p>应根据项目启动过程中记载的主要可交付成果、假设条件和制约因素来编制详细的项目范围说明书。</p>
+<h3 id="5-3-2-定义范围：工具与技术"><a href="#5-3-2-定义范围：工具与技术" class="headerlink" title="5.3.2 定义范围：工具与技术"></a>5.3.2 定义范围：工具与技术</h3><h4 id="5-3-2-3-决策"><a href="#5-3-2-3-决策" class="headerlink" title="5.3.2.3 决策"></a>5.3.2.3 决策</h4><p>见 5.1.2.2 节。可用于本过程的决策技术包括（但不限于）多标准决策分析。</p>
+<h4 id="5-3-2-5-产品分析"><a href="#5-3-2-5-产品分析" class="headerlink" title="5.3.2.5 产品分析"></a>5.3.2.5 产品分析</h4><p>每个应用领域都有一种或几种普遍公认的方法，用以把高层级的产品或服务描述转变为有意义的 可交付成果。</p>
+<h3 id="5-3-3-定义范围：输出"><a href="#5-3-3-定义范围：输出" class="headerlink" title="5.3.3 定义范围：输出"></a>5.3.3 定义范围：输出</h3><h4 id="5-3-3-1-项目范围说明书"><a href="#5-3-3-1-项目范围说明书" class="headerlink" title="5.3.3.1 项目范围说明书"></a>5.3.3.1 项目范围说明书</h4><p>作用：项目范围说明书使项目团队能进行更详细的规划，在执行过程中指导项目团队的工作，并为评价变 更请求或额外工作是否超过项目边界提供基准。</p>
+<h2 id="5-4-创建-WBS"><a href="#5-4-创建-WBS" class="headerlink" title="5.4 创建 WBS"></a>5.4 创建 WBS</h2><p>创建工作分解结构（WBS）是把项目可交付成果和项目工作分解成较小、更易于管理的组件的过程。</p>
+<p>WBS 最低层的组成部分称为工作包，其中包括计划的工作。工作包对相关活动进行归类，以便对 工作安排进度、进行估算、开展监督与控制。<strong>在“工作分解结构”这个词语中，“工作”是指作为 活动结果的工作产品或可交付成果，而不是活动本身</strong>。</p>
+<h3 id="5-4-2-创建-WBS：工具与技术"><a href="#5-4-2-创建-WBS：工具与技术" class="headerlink" title="5.4.2 创建 WBS：工具与技术"></a>5.4.2 创建 WBS：工具与技术</h3><h4 id="5-4-2-2-分解"><a href="#5-4-2-2-分解" class="headerlink" title="5.4.2.2 分解"></a>5.4.2.2 分解</h4><p>如果采用敏捷方法，可以将长篇故事分解成用户故事。</p>
+<p>要在未来远期才完成的可交付成果或组件，当前可能无法分解。项目管理团队因而通常需要等 待对该可交付成果或组成部分达成一致意见，才能够制定出 WBS 中的相应细节。这种技术有时称做 滚动式规划。</p>
+<h2 id="5-5-确认范围"><a href="#5-5-确认范围" class="headerlink" title="5.5 确认范围"></a>5.5 确认范围</h2><ul>
+<li>定义：确认范围是正式验收已完成的项目可交付成果的过程。</li>
+</ul>
+<h2 id="5-6-控制范围"><a href="#5-6-控制范围" class="headerlink" title="5.6 控制范围"></a>5.6 控制范围</h2><hr>
+<h1 id="6-项目进度管理"><a href="#6-项目进度管理" class="headerlink" title="6.项目进度管理"></a>6.项目进度管理</h1><blockquote>
+<p>项目进度管理的核心概念</p>
+<p>项目进度计划提供详尽的计划，说明项目如何以及何时交付项目范围中定义的产品、服务和成 果，是一种用于沟通和管理相关方期望的工具，为<strong>绩效报告</strong>提供了<strong>依据</strong>。</p>
+</blockquote>
+<h2 id="6-1规划进度管理"><a href="#6-1规划进度管理" class="headerlink" title="6.1规划进度管理"></a>6.1规划进度管理</h2><p>定义：规划进度管理是为规划、编制、管理、执行和控制项目进度而制定政策、程序和文档的过程。</p>
+<p>主要作用：为如何在整个项目期间管理项目进度提供指南和方向。</p>
+<p>本过程仅开展一次 或仅在项目的预定义点开展。</p>
+<h2 id="6-2-定义活动"><a href="#6-2-定义活动" class="headerlink" title="6.2 定义活动"></a>6.2 定义活动</h2><p>定义活动是识别和记录为完成项目可交付成果而须采取的具体行动的过程。</p>
+<p>本过程的主要作用 是，将工作包分解为进度活动，作为对项目工作进行进度估算、规划、执行、监督和控制的基础。 </p>
+<p>本过程需要在整个项目期间开展。</p>
+<h4 id="6-2-3-2-活动属性"><a href="#6-2-3-2-活动属性" class="headerlink" title="6.2.3.2 活动属性"></a>6.2.3.2 活动属性</h4><p>活动属性是指每项活动所具有的多重属性，用来扩充对活动的描述，活动属性随时间演进。</p>
+<h2 id="6-3-排列活动顺序"><a href="#6-3-排列活动顺序" class="headerlink" title="6.3 排列活动顺序"></a>6.3 排列活动顺序</h2><p>主要作用是定义工作之间的 逻辑顺序，以便在既定的所有项目制约因素下获得<strong>最高的效率</strong>。</p>
+<h2 id="6-4-估算活动持续时间"><a href="#6-4-估算活动持续时间" class="headerlink" title="6.4 估算活动持续时间"></a>6.4 估算活动持续时间</h2><blockquote>
+<p>估算持续时间时需要考虑的其他因素:</p>
+<ul>
+<li> 收益递减规律</li>
+<li> 资源数量</li>
+<li> 技术进步</li>
+<li>员工激励。项目经理还需要了解<strong>“学生综合征”（即拖延症）和帕金森定律</strong>，前者指出，人们 只有在最后一刻，即快到期限时才会全力以赴；后者指出，只要还有时间，工作就会不断扩 展，直到用完所有的时间。</li>
+</ul>
+</blockquote>
+<h3 id="6-4-2-估算活动持续时间：工具与技术"><a href="#6-4-2-估算活动持续时间：工具与技术" class="headerlink" title="6.4.2 估算活动持续时间：工具与技术"></a>6.4.2 估算活动持续时间：工具与技术</h3><h4 id="6-4-2-2-类比估算"><a href="#6-4-2-2-类比估算" class="headerlink" title="6.4.2.2 类比估算"></a>6.4.2.2 类比估算</h4><p>类比估算是一种使用相似活动或项目的历史数据，来估算当前活动或项目的持续时间或成本的技术。</p>
+<p><strong>在项目详细信息不足</strong>时，就经常使用类比估算来估算项目持续时间。</p>
+<h4 id="6-4-2-3-参数估算"><a href="#6-4-2-3-参数估算" class="headerlink" title="6.4.2.3 参数估算"></a>6.4.2.3 参数估算</h4><p>参数估算是一种基于历史数据和项目参数，使用某种算法来计算成本或持续时间的估算技术。</p>
+<p>参数估算的准确性取决于参数模型的成熟度和基础数据的可靠性。且参数进度估算可以针对整个 项目或项目中的某个部分，并可以与其他估算方法联合使用。</p>
+<h4 id="6-4-2-4-三点估算"><a href="#6-4-2-4-三点估算" class="headerlink" title="6.4.2.4 三点估算"></a>6.4.2.4 三点估算</h4><ul>
+<li><p> 最可能时间 (tM)</p>
+</li>
+<li><p>最乐观时间 (tO)</p>
+</li>
+<li><p>最悲观时间 (tP)</p>
+<p>基于持续时间在三种估算值区间内的假定分布情况，可计算期望持续时间 tE。</p>
+<p>一个常用公式为三 角分布：<strong>tE = (tO + tM + tP) / 3</strong></p>
+</li>
+</ul>
+<h4 id="6-4-2-5-自下而上估算"><a href="#6-4-2-5-自下而上估算" class="headerlink" title="6.4.2.5 自下而上估算"></a>6.4.2.5 自下而上估算</h4><p>自下而上估算是一种估算项目持续时间或成本的方法，通过从下到上逐层汇总 WBS 组成部分的估 算而得到项目估算。如果无法以合理的可信度对活动持续时间进行估算，则应将活动中的工作进一 步细化，然后估算具体的持续时间，接着再汇总这些资源需求估算，得到每个活动的持续时间。</p>
+<h4 id="6-4-2-6-数据分析"><a href="#6-4-2-6-数据分析" class="headerlink" title="6.4.2.6 数据分析"></a>6.4.2.6 数据分析</h4><ul>
+<li>储备分析。<strong>应急储备是包含在进度基准</strong>中的一段持续时间。管理储备是为管理控制的目的而特别留出的项目预算，，用来应对项目范围中不可预见的工作。<strong>管理储备</strong>用来应对会影响项目的“未知-未 知”风险，<strong>它不包括在进度基准</strong>中，但属于项目总持续时间的一部分。</li>
+</ul>
+<h2 id="6-5-制定进度计划"><a href="#6-5-制定进度计划" class="headerlink" title="6.5 制定进度计划"></a>6.5 制定进度计划</h2><h2 id="6-6-控制进度"><a href="#6-6-控制进度" class="headerlink" title="6.6 控制进度"></a>6.6 控制进度</h2>]]></content>
+      <categories>
+        <category>PMP</category>
+      </categories>
+      <tags>
+        <tag>PMP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java基础提升_多线程</title>
-    <url>/2021/08/03/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
+    <url>/2021/08/05/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
     <content><![CDATA[<h2 id="线程创建方式"><a href="#线程创建方式" class="headerlink" title="线程创建方式"></a>线程创建方式</h2><ol>
 <li>继承Thread类<ul>
-<li>start()方法是一个 native 方法,它将启动一个新线<br>程，并执行 run()方法。</li>
+<li>start()方法是一个 native 方法,它将启动一个新线程，并执行 run()方法。</li>
 </ul>
 </li>
 <li>实现runnable接口，<ul>
@@ -21,27 +281,27 @@
 </ul>
 </li>
 <li>采用线程池，实现callable接口（有返回）,ExecutorService<ul>
-<li>有返回值的任务必须实现 Callable 接口。执行<br>Callable 任务后，可以获取一个 Future 的对象，在该对象上调用 get 就可以获取到 Callable 任务<br>返回的 Object 了，再结合线程池接口 ExecutorService 就可以实现传说中有返回结果的多线程<br>了。</li>
+<li>有返回值的任务必须实现 Callable 接口。执行Callable 任务后，可以获取一个 Future 的对象，在该对象上调用 get 就可以获取到 Callable 任务返回的 Object 了，再结合线程池接口 ExecutorService 就可以实现传说中有返回结果的多线程了。</li>
 </ul>
 </li>
 </ol>
 <h2 id="多线程中的主要问题"><a href="#多线程中的主要问题" class="headerlink" title="多线程中的主要问题"></a>多线程中的主要问题</h2><ol>
-<li>可见性问题<br><br> volatile修饰，保证了多线程之间的内存可见性</li>
-<li>原子性问题<br><br> AtomicInteger<br></li>
-<li>有序性问题<br><br> volatile 防止指令重排序</li>
-<li>死锁的问题<br></li>
+<li>可见性问题<br> volatile修饰，保证了多线程之间的内存可见性</li>
+<li>原子性问题<br> AtomicInteger</li>
+<li>有序性问题<br> volatile 防止指令重排序</li>
+<li>死锁的问题</li>
 </ol>
 <h2 id="synchronized-关键字"><a href="#synchronized-关键字" class="headerlink" title="synchronized 关键字"></a>synchronized 关键字</h2><h3 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h3><ol>
-<li>修饰一个==代码块==，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； </li>
-<li>修饰一个==方法==，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； </li>
-<li>修改一个==静态的方法==，其作用的范围是整个静态方法，作用的对象是这个==类的所有对象==； </li>
-<li>修改一个==类==，其作用的范围是synchronized后面括号括起来的部分，作用主的对象是这个类的所有对象。<h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3></li>
-<li>修饰代码块时：<br>synchronized是JVM层面的，同步语句块的实现使用的是 monitorenter 和 monitorexit 指令，其中 monitorenter 指令指向同步代码块的开始位置，monitorexit 指令则指明同步代码块的结束位置。当执行 monitorenter 指令时，线程试图获取锁也就是获取 monitor(monitor对象存在于每个==Java对象的对象头==中，synchronized 锁便是通过这种方式获取锁的，也是为什么Java中任意对象可以作为锁的原因)</li>
-<li>synchronized 修饰方法时：<br>synchronized 修饰的方法并没有 monitorenter 指令和 monitorexit 指令，取得代之的确实是 ACC_SYNCHRONIZED 标识，该标识指明了该方法是一个同步方法，JVM 通过该 ACC_SYNCHRONIZED 访问标志来辨别一个方法是否声明为同步方法，从而执行相应的同步调用。</li>
+<li>修饰一个<strong>代码块</strong>，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； </li>
+<li>修饰一个<strong>方法</strong>，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； </li>
+<li>修改一个<strong>静态的方法</strong>，其作用的范围是整个静态方法，作用的对象是这个==类的所有对象==； </li>
+<li>修改一个<strong>类</strong>，其作用的范围是synchronized后面括号括起来的部分，作用主的对象是这个类的所有对象。<h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3></li>
+<li>修饰代码块时：<br>synchronized是JVM层面的，同步语句块的实现使用的是<strong>monitorenter 和 monitorexit</strong>指令，其中 monitorenter 指令指向同步代码块的开始位置，monitorexit 指令则指明同步代码块的结束位置。当执行 monitorenter 指令时，线程试图获取锁也就是获取 monitor(monitor对象存在于每个<strong>Java对象的对象头</strong>中，synchronized 锁便是通过这种方式获取锁的，也是为什么Java中任意对象可以作为原因)</li>
+<li>synchronized 修饰方法时：<br>synchronized 修饰的方法并没有 monitorenter 指令和 monitorexit 指令，取而代之的确实是 ACC_SYNCHRONIZED 标识，该标识指明了该方法是一个同步方法，JVM 通过该 ACC_SYNCHRONIZED 访问标志来辨别一个方法是否声明为同步方法，从而执行相应的同步调用。</li>
 </ol>
 <h2 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h2><p>作用：保证变量的可见性然后还有一个作用是防止指令重排序。</p>
 <h3 id="synchronized关键字和volatile关键字比较"><a href="#synchronized关键字和volatile关键字比较" class="headerlink" title="synchronized关键字和volatile关键字比较"></a>synchronized关键字和volatile关键字比较</h3><ul>
-<li>volatile关键字是线程同步的轻量级实现，所以volatile性能肯定比synchronized关键字要好。但是volatile关键字只能用于变量而synchronized关键字可以修饰方法以及代码块。synchronized关键字在JavaSE1.6之后进行了主要包括为了减少获得锁和释放锁带来的性能消耗而引入的偏向锁和轻量级锁以及其它各种优化之后执行效率有了显著提升，实际开发中使用 synchronized 关键字的场景还是更多一些。</li>
+<li>volatile关键字是线程同步的轻量级实现，所以volatile性能肯定比synchronized关键字要好。但是<strong>volatile关键字只能用于变量</strong>而synchronized关键字可以修饰方法以及代码块。synchronized关键字在JavaSE1.6之后进行了主要包括为了减少获得锁和释放锁带来的性能消耗而引入的偏向锁和轻量级锁以及其它各种优化之后执行效率有了显著提升，实际开发中使用 synchronized 关键字的场景还是更多一些。</li>
 <li>多线程访问volatile关键字不会发生阻塞，而synchronized关键字可能会发生阻塞</li>
 <li>volatile关键字能保证数据的可见性，但不能保证数据的原子性。synchronized关键字两者都能保证。</li>
 <li>volatile关键字主要用于解决变量在多个线程之间的可见性，而 synchronized关键字解决的是多个线程之间访问资源的同步性。<h3 id="wait和notify"><a href="#wait和notify" class="headerlink" title="wait和notify"></a>wait和notify</h3>wait和notify这两个方法是一对，wait方法阻塞当前线程，而notify是唤醒被wait方法阻塞的线程。<br></li>
@@ -441,219 +701,6 @@
       </tags>
   </entry>
   <entry>
-    <title>设计模式_单例模式</title>
-    <url>/2021/08/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>单例模式是比较常见的一种设计模式，目的是保证<strong>一个类只能有一个实例</strong>，而且<strong>自行实例化</strong>（不对外开放new ）并向整个系统提供这个实例，避免频繁创建对象，节约内存。</p>
-<h1 id="典型应用场景"><a href="#典型应用场景" class="headerlink" title="典型应用场景"></a>典型应用场景</h1><ul>
-<li>多线程的线程池的设计一般也是采用单例模式，这是由于线程池要方便对池中的线程进行控制。</li>
-<li>应用程序的日志应用，一般都何用单例模式实现，这一般是由于共享的日志文件一直处于打开状态，因为只能有一个实例去操作，否则内容不好追加。</li>
-<li>网站的计数器，一般也是采用单例模式实现，否则难以同步<h1 id="饿汉式和懒汉式，"><a href="#饿汉式和懒汉式，" class="headerlink" title="饿汉式和懒汉式，"></a>饿汉式和懒汉式，</h1>饿汉式：在类加载时就完成了初始化，所以类加载比较慢，但获取对象的速度快。<br><br>懒汉式：在类加载时不初始化，等到第一次被使用时才初始化。</li>
-</ul>
-<h2 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h2><p>在类加载的时候就完成了实例化，避免了多线程的同步问题。缺点就是浪费内存。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h2><h3 id="双重检查"><a href="#双重检查" class="headerlink" title="双重检查"></a>双重检查</h3><p>这种写法用了两个if判断，也就是Double-Check，并且同步的不是方法，而是代码块，效率较高</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword"> private</span><span class="keyword"> static</span> volatile Singleton instance;</span><br><span class="line"></span><br><span class="line">   <span class="keyword"> private</span> Singleton() &#123;&#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword"> public</span><span class="keyword"> static</span> Singleton getInstance() &#123;</span><br><span class="line">       <span class="built_in"> if </span>(instance == null) &#123;</span><br><span class="line">            synchronized (Singleton.class) &#123;</span><br><span class="line">               <span class="built_in"> if </span>(instance == null) &#123;</span><br><span class="line">                   <span class="built_in"> instance </span>=<span class="built_in"> new </span>Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">       <span class="built_in"> return </span>instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>为什么要做两次判断呢？这是为了线程安全考虑，还是那个场景，对象还没实例化，两个线程A和B同时访问静态方法并同时运行到第一个if判断语句，这时线程A先进入同步代码块中实例化对象，结束之后线程B也进入同步代码块，如果没有第二个if判断语句，那么线程B也同样会执行实例化对象的操作了。</p>
-</blockquote>
-<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>静态内部类方式在Singleton类被装载时并不会立即实例化，而是在需要实例化时，调用getInstance方法，才会装载SingletonInstance类，从而完成对象的实例化。</p>
-<p>同时，因为类的静态属性只会在第一次加载类的时候初始化，也就保证了SingletonInstance中的对象只会被实例化一次，并且这个过程也是线程安全的。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonInstance</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonInstance.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="枚举方式"><a href="#枚举方式" class="headerlink" title="枚举方式"></a>枚举方式</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Singleton</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">&quot;doSomething&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>调用：</p>
-<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">void</span> <span class="function"><span class="title">main</span>(<span class="params"><span class="built_in">String</span>[] args</span>)</span> &#123;</span><br><span class="line">        Singleton.INSTANCE.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>单例模式</category>
-      </categories>
-      <tags>
-        <tag>单例模式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PMP备考系列_4-章笔记</title>
-    <url>/2021/08/01/pmp/PMP4-6/</url>
-    <content><![CDATA[<h1 id="4-项目整合管理"><a href="#4-项目整合管理" class="headerlink" title="4.项目整合管理"></a>4.项目整合管理</h1><p>项目整合管理包括对隶属于项目管理过程组的各种过程和项目管理活动进行识别、定义、组合、统一和协调的各个过程。<br><br>在项目管理中，整合兼具统一、合并、沟通和建立联系的性质，这些行动<br>应该贯穿项目始终。<br></p>
-<blockquote>
-<p>项目整合管理的核心概念</p>
-</blockquote>
-<ul>
-<li>项目整合管理由项目经理负责。</li>
-<li>项目整合管理的责任不能被授权或转移。只能由项目经理负责整<br>合所有其他知识领域的成果，并掌握项目总体情况。</li>
-<li>项目经理必须对整个项目承担最终责任。</li>
-</ul>
-<span id="more"></span>
-<blockquote>
-<p>项目整合管理的发展趋势和新兴实践</p>
-</blockquote>
-<ul>
-<li>项目整合管理知识领域要求整合所有其他知识领域的成果。</li>
-</ul>
-<blockquote>
-<p>在敏捷或适应型环境中需要考虑的因素</p>
-</blockquote>
-<ul>
-<li>迭代和敏捷方法能够促进团队成员以相关领域专家的身份参与整合管理。团队成员自行决定计划<br>及其组件的整合方式</li>
-<li>在适应型环境下，《整合管理的核心概念》中所述的对项目经理的期望保持不变，但把对具体产品的规划和交付授权给团队来控制。(服务型项目经理)</li>
-</ul>
-<h2 id="4-1制定项目章程"><a href="#4-1制定项目章程" class="headerlink" title="4.1制定项目章程"></a>4.1制定项目章程</h2><ul>
-<li><strong>定义</strong>：是编写一份正式批准项目并授权项目经理在项目活动中使用组织资源的文件的过程。</li>
-<li><strong>作用</strong> ：明确项目与组织战略目标之间的直接联系，确立项目的正式地位，并展示组织对项目的承诺。</li>
-</ul>
-<p>项目章程一旦被批准，就标志着项目的正式启动。在项目中，应尽早确认并任命项目经理，最好在制定项目章程时就任命，且总应在规划开始之前任命。项目章程可由发起人编制，或者由项目经理与发起机构合作编制。<br><br>项目章程授权项目经理规划、执行和控制项目。<br><br>尽早任命项目经理，发起人合作编制项目章程 授权项目经理。<br><br>项目启动者或发起人应该具有一定的职权，能为项目获取资金并提供资源。<br><br>不要把项目章程看作合同，因为其中未承诺报酬或金钱或用于交换的对价。<br></p>
-<ul>
-<li>项目由项目以外的机构启动。</li>
-<li>项目启动者有职权为项目获取资金提供资源。</li>
-<li>项目章程不是合同<h3 id="4-1-1-制定项目章程：输入"><a href="#4-1-1-制定项目章程：输入" class="headerlink" title="4.1.1 制定项目章程：输入"></a>4.1.1 制定项目章程：输入</h3><h4 id="4-1-1-1-商业文件"><a href="#4-1-1-1-商业文件" class="headerlink" title="4.1.1.1 商业文件"></a>4.1.1.1 商业文件</h4></li>
-<li>商业文件需要定期审核<br></li>
-</ul>
-<p><strong>商业论证</strong>从商业视角描述必要的信息，并且据此决定项目的期望结果是否值得所需投资。高于项目级别的经理和高管们通常使用该文件作为<strong>决策的依据</strong>。一般情况下，商业论证会包含<strong>商业需求和成本效益分析</strong></p>
-<h4 id="4-1-1-2-协议"><a href="#4-1-1-2-协议" class="headerlink" title="4.1.1.2 协议"></a>4.1.1.2 协议</h4><p>协议用于定义启动项目的初衷。</p>
-<h3 id="4-1-2-制定项目章程：工具与技术"><a href="#4-1-2-制定项目章程：工具与技术" class="headerlink" title="4.1.2 制定项目章程：工具与技术"></a>4.1.2 制定项目章程：工具与技术</h3><h4 id="4-1-2-1-专家判断"><a href="#4-1-2-1-专家判断" class="headerlink" title="4.1.2.1 专家判断"></a>4.1.2.1 专家判断</h4><ul>
-<li>人人都可以是专家<h4 id="4-1-2-2-数据收集"><a href="#4-1-2-2-数据收集" class="headerlink" title="4.1.2.2 数据收集"></a>4.1.2.2 数据收集</h4></li>
-<li><strong>头脑风暴</strong>。本技术用于在短时间内获得大量创意，适用于团队环境，需要引导者进行引导。头脑风暴由两个部分构成：创意产生和创意分析（<strong>收集信息时不要分析</strong>）。</li>
-</ul>
-<h2 id="4-2制定项目管理计划"><a href="#4-2制定项目管理计划" class="headerlink" title="4.2制定项目管理计划"></a>4.2制定项目管理计划</h2><p><strong>定义</strong>：是定义、准备和协调项目计划的所有组成部分，并把它们整合为一份综合项目管理计划的过程。<br><br><strong>作用</strong>：生成一份综合文件，用于确定所有项目工作的基础及其执<br>行方式，它仅开展一次或仅在项目的预定义点开展。<br><br>项目管理计划<strong>确定</strong>项目的<strong>执行、监控和收尾方式</strong>。<br><br>项目管理计划应<strong>基准化</strong>，即，至少应规定项目的<strong>范围、时间和成本</strong>方面的基准，以便据此考核项目执行情况和管理项目绩效。在确定基准之前，可能要对项目管理计划进行<strong>多次更新</strong>，且这些更新无需遵循正式流程。</p>
-<h3 id="4-2-1-制定项目管理计划：输入"><a href="#4-2-1-制定项目管理计划：输入" class="headerlink" title="4.2.1 制定项目管理计划：输入"></a>4.2.1 制定项目管理计划：输入</h3><h4 id="4-2-1-1-项目章程"><a href="#4-2-1-1-项目章程" class="headerlink" title="4.2.1.1 项目章程"></a>4.2.1.1 项目章程</h4><ul>
-<li>项目章程=初始项目规划的起始点。<h4 id="4-2-2-4-会议"><a href="#4-2-2-4-会议" class="headerlink" title="4.2.2.4 会议"></a>4.2.2.4 会议</h4></li>
-</ul>
-<p><strong>项目开工会议</strong>通常意味着规划阶段结束和执行阶段开始。</p>
-<h3 id="4-2-3-制定项目管理计划：输出"><a href="#4-2-3-制定项目管理计划：输出" class="headerlink" title="4.2.3 制定项目管理计划：输出"></a>4.2.3 制定项目管理计划：输出</h3><h4 id="4-2-3-1-项目管理计划"><a href="#4-2-3-1-项目管理计划" class="headerlink" title="4.2.3.1 项目管理计划"></a>4.2.3.1 项目管理计划</h4><p>项目管理计划是说明项目执行、监控和收尾方式的一份文件，它整合并综合了所有子管理计划和基准，以及管理项目所需的其他信息。<br><img src="/2021/08/01/pmp/PMP4-6/4.2.jpg" alt="制定项目管理计划"></p>
-<h2 id="4-3-指导与管理项目工作"><a href="#4-3-指导与管理项目工作" class="headerlink" title="4.3 指导与管理项目工作"></a>4.3 指导与管理项目工作</h2><p>指导与管理项目工作是为实现项目目标而<strong>领导和执行项目管理计划</strong>中所确定的工作，并实施<strong>已批准变更</strong>的过程。<br><br>本过程的主要<strong>作用</strong>是，对项目工作和可交付成果开展<strong>综合管理</strong>，以<strong>提高</strong>项目<strong>成功的可能性</strong>。<br><img src="/2021/08/01/pmp/PMP4-6/4-6.jpg" alt="制定项目管理计划"></p>
-<ul>
-<li>指导与管理项目工作包括执行计划的项目活动，以完成项目可交付成果并达成既定目标。</li>
-<li>指导与管理项目工作还要求回顾所有项目变更的影响，并实施已批准的<strong>变更，包括纠正措施、预防措施和（或）缺陷补救</strong>。<br></li>
-</ul>
-<p>收集工作绩效数据并传达给合适的控制过程做进一步分析。</p>
-<h4 id="4-3-1-3-批准的变更请求"><a href="#4-3-1-3-批准的变更请求" class="headerlink" title="4.3.1.3 批准的变更请求"></a>4.3.1.3 批准的变更请求</h4><p>批准的变更请求是实施整体变更控制过程的输出，包括经项目经理审查和批准的变更请求，必要时可经变更**控制委员会 **(CCB) 审查和批准。</p>
-<h3 id="4-3-3-指导与管理项目工作：输出"><a href="#4-3-3-指导与管理项目工作：输出" class="headerlink" title="4.3.3 指导与管理项目工作：输出"></a>4.3.3 指导与管理项目工作：输出</h3><h4 id="4-3-3-1-可交付成果"><a href="#4-3-3-1-可交付成果" class="headerlink" title="4.3.3.1 可交付成果"></a>4.3.3.1 可交付成果</h4><p>可交付成果是在某一过程、阶段或项目完成时，必须产出的任何独特并可核实的产品、成果或服务能力。</p>
-<h4 id="4-3-3-2-工作绩效数据"><a href="#4-3-3-2-工作绩效数据" class="headerlink" title="4.3.3.2 工作绩效数据"></a>4.3.3.2 工作绩效数据</h4><p>工作绩效数据是在执行项目工作的过程中，从每个正在执行的活动中收集到的原始观察结果和测量值。</p>
-<h4 id="4-3-3-4-变更请求"><a href="#4-3-3-4-变更请求" class="headerlink" title="4.3.3.4 变更请求"></a>4.3.3.4 变更请求</h4><p>变更请求是关于修改任何文件、可交付成果或基准的正式提议。</p>
-<h2 id="4-4-管理项目知识"><a href="#4-4-管理项目知识" class="headerlink" title="4.4 管理项目知识"></a>4.4 管理项目知识</h2><ul>
-<li><p><strong>定义</strong>：管理项目知识是使用现有知识并生成新知识，以实现项目目标，并且帮助组织学习的过程。</p>
-</li>
-<li><p>本过程的主要<strong>作用</strong>是，利用已有的组织知识来创造或改进项目成果，并且使当前项目创造的知识可用于支持组织运营和未来的项目或阶段。</p>
-</li>
-<li><p>知识通常分为“<strong>显性知识</strong>”（易使用文字、图片和数字进行编撰的知识）和“<strong>隐性知识</strong>”（个体知识以及难以明确表达的知识，如信念、洞察力、经验和“诀窍”）两种。</p>
-</li>
-<li><p>关键活动是<strong>知识分享</strong>和<strong>知识集成</strong>（不同领域的知识、情境知识和项目管理知识）。</p>
-<ul>
-<li>显性知识缺乏情景易于分享。</li>
-<li>隐性知识蕴含情景很难编撰。<ul>
-<li>所以，知识管理最重要的环节就是营造一种相互信任的氛围，激励人<br>们分享知识或关注他人的知识。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>在实践中，联合使用知识管理工具和技术（用于人际互动）以及信息<br>管理工具和技术（用于编撰显性知识）来分享知识</p>
-</li>
-</ul>
-<h4 id="4-4-2-3-信息管理"><a href="#4-4-2-3-信息管理" class="headerlink" title="4.4.2.3 信息管理"></a>4.4.2.3 信息管理</h4><p>知识和信息管理工具与技术应与项目过程和过程责任人相对应。</p>
-<h3 id="4-4-3-管理项目知识：输出"><a href="#4-4-3-管理项目知识：输出" class="headerlink" title="4.4.3 管理项目知识：输出"></a>4.4.3 管理项目知识：输出</h3><h4 id="4-4-3-1-经验教训登记册"><a href="#4-4-3-1-经验教训登记册" class="headerlink" title="4.4.3.1 经验教训登记册"></a>4.4.3.1 经验教训登记册</h4><p>经验教训登记册可以包含情况的类别和描述，经验教训登记册还可包括与情况相关的影响、建议和行动方案。</p>
-<h2 id="4-5-监控项目工作"><a href="#4-5-监控项目工作" class="headerlink" title="4.5 监控项目工作"></a>4.5 监控项目工作</h2><ul>
-<li>监控项目工作是跟踪、审查和报告整体项目进展，以实现项目管理计划中确定的绩效目标的过程。</li>
-<li>本过程的主要作用是，<strong>让相关方了解项目的当前状态并认可</strong>为处理绩效问题而采取的行动，以及通过成本和进度预测，<strong>让相关方了解未来项目状态</strong>。<h3 id="4-5-1-监控项目工作：输入"><a href="#4-5-1-监控项目工作：输入" class="headerlink" title="4.5.1 监控项目工作：输入"></a>4.5.1 监控项目工作：输入</h3><h4 id="4-5-1-3-工作绩效信息"><a href="#4-5-1-3-工作绩效信息" class="headerlink" title="4.5.1.3 工作绩效信息"></a>4.5.1.3 工作绩效信息</h4>在工作<strong>执行过程</strong>中<strong>收集工作绩效数据</strong>，再交由<strong>控制过程做进一步分析</strong>。<br><br>项目期间通过控制过程收集绩效数据，与计划和其他变量比较，为工作绩效提供背景。<br><h3 id="4-5-3-监控项目工作：输出"><a href="#4-5-3-监控项目工作：输出" class="headerlink" title="4.5.3 监控项目工作：输出"></a>4.5.3 监控项目工作：输出</h3><h4 id="4-5-3-1-工作绩效报告"><a href="#4-5-3-1-工作绩效报告" class="headerlink" title="4.5.3.1 工作绩效报告"></a>4.5.3.1 工作绩效报告</h4></li>
-<li>基于工作绩效信息，以实体或电子形式编制工作绩效报告，以制定决策、采取行动或引起关注。</li>
-<li>工作绩效报告的示例包括状态报告和进展报告。</li>
-</ul>
-<h2 id="4-6-实施整体变更控制"><a href="#4-6-实施整体变更控制" class="headerlink" title="4.6 实施整体变更控制"></a>4.6 实施整体变更控制</h2><ul>
-<li>实施整体变更控制是审查所有变更请求、批准变更，管理对可交付成果、项目文件和项目管理计划的变更，并对变更处理结果进行沟通的过程。</li>
-<li>主要作用是确保对项目中已记录在案的变更做综合评审。</li>
-<li>实施整体变更控制过程贯穿项目始终，项目经理对此承担最终责任。</li>
-<li>一旦确定了项目基准，就必须通过本过程来处理变更请求。</li>
-<li>在批准变更之前，可能需要了解变更对进度的影响和对成本的影响。</li>
-<li><strong>变更控制委员会（CCB）</strong>CCB是一个正式组成的团体，负责审查、评价、批准、推迟或否决项目变更，以及记录和传达变更处理决定</li>
-</ul>
-<h2 id="4-7-结束项目或阶段"><a href="#4-7-结束项目或阶段" class="headerlink" title="4.7 结束项目或阶段"></a>4.7 结束项目或阶段</h2><ul>
-<li><p>结束项目或阶段是终结项目、阶段或合同的所有活动的过程。本过程的主要作用是，存档项目或阶段信息，完成计划的工作，释放组织团队资源以展开新的工作。</p>
-<hr>
-</li>
-</ul>
-<h1 id="5-项目范围管理"><a href="#5-项目范围管理" class="headerlink" title="5.项目范围管理"></a>5.项目范围管理</h1><p>项目范围管理包括确保项目<strong>做且只做所需</strong>的全部工作，以成功完成项目的各个过程。管理项目范围主要在于定义和控制哪些工作应该包括在项目内，哪些不应该包括在项目内。</p>
-<blockquote>
-<p>项目范围管理的核心概念<br><img src="/2021/08/01/pmp/PMP4-6/5-1.jpg" alt="制定项目管理计划"></p>
-</blockquote>
-<ul>
-<li><strong>产品范围</strong>。某项产品、服务或成果所具有的特征和功能。<strong>决定了项目范围</strong>。</li>
-<li><strong>项目范围</strong>。为交付具有规定特性与功能的产品、服务或成果而必须完成的工作。项目范围有时也包括产品范围。<strong>服务于产品范围</strong></li>
-<li>预测型：项目开始对可交付成果定义，通过实施整体变更控制过程进行更新。</li>
-<li>适应型：每次迭代开始定义可交付成果。</li>
-<li>在每次迭代中，都会重复开展三个过程：收集需求、定义范围和创建 WBS。相反，在预测型项目中，这些过程在项目开始时开展，并在必要时<strong>通过实施整体变更控制过程进行更新</strong>。</li>
-<li>在预测型项目中，经过批准的项目范围说明书、工作分解结构（WBS）和相应的 WBS 词典构成项目范围基准。</li>
-<li>而采用适应型生命周期的项目，则使用未完项（包括产品需<br>求和用户故事）反映当前需求.</li>
-<li>项目范围的完成情况是根据<strong>项目管理计划来衡量</strong>的，而产品范围的完成情况是根据<strong>产品需求来衡量的</strong>。</li>
-<li>确认范围是正式验收已完成的项目可交付成果的过程。<br>控制质量过程-&gt; 核实的可交付成果 -&gt; 确认范围过程 -&gt; 验收的可交付成果<br></li>
-</ul>
-<p><img src="/2021/08/01/pmp/PMP4-6/5-2.jpg" alt="预测型和适应型生命周期之管理范围的对比"></p>
-<p>如果项目已配备商业分析师，那么，与需求管理相关的活动便是该角色的职责。而项目经理则负责确保这些活动在项目管理计划有所安排，并且在预算内按时完成，同时能够创造价值。<br><br>项目经理与商业分析师之间应该是伙伴式合作关系。</p>
-<h2 id="5-1-规划范围管理"><a href="#5-1-规划范围管理" class="headerlink" title="5.1 规划范围管理"></a>5.1 规划范围管理</h2><ul>
-<li>定义：规划范围管理是为记录如何定义、确认和控制项目范围及产品范围，而创建范围管理计划的过程。</li>
-<li>作用： 在整个项目期间对如何管理范围提供指南和方向。<br><br>范围管理计划是项目或项目集管理计划的组成部分，描述将如何定义、制定、监督、控制和确认项目范围。</li>
-</ul>
-<h2 id="5-2-收集需求"><a href="#5-2-收集需求" class="headerlink" title="5.2 收集需求"></a>5.2 收集需求</h2><p>收集需求是为实现目标而确定、记录并管理相关方的需要和需求的过程。</p>
-<p>需求将成为工作分解结 构（WBS）的基础，也将成为成本、进度、质量和采购规划的基础。</p>
-<h3 id="5-2-2-收集需求：工具与技术"><a href="#5-2-2-收集需求：工具与技术" class="headerlink" title="5.2.2 收集需求：工具与技术"></a>5.2.2 收集需求：工具与技术</h3><h4 id="5-2-2-2-数据收集"><a href="#5-2-2-2-数据收集" class="headerlink" title="5.2.2.2 数据收集"></a>5.2.2.2 数据收集</h4><ul>
-<li><p><strong>头脑风暴</strong>- 多种创意</p>
-</li>
-<li><p><strong>访谈</strong>- 访谈也可用于获取机密信息。</p>
-</li>
-<li><p><strong>问卷调查</strong> 问卷调查方法 非常适用于以下情况：受众多样化，需要快速完成调查，受访者地理位置分散，并且适合开 展统计分析。</p>
-</li>
-<li><p><strong>标杆对照</strong> 标杆对照所采用的可 比组织可以是内部的，也可以是外部的。</p>
-<h4 id><a href="#" class="headerlink" title></a></h4><h4 id="5-2-2-3-数据分析"><a href="#5-2-2-3-数据分析" class="headerlink" title="5.2.2.3 数据分析"></a>5.2.2.3 数据分析</h4></li>
-</ul>
-<p>文件分析包括审核和评 估任何相关的文件信息。</p>
-<h4 id="5-2-2-6-人际关系与团队技能"><a href="#5-2-2-6-人际关系与团队技能" class="headerlink" title="5.2.2.6 人际关系与团队技能"></a>5.2.2.6 人际关系与团队技能</h4><ul>
-<li><p>名义小组技术：名义小组技术是一种结构化的头脑风暴形式</p>
-</li>
-<li><p>观察和交谈：当产品使用者<strong>难以或不愿清晰说明他们的需求</strong>时，就特别需要通过观察来了解他们的 工作细节。</p>
-</li>
-<li><p>引导：引导与主题研讨会结合使用。</p>
-</li>
-<li><h4 id="5-2-2-7-系统交互图"><a href="#5-2-2-7-系统交互图" class="headerlink" title="5.2.2.7 系统交互图"></a>5.2.2.7 系统交互图</h4></li>
-</ul>
-<p>系统交互图是范围模型的一个例子，<strong>它是对产品范围的可视化描绘</strong>。</p>
-<h4 id="5-2-2-8-原型法"><a href="#5-2-2-8-原型法" class="headerlink" title="5.2.2.8 原型法"></a>5.2.2.8 原型法</h4><p>原型法是指在实际制造预期产品之前，先造出该产品的模型，并据此征求对需求的早期反馈。</p>
-<p>故事板是一种原型技术，通过一系列的图像或图示来展示顺序或导航路径。</p>
-<h3 id="5-2-3-收集需求：输出"><a href="#5-2-3-收集需求：输出" class="headerlink" title="5.2.3 收集需求：输出"></a>5.2.3 收集需求：输出</h3><h4 id="5-2-3-1-需求文件"><a href="#5-2-3-1-需求文件" class="headerlink" title="5.2.3.1 需求文件"></a>5.2.3.1 需求文件</h4><p>需求文件描述各种单一需求将如何满足与项目相关的业务需求。</p>
-<p>只有明确的（可测量和可测试的）、可跟踪的、完整 的、相互协调的，且主要相关方愿意认可的需求，才能作为基准。</p>
-<h4 id="5-2-3-2-需求跟踪矩阵"><a href="#5-2-3-2-需求跟踪矩阵" class="headerlink" title="5.2.3.2 需求跟踪矩阵"></a>5.2.3.2 需求跟踪矩阵</h4><p>需求跟踪矩阵是把产品需求从其来源连接到能满足需求的可交付成果的一种表格。</p>
-<h2 id="5-3-定义范围"><a href="#5-3-定义范围" class="headerlink" title="5.3 定义范围"></a>5.3 定义范围</h2><p>定义范围是制定项目和产品详细描述的过程。本过程的主要作用是，描述产品、服务或成果的边界和验收标准。</p>
-<p>应根据项目启动过程中记载的主要可交付成果、假设条件和制约因素来编制详细的项目范围说明书。</p>
-<h3 id="5-3-2-定义范围：工具与技术"><a href="#5-3-2-定义范围：工具与技术" class="headerlink" title="5.3.2 定义范围：工具与技术"></a>5.3.2 定义范围：工具与技术</h3><h4 id="5-3-2-3-决策"><a href="#5-3-2-3-决策" class="headerlink" title="5.3.2.3 决策"></a>5.3.2.3 决策</h4><p>见 5.1.2.2 节。可用于本过程的决策技术包括（但不限于）多标准决策分析。</p>
-<h4 id="5-3-2-5-产品分析"><a href="#5-3-2-5-产品分析" class="headerlink" title="5.3.2.5 产品分析"></a>5.3.2.5 产品分析</h4><p>每个应用领域都有一种或几种普遍公认的方法，用以把高层级的产品或服务描述转变为有意义的 可交付成果。</p>
-<h3 id="5-3-3-定义范围：输出"><a href="#5-3-3-定义范围：输出" class="headerlink" title="5.3.3 定义范围：输出"></a>5.3.3 定义范围：输出</h3><h4 id="5-3-3-1-项目范围说明书"><a href="#5-3-3-1-项目范围说明书" class="headerlink" title="5.3.3.1 项目范围说明书"></a>5.3.3.1 项目范围说明书</h4><p>作用：项目范围说明书使项目团队能进行更详细的规划，在执行过程中指导项目团队的工作，并为评价变 更请求或额外工作是否超过项目边界提供基准。</p>
-<h2 id="5-4-创建-WBS"><a href="#5-4-创建-WBS" class="headerlink" title="5.4 创建 WBS"></a>5.4 创建 WBS</h2><p>创建工作分解结构（WBS）是把项目可交付成果和项目工作分解成较小、更易于管理的组件的过程。</p>
-<p>WBS 最低层的组成部分称为工作包，其中包括计划的工作。工作包对相关活动进行归类，以便对 工作安排进度、进行估算、开展监督与控制。<strong>在“工作分解结构”这个词语中，“工作”是指作为 活动结果的工作产品或可交付成果，而不是活动本身</strong>。</p>
-<h3 id="5-4-2-创建-WBS：工具与技术"><a href="#5-4-2-创建-WBS：工具与技术" class="headerlink" title="5.4.2 创建 WBS：工具与技术"></a>5.4.2 创建 WBS：工具与技术</h3><h4 id="5-4-2-2-分解"><a href="#5-4-2-2-分解" class="headerlink" title="5.4.2.2 分解"></a>5.4.2.2 分解</h4><p>如果采用敏捷方法，可以将长篇故事分解成用户故事。</p>
-<p>要在未来远期才完成的可交付成果或组件，当前可能无法分解。项目管理团队因而通常需要等 待对该可交付成果或组成部分达成一致意见，才能够制定出 WBS 中的相应细节。这种技术有时称做 滚动式规划。</p>
-<h2 id="5-5-确认范围"><a href="#5-5-确认范围" class="headerlink" title="5.5 确认范围"></a>5.5 确认范围</h2><ul>
-<li>定义：确认范围是正式验收已完成的项目可交付成果的过程。</li>
-</ul>
-<h2 id="5-6-控制范围"><a href="#5-6-控制范围" class="headerlink" title="5.6 控制范围"></a>5.6 控制范围</h2><hr>
-<h1 id="6-项目进度管理"><a href="#6-项目进度管理" class="headerlink" title="6.项目进度管理"></a>6.项目进度管理</h1><blockquote>
-<p>项目进度管理的核心概念</p>
-<p>项目进度计划提供详尽的计划，说明项目如何以及何时交付项目范围中定义的产品、服务和成 果，是一种用于沟通和管理相关方期望的工具，为<strong>绩效报告</strong>提供了<strong>依据</strong>。</p>
-</blockquote>
-<h2 id="6-1规划进度管理"><a href="#6-1规划进度管理" class="headerlink" title="6.1规划进度管理"></a>6.1规划进度管理</h2><p>定义：规划进度管理是为规划、编制、管理、执行和控制项目进度而制定政策、程序和文档的过程。</p>
-<p>主要作用：为如何在整个项目期间管理项目进度提供指南和方向。</p>
-<p>本过程仅开展一次 或仅在项目的预定义点开展。</p>
-<h2 id="6-2-定义活动"><a href="#6-2-定义活动" class="headerlink" title="6.2 定义活动"></a>6.2 定义活动</h2><p>定义活动是识别和记录为完成项目可交付成果而须采取的具体行动的过程。</p>
-<p>本过程的主要作用 是，将工作包分解为进度活动，作为对项目工作进行进度估算、规划、执行、监督和控制的基础。 </p>
-<p>本过程需要在整个项目期间开展。</p>
-<h2 id="6-3-排列活动顺序"><a href="#6-3-排列活动顺序" class="headerlink" title="6.3 排列活动顺序"></a>6.3 排列活动顺序</h2><h2 id="6-4-估算活动持续时间"><a href="#6-4-估算活动持续时间" class="headerlink" title="6.4 估算活动持续时间"></a>6.4 估算活动持续时间</h2><h2 id="6-5-制定进度计划"><a href="#6-5-制定进度计划" class="headerlink" title="6.5 制定进度计划"></a>6.5 制定进度计划</h2><h2 id="6-6-控制进度"><a href="#6-6-控制进度" class="headerlink" title="6.6 控制进度"></a>6.6 控制进度</h2>]]></content>
-      <categories>
-        <category>PMP</category>
-      </categories>
-      <tags>
-        <tag>PMP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>java基础_基础特征和相关概念</title>
     <url>/2021/08/01/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80_%E5%9F%BA%E7%A1%80%E7%89%B9%E5%BE%81%E5%92%8C%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/</url>
     <content><![CDATA[<h1 id="面向对象的三大基本特征，五大基本原则"><a href="#面向对象的三大基本特征，五大基本原则" class="headerlink" title="面向对象的三大基本特征，五大基本原则"></a>面向对象的三大基本特征，五大基本原则</h1><h2 id="三大基本特征：封装、继承、多态"><a href="#三大基本特征：封装、继承、多态" class="headerlink" title="三大基本特征：封装、继承、多态"></a>三大基本特征：<strong>封装、继承、多态</strong></h2><h3 id="1-封装"><a href="#1-封装" class="headerlink" title="1. 封装"></a>1. 封装</h3><p>　　封装就是隐藏对象的属性和实现细节，仅对外公开接口，控制在程序中属性的读和修改的访问级别，将抽象得到的数据和行为（或功能）相结合，形成一个有机的整体，也就是将数据与操作数据的源代码进行有机的结合，形成“类”，其中数据和函数都是类的成员。<br>封装的<strong>目的</strong>是增强安全性和简化编程，使用者不必了解具体的实现细节，而只是要通过外部接口，以特定的访问权限来使用类的成员。<br>（面向对象的不就是使用程序处理事情时以对象为中心去分析吗，与面向过程不同，面向过程关心处理的逻辑、流程等问题，而不关心事件主体。而面向对象即面向主体，所以我们在解决问题时应该先进行对象的封装（对象是封装类的实例，比如张三是人，人是一个封装类，张三只是对象中的一个实例、一个对象）。比如我们日常生活中的小兔子、小绵羊都可以封装为一个类）。</p>
@@ -768,23 +815,6 @@
       </categories>
       <tags>
         <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>设计模式</title>
-    <url>/2021/07/23/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="1-请列举出在-JDK-中几个常用的设计模式？"><a href="#1-请列举出在-JDK-中几个常用的设计模式？" class="headerlink" title="1.请列举出在 JDK 中几个常用的设计模式？"></a>1.请列举出在 JDK 中几个常用的设计模式？</h1><p>单例模式（Singleton pattern）用于 Runtime，Calendar 和其他的一些类中。工厂模式<br>（Factory pattern）被用于各种不可变的类如 Boolean，像 Boolean.valueOf，观察者模式<br>（Observer pattern）被用于 Swing 和很多的事件监听中。装饰器设计模式（Decorator<br>design pattern）被用于多个 Java IO 类中。</p>
-<h1 id="2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？"><a href="#2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？" class="headerlink" title="2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？"></a>2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？</h1><p>设计模式是世界上各种各样程序员用来解决特定设计问题的尝试和测试的方法。设计模式<br>是代码可用性的延伸</p>
-<h1 id="3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式"><a href="#3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式" class="headerlink" title="3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式"></a>3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式</h1><p>单例模式重点在于在整个系统上共享一些创建时较耗资源的对象。整个应用中只维护一个<br>特定类实例，它被所有组件共同使用。Java.lang.Runtime 是单例模式的经典例子。从 Java<br>5 开始你可以使用枚举（enum）来实现线程安全的单例。</p>
-<h1 id="4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？"><a href="#4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？" class="headerlink" title="4.在 Java 中，什么叫观察者设计模式（observer design pattern）？"></a>4.在 Java 中，什么叫观察者设计模式（observer design pattern）？</h1><p>观察者模式是基于对象的状态变化和观察者的通讯，以便他们作出相应的操作。简单的例<br>子就是一个天气系统，当天气变化时必须在展示给公众的视图中进行反映。这个视图对象<br>是一个主体，而不同的视图是观察者。</p>
-<h1 id="5-使用工厂模式最主要的好处是什么？在哪里使用？"><a href="#5-使用工厂模式最主要的好处是什么？在哪里使用？" class="headerlink" title="5.使用工厂模式最主要的好处是什么？在哪里使用？"></a>5.使用工厂模式最主要的好处是什么？在哪里使用？</h1><p>工厂模式的最大好处是增加了创建对象时的封装层次。如果你使用工厂来创建对象，之后<br>你可以使用更高级和更高性能的实现来替换原始的产品实现或类，这不需要在调用层做任<br>何修改。</p>
-<h1 id="6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？"><a href="#6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？" class="headerlink" title="6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？"></a>6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？</h1><p>装饰模式增加强了单个对象的能力。Java IO 到处都使用了装饰模式，典型例子就是<br>Buffered 系列类如 BufferedReader 和 BufferedWriter，它们增强了 Reader 和 Writer 对象，<br>以实现提升性能的 Buffer 层次的读取和写入。</p>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
@@ -1936,59 +1966,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>Java基础提升_线程池</title>
-    <url>/2021/06/15/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言<br></h1><p>在《阿里巴巴java开发手册》中指出了线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，这样一方面是线程的创建更加规范，可以合理控制开辟线程的数量；另一方面线程的细节管理交给线程池处理，优化了资源的开销。<br><br>而线程池不允许使用Executors去创建，而要通过<strong>ThreadPoolExecutor</strong>方式，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活【消耗内存等】；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险，所以阿里巴巴java开发规范线程池首选ThreadPoolExcutor。<br></p>
-<p>话虽如此但常见的Executor框架还是要有所了解。</p>
-<span id="more"></span>
-<h2 id="常见线程池以及使用"><a href="#常见线程池以及使用" class="headerlink" title="常见线程池以及使用"></a>常见线程池以及使用</h2><h3 id="1-newCacheThreadPoo"><a href="#1-newCacheThreadPoo" class="headerlink" title="1.newCacheThreadPoo"></a>1.newCacheThreadPoo</h3><p>Executors.newCacheThreadPool()：可缓存线程池，先查看池中有没有以前建立的线程，如果有，就直接使用。如果没有，就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务。</p>
-<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建一个可缓存线程池</span></span><br><span class="line">        ExecutorService cachedThreadPool = <span class="module-access"><span class="module"><span class="identifier">Executors</span>.</span></span><span class="keyword">new</span><span class="constructor">CachedThreadPool()</span>;</span><br><span class="line">         cachedThreadPool.execute(<span class="literal">()</span> -&gt;&#123;</span><br><span class="line">                </span><br><span class="line">                    <span class="comment">// 打印正在执行的缓存线程信息</span></span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>.get<span class="constructor">Name()</span></span><br><span class="line">                            + <span class="string">&quot;正在被执行&quot;</span>);</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="2-newFixedThreadPool"><a href="#2-newFixedThreadPool" class="headerlink" title="2.newFixedThreadPool"></a>2.newFixedThreadPool</h3><p> Executors.newFixedThreadPool(int n)：创建一个可重用固定个数的线程池，以共享的无界队列方式来运行这些线程。</p>
-<h3 id="3-newScheduledThreadPool"><a href="#3-newScheduledThreadPool" class="headerlink" title="3.newScheduledThreadPool"></a>3.newScheduledThreadPool</h3><p>Executors.newScheduledThreadPool(int n)：创建一个定长线程池，支持定时及周期性任务执行</p>
-<h3 id="4-newSingleThreadExecutor"><a href="#4-newSingleThreadExecutor" class="headerlink" title="4.newSingleThreadExecutor"></a>4.newSingleThreadExecutor</h3><p>Executors.newSingleThreadExecutor()：创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
-<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><h3 id="创建方式和主要参数解释"><a href="#创建方式和主要参数解释" class="headerlink" title="创建方式和主要参数解释"></a>创建方式和主要参数解释</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> static final ThreadPoolExecutor THREADPOOL = <span class="keyword">new</span> <span class="constructor">ThreadPoolExecutor(<span class="params">int</span> <span class="params">corePoolSize</span>, <span class="params">int</span> <span class="params">maximumPoolSize</span>,<span class="params">long</span> <span class="params">keepAliveTime</span>, TimeUnit <span class="params">unit</span>,BlockingQueue&lt;Runnable&gt; <span class="params">workQueue</span>,RejectedExecutionHandler <span class="params">handler</span>)</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>corePoolSize： 线程池维护线程的最少数量 （core : 核心）</li>
-<li>maximumPoolSize： 线程池维护线程的最大数量</li>
-<li>keepAliveTime：线程池维护线程所允许的空闲时间</li>
-<li>unit：线程池维护线程所允许的空闲时间的单位</li>
-<li>workQueue：线程池所使用的缓冲队列</li>
-<li>handler：线程池对拒绝任务的处理策略</li>
-</ol>
-<h3 id="内部执行流程解释"><a href="#内部执行流程解释" class="headerlink" title="内部执行流程解释"></a>内部执行流程解释</h3><p>通过 execute(Runnable)方法被添加到线程池，任务就是一个 Runnable类型的对象，任务的执行方法就是 Runnable类型对象的run()方法。<br><br>当一个任务通过execute(Runnable)方法欲添加到线程池时：<br><br>如果此时线程池中的数量小于corePoolSize，即使线程池中的线程都处于空闲状态，也要创建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量等于 corePoolSize，但是缓冲队列 workQueue未满，那么任务被放入缓冲队列。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量小于maximumPoolSize，建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量等于maximumPoolSize，那么通过 handler所指定的策略来处理此任务。<br><br>也就是：处理任务的优先级为：<br><br>核心线程corePoolSize、任务队列workQueue、最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务。<br><br> 当线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止。这样，线程池可以动态的调整池中的线程数。<br></p>
-<ul>
-<li><p>unit可选的参数为java.util.concurrent.TimeUnit中的几个静态属性：NANOSECONDS、MICROSECONDS、MILLISECONDS、SECONDS。</p>
-</li>
-<li><p>workQueue常用的是：java.util.concurrent.ArrayBlockingQueue</p>
-</li>
-<li><p>handler有四个选择：<br><br>ThreadPoolExecutor.AbortPolicy()：抛出java.util.concurrent.RejectedExecutionException异常<br><br>ThreadPoolExecutor.CallerRunsPolicy(): 重试添加当前的任务，他会自动重复调用execute()方法<br><br>ThreadPoolExecutor.DiscardOldestPolicy(): 抛弃旧的任务<br><br>ThreadPoolExecutor.DiscardPolicy(): 抛弃当前的任务<br></p>
-</li>
-</ul>
-<h3 id="如何配置线程池"><a href="#如何配置线程池" class="headerlink" title="如何配置线程池"></a>如何配置线程池</h3><ul>
-<li><p>CPU密集型任务<br><br>尽量使用较小的线程池，一般为CPU核心数+1。 因为CPU密集型任务使得CPU使用率很高，若开过多的线程数，会造成CPU过度切换。</p>
-</li>
-<li><p>IO密集型任务<br><br>可以使用稍大的线程池，一般为2*CPU核心数。 IO密集型任务CPU使用率并不高，因此可以让CPU在等待IO的时候有其他线程去处理别的任务，充分利用CPU时间。</p>
-</li>
-<li><p>混合型任务<br><br>可以将任务分成IO密集型和CPU密集型任务，然后分别用不同的线程池去处理。 只要分完之后两个任务的执行时间相差不大，那么就会比串行执行来的高效。<br>因为如果划分之后两个任务执行时间有数据级的差距，那么拆分没有意义。<br>因为先执行完的任务就要等后执行完的任务，最终的时间仍然取决于后执行完的任务，而且还要加上任务拆分与合并的开销，得不偿失。</p>
-</li>
-</ul>
-<h3 id="execute-和submit-方法"><a href="#execute-和submit-方法" class="headerlink" title="execute()和submit()方法"></a>execute()和submit()方法</h3><p>1、execute()，执行一个任务，没有返回值。<br>2、submit()，提交一个线程任务，有返回值。<br>submit(Callable<T> task)能获取到它的返回值，通过future.get()获取（阻塞直到任务执行完）。一般使用FutureTask+Callable配合使用（IntentService中有体现）。</T></p>
-<p>submit(Runnable task, T result)能通过传入的载体result间接获得线程的返回值。<br>submit(Runnable task)则是没有返回值的，就算获取它的返回值也是null。</p>
-<p>Future.get方法会使取结果的线程进入阻塞状态，知道线程执行完成之后，唤醒取结果的线程，然后返回结果。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>基础</category>
-        <category>多线程</category>
-        <category>线程池</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>多线程</tag>
-        <tag>线程池</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Shell脚本中$</title>
     <url>/2021/06/15/shell/shell%20%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84$%20/</url>
     <content><![CDATA[<h1 id="Shell脚本中-0、-、-、-、-、-、"><a href="#Shell脚本中-0、-、-、-、-、-、" class="headerlink" title="Shell脚本中$0、$?、$!、$$、$*、$#、$@"></a>Shell脚本中$0、$?、$!、$$、$*、$#、$@</h1><h2 id="1"><a href="#1" class="headerlink" title="1. $$"></a>1. $$</h2><p>Shell本身的PID（ProcessID）</p>
@@ -2056,6 +2033,59 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>Java基础提升_线程池</title>
+    <url>/2021/06/15/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言<br></h1><p>在《阿里巴巴java开发手册》中指出了线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，这样一方面是线程的创建更加规范，可以合理控制开辟线程的数量；另一方面线程的细节管理交给线程池处理，优化了资源的开销。<br><br>而线程池不允许使用Executors去创建，而要通过<strong>ThreadPoolExecutor</strong>方式，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活【消耗内存等】；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险，所以阿里巴巴java开发规范线程池首选ThreadPoolExcutor。<br></p>
+<p>话虽如此但常见的Executor框架还是要有所了解。</p>
+<span id="more"></span>
+<h2 id="常见线程池以及使用"><a href="#常见线程池以及使用" class="headerlink" title="常见线程池以及使用"></a>常见线程池以及使用</h2><h3 id="1-newCacheThreadPoo"><a href="#1-newCacheThreadPoo" class="headerlink" title="1.newCacheThreadPoo"></a>1.newCacheThreadPoo</h3><p>Executors.newCacheThreadPool()：可缓存线程池，先查看池中有没有以前建立的线程，如果有，就直接使用。如果没有，就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务。</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建一个可缓存线程池</span></span><br><span class="line">        ExecutorService cachedThreadPool = <span class="module-access"><span class="module"><span class="identifier">Executors</span>.</span></span><span class="keyword">new</span><span class="constructor">CachedThreadPool()</span>;</span><br><span class="line">         cachedThreadPool.execute(<span class="literal">()</span> -&gt;&#123;</span><br><span class="line">                </span><br><span class="line">                    <span class="comment">// 打印正在执行的缓存线程信息</span></span><br><span class="line">                    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>.get<span class="constructor">Name()</span></span><br><span class="line">                            + <span class="string">&quot;正在被执行&quot;</span>);</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="2-newFixedThreadPool"><a href="#2-newFixedThreadPool" class="headerlink" title="2.newFixedThreadPool"></a>2.newFixedThreadPool</h3><p> Executors.newFixedThreadPool(int n)：创建一个可重用固定个数的线程池，以共享的无界队列方式来运行这些线程。</p>
+<h3 id="3-newScheduledThreadPool"><a href="#3-newScheduledThreadPool" class="headerlink" title="3.newScheduledThreadPool"></a>3.newScheduledThreadPool</h3><p>Executors.newScheduledThreadPool(int n)：创建一个定长线程池，支持定时及周期性任务执行</p>
+<h3 id="4-newSingleThreadExecutor"><a href="#4-newSingleThreadExecutor" class="headerlink" title="4.newSingleThreadExecutor"></a>4.newSingleThreadExecutor</h3><p>Executors.newSingleThreadExecutor()：创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</p>
+<h2 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h2><h3 id="创建方式和主要参数解释"><a href="#创建方式和主要参数解释" class="headerlink" title="创建方式和主要参数解释"></a>创建方式和主要参数解释</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> static final ThreadPoolExecutor THREADPOOL = <span class="keyword">new</span> <span class="constructor">ThreadPoolExecutor(<span class="params">int</span> <span class="params">corePoolSize</span>, <span class="params">int</span> <span class="params">maximumPoolSize</span>,<span class="params">long</span> <span class="params">keepAliveTime</span>, TimeUnit <span class="params">unit</span>,BlockingQueue&lt;Runnable&gt; <span class="params">workQueue</span>,RejectedExecutionHandler <span class="params">handler</span>)</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>corePoolSize： 线程池维护线程的最少数量 （core : 核心）</li>
+<li>maximumPoolSize： 线程池维护线程的最大数量</li>
+<li>keepAliveTime：线程池维护线程所允许的空闲时间</li>
+<li>unit：线程池维护线程所允许的空闲时间的单位</li>
+<li>workQueue：线程池所使用的缓冲队列</li>
+<li>handler：线程池对拒绝任务的处理策略</li>
+</ol>
+<h3 id="内部执行流程解释"><a href="#内部执行流程解释" class="headerlink" title="内部执行流程解释"></a>内部执行流程解释</h3><p>通过 execute(Runnable)方法被添加到线程池，任务就是一个 Runnable类型的对象，任务的执行方法就是 Runnable类型对象的run()方法。<br><br>当一个任务通过execute(Runnable)方法欲添加到线程池时：<br><br>如果此时线程池中的数量小于corePoolSize，即使线程池中的线程都处于空闲状态，也要创建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量等于 corePoolSize，但是缓冲队列 workQueue未满，那么任务被放入缓冲队列。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量小于maximumPoolSize，建新的线程来处理被添加的任务。<br><br>如果此时线程池中的数量大于corePoolSize，缓冲队列workQueue满，并且线程池中的数量等于maximumPoolSize，那么通过 handler所指定的策略来处理此任务。<br><br>也就是：处理任务的优先级为：<br><br>核心线程corePoolSize、任务队列workQueue、最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务。<br><br> 当线程池中的线程数量大于 corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止。这样，线程池可以动态的调整池中的线程数。<br></p>
+<ul>
+<li><p>unit可选的参数为java.util.concurrent.TimeUnit中的几个静态属性：NANOSECONDS、MICROSECONDS、MILLISECONDS、SECONDS。</p>
+</li>
+<li><p>workQueue常用的是：java.util.concurrent.ArrayBlockingQueue</p>
+</li>
+<li><p>handler有四个选择：<br><br>ThreadPoolExecutor.AbortPolicy()：抛出java.util.concurrent.RejectedExecutionException异常<br><br>ThreadPoolExecutor.CallerRunsPolicy(): 重试添加当前的任务，他会自动重复调用execute()方法<br><br>ThreadPoolExecutor.DiscardOldestPolicy(): 抛弃旧的任务<br><br>ThreadPoolExecutor.DiscardPolicy(): 抛弃当前的任务<br></p>
+</li>
+</ul>
+<h3 id="如何配置线程池"><a href="#如何配置线程池" class="headerlink" title="如何配置线程池"></a>如何配置线程池</h3><ul>
+<li><p>CPU密集型任务<br><br>尽量使用较小的线程池，一般为CPU核心数+1。 因为CPU密集型任务使得CPU使用率很高，若开过多的线程数，会造成CPU过度切换。</p>
+</li>
+<li><p>IO密集型任务<br><br>可以使用稍大的线程池，一般为2*CPU核心数。 IO密集型任务CPU使用率并不高，因此可以让CPU在等待IO的时候有其他线程去处理别的任务，充分利用CPU时间。</p>
+</li>
+<li><p>混合型任务<br><br>可以将任务分成IO密集型和CPU密集型任务，然后分别用不同的线程池去处理。 只要分完之后两个任务的执行时间相差不大，那么就会比串行执行来的高效。<br>因为如果划分之后两个任务执行时间有数据级的差距，那么拆分没有意义。<br>因为先执行完的任务就要等后执行完的任务，最终的时间仍然取决于后执行完的任务，而且还要加上任务拆分与合并的开销，得不偿失。</p>
+</li>
+</ul>
+<h3 id="execute-和submit-方法"><a href="#execute-和submit-方法" class="headerlink" title="execute()和submit()方法"></a>execute()和submit()方法</h3><p>1、execute()，执行一个任务，没有返回值。<br>2、submit()，提交一个线程任务，有返回值。<br>submit(Callable<T> task)能获取到它的返回值，通过future.get()获取（阻塞直到任务执行完）。一般使用FutureTask+Callable配合使用（IntentService中有体现）。</T></p>
+<p>submit(Runnable task, T result)能通过传入的载体result间接获得线程的返回值。<br>submit(Runnable task)则是没有返回值的，就算获取它的返回值也是null。</p>
+<p>Future.get方法会使取结果的线程进入阻塞状态，知道线程执行完成之后，唤醒取结果的线程，然后返回结果。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>多线程</category>
+        <category>线程池</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
+        <tag>线程池</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mybatis</title>
     <url>/2021/05/26/sql/mybatis/</url>
     <content><![CDATA[<ol>
@@ -2093,74 +2123,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识TCP</title>
-    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
-    <content><![CDATA[<p>&nbsp;</p>
-<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
-<ul>
-<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
-</li>
-<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
-</li>
-<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
-</li>
-</ul>
-<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
-<ul>
-<li>Socket：由 IP 地址和端口号组成</li>
-<li>序列号：用来解决乱序问题等</li>
-<li>窗口大小：用来做流量控制</li>
-</ul>
-<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
-<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
-<li>源地址</li>
-<li>源端口</li>
-<li>目的地址</li>
-<li>目的端口<span id="more"></span>
-<h2 id="有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？"><a href="#有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？" class="headerlink" title="有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？"></a>有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？</h2>主要受限于服务器的资源，第一是文件描述符限制，TCP连接中得socket是文件得，所以受文件描述符限制，这个由系统参数ulimit 配置，但这个也受限于系统内存，内存不大，参数设置得过大也无法实现。</li>
-</ul>
-<h2 id="UDP-和-TCP-有什么区别呢？分别的应用场景是？"><a href="#UDP-和-TCP-有什么区别呢？分别的应用场景是？" class="headerlink" title="UDP 和 TCP 有什么区别呢？分别的应用场景是？"></a>UDP 和 TCP 有什么区别呢？分别的应用场景是？</h2><p>UDP 是不需要连接，即刻传输数据。且可以一对多，多对多。UDP 是尽最大努力交付，不保证可靠交付数据。UDP没有流量控制。UDP首部只有 8 个字节，并且是固定不变的，开销较小<br><br>TCP则是面向连接的，只能一对一，TCP比较可靠数据可以无差错、不丢失、不重复、按需到达，可以进行流量控制。<br></p>
-<p>一句话来说UDP比较高效，舍弃了可靠性，TCP则是专注于点对点的高质量传输。<br><br><strong>TCP：</strong><br><br>FTP 文件传输<br><br>HTTP / HTTPS<br><br><br><strong>UDP</strong><br><br>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于：</p>
-<p>包总量较少的通信，如 DNS 、SNMP 等</p>
-<p>视频、音频等多媒体通信</p>
-<p>广播通信</p>
-<h2 id="为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？"><a href="#为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？" class="headerlink" title="为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？"></a>为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？</h2><p>原因是 TCP 有可变长的「选项」字段，而 UDP 头部长度则是不会变化的，无需多一个字段去记录 UDP 的首部长度。</p>
-<h2 id="三次握手，四次挥手"><a href="#三次握手，四次挥手" class="headerlink" title="三次握手，四次挥手"></a>三次握手，四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
-<li>一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态;<br></li>
-<li>客户端发起一个SYN请求，同时送过去随机生成的客户端序列号client_isn,之后客户端处于 SYN-SENT 状态。<br></li>
-<li>服务端接收到SYN请求，返回一个ACK和服务端的SYN，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1，生成一个服务端的序列号server_isn，传送给客户端，之后服务端处于 SYN-RCVD 状态;<br></li>
-<li>客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。</li>
-<li>服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。</li>
-</ol>
-<h3 id="三次握手的意义"><a href="#三次握手的意义" class="headerlink" title="三次握手的意义"></a>三次握手的意义</h3><p>阻止历史重复连接的初始化（主要原因）</p>
-<p>三次握手才可以同步双方的初始序列号</p>
-<p>三次握手才可以避免资源浪费<br></p>
-<p>从上面的过程可以发现<strong>第三次握手是可以携带数据的，前两次握手是不可以携带数据</strong>的。</p>
-<h3 id="如何在-Linux-系统中查看-TCP-状态？"><a href="#如何在-Linux-系统中查看-TCP-状态？" class="headerlink" title="如何在 Linux 系统中查看 TCP 状态？"></a>如何在 Linux 系统中查看 TCP 状态？</h3><p>TCP 的连接状态查看，在 Linux 可以通过 <strong>netstat -napt</strong> 命令查看。</p>
-<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
-<li>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</li>
-<li>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</li>
-<li>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</li>
-<li>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</li>
-<li>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态</li>
-<li>服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</li>
-<li>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭。</li>
-</ol>
-<p><strong>主动关闭连接的，才有 TIME_WAIT 状态。</strong></p>
-<h2 id="TCP性能的优化"><a href="#TCP性能的优化" class="headerlink" title="TCP性能的优化"></a>TCP性能的优化</h2><p>tcp_syn_retries 控制SYN包重传的次数，默认值是5</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">echo <span class="number">5</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/net/i</span>pv4/tcp_syn_retries</span><br></pre></td></tr></table></figure>
-<h2 id="如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？"><a href="#如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？" class="headerlink" title="如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？"></a>如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -s |grep &quot;SYNs to LISTEN&quot;</span><br></pre></td></tr></table></figure>
-<p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
-<h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>cs基础</category>
-        <category>tcp</category>
-      </categories>
-      <tags>
-        <tag>tcp</tag>
       </tags>
   </entry>
   <entry>
@@ -2232,6 +2194,74 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识TCP</title>
+    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
+    <content><![CDATA[<p>&nbsp;</p>
+<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
+<ul>
+<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
+</li>
+<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
+</li>
+<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
+</li>
+</ul>
+<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
+<ul>
+<li>Socket：由 IP 地址和端口号组成</li>
+<li>序列号：用来解决乱序问题等</li>
+<li>窗口大小：用来做流量控制</li>
+</ul>
+<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
+<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
+<li>源地址</li>
+<li>源端口</li>
+<li>目的地址</li>
+<li>目的端口<span id="more"></span>
+<h2 id="有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？"><a href="#有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？" class="headerlink" title="有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？"></a>有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？</h2>主要受限于服务器的资源，第一是文件描述符限制，TCP连接中得socket是文件得，所以受文件描述符限制，这个由系统参数ulimit 配置，但这个也受限于系统内存，内存不大，参数设置得过大也无法实现。</li>
+</ul>
+<h2 id="UDP-和-TCP-有什么区别呢？分别的应用场景是？"><a href="#UDP-和-TCP-有什么区别呢？分别的应用场景是？" class="headerlink" title="UDP 和 TCP 有什么区别呢？分别的应用场景是？"></a>UDP 和 TCP 有什么区别呢？分别的应用场景是？</h2><p>UDP 是不需要连接，即刻传输数据。且可以一对多，多对多。UDP 是尽最大努力交付，不保证可靠交付数据。UDP没有流量控制。UDP首部只有 8 个字节，并且是固定不变的，开销较小<br><br>TCP则是面向连接的，只能一对一，TCP比较可靠数据可以无差错、不丢失、不重复、按需到达，可以进行流量控制。<br></p>
+<p>一句话来说UDP比较高效，舍弃了可靠性，TCP则是专注于点对点的高质量传输。<br><br><strong>TCP：</strong><br><br>FTP 文件传输<br><br>HTTP / HTTPS<br><br><br><strong>UDP</strong><br><br>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于：</p>
+<p>包总量较少的通信，如 DNS 、SNMP 等</p>
+<p>视频、音频等多媒体通信</p>
+<p>广播通信</p>
+<h2 id="为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？"><a href="#为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？" class="headerlink" title="为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？"></a>为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？</h2><p>原因是 TCP 有可变长的「选项」字段，而 UDP 头部长度则是不会变化的，无需多一个字段去记录 UDP 的首部长度。</p>
+<h2 id="三次握手，四次挥手"><a href="#三次握手，四次挥手" class="headerlink" title="三次握手，四次挥手"></a>三次握手，四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
+<li>一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态;<br></li>
+<li>客户端发起一个SYN请求，同时送过去随机生成的客户端序列号client_isn,之后客户端处于 SYN-SENT 状态。<br></li>
+<li>服务端接收到SYN请求，返回一个ACK和服务端的SYN，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1，生成一个服务端的序列号server_isn，传送给客户端，之后服务端处于 SYN-RCVD 状态;<br></li>
+<li>客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。</li>
+<li>服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。</li>
+</ol>
+<h3 id="三次握手的意义"><a href="#三次握手的意义" class="headerlink" title="三次握手的意义"></a>三次握手的意义</h3><p>阻止历史重复连接的初始化（主要原因）</p>
+<p>三次握手才可以同步双方的初始序列号</p>
+<p>三次握手才可以避免资源浪费<br></p>
+<p>从上面的过程可以发现<strong>第三次握手是可以携带数据的，前两次握手是不可以携带数据</strong>的。</p>
+<h3 id="如何在-Linux-系统中查看-TCP-状态？"><a href="#如何在-Linux-系统中查看-TCP-状态？" class="headerlink" title="如何在 Linux 系统中查看 TCP 状态？"></a>如何在 Linux 系统中查看 TCP 状态？</h3><p>TCP 的连接状态查看，在 Linux 可以通过 <strong>netstat -napt</strong> 命令查看。</p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
+<li>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</li>
+<li>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</li>
+<li>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</li>
+<li>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</li>
+<li>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态</li>
+<li>服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</li>
+<li>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭。</li>
+</ol>
+<p><strong>主动关闭连接的，才有 TIME_WAIT 状态。</strong></p>
+<h2 id="TCP性能的优化"><a href="#TCP性能的优化" class="headerlink" title="TCP性能的优化"></a>TCP性能的优化</h2><p>tcp_syn_retries 控制SYN包重传的次数，默认值是5</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">echo <span class="number">5</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/net/i</span>pv4/tcp_syn_retries</span><br></pre></td></tr></table></figure>
+<h2 id="如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？"><a href="#如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？" class="headerlink" title="如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？"></a>如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -s |grep &quot;SYNs to LISTEN&quot;</span><br></pre></td></tr></table></figure>
+<p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
+<h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>cs基础</category>
+        <category>tcp</category>
+      </categories>
+      <tags>
+        <tag>tcp</tag>
       </tags>
   </entry>
   <entry>
@@ -2579,11 +2609,23 @@ start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARA
 <li>设置热点数据永远不过期</li>
 </ol>
 <h2 id="Redis分布式锁"><a href="#Redis分布式锁" class="headerlink" title="Redis分布式锁"></a>Redis分布式锁</h2><p>先拿setnx来争抢锁，抢到之后，再用expire给锁加一个过期时间防止锁忘记了释放。（setnx和expire可以合成一条指令，防止setnx之后执行expire之前进程意外crash或者要重启维护）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">set key value [EX seconds] [PX milliseconds] [NX|XX]</span><br><span class="line">EX seconds：设置失效时长，单位秒</span><br><span class="line">PX milliseconds：设置失效时长，单位毫秒</span><br><span class="line">NX：key不存在时设置value，成功返回OK，失败返回(nil)</span><br><span class="line">XX：key存在时设置value，成功返回OK，失败返回(nil)</span><br></pre></td></tr></table></figure>
+
+
+
+
 <h2 id="双写一致性问题"><a href="#双写一致性问题" class="headerlink" title="双写一致性问题"></a>双写一致性问题</h2><p>两个请求同时修改同一个数据，可能导致脏数据。</p>
 <ul>
-<li>严格要求 “缓存+数据库” 必须保持一致性 ： 读请求和写请求串行化</li>
-<li>Cache Aside Pattern(旁路缓存方案)<br><br>最经典的缓存+数据库读写的模式，就是 Cache Aside Pattern。<br><br>读的时候，先读缓存，缓存没有的话，就读数据库，然后取出数据后放入缓存，同时返回响应。<br><br>更新的时候，先更新数据库，然后再<strong>删除</strong>缓存<br>注：(区别于更新缓存，如果是更新，在1和2两个并发写发生时，由于无法保证时序，此时不管先操作缓存还是先操作数据库，都可能出现：（1）请求1先操作数据库，请求2后操作数据库（2）请求2先set了缓存，请求1后set了缓存导致，数据库与缓存之间的数据不一致。)</li>
+<li><p>严格要求 “缓存+数据库” 必须保持一致性 ： 读请求和写请求串行化</p>
+</li>
+<li><p>Cache Aside Pattern(旁路缓存方案)<br><br>最经典的缓存+数据库读写的模式，就是 Cache Aside Pattern。<br><br>读的时候，先读缓存，缓存没有的话，就读数据库，然后取出数据后放入缓存，同时返回响应。<br><br>更新的时候，先更新数据库，然后再<strong>删除</strong>缓存<br>注：(区别于更新缓存，如果是更新，在1和2两个并发写发生时，由于无法保证时序，此时不管先操作缓存还是先操作数据库，都可能出现：（1）请求1先操作数据库，请求2后操作数据库（2）请求2先set了缓存，请求1后set了缓存导致，数据库与缓存之间的数据不一致。)</p>
+</li>
 </ul>
+<h2 id="延时双删"><a href="#延时双删" class="headerlink" title="延时双删"></a>延时双删</h2><p>  上面这种方案，是先更新数据库，再删除缓存，但是改了库，清理缓存前，有部分事务还是会拿到旧缓存，这样如果再更新了缓存之后就还是不对的。可以采用延时双删策略。</p>
+<p>  在更新数据库前，清理缓存，再执行更新操作，然后第二次清空缓存之前，多延时一会儿，等B更新缓存结束了，再删除缓存，这样就缓存就不存在了，其他事务查询到的为新缓存。</p>
+<p>  延时是确保 <strong>修改数据库 -&gt; 清空缓存前，其他事务的更改缓存操作已经执行完。</strong></p>
+<p>  采用延时删最后一次缓存，但这其中难免还是会大量的查询到旧缓存数据的。</p>
+<p>  这个时候可以采用通过加锁来解决，一次性不让太多的线程都来请求，另外从图上看，我们可以尽量缩短<code>第一次删除缓存</code>和<code>更新数据库</code>的时间差。</p>
 <h2 id="redis的过期策略以及内存淘汰机制"><a href="#redis的过期策略以及内存淘汰机制" class="headerlink" title="redis的过期策略以及内存淘汰机制"></a>redis的过期策略以及内存淘汰机制</h2><blockquote>
 <p>分析:比如你redis只能存5G数据，可是你写了10G，那会删5G的数据。怎么删的？还有，你的数据已经设置了过期时间，但是时间到了，内存占用率还是比较高，有思考过原因么? <br><br>回答: redis采用的是定期删除+惰性删除 + 淘汰策略。<br></p>
 </blockquote>
