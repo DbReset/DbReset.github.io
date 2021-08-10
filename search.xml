@@ -515,35 +515,6 @@
       </tags>
   </entry>
   <entry>
-    <title>springboot框架总述</title>
-    <url>/2021/08/10/spring/springboot/springboot/</url>
-    <content><![CDATA[<h1 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h1><p>pom.xml中有父项目</p>
-<ul>
-<li>spring-boot-dependencies：核心依赖在父工程中</li>
-<li>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</li>
-</ul>
-<h1 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h1><p>启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
-<h1 id="springboot-如何内置的tomcat"><a href="#springboot-如何内置的tomcat" class="headerlink" title="springboot 如何内置的tomcat"></a>springboot 如何内置的tomcat</h1><p>大致流程如下</p>
-<ol>
-<li>通过自动装配默认加载了DispatcherServlet，所有请求都会转发到DispatcherServlet</li>
-<li>DispatcherServlet的doService方法中拿到HttpServletRequest和HttpServletResponse对象</li>
-<li>从HttpServletRequest可以拿到我们的http头、url请求等信息</li>
-<li>根据获取的信息，从ioc容器中找到对应的Controller对应的action，进行反射调用</li>
-<li>根据HttpServletResponse返回调用结果给浏览器渲染<br></li>
-</ol>
-<p>springboot默认创建了一个DispatcherServlet来处理http请求<br>    - 不用再配置DispatcherServlet 简单的说就是默认加载META-INF/spring.factories定义的类，然后我们就可以在spring.factories中找到我们的关键类DispatcherServletAutoConfiguration</p>
-<h1 id="springboot启动原理"><a href="#springboot启动原理" class="headerlink" title="springboot启动原理"></a>springboot启动原理</h1><p><img src="/2021/08/10/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>spring框架总述</title>
     <url>/2021/08/10/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/</url>
     <content><![CDATA[<h1 id="1-spring是什么"><a href="#1-spring是什么" class="headerlink" title="1.spring是什么"></a>1.spring是什么</h1><p>Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为了解决企业应用开发<br>的复杂性而创建的。Spring 的核心是控制反转（<strong>IoC</strong>）和面向切面编程（<strong>AOP</strong>）。<br></p>
@@ -611,6 +582,35 @@
         <tag>Spring</tag>
         <tag>Ioc</tag>
         <tag>Aop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>springboot框架总述</title>
+    <url>/2021/08/10/spring/springboot/springboot/</url>
+    <content><![CDATA[<h1 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h1><p>pom.xml中有父项目</p>
+<ul>
+<li>spring-boot-dependencies：核心依赖在父工程中</li>
+<li>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</li>
+</ul>
+<h1 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h1><p>启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
+<h1 id="springboot-如何内置的tomcat"><a href="#springboot-如何内置的tomcat" class="headerlink" title="springboot 如何内置的tomcat"></a>springboot 如何内置的tomcat</h1><p>大致流程如下</p>
+<ol>
+<li>通过自动装配默认加载了DispatcherServlet，所有请求都会转发到DispatcherServlet</li>
+<li>DispatcherServlet的doService方法中拿到HttpServletRequest和HttpServletResponse对象</li>
+<li>从HttpServletRequest可以拿到我们的http头、url请求等信息</li>
+<li>根据获取的信息，从ioc容器中找到对应的Controller对应的action，进行反射调用</li>
+<li>根据HttpServletResponse返回调用结果给浏览器渲染<br></li>
+</ol>
+<p>springboot默认创建了一个DispatcherServlet来处理http请求<br>    - 不用再配置DispatcherServlet 简单的说就是默认加载META-INF/spring.factories定义的类，然后我们就可以在spring.factories中找到我们的关键类DispatcherServletAutoConfiguration</p>
+<h1 id="springboot启动原理"><a href="#springboot启动原理" class="headerlink" title="springboot启动原理"></a>springboot启动原理</h1><p><img src="/2021/08/10/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>SpringBoot</tag>
       </tags>
   </entry>
   <entry>
