@@ -354,6 +354,27 @@
 
   
   <url>
+    <loc>http://dbreset.github.io/tags/code-language/</loc>
+    <lastmod>2021-08-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://dbreset.github.io/tags/MA/</loc>
+    <lastmod>2021-08-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://dbreset.github.io/tags/BOLL-MACD-KDJ-RSI-WR/</loc>
+    <lastmod>2021-08-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://dbreset.github.io/tags/java/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
@@ -383,13 +404,6 @@
   
   <url>
     <loc>http://dbreset.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
-    <lastmod>2021-08-10</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://dbreset.github.io/tags/code-language/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -634,20 +648,6 @@
   </url>
   
   <url>
-    <loc>http://dbreset.github.io/tags/MA/</loc>
-    <lastmod>2021-08-10</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://dbreset.github.io/tags/BOLL-MACD-KDJ-RSI-WR/</loc>
-    <lastmod>2021-08-10</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://dbreset.github.io/tags/Spring/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
@@ -670,6 +670,13 @@
   
   <url>
     <loc>http://dbreset.github.io/tags/Aop/</loc>
+    <lastmod>2021-08-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://dbreset.github.io/tags/SpringBoot/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -710,14 +717,21 @@
     <priority>0.6</priority>
   </url>
   
+
+  
   <url>
-    <loc>http://dbreset.github.io/tags/SpringBoot/</loc>
+    <loc>http://dbreset.github.io/categories/%E8%8B%B1%E6%96%87/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
-
+  <url>
+    <loc>http://dbreset.github.io/categories/K%E7%BA%BF/</loc>
+    <lastmod>2021-08-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
   
   <url>
     <loc>http://dbreset.github.io/categories/java/</loc>
@@ -727,7 +741,7 @@
   </url>
   
   <url>
-    <loc>http://dbreset.github.io/categories/%E8%8B%B1%E6%96%87/</loc>
+    <loc>http://dbreset.github.io/categories/K%E7%BA%BF/%E6%8A%80%E6%9C%AF%E6%8C%87%E6%A0%87/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -741,20 +755,6 @@
   </url>
   
   <url>
-    <loc>http://dbreset.github.io/categories/java/%E5%9F%BA%E7%A1%80/JVM/</loc>
-    <lastmod>2021-08-10</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://dbreset.github.io/categories/java/%E5%9F%BA%E7%A1%80/IO%E6%A8%A1%E5%9E%8B/</loc>
-    <lastmod>2021-08-10</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://dbreset.github.io/categories/PMP/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
@@ -762,21 +762,7 @@
   </url>
   
   <url>
-    <loc>http://dbreset.github.io/categories/java/%E5%9F%BA%E7%A1%80/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
-    <lastmod>2021-08-10</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://dbreset.github.io/categories/unix/</loc>
-    <lastmod>2021-08-10</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://dbreset.github.io/categories/java/%E5%9F%BA%E7%A1%80/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -791,6 +777,13 @@
   
   <url>
     <loc>http://dbreset.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
+    <lastmod>2021-08-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://dbreset.github.io/categories/java/%E5%9F%BA%E7%A1%80/IO%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -818,7 +811,14 @@
   </url>
   
   <url>
-    <loc>http://dbreset.github.io/categories/java/%E5%9F%BA%E7%A1%80/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</loc>
+    <loc>http://dbreset.github.io/categories/java/%E5%9F%BA%E7%A1%80/JVM/</loc>
+    <lastmod>2021-08-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://dbreset.github.io/categories/java/%E5%9F%BA%E7%A1%80/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -826,6 +826,13 @@
   
   <url>
     <loc>http://dbreset.github.io/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</loc>
+    <lastmod>2021-08-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://dbreset.github.io/categories/java/%E5%9F%BA%E7%A1%80/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -867,7 +874,7 @@
   </url>
   
   <url>
-    <loc>http://dbreset.github.io/categories/K%E7%BA%BF/</loc>
+    <loc>http://dbreset.github.io/categories/java/%E5%9F%BA%E7%A1%80/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -889,13 +896,6 @@
   
   <url>
     <loc>http://dbreset.github.io/categories/unix/shell/</loc>
-    <lastmod>2021-08-10</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://dbreset.github.io/categories/java/%E5%9F%BA%E7%A1%80/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E6%B1%A0/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -986,13 +986,6 @@
   </url>
   
   <url>
-    <loc>http://dbreset.github.io/categories/K%E7%BA%BF/%E6%8A%80%E6%9C%AF%E6%8C%87%E6%A0%87/</loc>
-    <lastmod>2021-08-10</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://dbreset.github.io/categories/java/spring/IOC-AOP/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
@@ -1022,6 +1015,13 @@
   
   <url>
     <loc>http://dbreset.github.io/categories/unix/shell/%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2021-08-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://dbreset.github.io/categories/java/%E5%9F%BA%E7%A1%80/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E6%B1%A0/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
