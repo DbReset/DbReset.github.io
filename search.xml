@@ -2167,8 +2167,8 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
         <category>springcloud</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>Eureka</tag>
+        <tag>java</tag>
         <tag>springcloud</tag>
         <tag>Ribbon</tag>
         <tag>Feign</tag>
