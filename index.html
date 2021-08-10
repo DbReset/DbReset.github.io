@@ -993,99 +993,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/spring/springboot/springboot/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/10/spring/springboot/springboot/" class="post-title-link" itemprop="url">springboot框架总述</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/springboot/" itemprop="url" rel="index"><span itemprop="name">springboot</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h1><p>pom.xml中有父项目</p>
-<ul>
-<li>spring-boot-dependencies：核心依赖在父工程中</li>
-<li>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</li>
-</ul>
-<h1 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h1><p>启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
-<h1 id="springboot-如何内置的tomcat"><a href="#springboot-如何内置的tomcat" class="headerlink" title="springboot 如何内置的tomcat"></a>springboot 如何内置的tomcat</h1><p>大致流程如下</p>
-<ol>
-<li>通过自动装配默认加载了DispatcherServlet，所有请求都会转发到DispatcherServlet</li>
-<li>DispatcherServlet的doService方法中拿到HttpServletRequest和HttpServletResponse对象</li>
-<li>从HttpServletRequest可以拿到我们的http头、url请求等信息</li>
-<li>根据获取的信息，从ioc容器中找到对应的Controller对应的action，进行反射调用</li>
-<li>根据HttpServletResponse返回调用结果给浏览器渲染<br></li>
-</ol>
-<p>springboot默认创建了一个DispatcherServlet来处理http请求<br>    - 不用再配置DispatcherServlet 简单的说就是默认加载META-INF/spring.factories定义的类，然后我们就可以在spring.factories中找到我们的关键类DispatcherServletAutoConfiguration</p>
-<h1 id="springboot启动原理"><a href="#springboot启动原理" class="headerlink" title="springboot启动原理"></a>springboot启动原理</h1><p><img src="/2021/08/10/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
-
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1158,6 +1065,99 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/spring/springboot/springboot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/10/spring/springboot/springboot/" class="post-title-link" itemprop="url">springboot框架总述</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/springboot/" itemprop="url" rel="index"><span itemprop="name">springboot</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h1><p>pom.xml中有父项目</p>
+<ul>
+<li>spring-boot-dependencies：核心依赖在父工程中</li>
+<li>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</li>
+</ul>
+<h1 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h1><p>启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
+<h1 id="springboot-如何内置的tomcat"><a href="#springboot-如何内置的tomcat" class="headerlink" title="springboot 如何内置的tomcat"></a>springboot 如何内置的tomcat</h1><p>大致流程如下</p>
+<ol>
+<li>通过自动装配默认加载了DispatcherServlet，所有请求都会转发到DispatcherServlet</li>
+<li>DispatcherServlet的doService方法中拿到HttpServletRequest和HttpServletResponse对象</li>
+<li>从HttpServletRequest可以拿到我们的http头、url请求等信息</li>
+<li>根据获取的信息，从ioc容器中找到对应的Controller对应的action，进行反射调用</li>
+<li>根据HttpServletResponse返回调用结果给浏览器渲染<br></li>
+</ol>
+<p>springboot默认创建了一个DispatcherServlet来处理http请求<br>    - 不用再配置DispatcherServlet 简单的说就是默认加载META-INF/spring.factories定义的类，然后我们就可以在spring.factories中找到我们的关键类DispatcherServletAutoConfiguration</p>
+<h1 id="springboot启动原理"><a href="#springboot启动原理" class="headerlink" title="springboot启动原理"></a>springboot启动原理</h1><p><img src="/2021/08/10/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
+
       
     </div>
     
