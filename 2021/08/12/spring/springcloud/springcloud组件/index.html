@@ -26,12 +26,12 @@
   <meta name="description" content="SpringCloud进阶   javase  数据库 [] 前端 [] servlet [] Http  Mybatis  Spring [] SpringMVC [] SpringBoot  Dubbo,zookeeper,分布式基础  maven   总结一下SpringCloud结果核心组件:   Eureka:个服务启动时,Eureka会将服务注册到EurekaService,并且Eur">
 <meta property="og:type" content="article">
 <meta property="og:title" content="springcloud_五大组件">
-<meta property="og:url" content="http://dbreset.github.io/2021/07/23/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/index.html">
+<meta property="og:url" content="http://dbreset.github.io/2021/08/12/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/index.html">
 <meta property="og:site_name" content="裸泳的猪">
 <meta property="og:description" content="SpringCloud进阶   javase  数据库 [] 前端 [] servlet [] Http  Mybatis  Spring [] SpringMVC [] SpringBoot  Dubbo,zookeeper,分布式基础  maven   总结一下SpringCloud结果核心组件:   Eureka:个服务启动时,Eureka会将服务注册到EurekaService,并且Eur">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-07-23T03:22:17.230Z">
-<meta property="article:modified_time" content="2021-07-23T03:22:17.230Z">
+<meta property="article:published_time" content="2021-08-12T14:29:06.470Z">
+<meta property="article:modified_time" content="2021-08-12T14:29:06.470Z">
 <meta property="article:author" content="Luo">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="Eureka">
@@ -42,7 +42,7 @@
 <meta property="article:tag" content="Zuul">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://dbreset.github.io/2021/07/23/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/">
+<link rel="canonical" href="http://dbreset.github.io/2021/08/12/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/">
 
 
 <script id="page-configurations">
@@ -200,7 +200,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/07/23/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/12/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -225,7 +225,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-07-23 11:22:17" itemprop="dateCreated datePublished" datetime="2021-07-23T11:22:17+08:00">2021-07-23</time>
+              <time title="创建时间：2021-08-12 22:29:06" itemprop="dateCreated datePublished" datetime="2021-08-12T22:29:06+08:00">2021-08-12</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -283,7 +283,7 @@
 <ul>
 <li>Eureka:个服务启动时,Eureka会将服务注册到EurekaService,并且EurakeClient还可以返回过来从EurekaService拉去注册表,从而知道服务在哪里</li>
 <li>Ribbon:服务间发起请求的时候,基于Ribbon服务做到负载均衡,从一个服务的对台机器中选择一台</li>
-<li>Feign:基于fegin的动态代理机制,根据注解和选择机器,拼接Url地址,发起请求</li>
+<li>Feign:RPC框架，基于fegin的动态代理机制,根据注解和选择机器,拼接Url地址,发起请求,Feign是Netflix开发的声明式、模板化的HTTP客户端， Feign可以帮助我们更快捷、优雅地调用HTTP API。</li>
 <li>Hystrix:发起的请求是通过Hystrix的线程池来走,不同的服务走不同的线程池,实现了不同的服务调度隔离,避免服务雪崩的问题</li>
 <li>Zuul:如果前端后端移动端调用后台系统,统一走zull网关进入,有zull网关转发请求给对应的服务</li>
 </ul>
@@ -323,12 +323,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/07/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/" rel="prev" title="shell知识点">
-      <i class="fa fa-chevron-left"></i> shell知识点
+    <a href="/2021/08/12/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/" rel="prev" title="spring框架总述">
+      <i class="fa fa-chevron-left"></i> spring框架总述
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/07/23/pmp/PMP1-3/" rel="next" title="PMP备考系列_1-3章笔记">
-      PMP备考系列_1-3章笔记 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/08/12/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/" rel="next" title="springMVC框架总述">
+      springMVC框架总述 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
