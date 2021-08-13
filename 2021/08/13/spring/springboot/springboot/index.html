@@ -23,23 +23,24 @@
     var CONFIG = {"hostname":"dbreset.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="自动装配pom.xml中有父项目  spring-boot-dependencies：核心依赖在父工程中 我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。  什么是 Spring Boot Stater ？启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复">
+  <meta name="description" content="自动装配pom.xml中有父项目  spring-boot-dependencies：核心依赖在父工程中  我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。  该配置模块的主要使用到了SpringFactoriesLoader，即Spring工厂加载器，该对象提供了loadFactoryNames方法，入参为factoryClass和classLoade">
 <meta property="og:type" content="article">
 <meta property="og:title" content="springboot框架总述">
-<meta property="og:url" content="http://dbreset.github.io/2021/08/12/spring/springboot/springboot/index.html">
+<meta property="og:url" content="http://dbreset.github.io/2021/08/13/spring/springboot/springboot/index.html">
 <meta property="og:site_name" content="裸泳的猪">
-<meta property="og:description" content="自动装配pom.xml中有父项目  spring-boot-dependencies：核心依赖在父工程中 我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。  什么是 Spring Boot Stater ？启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复">
+<meta property="og:description" content="自动装配pom.xml中有父项目  spring-boot-dependencies：核心依赖在父工程中  我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。  该配置模块的主要使用到了SpringFactoriesLoader，即Spring工厂加载器，该对象提供了loadFactoryNames方法，入参为factoryClass和classLoade">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://dbreset.github.io/2021/08/12/spring/springboot/springboot/springboot_start.jpg">
-<meta property="article:published_time" content="2021-08-12T14:29:06.468Z">
-<meta property="article:modified_time" content="2021-08-12T14:29:06.468Z">
+<meta property="og:image" content="http://dbreset.github.io/2021/08/13/spring/springboot/springboot/springboot_start.jpg">
+<meta property="og:image" content="http://dbreset.github.io/2021/08/13/spring/springboot/springboot/Users/sxyyl/Documents/GitHub_posts/spring/springboot/springboot/SpringApplication.jpg">
+<meta property="article:published_time" content="2021-08-13T09:30:41.713Z">
+<meta property="article:modified_time" content="2021-08-13T09:30:41.713Z">
 <meta property="article:author" content="Luo">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="SpringBoot">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://dbreset.github.io/2021/08/12/spring/springboot/springboot/springboot_start.jpg">
+<meta name="twitter:image" content="http://dbreset.github.io/2021/08/13/spring/springboot/springboot/springboot_start.jpg">
 
-<link rel="canonical" href="http://dbreset.github.io/2021/08/12/spring/springboot/springboot/">
+<link rel="canonical" href="http://dbreset.github.io/2021/08/13/spring/springboot/springboot/">
 
 
 <script id="page-configurations">
@@ -197,7 +198,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/12/spring/springboot/springboot/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/13/spring/springboot/springboot/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -222,7 +223,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-08-12 22:29:06" itemprop="dateCreated datePublished" datetime="2021-08-12T22:29:06+08:00">2021-08-12</time>
+              <time title="创建时间：2021-08-13 17:30:41" itemprop="dateCreated datePublished" datetime="2021-08-13T17:30:41+08:00">2021-08-13</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,8 +259,13 @@
       
         <h1 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h1><p>pom.xml中有父项目</p>
 <ul>
-<li>spring-boot-dependencies：核心依赖在父工程中</li>
-<li>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</li>
+<li><p>spring-boot-dependencies：核心依赖在父工程中</p>
+</li>
+<li><p>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</p>
+<blockquote>
+<p>该配置模块的主要使用到了<strong>SpringFactoriesLoader，即Spring工厂加载器</strong>，该对象提供了loadFactoryNames方法，入参为factoryClass和classLoader，即需要传入上图中的工厂类名称和对应的类加载器，方法会根据指定的classLoader，加载该类加器搜索路径下的指定文件，即<strong>指定的配置文件META-INF/spring.factories</strong>，传入的工厂类为接口，而文件中对应的类则是接口的实现类，或最终作为实现类，所以文件中一般为如下图这种一对多的类名集合，获取到这些实现类的类名后，loadFactoryNames方法返回类名集合，方法调用方得到这些集合后，再通过反射获取这些类的类对象、构造方法，最终生成实例。</p>
+</blockquote>
+</li>
 </ul>
 <h1 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h1><p>启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
 <h1 id="springboot-如何内置的tomcat"><a href="#springboot-如何内置的tomcat" class="headerlink" title="springboot 如何内置的tomcat"></a>springboot 如何内置的tomcat</h1><p>大致流程如下</p>
@@ -271,9 +277,34 @@
 <li>根据HttpServletResponse返回调用结果给浏览器渲染<br></li>
 </ol>
 <p>springboot默认创建了一个DispatcherServlet来处理http请求<br>    - 不用再配置DispatcherServlet 简单的说就是默认加载META-INF/spring.factories定义的类，然后我们就可以在spring.factories中找到我们的关键类DispatcherServletAutoConfiguration</p>
-<h1 id="springboot启动原理"><a href="#springboot启动原理" class="headerlink" title="springboot启动原理"></a>springboot启动原理</h1><p><img src="/2021/08/12/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
+<h1 id="springboot启动原理"><a href="#springboot启动原理" class="headerlink" title="springboot启动原理"></a>springboot启动原理</h1><p>我们发现启动流程主要分为<strong>三个部分</strong>，</p>
+<p>第一部分进行<strong>SpringApplication的初始化模块</strong>，配置一些基本的环境变量、资源、构造器、监听器；</p>
+<p>第二部分实现了<strong>应用具体的启动方案</strong>，包括启动流程的监听模块、加载配置环境模块、及核心的创建上下文环境模块；</p>
+<p>第三部分是自动化配置模块，</p>
+<p><img src="/2021/08/13/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
+<p><strong>SpringApplication的run方法</strong>的实现是我们本次旅程的主要线路，该方法的主要流程大体可以归纳如下：</p>
+<p><img src="/2021/08/13/spring/springboot/springboot/Users\sxyyl\Documents\GitHub_posts\spring\springboot\springboot\SpringApplication.jpg" alt="SpringApplication"></p>
+<p>1） 如果我们使用的是SpringApplication的静态run方法，那么，这个方法里面首先要创建一个SpringApplication对象实例，然后调用这个创建好的SpringApplication的实例方法。在SpringApplication实例初始化的时候，它会提前做几件事情：</p>
+<ul>
+<li>根据classpath里面是否存在某个特征类（org.springframework.web.context.ConfigurableWebApplicationContext）来决定是否应该创建一个为Web应用使用的ApplicationContext类型。</li>
+<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationContextInitializer。</li>
+<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationListener。</li>
+<li>推断并设置main方法的定义类。</li>
+</ul>
+<p>2） SpringApplication实例初始化完成并且完成设置后，就开始执行run方法的逻辑了，方法执行伊始，首先遍历执行所有通过SpringFactoriesLoader可以查找到并加载的SpringApplicationRunListener。调用它们的started()方法，告诉这些SpringApplicationRunListener，“嘿，SpringBoot应用要开始执行咯！”。</p>
+<p>3） 创建并配置当前Spring Boot应用将要使用的Environment（包括配置要使用的PropertySource以及Profile）。</p>
+<p>4） 遍历调用所有SpringApplicationRunListener的environmentPrepared()的方法，告诉他们：“当前SpringBoot应用使用的Environment准备好了咯！”。</p>
+<p>5） 如果SpringApplication的showBanner属性被设置为true，则打印banner。</p>
+<p>6） 根据用户是否明确设置了applicationContextClass类型以及初始化阶段的推断结果，决定该为当前SpringBoot应用创建什么类型的ApplicationContext并创建完成，然后根据条件决定是否添加ShutdownHook，决定是否使用自定义的BeanNameGenerator，决定是否使用自定义的ResourceLoader，当然，最重要的，将之前准备好的Environment设置给创建好的ApplicationContext使用。</p>
+<p>7） ApplicationContext创建好之后，SpringApplication会再次借助Spring-FactoriesLoader，查找并加载classpath中所有可用的ApplicationContext-Initializer，然后遍历调用这些ApplicationContextInitializer的initialize（applicationContext）方法来对已经创建好的ApplicationContext进行进一步的处理。</p>
+<p>8） 遍历调用所有SpringApplicationRunListener的contextPrepared()方法。</p>
+<p>9） 最核心的一步，将之前通过@EnableAutoConfiguration获取的所有配置以及其他形式的IoC容器配置加载到已经准备完毕的ApplicationContext。</p>
+<p>10） 遍历调用所有SpringApplicationRunListener的contextLoaded()方法。</p>
+<p>11） 调用ApplicationContext的refresh()方法，完成IoC容器可用的最后一道工序。</p>
+<p>12） 查找当前ApplicationContext中是否注册有CommandLineRunner，如果有，则遍历执行它们。</p>
+<p>13） 正常情况下，遍历执行SpringApplicationRunListener的finished()方法、（如果整个过程出现异常，则依然调用所有SpringApplicationRunListener的finished()方法，只不过这种情况下会将异常信息一并传入处理）</p>
 <h1 id="springboot常用注解"><a href="#springboot常用注解" class="headerlink" title="springboot常用注解"></a>springboot常用注解</h1><p><strong>@SpringBootApplication</strong> </p>
-<p>这个注解是Spring Boot最核心的注解，用在 Spring Boot的主类上，标识这是一个 Spring Boot 应用，用来开启 Spring Boot 的各项能力。实际上这个注解是@Configuration,@EnableAutoConfiguration,@ComponentScan三个注解的组合。由于这些注解一般都是一起使用，所以Spring Boot提供了一个统一的注解@SpringBootApplication。</p>
+<p>这个注解是Spring Boot<strong>最核心的注解</strong>，用在 Spring Boot的主类上，标识这是一个 Spring Boot 应用，用来开启 Spring Boot 的各项能力。实际上这个注解是@Configuration,@EnableAutoConfiguration,@ComponentScan三个注解的组合。由于这些注解一般都是一起使用，所以Spring Boot提供了一个统一的注解@SpringBootApplication。</p>
 <p><strong>@EnableAutoConfiguration</strong></p>
 <p>允许 Spring Boot 自动配置注解，开启这个注解之后，Spring Boot 就能根据当前类路径下的包或者类来配置 Spring Bean。</p>
 <p>如：当前类路径下有 Mybatis 这个 JAR 包，MybatisAutoConfiguration 注解就能根据相关参数来配置 Mybatis 的各个 Spring Bean。</p>
@@ -314,13 +345,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/08/12/pmp/PMP7-9/" rel="prev" title="PMP备考系列_7-9章笔记">
-      <i class="fa fa-chevron-left"></i> PMP备考系列_7-9章笔记
+    <a href="/2021/08/13/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/" rel="prev" title="spring框架总述">
+      <i class="fa fa-chevron-left"></i> spring框架总述
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/08/12/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/" rel="next" title="spring框架总述">
-      spring框架总述 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
