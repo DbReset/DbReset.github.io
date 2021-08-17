@@ -9,19 +9,204 @@
 ]]></content>
   </entry>
   <entry>
+    <title>限流算法</title>
+    <url>/2021/08/17/%E7%AE%97%E6%B3%95%E7%AF%87/%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<blockquote>
+<p>1 计数器（固定窗口）算法</p>
+<p>计数器算法是使用计数器在周期内累加访问次数，当达到设定的限流值时，触发限流策略。下一个周期开始时，进行清零，重新计数。此算法可用性不高，存在一个非常严重的问题，那就是临界问题，其实只是为了引出滑动窗口算法。</p>
+</blockquote>
+<h2 id="2-滑动窗口算法"><a href="#2-滑动窗口算法" class="headerlink" title="2.滑动窗口算法"></a>2.滑动窗口算法</h2><p>滑动窗口算法是将时间周期分为N个小周期，分别记录每个小周期内访问次数，并且根据时间滑动删除过期的小周期。</p>
+<p>如下图，假设时间周期为1min，将1min再分为2个小周期，统计每个小周期的访问数量，则可以看到，第一个时间周期内，访问数量为75，第二个时间周期内，访问数量为100，超过100的访问则被限流掉了由此可见，当<strong>滑动窗口的格子</strong>划分的越多，那么滑动窗口的滚动就越平滑，限流的统计就会越精确。此算法可以很好的解决固定窗口算法的临界问题。</p>
+<h2 id="3-漏桶算法"><a href="#3-漏桶算法" class="headerlink" title="3.漏桶算法"></a>3.漏桶算法</h2><p>漏桶算法是访问请求到达时直接放入漏桶，如当前容量已达到上限（限流值），则进行丢弃（触发限流策略）。漏桶以固定的速率进行释放访问请求（即请求通过），直到漏桶为空。</p>
+<h2 id="4-令牌桶算法"><a href="#4-令牌桶算法" class="headerlink" title="4.令牌桶算法"></a>4.令牌桶算法</h2><p>令牌桶算法是程序以r（r=时间周期/限流值）的速度向令牌桶中增加令牌，直到令牌桶满，请求到达时向令牌桶请求令牌，如获取到令牌则通过请求，否则触发限流策略</p>
+<ul>
+<li><a href="https://blog.csdn.net/weixin_41846320/article/details/95941361">原文出处</a></li>
+</ul>
+<h2 id="漏桶算法VS令牌桶算法"><a href="#漏桶算法VS令牌桶算法" class="headerlink" title="漏桶算法VS令牌桶算法"></a>漏桶算法VS令牌桶算法</h2><p><a href="https://www.baidu.com/s?wd=%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">漏桶算法</a>与<a href="https://www.baidu.com/s?wd=%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">令牌桶算法</a>的区别在于：<a href="https://www.baidu.com/s?wd=%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">漏桶算法</a>能够强行限制数据的<a href="https://www.baidu.com/s?wd=%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">传输速率</a>。<a href="https://www.baidu.com/s?wd=%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">令牌桶算法</a>能够在限制数据的平均<a href="https://www.baidu.com/s?wd=%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">传输速率</a>的同时还允许某种程度的<a href="https://www.baidu.com/s?wd=%E7%AA%81%E5%8F%91%E4%BC%A0%E8%BE%93&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">突发传输</a>。需要说明的是：在某些情况下，漏桶算法不能够有效地使用网络资源。因为漏桶的漏出速率是固定的，所以即使网络中没有发生拥塞，漏桶算法也不能使某一个单独的数据流达到端口速率。因此，漏桶算法对于存在突发特性的流量来说缺乏效率。而令牌桶算法则能够满足这些具有突发特性的流量。通常，漏桶算法与令牌桶算法结合起来为<a href="https://www.baidu.com/s?wd=%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">网络流量</a>提供更高效的控制。</p>
+<p>总结起来：<strong>自己的系统</strong>扛不了大量请求，用<strong>令牌桶</strong>。对接的<strong>下游系统</strong>抗不了突发大量请求，可以用<strong>漏桶算法</strong>。</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>限流</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>springMVC框架总述</title>
+    <url>/2021/08/17/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/</url>
+    <content><![CDATA[<h1 id="什么是MVC"><a href="#什么是MVC" class="headerlink" title="什么是MVC"></a>什么是MVC</h1><ul>
+<li>M代表模型（Model）<br>模型其实就是数据，dao，bean</li>
+<li>V代表视图（View）<br>网页，jsp等用来展示数据的模型</li>
+<li>C代表Controller<br>把不同的数据展示在不同的视图上，处理请求的分发，Servlet扮演的就是这样的角色<br><img src="/2021/08/17/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/model-view-controller.jpg" alt="MVC"></li>
+</ul>
+<h1 id="SpringMVC的流程"><a href="#SpringMVC的流程" class="headerlink" title="SpringMVC的流程"></a>SpringMVC的流程</h1><ol>
+<li><p>用户发送请求至前端控制器DispatcherServlet；</p>
+</li>
+<li><p>DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handler；</p>
+</li>
+<li><p>处理器映射器根据请求url找到具体的处理器Handler，生成处理器对象及处理器拦截器(如果有则生成)，一并返回给DispatcherServlet；</p>
+</li>
+<li><p>DispatcherServlet 调用 HandlerAdapter处理器适配器，请求执行Handler；</p>
+</li>
+<li><p>HandlerAdapter 经过适配调用 具体处理器进行处理业务逻辑；</p>
+</li>
+<li><p>Handler执行完成返回ModelAndView；</p>
+</li>
+<li><p>HandlerAdapter将Handler执行结果ModelAndView返回给DispatcherServlet；</p>
+</li>
+<li><p>DispatcherServlet将ModelAndView传给ViewResolver视图解析器进行解析；</p>
+</li>
+<li><p>ViewResolver解析后返回具体View；</p>
+</li>
+<li><p>DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）</p>
+</li>
+<li><p>DispatcherServlet响应用户。</p>
+</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="SpringMVC常用的注解有哪些？"><a href="#SpringMVC常用的注解有哪些？" class="headerlink" title="SpringMVC常用的注解有哪些？"></a>SpringMVC常用的注解有哪些？</h1><p><strong>@RequestMapping</strong>：用于处理请求 url 映射的注解，可用于类或方法上。用于类上，则表示类中的所有响应请求的方法都是以该地址作为父路径。</p>
+<p><strong>@RequestBody</strong>：注解实现接收http请求的json数据，将json转换为java对象。</p>
+<p><strong>@ResponseBody</strong>：注解实现将conreoller方法返回对象转化为json对象响应给客户。</p>
+<h2 id="SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？"><a href="#SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？" class="headerlink" title="SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？"></a>SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？</h2><p>答：一般用@Controller注解，也可以使用@RestController，@RestController注解相当于@ResponseBody ＋ @Controller，表示是表现层，除此之外，一般不用别的注解代替。</p>
+<h2 id="SpringMvc里面拦截器是怎么写的："><a href="#SpringMvc里面拦截器是怎么写的：" class="headerlink" title="SpringMvc里面拦截器是怎么写的："></a>SpringMvc里面拦截器是怎么写的：</h2><p>有两种写法，一种是实现HandlerInterceptor接口，另外一种是继承适配器类，接着在接口方法当中，实现处理逻辑；然后在SpringMvc的配置文件中配置拦截器即可：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置SpringMvc的拦截器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mvc:interceptors</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置一个拦截器的Bean就可以了 默认是对所有请求都拦截 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myInterceptor&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.zwp.action.MyHandlerInterceptor&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">&lt;!-- 只针对部分请求拦截 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:interceptor</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">mvc:mapping</span> <span class="attr">path</span>=<span class="string">&quot;/modelMap.do&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;com.zwp.action.MyHandlerInterceptorAdapter&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:interceptor</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:interceptors</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="Servlet生命周期"><a href="#Servlet生命周期" class="headerlink" title="Servlet生命周期"></a>Servlet生命周期</h1><p>Servlet生命周期分为三个阶段：初始化阶段、响应客户请求阶段、终止阶段</p>
+<ol>
+<li><p>创建Servlet对象，通过服务器反射机制创建Servlet对象，第一次请求时才会创建。（<strong>默认</strong>）</p>
+</li>
+<li><p>调用Servlet对象的init()方法，初始化Servlet的信息，init()方法只会在创建后被调用一次（<strong>初始化阶段</strong>）</p>
+</li>
+<li><p>响应请求，调用service()或者是doGet()，doPost()方法来处理请求，这些方法是运行的在多线程状态下的。（<strong>响应客户请求阶段</strong>）</p>
+</li>
+<li><p> 在长时间没有被调用或者是服务器关闭时，会调用destroy()方法来销毁Servlet对象。（<strong>终止阶段</strong>）</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>springcloud_五大组件</title>
+    <url>/2021/08/17/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="SpringCloud进阶"><a href="#SpringCloud进阶" class="headerlink" title="SpringCloud进阶"></a>SpringCloud进阶</h2><ul>
+<li><input checked disabled type="checkbox"> javase</li>
+<li><input checked disabled type="checkbox"> 数据库</li>
+<li>[] 前端</li>
+<li>[] servlet</li>
+<li>[] Http</li>
+<li><input checked disabled type="checkbox"> Mybatis</li>
+<li><input checked disabled type="checkbox"> Spring</li>
+<li>[] SpringMVC</li>
+<li>[] SpringBoot</li>
+<li><input checked disabled type="checkbox"> Dubbo,zookeeper,分布式基础</li>
+<li><input checked disabled type="checkbox"> maven</li>
+</ul>
+<blockquote>
+<p>总结一下SpringCloud结果核心组件:</p>
+</blockquote>
+<ul>
+<li>Eureka:个服务启动时,Eureka会将服务注册到EurekaService,并且EurakeClient还可以返回过来从EurekaService拉去注册表,从而知道服务在哪里</li>
+<li>Ribbon:服务间发起请求的时候,基于Ribbon服务做到负载均衡,从一个服务的对台机器中选择一台</li>
+<li>Feign:RPC框架，基于fegin的动态代理机制,根据注解和选择机器,拼接Url地址,发起请求,Feign是Netflix开发的声明式、模板化的HTTP客户端， Feign可以帮助我们更快捷、优雅地调用HTTP API。</li>
+<li>Hystrix:发起的请求是通过Hystrix的线程池来走,不同的服务走不同的线程池,实现了不同的服务调度隔离,避免服务雪崩的问题</li>
+<li>Zuul:如果前端后端移动端调用后台系统,统一走zull网关进入,有zull网关转发请求给对应的服务</li>
+<li>Apollo（阿波罗）是携程框架部门研发的配置管理平台，能够集中化管理应用不同环境、不同集群的配置，配置修改后能够实时推送到应用端，并且具备规范的权限、流程治理等特性。<a href="https://github.com/ctripcorp/apollo/wiki/Apollo%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E8%AE%BE%E8%AE%A1">Apollo配置中心设计</a></li>
+</ul>
+<h2 id="Spring-Cloud-和dubbo区别"><a href="#Spring-Cloud-和dubbo区别" class="headerlink" title="Spring Cloud 和dubbo区别?"></a>Spring Cloud 和dubbo区别?</h2><p>（1）服务调用方式 dubbo是RPC springcloud Rest Api</p>
+<p>（2）注册中心,dubbo 是zookeeper springcloud是eureka，也可以是zookeeper</p>
+<p>（3）服务网关,dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>spring</category>
+        <category>springcloud</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>Eureka</tag>
+        <tag>springcloud</tag>
+        <tag>Ribbon</tag>
+        <tag>Feign</tag>
+        <tag>Hystrix</tag>
+        <tag>Zuul</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>springboot框架总述</title>
-    <url>/2021/08/13/spring/springboot/springboot/</url>
-    <content><![CDATA[<h1 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h1><p>pom.xml中有父项目</p>
+    <url>/2021/08/17/spring/springboot/springboot/</url>
+    <content><![CDATA[<h1 id="SpringBoot主要特性"><a href="#SpringBoot主要特性" class="headerlink" title="SpringBoot主要特性"></a>SpringBoot主要特性</h1><p><strong>Spring boot</strong> 简化了使用 Spring 的难度，简省了繁重的配置（版本管理，依赖导入），提供了各种启动器，开发者能快速上手。 </p>
+<h2 id="SpringBoot的版本控制"><a href="#SpringBoot的版本控制" class="headerlink" title="SpringBoot的版本控制"></a>SpringBoot的版本控制</h2><p>pom.xml中有父项目</p>
 <ul>
 <li><p>spring-boot-dependencies：核心依赖在父工程中</p>
 </li>
 <li><p>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</p>
+</li>
+</ul>
+<h2 id="SpringBoot的自动装配"><a href="#SpringBoot的自动装配" class="headerlink" title="SpringBoot的自动装配"></a>SpringBoot的自动装配</h2><p>SpringBoot 自动配置主要通过 @EnableAutoConfiguration, @Conditional, @EnableConfigurationProperties 或者 @ConfigurationProperties 等几个注解来进行自动配置完成的。</p>
+<ul>
+<li><p>@EnableAutoConfiguration 开启自动配置，主要作用就是调用 Spring-Core 包里的 loadFactoryNames()，将 autoconfig 包里的已经写好的自动配置加载进来。</p>
+</li>
+<li><p>@Conditional 条件注解，通过判断类路径下有没有相应配置的 jar 包来确定是否加载和自动配置这个类。</p>
+</li>
+<li><p>@EnableConfigurationProperties 的作用就是，给自动配置提供具体的配置参数，只需要写在 application.properties 中，就可以通过映射写入配置类的 POJO 属性中。 </p>
+<p><img src="/2021/08/17/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
 <blockquote>
-<p>该配置模块的主要使用到了<strong>SpringFactoriesLoader，即Spring工厂加载器</strong>，该对象提供了loadFactoryNames方法，入参为factoryClass和classLoader，即需要传入上图中的工厂类名称和对应的类加载器，方法会根据指定的classLoader，加载该类加器搜索路径下的指定文件，即<strong>指定的配置文件META-INF/spring.factories</strong>，传入的工厂类为接口，而文件中对应的类则是接口的实现类，或最终作为实现类，所以文件中一般为如下图这种一对多的类名集合，获取到这些实现类的类名后，loadFactoryNames方法返回类名集合，方法调用方得到这些集合后，再通过反射获取这些类的类对象、构造方法，最终生成实例。</p>
+<p>该配置模块的主要使用到了<strong>SpringFactoriesLoader，即Spring工厂加载器</strong>，该对象提供了<strong>loadFactoryNames()<strong>方法，入参为factoryClass和classLoader，即需要传入上图中的工厂类名称和对应的类加载器，方法会根据指定的classLoader，加载该类加器搜索路径下的指定文件，即</strong>指定的配置文件META-INF/spring.factories</strong>，传入的工厂类为接口，而文件中对应的类则是接口的实现类，或最终作为实现类，所以文件中一般为一对多的类名集合，获取到这些实现类的类名后，loadFactoryNames方法返回类名集合，方法调用方得到这些集合后，再通过反射获取这些类的类对象、构造方法，最终生成实例。</p>
+<p><img src="/2021/08/17/spring/springboot/springboot/Users\sxyyl\Documents\GitHub_posts\spring\springboot\springboot\springboot_EnableAutoConfiguration.jpg" alt="springboot_EnableAutoConfiguration"></p>
 </blockquote>
 </li>
 </ul>
-<h1 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h1><p>启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
+<h2 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h2><p>启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
+<span id="more"></span>
+
+
+
+<h1 id="springboot启动原理"><a href="#springboot启动原理" class="headerlink" title="springboot启动原理"></a>springboot启动原理</h1><p>我们发现启动流程主要分为<strong>三个部分</strong>，</p>
+<ol>
+<li><p>进行<strong>SpringApplication的初始化模块</strong>，配置一些基本的环境变量、资源、构造器、监听器；</p>
+</li>
+<li><p>实现了<strong>应用具体的启动方案</strong>，包括启动流程的监听模块、加载配置环境模块、及核心的创建上下文环境模块；</p>
+</li>
+<li><p>是自动化配置模块，</p>
+</li>
+</ol>
+<p><img src="/2021/08/17/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
+<h3 id="SpringApplication初始化"><a href="#SpringApplication初始化" class="headerlink" title="SpringApplication初始化"></a>SpringApplication初始化</h3><p>初始化流程中最重要的就是通过SpringFactoriesLoader找到spring.factories文件中配置的ApplicationContextInitializer和ApplicationListener两个接口的实现类名称，以便后期构造相应的实例</p>
+<ul>
+<li>ApplicationContextInitializer的主要目的是在ConfigurableApplicationContext做refresh之前，对ConfigurableApplicationContext实例做进一步的设置或处理。</li>
+<li>ApplicationListener的目的就没什么好说的了，它是Spring框架对Java事件监听机制的一种框架实现。Spring Boot提供两种方式来添加自定义监听器通过SpringApplication.addListeners(ApplicationListener<?>... listeners)或者SpringApplication.setListeners(Collection<? extends ApplicationListener<?>&gt; listeners)两个方法来添加一个或者多个自定义监听器。然后还需要在我们直接在自己的jar包的META-INF/spring.factories文件中新增配置即可：</li>
+</ul>
+<h3 id="Spring-Boot启动流程"><a href="#Spring-Boot启动流程" class="headerlink" title="Spring Boot启动流程"></a>Spring Boot启动流程</h3><p><strong>SpringApplication的run方法</strong>的实现是我们本次旅程的主要线路，该方法的主要流程大体可以归纳如下：</p>
+<p><img src="/2021/08/17/spring/springboot/springboot/SpringApplication.jpg" alt="SpringApplication"></p>
+<p>1） 如果我们使用的是SpringApplication的静态run方法，那么，这个方法里面首先要创建一个SpringApplication对象实例，然后调用这个创建好的SpringApplication的实例方法。在SpringApplication实例初始化的时候，它会提前做几件事情：</p>
+<ul>
+<li>根据classpath里面是否存在某个特征类（org.springframework.web.context.ConfigurableWebApplicationContext）来决定是否应该创建一个为Web应用使用的ApplicationContext类型。</li>
+<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationContextInitializer。</li>
+<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationListener。</li>
+<li>推断并设置main方法的定义类。</li>
+</ul>
+<p>2） SpringApplication实例初始化完成并且完成设置后，就开始执行run方法的逻辑了，方法执行伊始，首先遍历执行所有通过<strong>SpringFactoriesLoader</strong>可以查找到并加载的SpringApplicationRunListener。调用它们的started()方法，告诉这些SpringApplicationRunListener，“嘿，SpringBoot应用要开始执行咯！”。</p>
+<p>3） 创建并配置当前Spring Boot应用将要使用的Environment（包括配置要使用的PropertySource以及Profile）。</p>
+<p>4） 遍历调用所有SpringApplicationRunListener的environmentPrepared()的方法，告诉他们：“当前SpringBoot应用使用的Environment准备好了咯！”。</p>
+<p>5） 如果SpringApplication的showBanner属性被设置为true，则打印banner。</p>
+<p>6） 根据用户是否明确设置了applicationContextClass类型以及初始化阶段的推断结果，决定该为当前SpringBoot应用创建什么类型的ApplicationContext并创建完成，然后根据条件决定是否添加ShutdownHook，决定是否使用自定义的BeanNameGenerator，决定是否使用自定义的ResourceLoader，当然，最重要的，将之前准备好的Environment设置给创建好的ApplicationContext使用。</p>
+<p>7） ApplicationContext创建好之后，SpringApplication会再次借助Spring-FactoriesLoader，查找并加载classpath中所有可用的ApplicationContext-Initializer，然后遍历调用这些ApplicationContextInitializer的initialize（applicationContext）方法来对已经创建好的ApplicationContext进行进一步的处理。</p>
+<p>8） 遍历调用所有SpringApplicationRunListener的contextPrepared()方法。</p>
+<p>9） 最核心的一步，将之前通过**@EnableAutoConfiguration**获取的所有配置以及其他形式的IoC容器配置加载到已经准备完毕的ApplicationContext。</p>
+<p>10） 遍历调用所有SpringApplicationRunListener的contextLoaded()方法。</p>
+<p>11） 调用ApplicationContext的refresh()方法，完成IoC容器可用的最后一道工序。</p>
+<p>12） 查找当前ApplicationContext中是否注册有CommandLineRunner，如果有，则遍历执行它们。</p>
+<p>13） 正常情况下，遍历执行SpringApplicationRunListener的finished()方法、（如果整个过程出现异常，则依然调用所有SpringApplicationRunListener的finished()方法，只不过这种情况下会将异常信息一并传入处理）</p>
 <h1 id="springboot-如何内置的tomcat"><a href="#springboot-如何内置的tomcat" class="headerlink" title="springboot 如何内置的tomcat"></a>springboot 如何内置的tomcat</h1><p>大致流程如下</p>
 <ol>
 <li>通过自动装配默认加载了DispatcherServlet，所有请求都会转发到DispatcherServlet</li>
@@ -31,32 +216,6 @@
 <li>根据HttpServletResponse返回调用结果给浏览器渲染<br></li>
 </ol>
 <p>springboot默认创建了一个DispatcherServlet来处理http请求<br>    - 不用再配置DispatcherServlet 简单的说就是默认加载META-INF/spring.factories定义的类，然后我们就可以在spring.factories中找到我们的关键类DispatcherServletAutoConfiguration</p>
-<h1 id="springboot启动原理"><a href="#springboot启动原理" class="headerlink" title="springboot启动原理"></a>springboot启动原理</h1><p>我们发现启动流程主要分为<strong>三个部分</strong>，</p>
-<p>第一部分进行<strong>SpringApplication的初始化模块</strong>，配置一些基本的环境变量、资源、构造器、监听器；</p>
-<p>第二部分实现了<strong>应用具体的启动方案</strong>，包括启动流程的监听模块、加载配置环境模块、及核心的创建上下文环境模块；</p>
-<p>第三部分是自动化配置模块，</p>
-<p><img src="/2021/08/13/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
-<p><strong>SpringApplication的run方法</strong>的实现是我们本次旅程的主要线路，该方法的主要流程大体可以归纳如下：</p>
-<p><img src="/2021/08/13/spring/springboot/springboot/Users\sxyyl\Documents\GitHub_posts\spring\springboot\springboot\SpringApplication.jpg" alt="SpringApplication"></p>
-<p>1） 如果我们使用的是SpringApplication的静态run方法，那么，这个方法里面首先要创建一个SpringApplication对象实例，然后调用这个创建好的SpringApplication的实例方法。在SpringApplication实例初始化的时候，它会提前做几件事情：</p>
-<ul>
-<li>根据classpath里面是否存在某个特征类（org.springframework.web.context.ConfigurableWebApplicationContext）来决定是否应该创建一个为Web应用使用的ApplicationContext类型。</li>
-<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationContextInitializer。</li>
-<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationListener。</li>
-<li>推断并设置main方法的定义类。</li>
-</ul>
-<p>2） SpringApplication实例初始化完成并且完成设置后，就开始执行run方法的逻辑了，方法执行伊始，首先遍历执行所有通过SpringFactoriesLoader可以查找到并加载的SpringApplicationRunListener。调用它们的started()方法，告诉这些SpringApplicationRunListener，“嘿，SpringBoot应用要开始执行咯！”。</p>
-<p>3） 创建并配置当前Spring Boot应用将要使用的Environment（包括配置要使用的PropertySource以及Profile）。</p>
-<p>4） 遍历调用所有SpringApplicationRunListener的environmentPrepared()的方法，告诉他们：“当前SpringBoot应用使用的Environment准备好了咯！”。</p>
-<p>5） 如果SpringApplication的showBanner属性被设置为true，则打印banner。</p>
-<p>6） 根据用户是否明确设置了applicationContextClass类型以及初始化阶段的推断结果，决定该为当前SpringBoot应用创建什么类型的ApplicationContext并创建完成，然后根据条件决定是否添加ShutdownHook，决定是否使用自定义的BeanNameGenerator，决定是否使用自定义的ResourceLoader，当然，最重要的，将之前准备好的Environment设置给创建好的ApplicationContext使用。</p>
-<p>7） ApplicationContext创建好之后，SpringApplication会再次借助Spring-FactoriesLoader，查找并加载classpath中所有可用的ApplicationContext-Initializer，然后遍历调用这些ApplicationContextInitializer的initialize（applicationContext）方法来对已经创建好的ApplicationContext进行进一步的处理。</p>
-<p>8） 遍历调用所有SpringApplicationRunListener的contextPrepared()方法。</p>
-<p>9） 最核心的一步，将之前通过@EnableAutoConfiguration获取的所有配置以及其他形式的IoC容器配置加载到已经准备完毕的ApplicationContext。</p>
-<p>10） 遍历调用所有SpringApplicationRunListener的contextLoaded()方法。</p>
-<p>11） 调用ApplicationContext的refresh()方法，完成IoC容器可用的最后一道工序。</p>
-<p>12） 查找当前ApplicationContext中是否注册有CommandLineRunner，如果有，则遍历执行它们。</p>
-<p>13） 正常情况下，遍历执行SpringApplicationRunListener的finished()方法、（如果整个过程出现异常，则依然调用所有SpringApplicationRunListener的finished()方法，只不过这种情况下会将异常信息一并传入处理）</p>
 <h1 id="springboot常用注解"><a href="#springboot常用注解" class="headerlink" title="springboot常用注解"></a>springboot常用注解</h1><p><strong>@SpringBootApplication</strong> </p>
 <p>这个注解是Spring Boot<strong>最核心的注解</strong>，用在 Spring Boot的主类上，标识这是一个 Spring Boot 应用，用来开启 Spring Boot 的各项能力。实际上这个注解是@Configuration,@EnableAutoConfiguration,@ComponentScan三个注解的组合。由于这些注解一般都是一起使用，所以Spring Boot提供了一个统一的注解@SpringBootApplication。</p>
 <p><strong>@EnableAutoConfiguration</strong></p>
@@ -243,98 +402,6 @@
         <tag>mysql</tag>
         <tag>sql</tag>
         <tag>索引优化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>springMVC框架总述</title>
-    <url>/2021/08/12/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/</url>
-    <content><![CDATA[<h1 id="什么是MVC"><a href="#什么是MVC" class="headerlink" title="什么是MVC"></a>什么是MVC</h1><ul>
-<li>M代表模型（Model）<br>模型其实就是数据，dao，bean</li>
-<li>V代表视图（View）<br>网页，jsp等用来展示数据的模型</li>
-<li>C代表Controller<br>把不同的数据展示在不同的视图上，处理请求的分发，Servlet扮演的就是这样的角色<br><img src="/2021/08/12/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/model-view-controller.jpg" alt="MVC"></li>
-</ul>
-<h1 id="SpringMVC的流程"><a href="#SpringMVC的流程" class="headerlink" title="SpringMVC的流程"></a>SpringMVC的流程</h1><ol>
-<li>用户发送请求至前端控制器DispatcherServlet；</li>
-<li>DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handler；</li>
-<li>处理器映射器根据请求url找到具体的处理器Handler，生成处理器对象及处理器拦截器(如果有则生成)，一并返回给DispatcherServlet；</li>
-<li>DispatcherServlet 调用 HandlerAdapter处理器适配器，请求执行Handler；</li>
-<li>HandlerAdapter 经过适配调用 具体处理器进行处理业务逻辑；</li>
-<li>Handler执行完成返回ModelAndView；</li>
-<li>HandlerAdapter将Handler执行结果ModelAndView返回给DispatcherServlet；</li>
-<li>DispatcherServlet将ModelAndView传给ViewResolver视图解析器进行解析；</li>
-<li>ViewResolver解析后返回具体View；</li>
-<li>DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）</li>
-<li>DispatcherServlet响应用户。</li>
-</ol>
-<h1 id="SpringMVC常用的注解有哪些？"><a href="#SpringMVC常用的注解有哪些？" class="headerlink" title="SpringMVC常用的注解有哪些？"></a>SpringMVC常用的注解有哪些？</h1><p><strong>@RequestMapping</strong>：用于处理请求 url 映射的注解，可用于类或方法上。用于类上，则表示类中的所有响应请求的方法都是以该地址作为父路径。</p>
-<p><strong>@RequestBody</strong>：注解实现接收http请求的json数据，将json转换为java对象。</p>
-<p><strong>@ResponseBody</strong>：注解实现将conreoller方法返回对象转化为json对象响应给客户。</p>
-<h2 id="SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？"><a href="#SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？" class="headerlink" title="SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？"></a>SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？</h2><p>答：一般用@Controller注解，也可以使用@RestController，@RestController注解相当于@ResponseBody ＋ @Controller，表示是表现层，除此之外，一般不用别的注解代替。</p>
-<h2 id="SpringMvc里面拦截器是怎么写的："><a href="#SpringMvc里面拦截器是怎么写的：" class="headerlink" title="SpringMvc里面拦截器是怎么写的："></a>SpringMvc里面拦截器是怎么写的：</h2><p>有两种写法，一种是实现HandlerInterceptor接口，另外一种是继承适配器类，接着在接口方法当中，实现处理逻辑；然后在SpringMvc的配置文件中配置拦截器即可：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置SpringMvc的拦截器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mvc:interceptors</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置一个拦截器的Bean就可以了 默认是对所有请求都拦截 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myInterceptor&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.zwp.action.MyHandlerInterceptor&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">&lt;!-- 只针对部分请求拦截 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:interceptor</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">mvc:mapping</span> <span class="attr">path</span>=<span class="string">&quot;/modelMap.do&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;com.zwp.action.MyHandlerInterceptorAdapter&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:interceptor</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:interceptors</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="Servlet生命周期"><a href="#Servlet生命周期" class="headerlink" title="Servlet生命周期"></a>Servlet生命周期</h1><p>Servlet生命周期分为三个阶段：初始化阶段、响应客户请求阶段、终止阶段</p>
-<ol>
-<li><p>创建Servlet对象，通过服务器反射机制创建Servlet对象，第一次请求时才会创建。（<strong>默认</strong>）</p>
-</li>
-<li><p>调用Servlet对象的init()方法，初始化Servlet的信息，init()方法只会在创建后被调用一次（<strong>初始化阶段</strong>）</p>
-</li>
-<li><p>响应请求，调用service()或者是doGet()，doPost()方法来处理请求，这些方法是运行的在多线程状态下的。（<strong>响应客户请求阶段</strong>）</p>
-</li>
-<li><p> 在长时间没有被调用或者是服务器关闭时，会调用destroy()方法来销毁Servlet对象。（<strong>终止阶段</strong>）</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>springcloud_五大组件</title>
-    <url>/2021/08/12/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/</url>
-    <content><![CDATA[<p>SpringCloud进阶</p>
-<ul>
-<li><input checked disabled type="checkbox"> javase</li>
-<li><input checked disabled type="checkbox"> 数据库</li>
-<li>[] 前端</li>
-<li>[] servlet</li>
-<li>[] Http</li>
-<li><input checked disabled type="checkbox"> Mybatis</li>
-<li><input checked disabled type="checkbox"> Spring</li>
-<li>[] SpringMVC</li>
-<li>[] SpringBoot</li>
-<li><input checked disabled type="checkbox"> Dubbo,zookeeper,分布式基础</li>
-<li><input checked disabled type="checkbox"> maven</li>
-</ul>
-<blockquote>
-<p>总结一下SpringCloud结果核心组件:</p>
-</blockquote>
-<ul>
-<li>Eureka:个服务启动时,Eureka会将服务注册到EurekaService,并且EurakeClient还可以返回过来从EurekaService拉去注册表,从而知道服务在哪里</li>
-<li>Ribbon:服务间发起请求的时候,基于Ribbon服务做到负载均衡,从一个服务的对台机器中选择一台</li>
-<li>Feign:RPC框架，基于fegin的动态代理机制,根据注解和选择机器,拼接Url地址,发起请求,Feign是Netflix开发的声明式、模板化的HTTP客户端， Feign可以帮助我们更快捷、优雅地调用HTTP API。</li>
-<li>Hystrix:发起的请求是通过Hystrix的线程池来走,不同的服务走不同的线程池,实现了不同的服务调度隔离,避免服务雪崩的问题</li>
-<li>Zuul:如果前端后端移动端调用后台系统,统一走zull网关进入,有zull网关转发请求给对应的服务</li>
-</ul>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>spring</category>
-        <category>springcloud</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>Eureka</tag>
-        <tag>springcloud</tag>
-        <tag>Ribbon</tag>
-        <tag>Feign</tag>
-        <tag>Hystrix</tag>
-        <tag>Zuul</tag>
       </tags>
   </entry>
   <entry>
@@ -2645,74 +2712,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>基础知识TCP</title>
-    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
-    <content><![CDATA[<p>&nbsp;</p>
-<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
-<ul>
-<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
-</li>
-<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
-</li>
-<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
-</li>
-</ul>
-<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
-<ul>
-<li>Socket：由 IP 地址和端口号组成</li>
-<li>序列号：用来解决乱序问题等</li>
-<li>窗口大小：用来做流量控制</li>
-</ul>
-<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
-<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
-<li>源地址</li>
-<li>源端口</li>
-<li>目的地址</li>
-<li>目的端口<span id="more"></span>
-<h2 id="有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？"><a href="#有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？" class="headerlink" title="有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？"></a>有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？</h2>主要受限于服务器的资源，第一是文件描述符限制，TCP连接中得socket是文件得，所以受文件描述符限制，这个由系统参数ulimit 配置，但这个也受限于系统内存，内存不大，参数设置得过大也无法实现。</li>
-</ul>
-<h2 id="UDP-和-TCP-有什么区别呢？分别的应用场景是？"><a href="#UDP-和-TCP-有什么区别呢？分别的应用场景是？" class="headerlink" title="UDP 和 TCP 有什么区别呢？分别的应用场景是？"></a>UDP 和 TCP 有什么区别呢？分别的应用场景是？</h2><p>UDP 是不需要连接，即刻传输数据。且可以一对多，多对多。UDP 是尽最大努力交付，不保证可靠交付数据。UDP没有流量控制。UDP首部只有 8 个字节，并且是固定不变的，开销较小<br><br>TCP则是面向连接的，只能一对一，TCP比较可靠数据可以无差错、不丢失、不重复、按需到达，可以进行流量控制。<br></p>
-<p>一句话来说UDP比较高效，舍弃了可靠性，TCP则是专注于点对点的高质量传输。<br><br><strong>TCP：</strong><br><br>FTP 文件传输<br><br>HTTP / HTTPS<br><br><br><strong>UDP</strong><br><br>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于：</p>
-<p>包总量较少的通信，如 DNS 、SNMP 等</p>
-<p>视频、音频等多媒体通信</p>
-<p>广播通信</p>
-<h2 id="为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？"><a href="#为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？" class="headerlink" title="为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？"></a>为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？</h2><p>原因是 TCP 有可变长的「选项」字段，而 UDP 头部长度则是不会变化的，无需多一个字段去记录 UDP 的首部长度。</p>
-<h2 id="三次握手，四次挥手"><a href="#三次握手，四次挥手" class="headerlink" title="三次握手，四次挥手"></a>三次握手，四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
-<li>一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态;<br></li>
-<li>客户端发起一个SYN请求，同时送过去随机生成的客户端序列号client_isn,之后客户端处于 SYN-SENT 状态。<br></li>
-<li>服务端接收到SYN请求，返回一个ACK和服务端的SYN，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1，生成一个服务端的序列号server_isn，传送给客户端，之后服务端处于 SYN-RCVD 状态;<br></li>
-<li>客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。</li>
-<li>服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。</li>
-</ol>
-<h3 id="三次握手的意义"><a href="#三次握手的意义" class="headerlink" title="三次握手的意义"></a>三次握手的意义</h3><p>阻止历史重复连接的初始化（主要原因）</p>
-<p>三次握手才可以同步双方的初始序列号</p>
-<p>三次握手才可以避免资源浪费<br></p>
-<p>从上面的过程可以发现<strong>第三次握手是可以携带数据的，前两次握手是不可以携带数据</strong>的。</p>
-<h3 id="如何在-Linux-系统中查看-TCP-状态？"><a href="#如何在-Linux-系统中查看-TCP-状态？" class="headerlink" title="如何在 Linux 系统中查看 TCP 状态？"></a>如何在 Linux 系统中查看 TCP 状态？</h3><p>TCP 的连接状态查看，在 Linux 可以通过 <strong>netstat -napt</strong> 命令查看。</p>
-<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
-<li>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</li>
-<li>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</li>
-<li>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</li>
-<li>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</li>
-<li>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态</li>
-<li>服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</li>
-<li>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭。</li>
-</ol>
-<p><strong>主动关闭连接的，才有 TIME_WAIT 状态。</strong></p>
-<h2 id="TCP性能的优化"><a href="#TCP性能的优化" class="headerlink" title="TCP性能的优化"></a>TCP性能的优化</h2><p>tcp_syn_retries 控制SYN包重传的次数，默认值是5</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">echo <span class="number">5</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/net/i</span>pv4/tcp_syn_retries</span><br></pre></td></tr></table></figure>
-<h2 id="如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？"><a href="#如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？" class="headerlink" title="如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？"></a>如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -s |grep &quot;SYNs to LISTEN&quot;</span><br></pre></td></tr></table></figure>
-<p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
-<h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>cs基础</category>
-        <category>tcp</category>
-      </categories>
-      <tags>
-        <tag>tcp</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Macbook外接显示器需要注意的设置</title>
     <url>/2021/05/22/%E7%A1%AC%E4%BB%B6&amp;%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>设备：MacBook Pro2018 A1989<br>系统：BigSur11.2.3<br>外接的显示器：Dell P2319H</p>
@@ -2781,6 +2780,74 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识TCP</title>
+    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
+    <content><![CDATA[<p>&nbsp;</p>
+<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
+<ul>
+<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
+</li>
+<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
+</li>
+<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
+</li>
+</ul>
+<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
+<ul>
+<li>Socket：由 IP 地址和端口号组成</li>
+<li>序列号：用来解决乱序问题等</li>
+<li>窗口大小：用来做流量控制</li>
+</ul>
+<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
+<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
+<li>源地址</li>
+<li>源端口</li>
+<li>目的地址</li>
+<li>目的端口<span id="more"></span>
+<h2 id="有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？"><a href="#有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？" class="headerlink" title="有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？"></a>有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？</h2>主要受限于服务器的资源，第一是文件描述符限制，TCP连接中得socket是文件得，所以受文件描述符限制，这个由系统参数ulimit 配置，但这个也受限于系统内存，内存不大，参数设置得过大也无法实现。</li>
+</ul>
+<h2 id="UDP-和-TCP-有什么区别呢？分别的应用场景是？"><a href="#UDP-和-TCP-有什么区别呢？分别的应用场景是？" class="headerlink" title="UDP 和 TCP 有什么区别呢？分别的应用场景是？"></a>UDP 和 TCP 有什么区别呢？分别的应用场景是？</h2><p>UDP 是不需要连接，即刻传输数据。且可以一对多，多对多。UDP 是尽最大努力交付，不保证可靠交付数据。UDP没有流量控制。UDP首部只有 8 个字节，并且是固定不变的，开销较小<br><br>TCP则是面向连接的，只能一对一，TCP比较可靠数据可以无差错、不丢失、不重复、按需到达，可以进行流量控制。<br></p>
+<p>一句话来说UDP比较高效，舍弃了可靠性，TCP则是专注于点对点的高质量传输。<br><br><strong>TCP：</strong><br><br>FTP 文件传输<br><br>HTTP / HTTPS<br><br><br><strong>UDP</strong><br><br>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于：</p>
+<p>包总量较少的通信，如 DNS 、SNMP 等</p>
+<p>视频、音频等多媒体通信</p>
+<p>广播通信</p>
+<h2 id="为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？"><a href="#为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？" class="headerlink" title="为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？"></a>为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？</h2><p>原因是 TCP 有可变长的「选项」字段，而 UDP 头部长度则是不会变化的，无需多一个字段去记录 UDP 的首部长度。</p>
+<h2 id="三次握手，四次挥手"><a href="#三次握手，四次挥手" class="headerlink" title="三次握手，四次挥手"></a>三次握手，四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
+<li>一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态;<br></li>
+<li>客户端发起一个SYN请求，同时送过去随机生成的客户端序列号client_isn,之后客户端处于 SYN-SENT 状态。<br></li>
+<li>服务端接收到SYN请求，返回一个ACK和服务端的SYN，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1，生成一个服务端的序列号server_isn，传送给客户端，之后服务端处于 SYN-RCVD 状态;<br></li>
+<li>客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。</li>
+<li>服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。</li>
+</ol>
+<h3 id="三次握手的意义"><a href="#三次握手的意义" class="headerlink" title="三次握手的意义"></a>三次握手的意义</h3><p>阻止历史重复连接的初始化（主要原因）</p>
+<p>三次握手才可以同步双方的初始序列号</p>
+<p>三次握手才可以避免资源浪费<br></p>
+<p>从上面的过程可以发现<strong>第三次握手是可以携带数据的，前两次握手是不可以携带数据</strong>的。</p>
+<h3 id="如何在-Linux-系统中查看-TCP-状态？"><a href="#如何在-Linux-系统中查看-TCP-状态？" class="headerlink" title="如何在 Linux 系统中查看 TCP 状态？"></a>如何在 Linux 系统中查看 TCP 状态？</h3><p>TCP 的连接状态查看，在 Linux 可以通过 <strong>netstat -napt</strong> 命令查看。</p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
+<li>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</li>
+<li>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</li>
+<li>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</li>
+<li>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</li>
+<li>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态</li>
+<li>服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</li>
+<li>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭。</li>
+</ol>
+<p><strong>主动关闭连接的，才有 TIME_WAIT 状态。</strong></p>
+<h2 id="TCP性能的优化"><a href="#TCP性能的优化" class="headerlink" title="TCP性能的优化"></a>TCP性能的优化</h2><p>tcp_syn_retries 控制SYN包重传的次数，默认值是5</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">echo <span class="number">5</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/net/i</span>pv4/tcp_syn_retries</span><br></pre></td></tr></table></figure>
+<h2 id="如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？"><a href="#如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？" class="headerlink" title="如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？"></a>如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -s |grep &quot;SYNs to LISTEN&quot;</span><br></pre></td></tr></table></figure>
+<p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
+<h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>cs基础</category>
+        <category>tcp</category>
+      </categories>
+      <tags>
+        <tag>tcp</tag>
       </tags>
   </entry>
   <entry>
