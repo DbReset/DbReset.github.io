@@ -9,438 +9,35 @@
 ]]></content>
   </entry>
   <entry>
-    <title>限流算法</title>
-    <url>/2021/08/17/%E7%AE%97%E6%B3%95%E7%AF%87/%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<blockquote>
-<p>1 计数器（固定窗口）算法</p>
-<p>计数器算法是使用计数器在周期内累加访问次数，当达到设定的限流值时，触发限流策略。下一个周期开始时，进行清零，重新计数。此算法可用性不高，存在一个非常严重的问题，那就是临界问题，其实只是为了引出滑动窗口算法。</p>
-</blockquote>
-<h2 id="2-滑动窗口算法"><a href="#2-滑动窗口算法" class="headerlink" title="2.滑动窗口算法"></a>2.滑动窗口算法</h2><p>滑动窗口算法是将时间周期分为N个小周期，分别记录每个小周期内访问次数，并且根据时间滑动删除过期的小周期。</p>
-<p>如下图，假设时间周期为1min，将1min再分为2个小周期，统计每个小周期的访问数量，则可以看到，第一个时间周期内，访问数量为75，第二个时间周期内，访问数量为100，超过100的访问则被限流掉了由此可见，当<strong>滑动窗口的格子</strong>划分的越多，那么滑动窗口的滚动就越平滑，限流的统计就会越精确。此算法可以很好的解决固定窗口算法的临界问题。</p>
-<h2 id="3-漏桶算法"><a href="#3-漏桶算法" class="headerlink" title="3.漏桶算法"></a>3.漏桶算法</h2><p>漏桶算法是访问请求到达时直接放入漏桶，如当前容量已达到上限（限流值），则进行丢弃（触发限流策略）。漏桶以固定的速率进行释放访问请求（即请求通过），直到漏桶为空。</p>
-<h2 id="4-令牌桶算法"><a href="#4-令牌桶算法" class="headerlink" title="4.令牌桶算法"></a>4.令牌桶算法</h2><p>令牌桶算法是程序以r（r=时间周期/限流值）的速度向令牌桶中增加令牌，直到令牌桶满，请求到达时向令牌桶请求令牌，如获取到令牌则通过请求，否则触发限流策略</p>
-<ul>
-<li><a href="https://blog.csdn.net/weixin_41846320/article/details/95941361">原文出处</a></li>
-</ul>
-<h2 id="漏桶算法VS令牌桶算法"><a href="#漏桶算法VS令牌桶算法" class="headerlink" title="漏桶算法VS令牌桶算法"></a>漏桶算法VS令牌桶算法</h2><p><a href="https://www.baidu.com/s?wd=%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">漏桶算法</a>与<a href="https://www.baidu.com/s?wd=%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">令牌桶算法</a>的区别在于：<a href="https://www.baidu.com/s?wd=%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">漏桶算法</a>能够强行限制数据的<a href="https://www.baidu.com/s?wd=%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">传输速率</a>。<a href="https://www.baidu.com/s?wd=%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">令牌桶算法</a>能够在限制数据的平均<a href="https://www.baidu.com/s?wd=%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">传输速率</a>的同时还允许某种程度的<a href="https://www.baidu.com/s?wd=%E7%AA%81%E5%8F%91%E4%BC%A0%E8%BE%93&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">突发传输</a>。需要说明的是：在某些情况下，漏桶算法不能够有效地使用网络资源。因为漏桶的漏出速率是固定的，所以即使网络中没有发生拥塞，漏桶算法也不能使某一个单独的数据流达到端口速率。因此，漏桶算法对于存在突发特性的流量来说缺乏效率。而令牌桶算法则能够满足这些具有突发特性的流量。通常，漏桶算法与令牌桶算法结合起来为<a href="https://www.baidu.com/s?wd=%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">网络流量</a>提供更高效的控制。</p>
-<p>总结起来：<strong>自己的系统</strong>扛不了大量请求，用<strong>令牌桶</strong>。对接的<strong>下游系统</strong>抗不了突发大量请求，可以用<strong>漏桶算法</strong>。</p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>限流</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>springMVC框架总述</title>
-    <url>/2021/08/17/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/</url>
-    <content><![CDATA[<h1 id="什么是MVC"><a href="#什么是MVC" class="headerlink" title="什么是MVC"></a>什么是MVC</h1><ul>
-<li>M代表模型（Model）<br>模型其实就是数据，dao，bean</li>
-<li>V代表视图（View）<br>网页，jsp等用来展示数据的模型</li>
-<li>C代表Controller<br>把不同的数据展示在不同的视图上，处理请求的分发，Servlet扮演的就是这样的角色<br><img src="/2021/08/17/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/model-view-controller.jpg" alt="MVC"></li>
-</ul>
-<h1 id="SpringMVC的流程"><a href="#SpringMVC的流程" class="headerlink" title="SpringMVC的流程"></a>SpringMVC的流程</h1><ol>
-<li><p>用户发送请求至前端控制器DispatcherServlet；</p>
-</li>
-<li><p>DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handler；</p>
-</li>
-<li><p>处理器映射器根据请求url找到具体的处理器Handler，生成处理器对象及处理器拦截器(如果有则生成)，一并返回给DispatcherServlet；</p>
-</li>
-<li><p>DispatcherServlet 调用 HandlerAdapter处理器适配器，请求执行Handler；</p>
-</li>
-<li><p>HandlerAdapter 经过适配调用 具体处理器进行处理业务逻辑；</p>
-</li>
-<li><p>Handler执行完成返回ModelAndView；</p>
-</li>
-<li><p>HandlerAdapter将Handler执行结果ModelAndView返回给DispatcherServlet；</p>
-</li>
-<li><p>DispatcherServlet将ModelAndView传给ViewResolver视图解析器进行解析；</p>
-</li>
-<li><p>ViewResolver解析后返回具体View；</p>
-</li>
-<li><p>DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）</p>
-</li>
-<li><p>DispatcherServlet响应用户。</p>
-</li>
+    <title>消息队列</title>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</url>
+    <content><![CDATA[<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
+<ol>
+<li><strong>异步</strong>、</li>
+<li><strong>削峰</strong>、</li>
+<li><strong>解耦</strong></li>
 </ol>
+<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>比如一个流程下需要正常的业务处理，中间需要发送短信，扣减优惠卷等，可以生产消息进入队列，由短信系统，优惠卷系统异步处理，减少主业务逻辑链路，提升效率。</p>
+<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
+<h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
 <span id="more"></span>
-
-<h1 id="SpringMVC常用的注解有哪些？"><a href="#SpringMVC常用的注解有哪些？" class="headerlink" title="SpringMVC常用的注解有哪些？"></a>SpringMVC常用的注解有哪些？</h1><p><strong>@RequestMapping</strong>：用于处理请求 url 映射的注解，可用于类或方法上。用于类上，则表示类中的所有响应请求的方法都是以该地址作为父路径。</p>
-<p><strong>@RequestBody</strong>：注解实现接收http请求的json数据，将json转换为java对象。</p>
-<p><strong>@ResponseBody</strong>：注解实现将conreoller方法返回对象转化为json对象响应给客户。</p>
-<h2 id="SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？"><a href="#SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？" class="headerlink" title="SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？"></a>SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？</h2><p>答：一般用@Controller注解，也可以使用@RestController，@RestController注解相当于@ResponseBody ＋ @Controller，表示是表现层，除此之外，一般不用别的注解代替。</p>
-<h2 id="SpringMvc里面拦截器是怎么写的："><a href="#SpringMvc里面拦截器是怎么写的：" class="headerlink" title="SpringMvc里面拦截器是怎么写的："></a>SpringMvc里面拦截器是怎么写的：</h2><p>有两种写法，一种是实现HandlerInterceptor接口，另外一种是继承适配器类，接着在接口方法当中，实现处理逻辑；然后在SpringMvc的配置文件中配置拦截器即可：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置SpringMvc的拦截器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mvc:interceptors</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置一个拦截器的Bean就可以了 默认是对所有请求都拦截 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myInterceptor&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.zwp.action.MyHandlerInterceptor&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">&lt;!-- 只针对部分请求拦截 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:interceptor</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">mvc:mapping</span> <span class="attr">path</span>=<span class="string">&quot;/modelMap.do&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;com.zwp.action.MyHandlerInterceptorAdapter&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:interceptor</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:interceptors</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="Servlet生命周期"><a href="#Servlet生命周期" class="headerlink" title="Servlet生命周期"></a>Servlet生命周期</h1><p>Servlet生命周期分为三个阶段：初始化阶段、响应客户请求阶段、终止阶段</p>
+<h2 id="消息重复消费"><a href="#消息重复消费" class="headerlink" title="消息重复消费"></a>消息重复消费</h2><p>系统重试等原因造成<br>解决方法：</p>
 <ol>
-<li><p>创建Servlet对象，通过服务器反射机制创建Servlet对象，第一次请求时才会创建。（<strong>默认</strong>）</p>
-</li>
-<li><p>调用Servlet对象的init()方法，初始化Servlet的信息，init()方法只会在创建后被调用一次（<strong>初始化阶段</strong>）</p>
-</li>
-<li><p>响应请求，调用service()或者是doGet()，doPost()方法来处理请求，这些方法是运行的在多线程状态下的。（<strong>响应客户请求阶段</strong>）</p>
-</li>
-<li><p> 在长时间没有被调用或者是服务器关闭时，会调用destroy()方法来销毁Servlet对象。（<strong>终止阶段</strong>）</p>
-</li>
+<li>接口幂等 无论多次执行，其结果都是一样的.更复杂的操作幂等保证是利用唯一交易号(流水号)实现.请求的是相同的流水号的话，判断处理过的话 直接返回成功就行了。</li>
 </ol>
+<h1 id="消息顺序消费"><a href="#消息顺序消费" class="headerlink" title="消息顺序消费"></a>消息顺序消费</h1><p>一个topic下有多个队列，为了保证发送有序，RocketMQ提供了MessageQueueSelector队列选择机制<br>我们可使用Hash取模法，让同一个订单发送到同一个队列中，再使用同步发送，只有同个订单的创建消息发送成功，再发送支付消息。这样，我们保证了发送有序。<br>RocketMQ的topic内的队列机制,可以保证存储满足FIFO（First Input First Output 简单说就是指先进先出）,剩下的只需要消费者顺序消费即可。</p>
 ]]></content>
       <categories>
-        <category>java</category>
-        <category>springboot</category>
+        <category>中间件</category>
+        <category>消息队列</category>
       </categories>
       <tags>
-        <tag>java</tag>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>springcloud_五大组件</title>
-    <url>/2021/08/17/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="SpringCloud进阶"><a href="#SpringCloud进阶" class="headerlink" title="SpringCloud进阶"></a>SpringCloud进阶</h2><ul>
-<li><input checked disabled type="checkbox"> javase</li>
-<li><input checked disabled type="checkbox"> 数据库</li>
-<li>[] 前端</li>
-<li>[] servlet</li>
-<li>[] Http</li>
-<li><input checked disabled type="checkbox"> Mybatis</li>
-<li><input checked disabled type="checkbox"> Spring</li>
-<li>[] SpringMVC</li>
-<li>[] SpringBoot</li>
-<li><input checked disabled type="checkbox"> Dubbo,zookeeper,分布式基础</li>
-<li><input checked disabled type="checkbox"> maven</li>
-</ul>
-<blockquote>
-<p>总结一下SpringCloud结果核心组件:</p>
-</blockquote>
-<ul>
-<li>Eureka:个服务启动时,Eureka会将服务注册到EurekaService,并且EurakeClient还可以返回过来从EurekaService拉去注册表,从而知道服务在哪里</li>
-<li>Ribbon:服务间发起请求的时候,基于Ribbon服务做到负载均衡,从一个服务的对台机器中选择一台</li>
-<li>Feign:RPC框架，基于fegin的动态代理机制,根据注解和选择机器,拼接Url地址,发起请求,Feign是Netflix开发的声明式、模板化的HTTP客户端， Feign可以帮助我们更快捷、优雅地调用HTTP API。</li>
-<li>Hystrix:发起的请求是通过Hystrix的线程池来走,不同的服务走不同的线程池,实现了不同的服务调度隔离,避免服务雪崩的问题</li>
-<li>Zuul:如果前端后端移动端调用后台系统,统一走zull网关进入,有zull网关转发请求给对应的服务</li>
-<li>Apollo（阿波罗）是携程框架部门研发的配置管理平台，能够集中化管理应用不同环境、不同集群的配置，配置修改后能够实时推送到应用端，并且具备规范的权限、流程治理等特性。<a href="https://github.com/ctripcorp/apollo/wiki/Apollo%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E8%AE%BE%E8%AE%A1">Apollo配置中心设计</a></li>
-</ul>
-<h2 id="Spring-Cloud-和dubbo区别"><a href="#Spring-Cloud-和dubbo区别" class="headerlink" title="Spring Cloud 和dubbo区别?"></a>Spring Cloud 和dubbo区别?</h2><p>（1）服务调用方式 dubbo是RPC springcloud Rest Api</p>
-<p>（2）注册中心,dubbo 是zookeeper springcloud是eureka，也可以是zookeeper</p>
-<p>（3）服务网关,dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>spring</category>
-        <category>springcloud</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>Eureka</tag>
-        <tag>springcloud</tag>
-        <tag>Ribbon</tag>
-        <tag>Feign</tag>
-        <tag>Hystrix</tag>
-        <tag>Zuul</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>springboot框架总述</title>
-    <url>/2021/08/17/spring/springboot/springboot/</url>
-    <content><![CDATA[<h1 id="SpringBoot主要特性"><a href="#SpringBoot主要特性" class="headerlink" title="SpringBoot主要特性"></a>SpringBoot主要特性</h1><p><strong>Spring boot</strong> 简化了使用 Spring 的难度，简省了繁重的配置（版本管理，依赖导入），提供了各种启动器，开发者能快速上手。 </p>
-<h2 id="SpringBoot的版本控制"><a href="#SpringBoot的版本控制" class="headerlink" title="SpringBoot的版本控制"></a>SpringBoot的版本控制</h2><p>pom.xml中有父项目</p>
-<ul>
-<li><p>spring-boot-dependencies：核心依赖在父工程中</p>
-</li>
-<li><p>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</p>
-</li>
-</ul>
-<h2 id="SpringBoot的自动装配"><a href="#SpringBoot的自动装配" class="headerlink" title="SpringBoot的自动装配"></a>SpringBoot的自动装配</h2><p>SpringBoot 自动配置主要通过 @EnableAutoConfiguration, @Conditional, @EnableConfigurationProperties 或者 @ConfigurationProperties 等几个注解来进行自动配置完成的。</p>
-<ul>
-<li><p>@EnableAutoConfiguration 开启自动配置，主要作用就是调用 Spring-Core 包里的 loadFactoryNames()，将 autoconfig 包里的已经写好的自动配置加载进来。</p>
-</li>
-<li><p>@Conditional 条件注解，通过判断类路径下有没有相应配置的 jar 包来确定是否加载和自动配置这个类。</p>
-</li>
-<li><p>@EnableConfigurationProperties 的作用就是，给自动配置提供具体的配置参数，只需要写在 application.properties 中，就可以通过映射写入配置类的 POJO 属性中。 </p>
-<p><img src="/2021/08/17/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
-<blockquote>
-<p>该配置模块的主要使用到了<strong>SpringFactoriesLoader，即Spring工厂加载器</strong>，该对象提供了<strong>loadFactoryNames()<strong>方法，入参为factoryClass和classLoader，即需要传入上图中的工厂类名称和对应的类加载器，方法会根据指定的classLoader，加载该类加器搜索路径下的指定文件，即</strong>指定的配置文件META-INF/spring.factories</strong>，传入的工厂类为接口，而文件中对应的类则是接口的实现类，或最终作为实现类，所以文件中一般为一对多的类名集合，获取到这些实现类的类名后，loadFactoryNames方法返回类名集合，方法调用方得到这些集合后，再通过反射获取这些类的类对象、构造方法，最终生成实例。</p>
-<p><img src="/2021/08/17/spring/springboot/springboot/Users\sxyyl\Documents\GitHub_posts\spring\springboot\springboot\springboot_EnableAutoConfiguration.jpg" alt="springboot_EnableAutoConfiguration"></p>
-</blockquote>
-</li>
-</ul>
-<h2 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h2><p>启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
-<span id="more"></span>
-
-
-
-<h1 id="springboot启动原理"><a href="#springboot启动原理" class="headerlink" title="springboot启动原理"></a>springboot启动原理</h1><p>我们发现启动流程主要分为<strong>三个部分</strong>，</p>
-<ol>
-<li><p>进行<strong>SpringApplication的初始化模块</strong>，配置一些基本的环境变量、资源、构造器、监听器；</p>
-</li>
-<li><p>实现了<strong>应用具体的启动方案</strong>，包括启动流程的监听模块、加载配置环境模块、及核心的创建上下文环境模块；</p>
-</li>
-<li><p>是自动化配置模块，</p>
-</li>
-</ol>
-<p><img src="/2021/08/17/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
-<h3 id="SpringApplication初始化"><a href="#SpringApplication初始化" class="headerlink" title="SpringApplication初始化"></a>SpringApplication初始化</h3><p>初始化流程中最重要的就是通过SpringFactoriesLoader找到spring.factories文件中配置的ApplicationContextInitializer和ApplicationListener两个接口的实现类名称，以便后期构造相应的实例</p>
-<ul>
-<li>ApplicationContextInitializer的主要目的是在ConfigurableApplicationContext做refresh之前，对ConfigurableApplicationContext实例做进一步的设置或处理。</li>
-<li>ApplicationListener的目的就没什么好说的了，它是Spring框架对Java事件监听机制的一种框架实现。Spring Boot提供两种方式来添加自定义监听器通过SpringApplication.addListeners(ApplicationListener<?>... listeners)或者SpringApplication.setListeners(Collection<? extends ApplicationListener<?>&gt; listeners)两个方法来添加一个或者多个自定义监听器。然后还需要在我们直接在自己的jar包的META-INF/spring.factories文件中新增配置即可：</li>
-</ul>
-<h3 id="Spring-Boot启动流程"><a href="#Spring-Boot启动流程" class="headerlink" title="Spring Boot启动流程"></a>Spring Boot启动流程</h3><p><strong>SpringApplication的run方法</strong>的实现是我们本次旅程的主要线路，该方法的主要流程大体可以归纳如下：</p>
-<p><img src="/2021/08/17/spring/springboot/springboot/SpringApplication.jpg" alt="SpringApplication"></p>
-<p>1） 如果我们使用的是SpringApplication的静态run方法，那么，这个方法里面首先要创建一个SpringApplication对象实例，然后调用这个创建好的SpringApplication的实例方法。在SpringApplication实例初始化的时候，它会提前做几件事情：</p>
-<ul>
-<li>根据classpath里面是否存在某个特征类（org.springframework.web.context.ConfigurableWebApplicationContext）来决定是否应该创建一个为Web应用使用的ApplicationContext类型。</li>
-<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationContextInitializer。</li>
-<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationListener。</li>
-<li>推断并设置main方法的定义类。</li>
-</ul>
-<p>2） SpringApplication实例初始化完成并且完成设置后，就开始执行run方法的逻辑了，方法执行伊始，首先遍历执行所有通过<strong>SpringFactoriesLoader</strong>可以查找到并加载的SpringApplicationRunListener。调用它们的started()方法，告诉这些SpringApplicationRunListener，“嘿，SpringBoot应用要开始执行咯！”。</p>
-<p>3） 创建并配置当前Spring Boot应用将要使用的Environment（包括配置要使用的PropertySource以及Profile）。</p>
-<p>4） 遍历调用所有SpringApplicationRunListener的environmentPrepared()的方法，告诉他们：“当前SpringBoot应用使用的Environment准备好了咯！”。</p>
-<p>5） 如果SpringApplication的showBanner属性被设置为true，则打印banner。</p>
-<p>6） 根据用户是否明确设置了applicationContextClass类型以及初始化阶段的推断结果，决定该为当前SpringBoot应用创建什么类型的ApplicationContext并创建完成，然后根据条件决定是否添加ShutdownHook，决定是否使用自定义的BeanNameGenerator，决定是否使用自定义的ResourceLoader，当然，最重要的，将之前准备好的Environment设置给创建好的ApplicationContext使用。</p>
-<p>7） ApplicationContext创建好之后，SpringApplication会再次借助Spring-FactoriesLoader，查找并加载classpath中所有可用的ApplicationContext-Initializer，然后遍历调用这些ApplicationContextInitializer的initialize（applicationContext）方法来对已经创建好的ApplicationContext进行进一步的处理。</p>
-<p>8） 遍历调用所有SpringApplicationRunListener的contextPrepared()方法。</p>
-<p>9） 最核心的一步，将之前通过**@EnableAutoConfiguration**获取的所有配置以及其他形式的IoC容器配置加载到已经准备完毕的ApplicationContext。</p>
-<p>10） 遍历调用所有SpringApplicationRunListener的contextLoaded()方法。</p>
-<p>11） 调用ApplicationContext的refresh()方法，完成IoC容器可用的最后一道工序。</p>
-<p>12） 查找当前ApplicationContext中是否注册有CommandLineRunner，如果有，则遍历执行它们。</p>
-<p>13） 正常情况下，遍历执行SpringApplicationRunListener的finished()方法、（如果整个过程出现异常，则依然调用所有SpringApplicationRunListener的finished()方法，只不过这种情况下会将异常信息一并传入处理）</p>
-<h1 id="springboot-如何内置的tomcat"><a href="#springboot-如何内置的tomcat" class="headerlink" title="springboot 如何内置的tomcat"></a>springboot 如何内置的tomcat</h1><p>大致流程如下</p>
-<ol>
-<li>通过自动装配默认加载了DispatcherServlet，所有请求都会转发到DispatcherServlet</li>
-<li>DispatcherServlet的doService方法中拿到HttpServletRequest和HttpServletResponse对象</li>
-<li>从HttpServletRequest可以拿到我们的http头、url请求等信息</li>
-<li>根据获取的信息，从ioc容器中找到对应的Controller对应的action，进行反射调用</li>
-<li>根据HttpServletResponse返回调用结果给浏览器渲染<br></li>
-</ol>
-<p>springboot默认创建了一个DispatcherServlet来处理http请求<br>    - 不用再配置DispatcherServlet 简单的说就是默认加载META-INF/spring.factories定义的类，然后我们就可以在spring.factories中找到我们的关键类DispatcherServletAutoConfiguration</p>
-<h1 id="springboot常用注解"><a href="#springboot常用注解" class="headerlink" title="springboot常用注解"></a>springboot常用注解</h1><p><strong>@SpringBootApplication</strong> </p>
-<p>这个注解是Spring Boot<strong>最核心的注解</strong>，用在 Spring Boot的主类上，标识这是一个 Spring Boot 应用，用来开启 Spring Boot 的各项能力。实际上这个注解是@Configuration,@EnableAutoConfiguration,@ComponentScan三个注解的组合。由于这些注解一般都是一起使用，所以Spring Boot提供了一个统一的注解@SpringBootApplication。</p>
-<p><strong>@EnableAutoConfiguration</strong></p>
-<p>允许 Spring Boot 自动配置注解，开启这个注解之后，Spring Boot 就能根据当前类路径下的包或者类来配置 Spring Bean。</p>
-<p>如：当前类路径下有 Mybatis 这个 JAR 包，MybatisAutoConfiguration 注解就能根据相关参数来配置 Mybatis 的各个 Spring Bean。</p>
-<p><strong>@Configuration</strong></p>
-<p>用于定义配置类，指出该类是 Bean 配置的信息源，相当于传统的xml配置文件，一般加在主类上。如果有些第三方库需要用到xml文件，建议仍然通过@Configuration类作为项目的配置主类——可以使用@ImportResource注解加载xml配置文件。</p>
-<p><strong>@RestController</strong></p>
-<p>用于标注控制层组件(如struts中的action)，表示这是个控制器bean,并且是将函数的返回值直 接填入HTTP响应体中,是REST风格的控制器；它是@Controller和@ResponseBody的合集。</p>
-<p><strong>@Component</strong></p>
-<p>泛指组件，当组件不好归类的时候，我们可以使用这个注解进行标注。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>spring框架总述</title>
-    <url>/2021/08/13/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/</url>
-    <content><![CDATA[<h1 id="1-spring是什么"><a href="#1-spring是什么" class="headerlink" title="1.spring是什么"></a>1.spring是什么</h1><p>Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为了解决企业应用开发<br>的复杂性而创建的。Spring 的核心是控制反转（<strong>IoC</strong>）和面向切面编程（<strong>AOP</strong>）。<br></p>
-<hr>
-<h2 id="2-IOC控制反转"><a href="#2-IOC控制反转" class="headerlink" title="2.IOC控制反转"></a>2.IOC控制反转</h2><p>控制反转（IoC，Inversion of Control），是一个概念，是一种思想。指将传统上由程序代<br>码直接操控的对象调用权交给容器，通过容器来实现对象的装配和管理。控制反转就是对对<br>象控制权的转移，从程序代码本身反转到了外部容器。通过容器实现对象的创建，属性赋值，<br>依赖的管理。<br><br>spring对于IOC思想的具体实现就是：<strong>DI</strong>（依赖注入：DI(Dependency Injection)，程序代码不做定位查询，这些工作由容器自行完成。）</p>
-<h3 id="DI具体用法和实现"><a href="#DI具体用法和实现" class="headerlink" title="DI具体用法和实现"></a>DI具体用法和实现</h3><h4 id="ApplicationContext-接口（容器）"><a href="#ApplicationContext-接口（容器）" class="headerlink" title="ApplicationContext 接口（容器）"></a>ApplicationContext 接口（容器）</h4><p>ApplicationContext 用于加载 Spring 的配置文件，在程序中充当“容器”的角色。其实现<br>类有：<strong>ClassPathXmlApplicationContext</strong>(常用)，FileSystemXmlApplicationContext。<br></p>
-<ul>
-<li>若 Spring 配置文件存放在项目的类路径下，则使用 ClassPathXmlApplicationContext 实现<br>类进行加载。</li>
-<li>ApplicationContext 容器，会在容器对象初始化时，将其中的所有对象一次性全部装配好。<br>以后代码中若要使用到这些对象，只需从内存中直接获取即可。执行效率较高。但占用内存。<span id="more"></span></li>
-</ul>
-<h2 id="SpringIOC加载流程"><a href="#SpringIOC加载流程" class="headerlink" title="SpringIOC加载流程"></a>SpringIOC加载流程</h2><p><a href="https://javadoop.com/post/spring-ioc">IOC原理详解</a></p>
-<p><img src="/2021/08/13/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/spring-IOC.jpg" alt="spring-IOC"></p>
-<p>其实总结起来IOC 总体来说有两处地方最重要：<strong>一个是创建 Bean 容器，一个是初始化 Bean</strong>。</p>
-<ol>
-<li><p>IOC是在Spring启动后初始化环境和上下文对象完成后开始执行的</p>
-</li>
-<li><p>首先是创建BeanFactory，并将它的引用交给ApplicationContext，解析xml中配置的Bean，将他们封装成BeanDefinition对象，并放入HashMap中</p>
-</li>
-</ol>
-<blockquote>
-<p>BeanDefinition对象中封装了IOC初始化需要用到的所有信息，例如全限定名，是否懒加载，注入的属性，作用域等等。</p>
-</blockquote>
-<ol start="3">
-<li><p>准备BeanFactory对象，为他设置类加载器，以及设置一些Spring环境中的特殊类，在注入时直接可以返回，防止重复创建；手动添加了几个BeanFactoryPostProcessor后置处理器（注册监听器、Aware接口的回调）</p>
-</li>
-<li><p>BeanFactory对象创建完成，开始执行后置处理器，除了Spring中定义好的以外，可能还会有用户或者框架定义的BeanFactoryPostProcessor，如MyBatis专门用于注册Mapper接口的处理器。</p>
-</li>
-<li><p>至此Bean的初始化完成（还未实例化），注册BeanPostProcessor，执行Bean初始化完成的前置处理，这里也是可以自己拓展的点。</p>
-</li>
-<li><p>这里还会有一些国际化、事件监听器的注册处理不细说了。</p>
-</li>
-<li><p>接着进入重头戏，Bean的实例化。</p>
-</li>
-</ol>
-<blockquote>
-<ol>
-<li>进行实例化前会有一系列的判断，懒加载、抽象类、AOP的切面类等等这些不会被实例化。</li>
-<li>处理FactoryBean，它和普通Bean不同的是，它的实现类是一个工厂类，Spring会调用定义的工厂类实例化对象，例如MyBatis的Mapper就是自定义了工厂类动态代理的生成对象。</li>
-<li>处理普通Bean，根据BeanDefinition对象中的全限定类名反射创建，然后注入它的属性，引用对象则为递归创建（循环引用问题，Spring都是按照先实例化后注入属性，实例化后会放入缓存中，如果遇到循环引用则会从缓存当中取出来，防止出现死循环）</li>
-</ol>
-</blockquote>
-<ol start="8">
-<li><p>Bean实例化全部完成后，调用BeanPostProcessor中的后置处理方法，这里可拓展。</p>
-</li>
-<li><p>发布Bean实例化完成事件，观察者模式的应用，监听器再做其他操作。</p>
-</li>
-</ol>
-<h4 id="注入分类"><a href="#注入分类" class="headerlink" title="注入分类:"></a>注入分类:<br></h4><p>bean 实例在调用无参构造器创建对象后，就要对 bean 对象的属性进行初始化。初始化<br>是由容器自动完成的，称为注入。<br>根据注入方式的不同，常用的有两类：<strong>set 注入、构造注入</strong>。</p>
-<ul>
-<li>Set注入：其实就是直接设置要的值<ul>
-<li>简单类型（设置property标签，通过value=”设置”）</li>
-<li>引用类型 （设置property标签，通过ref=”设置”）</li>
-</ul>
-</li>
-<li>构造注入：在构造调用者实例的同时，完成被调用者的实例化。即使用构造器设置依赖关系。<ul>
-<li>设置<constructor-arg>标签 name=”指定参数名称” value=”设置” 。（可选index）</constructor-arg></li>
-</ul>
-</li>
-</ul>
-<h5 id="引用类型属性自动注入"><a href="#引用类型属性自动注入" class="headerlink" title="引用类型属性自动注入"></a>引用类型属性自动注入</h5><p>对于引用类型属性的注入，也可不在配置文件中显示的注入。可以通过为<bean>标签<br>设置 autowire 属性值，为引用类型属性进行隐式自动注入（默认是不自动注入引用类型属<br>性）。根据自动注入判断标准的不同，可以分为两种：<br><br>byName：根据名称自动注入<br><br>byType： 根据类型自动注入<br><br>直接在bean标签内加上   autowire=”byName”</bean></p>
-<h4 id="为应用指定多个-Spring-配置文件"><a href="#为应用指定多个-Spring-配置文件" class="headerlink" title="为应用指定多个 Spring 配置文件"></a>为应用指定多个 Spring 配置文件</h4><p>在实际应用里，随着应用规模的增加，系统中 Bean 数量也大量增加，导致配置文件变<br>得非常庞大、臃肿。为了避免这种情况的产生，提高配置文件的可读性与可维护性，可以将<br>Spring 配置文件分解成多个配置文件。<br>包含关系的配置文件：<br><br>多个配置文件中有一个总文件，总配置文件将各其它子文件通过<import>引入。在 Java<br>代码中只需要使用总配置文件对容器进行初始化即可。<br><br>也可使用通配符*。但，此时要求父配置文件名不能满足*所能匹配的格式，否则将出现<br>循环递归包含。<br></import></p>
-<h3 id="基于注解的-DI"><a href="#基于注解的-DI" class="headerlink" title="基于注解的 DI"></a>基于注解的 DI</h3><p>对于 DI 使用注解，将不再需要在 Spring 配置文件中声明 bean 实例。<br><br>Spring 中使用注解，需要在 Spring 配置文件中<strong>配置组件扫描器</strong>，用于在指定的基本包中扫描注解。<br>指定多个包的三种方式：<br><br>1)使用多个 context:component-scan 指定不同的包路<br><br>2)指定 base-package 的值使用分隔符<br><br>3)base-package 是指定到父包名<br></p>
-<h5 id="注解方式声明bean"><a href="#注解方式声明bean" class="headerlink" title="注解方式声明bean"></a>注解方式声明bean</h5><ul>
-<li>定义 Bean 的注解@Component</li>
-<li>@Repository 用于对 DAO 实现类进行注解</li>
-<li>@Service 用于对 Service 实现类进行注解</li>
-<li>@Controller 用于对 Controller 实现类进行注解<br></li>
-</ul>
-<p>这三个注解与@Component 都可以创建对象，但这三个注解还有其他的含义：<br></p>
-<p>@Service创建业务层对象，业务层对象可以加入事务功能，<br><br>@Controller 注解创建的对象可以作为处理器接收用户的请求。<br><br>@Repository，@Service，@Controller 是对@Component 注解的细化，标注不同层的对象。即持久层对象，业务层对象，控制层对象。<br></p>
-<h3 id="Component-和-Bean-的区别"><a href="#Component-和-Bean-的区别" class="headerlink" title="@Component 和 @Bean 的区别"></a><code>@Component</code> 和 <code>@Bean</code> 的区别</h3><ol>
-<li>作用对象不同：**@Component <strong>注解作用于</strong>类<strong>，而 <strong>@Bean</strong> 注解作用于</strong>方法**、</li>
-<li>@Component 通常是通过路径扫描来自动侦测以及自动装配到 Spring 容器中(我们可以使用 @ComponentScan 注解定义要扫描的路径从中找出标识了需要装配的类自动装配到 Spring 的 bean 容器中)。@Bean 注解通常是我们在标有该注解的方法中定义产生这个 bean，@Bean 告诉了 Spring 这是某个类的实例，当我们需要用它的时候还给我。</li>
-<li>@Bean 注解比 @Component 注解的自定义性更强，而且很多地方我们只能通过 @Bean 注解来注册 bean。</li>
-</ol>
-<h5 id="简单类型属性注入-Value"><a href="#简单类型属性注入-Value" class="headerlink" title="简单类型属性注入@Value"></a>简单类型属性注入@Value</h5><p>需要在属性上使用注解@Value，该注解的 value 属性用于指定要注入的值。<br>使用该注解完成属性注入时，类中无需 setter。</p>
-<figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    @Value(<span class="string">&quot;张三&quot;</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> name;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="AutoWired"><a href="#AutoWired" class="headerlink" title="@AutoWired"></a>@AutoWired</h4><h5 id="byType-自动注入-Autowired"><a href="#byType-自动注入-Autowired" class="headerlink" title="byType 自动注入@Autowired"></a>byType 自动注入@Autowired</h5><p>该注解默认使用<strong>按类型自动装配 Bean</strong></p>
-<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="symbol">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> age;</span><br><span class="line">	<span class="comment">/******/</span></span><br><span class="line">    @Autowired</span><br><span class="line">    <span class="keyword">private</span> School school;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="byName-自动注入-Autowired-与-Qualifier"><a href="#byName-自动注入-Autowired-与-Qualifier" class="headerlink" title="byName 自动注入@Autowired 与@Qualifier"></a>byName 自动注入@Autowired 与@Qualifier</h5><p>需要在引用属性上联合使用注解@Autowired 与@Qualifier。@Qualifier 的 value 属性用<br>于指定要匹配的 Bean 的 id 值。类中无需 set 方法，也可加到 set 方法上。<br><br>@Autowired 还有一个属性 required，默认值为 true，表示当匹配失败后，会终止程序运<br>行。若将其值设置为 false，则匹配失败，将被忽略，未匹配的属性值为 null。<br></p>
-<h4 id="JDK-注解-Resource-自动注入"><a href="#JDK-注解-Resource-自动注入" class="headerlink" title="JDK 注解@Resource 自动注入"></a>JDK 注解@Resource 自动注入</h4><p>Spring提供了对 jdk中@Resource注解的支持。@Resource 注解既可以按名称匹配Bean，<br>也可以按类型匹配 Bean。默认是按名称注入。使用该注解，要求 JDK 必须是 6 及以上版本。<br>@Resource 可在属性上，也可在 set 方法上。<br></p>
-<p>@Resource 注解若不带任何参数，采用<strong>默认按名称的方式</strong>注入，按名称不能注入 bean，<br>则会按照类型进行 Bean 的匹配注入。</p>
-<hr>
-<h2 id="3-AOP面向切面编程"><a href="#3-AOP面向切面编程" class="headerlink" title="3.AOP面向切面编程"></a>3.AOP面向切面编程</h2><p>AOP（Aspect Orient Programming），面向切面编程。面向切面编程是从动态角度考虑程<br>序运行过程。<br><br>AOP 底层，就是采用动态代理模式实现的。采用了两种代理：<strong>JDK 的动态代理，与 CGLIB的动态代理。</strong><br></p>
-<p>JDK动态代理，必须要实现接口<br>    - 创建目标类<br>    - 创建<strong>InvocationHandler</strong>接口的实现类重写<strong>Invoke</strong>，在这个类实现给目标方法增加功能<br>    - 使用JDK中的类<strong>proxy</strong>，创建代理对象，实现创建对象的能力，在使用代理对象调用方法</p>
-<p>CGLIB的动态代理，字节码的编辑器，asm编辑器，原理是继承，通过继承目标类生成代理类，只要求目标类不是final修饰的就行</p>
-<h3 id="Aop术语"><a href="#Aop术语" class="headerlink" title="Aop术语"></a>Aop术语</h3><ol>
-<li>切面（Aspect）<br><br>切面泛指交叉业务逻辑。上例中的事务处理、日志处理就可以理解为切面。常用的切面<br>是通知（Advice）。实际就是对主业务逻辑的一种增强。</li>
-<li>连接点（JoinPoint）<br><br>连接点指可以被切面织入的具体方法。通常业务接口中的方法均为连接点。</li>
-<li>切入点（Pointcut）<br><br>切入点指声明的一个或多个连接点的集合。通过切入点指定一组方法。<br><br>被标记为 final 的方法是不能作为连接点与切入点的。因为最终的是不能被修改的，不<br>能被增强的。我们通常使用明确的类和方法名称，或者是使用正则表达式定义所匹配的类和方法名称来指定切点。</li>
-<li>目标对象（Target）<br><br>目 标 对 象 指 将 要 被 增 强 的 对 象 。 即 包 含 主 业 务 逻 辑 的 类 的 对 象 。 上 例 中 的<br>StudentServiceImpl 的对象若被增强，则该类称为目标类，该类对象称为目标对象。当然，<br>不被增强，也就无所谓目标不目标了。</li>
-<li>通知（Advice）<br>通知表示切面的执行时间，Advice 也叫增强。上例中的 MyInvocationHandler 就可以理<br>解为是一种通知。换个角度来说，通知定义了增强代码切入到目标代码的时间点，是目标方<br>法执行之前执行，还是之后执行等。通知类型不同，切入时间不同。<br></li>
-</ol>
-<p>  <strong>切入点定义切入的位置，通知定义切入的时间</strong>。</p>
-<h4 id="AOP的主要实践-aspectj"><a href="#AOP的主要实践-aspectj" class="headerlink" title="AOP的主要实践 aspectj"></a>AOP的主要实践 aspectj</h4><p> aspectj有两种实现方式：<br><br> 1.使用xml配置<br> 2.使用注解（常用5个：@Before，@AfterReturning，**@Around**，@AfterThrowing，@After）</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>spring</category>
-        <category>IOC&amp;AOP</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>Spring</tag>
-        <tag>Ioc</tag>
-        <tag>Aop</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql_优化系列_索引优化</title>
-    <url>/2021/08/12/sql/mysql_%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97_%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="模糊匹配like-怎么优化"><a href="#模糊匹配like-怎么优化" class="headerlink" title="模糊匹配like %%怎么优化"></a>模糊匹配like %%怎么优化</h2><ol>
-<li><strong>开启ICP（索引条件下推）</strong><br></li>
-</ol>
-<ul>
-<li><strong>索引下推</strong>（index condition pushdown ）简称ICP，在<strong>Mysql5.6</strong>的版本上推出，用于优化查询。</li>
-<li>在使用ICP的情况下，如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。</li>
-<li><strong>索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数</strong>。****</li>
-</ul>
-<p>  可以通过索引筛选，返回给Server层筛选后的记录，减少不必要的IO开销。<br><br>  如果where后只有一个 like ‘%xxx%’条件，表有主键的前提下，可以通过子查询优化</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span>  <span class="operator">*</span> <span class="keyword">from</span> users01 a , </span><br><span class="line">(<span class="keyword">select</span> id <span class="keyword">from</span> users01 <span class="keyword">where</span> nickname <span class="keyword">like</span> <span class="string">&#x27;%SK%&#x27;</span>) b</span><br><span class="line"> <span class="keyword">where</span> a.id <span class="operator">=</span> b.id;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li><strong>建立全文索引</strong><br><br>两种检索模式</li>
-</ol>
-<ul>
-<li><p>MySQL 5.6 以前的版本，只有 MyISAM 存储引擎支持全文索引；</p>
-</li>
-<li><p>MySQL 5.6 及以后的版本，MyISAM 和 InnoDB 存储引擎均支持全文索引;</p>
-</li>
-<li><p>只有字段的数据类型为 char、varchar、text 及其系列才可以建全文索引。</p>
-</li>
-<li><p>IN NATURAL LANGUAGE MODE：默认模式，以自然语言的方式搜索，AGAINST(‘看风’ IN NATURAL LANGUAGE MODE ) 等价于AGAINST(‘看风’)。</p>
-</li>
-<li><p>IN BOOLEAN MODE：布尔模式，表是字符串前后的字符有特殊含义，如查找包含SK，但不包含Lyn的记录，可以用+，-符号。<br>AGAINST(‘+SK -Lyn’ in BOOLEAN MODE);</p>
-</li>
-</ul>
-<p>创建全文索引：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> fulltext index idx_full_nickname(nickname) <span class="keyword">with</span> parser ngram;</span><br></pre></td></tr></table></figure>
-<p>改写like语句：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> users01 <span class="keyword">where</span> <span class="keyword">match</span>(nickname) against(<span class="string">&#x27;看风&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li><strong>生成列（虚拟列）</strong><br><br>对于where条件后的 like ‘%xxx’ 是无法利用索引扫描，可以利用MySQL 5.7的生成列模拟函数索引的方式解决，具体步骤如下：<br>利用内置reverse函数将like ‘%风云’反转为like ‘云风%’，基于此函数添加虚拟生成列。<br>在虚拟生成列上创建索引。<br>将SQL改写成通过生成列like reverse(‘%风云’)去过滤，走生成列上的索引。<br>建立生成列<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> reverse_nickname <span class="type">varchar</span>(<span class="number">200</span>) generated always <span class="keyword">as</span> (reverse(nickname));</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="索引很长的字段怎么优化？"><a href="#索引很长的字段怎么优化？" class="headerlink" title="索引很长的字段怎么优化？"></a>索引很长的字段怎么优化？</h2><p>有时候需要索引很长的字符(例如BLOB,TEXT,或者很长的VARCHAR)，这样会使得索引又大又慢。</p>
-<ol>
-<li><strong>改用哈希索引</strong>。<br>InnoDB是支持Btree索引，但不显式支持hash索引。可以<strong>使用生成列来间接使用哈希索引</strong>。</li>
-<li>使用字符串的前几个字符作为索引(即前缀索引)。</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> INDEX `idx_city` (`city`(<span class="number">7</span>)) <span class="keyword">USING</span> BTREE ;</span><br><span class="line"><span class="comment">-- 或者这个也行</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> KEY `idx_city` (`city`(<span class="number">7</span>))</span><br></pre></td></tr></table></figure>
-<p>当然在选择前缀时要选择合适的前缀索引长度，保持好的选择性。其方法主要是计算数据分布。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查询重复次数最多的10条完整城市名称及其数量(图1)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, city <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> city <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前3个字符)及其数量,可以发现:前3个字符的相同数量过大,不适合做前缀索引(图2)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">3</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前7个字符)及其数量,可以发现:前7个字符的相同数量和完整城市名称很相近了,可以考虑作为做前缀索引(图3)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">7</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
-
-<h1 id="MRR"><a href="#MRR" class="headerlink" title="MRR"></a>MRR</h1><p>MRR全称是Multi-Range Read，是MYSQL5.6优化器的一个新特性，在MariaDB5.5也有这个特性。优化的功能在使用二级索引做范围扫描的过程中减少磁盘随机IO和减少主键索引的访问次数。二级索引通过将主键放在buffer中排序将<strong>随机IO转换为顺序IO</strong>。对于随机读写能力较弱的机械硬盘有比较大优化。</p>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-        <category>索引优化</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>sql</tag>
-        <tag>索引优化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PMP备考系列_7-9章笔记</title>
-    <url>/2021/08/12/pmp/PMP7-9/</url>
-    <content><![CDATA[<h1 id="7-项目成本管理"><a href="#7-项目成本管理" class="headerlink" title="7 项目成本管理"></a>7 项目成本管理</h1>]]></content>
-      <categories>
-        <category>PMP</category>
-      </categories>
-      <tags>
-        <tag>PMP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>设计模式</title>
-    <url>/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="1-请列举出在-JDK-中几个常用的设计模式？"><a href="#1-请列举出在-JDK-中几个常用的设计模式？" class="headerlink" title="1.请列举出在 JDK 中几个常用的设计模式？"></a>1.请列举出在 JDK 中几个常用的设计模式？</h1><p>单例模式（Singleton pattern）用于 Runtime，Calendar 和其他的一些类中。工厂模式<br>（Factory pattern）被用于各种不可变的类如 Boolean，像 Boolean.valueOf，观察者模式<br>（Observer pattern）被用于 Swing 和很多的事件监听中。装饰器设计模式（Decorator<br>design pattern）被用于多个 Java IO 类中。</p>
-<h1 id="2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？"><a href="#2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？" class="headerlink" title="2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？"></a>2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？</h1><p>设计模式是世界上各种各样程序员用来解决特定设计问题的尝试和测试的方法。设计模式<br>是代码可用性的延伸。</p>
-<p>模板方法模式定义一个操作中的算法的骨架，将一些步骤延迟到子类中，模板方法使得子类可以不改变一个算法的结构即可重定义该算法的某些步骤。</p>
-<p>应用场景如下：</p>
-<p>对于一些功能，在不同的对象身上展示不同的作用，但是功能的框架是一样的。</p>
-<h1 id="3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式"><a href="#3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式" class="headerlink" title="3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式"></a>3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式</h1><p>单例模式重点在于在整个系统上共享一些创建时较耗资源的对象。整个应用中只维护一个<br>特定类实例，它被所有组件共同使用。Java.lang.Runtime 是单例模式的经典例子。从 Java<br>5 开始你可以使用枚举（enum）来实现线程安全的单例。</p>
-<span id="more"></span>
-
-<h1 id="4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？"><a href="#4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？" class="headerlink" title="4.在 Java 中，什么叫观察者设计模式（observer design pattern）？"></a>4.在 Java 中，什么叫观察者设计模式（observer design pattern）？</h1><p>观察者模式是基于对象的状态变化和观察者的通讯，以便他们作出相应的操作。简单的例<br>子就是一个天气系统，当天气变化时必须在展示给公众的视图中进行反映。这个视图对象<br>是一个主体，而不同的视图是观察者。</p>
-<h1 id="5-使用工厂模式最主要的好处是什么？在哪里使用？"><a href="#5-使用工厂模式最主要的好处是什么？在哪里使用？" class="headerlink" title="5.使用工厂模式最主要的好处是什么？在哪里使用？"></a>5.使用工厂模式最主要的好处是什么？在哪里使用？</h1><p>工厂模式的最大好处是增加了创建对象时的封装层次。如果你使用工厂来创建对象，之后<br>你可以使用更高级和更高性能的实现来替换原始的产品实现或类，这不需要在调用层做任<br>何修改。</p>
-<h1 id="6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？"><a href="#6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？" class="headerlink" title="6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？"></a>6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？</h1><p>装饰模式增加强了单个对象的能力。Java IO 到处都使用了装饰模式，典型例子就是<br>Buffered 系列类如 BufferedReader 和 BufferedWriter，它们增强了 Reader 和 Writer 对象，<br>以实现提升性能的 Buffer 层次的读取和写入。</p>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-        <category>常见面试</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
+        <tag>消息队列</tag>
       </tags>
   </entry>
   <entry>
     <title>消息队列_Rocketmq</title>
-    <url>/2021/08/10/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/</url>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/</url>
     <content><![CDATA[<h1 id="主流消息队列选型"><a href="#主流消息队列选型" class="headerlink" title="主流消息队列选型"></a>主流消息队列选型</h1><table>
 <thead>
 <tr>
@@ -556,7 +153,7 @@
   </entry>
   <entry>
     <title>redis基础使用</title>
-    <url>/2021/08/10/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E4%BD%BF%E7%94%A8/</url>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p>Redis 使用的是客户端-服务器（CS）模型和请求/响应协议的 TCP 服务器。这意味着通常情况下一个请求会遵循以下步骤：</p>
 <ol>
 <li>客户端向服务端发送一个查询请求，并监听 Socket 返回，通常是以阻塞模式，等待服务端响应。</li>
@@ -644,6 +241,792 @@
       </categories>
       <tags>
         <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis持久化和集群高可用</title>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h2><h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><ul>
+<li>RDB做镜像全量持久化<br><br>是对 Redis 中的数据执行周期性的持久化。<br><ul>
+<li>优点：<br><br>RDB对Redis的性能影响非常小，是因为在同步数据的时候他只是fork了一个子进程去做持久化的，<br>而且他在数据恢复的时候速度比AOF来的快。适合做快照之类的备份。<br></li>
+<li>缺点：<br><br>RDB都是快照文件，生成时间间隔可能比较大（默认5分钟），可能丢失数据,<br>还有就是RDB在生成数据快照的时候，如果文件很大，客户端可能会暂停几毫秒甚至几秒.</li>
+</ul>
+</li>
+</ul>
+<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><ul>
+<li>AOF做增量持久化。<br><br>  AOF 机制对每条写入命令作为日志，以 append-only 的模式写入一个日志文件中，因为这个模式是只追加的方式，所以没有任何磁盘寻址的开销，所以很快，有点像Mysql中的binlog。<ul>
+<li>优点：<br><br>可能丢失的数据少（1秒），<br><br>AOF日志可读性好，可对有问题的命令做修改.</li>
+<li>缺点：<br><br>AOF文件体积较大。<br><br>AOF开启后，Redis支持写的QPS会比RDB支持写的要低</li>
+</ul>
+</li>
+</ul>
+<h3 id="总结：RDB和AOF配合使用"><a href="#总结：RDB和AOF配合使用" class="headerlink" title="总结：RDB和AOF配合使用"></a>总结：RDB和AOF配合使用</h3><p>因为RDB会耗费较长时间，不够实时，在停机的时候会导致大量丢失数据，所以需要AOF来配合使用。在redis实例重启时，会使用RDB持久化文件重新构建内存，再使用AOF重放近期的操作指令来实现完整恢复重启之前的状态。</p>
+<hr>
+<h2 id="Redis集群高可用"><a href="#Redis集群高可用" class="headerlink" title="Redis集群高可用"></a>Redis集群高可用</h2><p>Redis的集群高可用方案常见的有3种：</p>
+<ol>
+<li>主从同步/复制</li>
+<li>哨兵模式</li>
+<li>Cluster 集群</li>
+</ol>
+<h3 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h3><h4 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h4><ol>
+<li>从服务器连接主服务器，发送SYNC命令； </li>
+<li>主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令； </li>
+<li>主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令； </li>
+<li>从服务器收到快照文件后丢弃所有旧数据，载入收到的快照； </li>
+<li>主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令； </li>
+<li>从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；（从服务器初始化完成）</li>
+<li>主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令（从服务器初始化完成后的操作）<h4 id="主从复制优缺点："><a href="#主从复制优缺点：" class="headerlink" title="主从复制优缺点："></a>主从复制优缺点：</h4>优点：</li>
+</ol>
+<ul>
+<li>支持主从复制，主机会自动将数据同步到从机，可以进行读写分离</li>
+<li>为了分载Master的读操作压力，Slave服务器可以为客户端提供只读操作的服务，写服务仍然必须由Master来完成</li>
+<li>Slave同样可以接受其它Slaves的连接和同步请求，这样可以有效的分载Master的同步压力。</li>
+<li>Master Server是以非阻塞的方式为Slaves提供服务。所以在Master-Slave同步期间，客户端仍然可以提交查询或修改请求。</li>
+<li>Slave Server同样是以非阻塞的方式完成数据同步。在同步期间，如果有客户端提交查询请求，Redis则返回同步之前的数据.<br>缺点：</li>
+<li>Redis不具备自动容错和恢复功能，主机从机的宕机都会导致前端部分读写请求失败，需要等待机器重启或者手动切换前端的IP才能恢复。</li>
+<li>主机宕机，宕机前有部分数据未能及时同步到从机，切换IP后还会引入数据不一致的问题，降低了系统的可用性。</li>
+<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li>
+</ul>
+<h3 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h3><p>当主服务器中断服务后，可以将一个从服务器升级为主服务器，以便继续提供服务，但是这个过程需要人工手动来操作。 为此，Redis 2.8中提供了哨兵工具来实现自动化的系统监控和故障恢复功能。</p>
+<p>哨兵的作用就是监控Redis系统的运行状况。它的功能包括以下两个。</p>
+<ol>
+<li>监控主服务器和从服务器是否正常运行。 </li>
+<li>主服务器出现故障时自动将从服务器转换为主服务器。<br>哨兵组件的主要作用：</li>
+</ol>
+<ul>
+<li>集群监控：负责监控 Redis master 和 slave 进程是否正常工作。</li>
+<li>消息通知：如果某个 Redis 实例有故障，那么哨兵负责发送消息作为报警通知给管理员。</li>
+<li>故障转移：如果 master node 挂掉了，会自动转移到 slave node 上。</li>
+</ul>
+<p>配置中心：如果故障转移发生了，通知 client 客户端新的 master 地址。</p>
+<h4 id="哨兵的工作方式："><a href="#哨兵的工作方式：" class="headerlink" title="哨兵的工作方式："></a>哨兵的工作方式：</h4><ol>
+<li>每个Sentinel（哨兵）进程以每秒钟一次的频率向整个集群中的Master主服务器，Slave从服务器以及其他Sentinel（哨兵）进程发送一个 PING 命令。</li>
+<li>如果一个实例（instance）距离最后一次有效回复 PING 命令的时间超过 down-after-milliseconds 选项所指定的值， 则这个实例会被 Sentinel（哨兵）进程标记为主观下线（SDOWN）</li>
+<li>如果一个Master主服务器被标记为主观下线（SDOWN），则正在监视这个Master主服务器的所有 Sentinel（哨兵）进程要以每秒一次的频率确认Master主服务器的确进入了主观下线状态</li>
+<li>当有足够数量的 Sentinel（哨兵）进程（大于等于配置文件指定的值）在指定的时间范围内确认Master主服务器进入了主观下线状态（SDOWN）， 则Master主服务器会被标记为客观下线（ODOWN）</li>
+<li>在一般情况下， 每个 Sentinel（哨兵）进程会以每 10 秒一次的频率向集群中的所有Master主服务器、Slave从服务器发送 INFO 命令。<br>当Master主服务器被 Sentinel（哨兵）进程标记为客观下线（ODOWN）时，Sentinel（哨兵）进程向下线的 Master主服务器的所有 Slave从服务器发送 INFO 命令的频率会从 10 秒一次改为每秒一次。</li>
+<li>若没有足够数量的 Sentinel（哨兵）进程同意 Master主服务器下线， Master主服务器的客观下线状态就会被移除。若 Master主服务器重新向 Sentinel（哨兵）进程发送 PING 命令返回有效回复，Master主服务器的主观下线状态就会被移除。<br>哨兵模式的优缺点</li>
+</ol>
+<p>优点：</p>
+<ul>
+<li>哨兵模式是基于主从模式的，所有主从的优点，哨兵模式都具有。</li>
+<li>主从可以自动切换，系统更健壮，可用性更高。<br><br>缺点：</li>
+<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li>
+</ul>
+<h4 id="Redis-Cluster集群"><a href="#Redis-Cluster集群" class="headerlink" title="Redis-Cluster集群"></a>Redis-Cluster集群</h4><p>redis的哨兵模式基本已经可以实现高可用，读写分离 ，但是在这种模式下每台redis服务器都存储相同的数据，很浪费内存，同时主从模式还是不能很好<strong>解决过多的写</strong>（只有一个master写）所以在redis3.0上加入了cluster模式，实现的redis的分布式存储，也就是说每台redis节点上存储不同的内容。</p>
+<p> Redis-Cluster采用无中心结构,它的特点如下：</p>
+<p>所有的redis节点彼此互联(PING-PONG机制),内部使用二进制协议优化传输速度和带宽。</p>
+<p>节点的fail是通过集群中超过半数的节点检测失效时才生效。</p>
+<p>客户端与redis节点直连,不需要中间代理层.客户端不需要连接集群所有节点,连接集群中任何一个可用节点即可。</p>
+<h4 id="Redis-Cluster集群原理："><a href="#Redis-Cluster集群原理：" class="headerlink" title="Redis-Cluster集群原理："></a>Redis-Cluster集群原理：</h4><p>在redis的每一个节点上，都有这么两个东西，一个是插槽（slot），它的的取值范围是：0-16383。还有一个就是cluster，可以理解为是一个集群管理的插件。当我们的存取的key到达的时候，redis会根据crc16的算法得出一个结果，然后把结果对 16384 求余数，这样每个 key 都会对应一个编号在 0-16383 之间的哈希槽，通过这个值，去找到对应的插槽所对应的节点，然后直接自动跳转到这个对应的节点上进行存取操作。</p>
+<p>为了保证高可用，redis-cluster集群引入了主从模式，一个主节点对应一个或者多个从节点，当主节点宕机的时候，就会启用从节点。当其它主节点ping一个主节点A时，如果半数以上的主节点与A通信超时，那么认为主节点A宕机了。如果主节点A和它的从节点A1都宕机了，那么该集群就无法再提供服务了。</p>
+<p>集群里面，故障转移是由集群中其他在线的主节点负责进行的，所以集群不必另外使用Redis Sentinel。</p>
+<p>参考：<a href="https://www.cnblogs.com/cqming/p/11191079.html">https://www.cnblogs.com/cqming/p/11191079.html</a></p>
+]]></content>
+      <categories>
+        <category>中间件</category>
+        <category>nosql</category>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>springMVC框架总述</title>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/</url>
+    <content><![CDATA[<h1 id="什么是MVC"><a href="#什么是MVC" class="headerlink" title="什么是MVC"></a>什么是MVC</h1><ul>
+<li>M代表模型（Model）<br>模型其实就是数据，dao，bean</li>
+<li>V代表视图（View）<br>网页，jsp等用来展示数据的模型</li>
+<li>C代表Controller<br>把不同的数据展示在不同的视图上，处理请求的分发，Servlet扮演的就是这样的角色<br><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/model_view_controller.jpg" alt="MVC"></li>
+</ul>
+<h1 id="SpringMVC的流程"><a href="#SpringMVC的流程" class="headerlink" title="SpringMVC的流程"></a>SpringMVC的流程</h1><ol>
+<li><p>用户发送请求至前端控制器DispatcherServlet；</p>
+</li>
+<li><p>DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handler；</p>
+</li>
+<li><p>处理器映射器根据请求url找到具体的处理器Handler，生成处理器对象及处理器拦截器(如果有则生成)，一并返回给DispatcherServlet；</p>
+</li>
+<li><p>DispatcherServlet 调用 HandlerAdapter处理器适配器，请求执行Handler；</p>
+</li>
+<li><p>HandlerAdapter 经过适配调用 具体处理器进行处理业务逻辑；</p>
+</li>
+<li><p>Handler执行完成返回ModelAndView；</p>
+</li>
+<li><p>HandlerAdapter将Handler执行结果ModelAndView返回给DispatcherServlet；</p>
+</li>
+<li><p>DispatcherServlet将ModelAndView传给ViewResolver视图解析器进行解析；</p>
+</li>
+<li><p>ViewResolver解析后返回具体View；</p>
+</li>
+<li><p>DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）</p>
+</li>
+<li><p>DispatcherServlet响应用户。</p>
+</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="SpringMVC常用的注解有哪些？"><a href="#SpringMVC常用的注解有哪些？" class="headerlink" title="SpringMVC常用的注解有哪些？"></a>SpringMVC常用的注解有哪些？</h1><p><strong>@RequestMapping</strong>：用于处理请求 url 映射的注解，可用于类或方法上。用于类上，则表示类中的所有响应请求的方法都是以该地址作为父路径。</p>
+<p><strong>@RequestBody</strong>：注解实现接收http请求的json数据，将json转换为java对象。</p>
+<p><strong>@ResponseBody</strong>：注解实现将conreoller方法返回对象转化为json对象响应给客户。</p>
+<h2 id="SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？"><a href="#SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？" class="headerlink" title="SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？"></a>SpingMvc中的控制器的注解一般用哪个？有没有别的注解可以替代？</h2><p>答：一般用@Controller注解，也可以使用@RestController，@RestController注解相当于@ResponseBody ＋ @Controller，表示是表现层，除此之外，一般不用别的注解代替。</p>
+<h2 id="SpringMvc里面拦截器是怎么写的："><a href="#SpringMvc里面拦截器是怎么写的：" class="headerlink" title="SpringMvc里面拦截器是怎么写的："></a>SpringMvc里面拦截器是怎么写的：</h2><p>有两种写法，一种是实现HandlerInterceptor接口，另外一种是继承适配器类，接着在接口方法当中，实现处理逻辑；然后在SpringMvc的配置文件中配置拦截器即可：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置SpringMvc的拦截器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mvc:interceptors</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置一个拦截器的Bean就可以了 默认是对所有请求都拦截 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myInterceptor&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.zwp.action.MyHandlerInterceptor&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">&lt;!-- 只针对部分请求拦截 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:interceptor</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">mvc:mapping</span> <span class="attr">path</span>=<span class="string">&quot;/modelMap.do&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;com.zwp.action.MyHandlerInterceptorAdapter&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:interceptor</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:interceptors</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="Servlet生命周期"><a href="#Servlet生命周期" class="headerlink" title="Servlet生命周期"></a>Servlet生命周期</h1><p>Servlet生命周期分为三个阶段：初始化阶段、响应客户请求阶段、终止阶段</p>
+<ol>
+<li><p>创建Servlet对象，通过服务器反射机制创建Servlet对象，第一次请求时才会创建。（<strong>默认</strong>）</p>
+</li>
+<li><p>调用Servlet对象的init()方法，初始化Servlet的信息，init()方法只会在创建后被调用一次（<strong>初始化阶段</strong>）</p>
+</li>
+<li><p>响应请求，调用service()或者是doGet()，doPost()方法来处理请求，这些方法是运行的在多线程状态下的。（<strong>响应客户请求阶段</strong>）</p>
+</li>
+<li><p> 在长时间没有被调用或者是服务器关闭时，会调用destroy()方法来销毁Servlet对象。（<strong>终止阶段</strong>）</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>springcloud_五大组件</title>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="SpringCloud进阶"><a href="#SpringCloud进阶" class="headerlink" title="SpringCloud进阶"></a>SpringCloud进阶</h2><ul>
+<li><input checked disabled type="checkbox"> javase</li>
+<li><input checked disabled type="checkbox"> 数据库</li>
+<li>[] 前端</li>
+<li>[] servlet</li>
+<li>[] Http</li>
+<li><input checked disabled type="checkbox"> Mybatis</li>
+<li><input checked disabled type="checkbox"> Spring</li>
+<li>[] SpringMVC</li>
+<li>[] SpringBoot</li>
+<li><input checked disabled type="checkbox"> Dubbo,zookeeper,分布式基础</li>
+<li><input checked disabled type="checkbox"> maven</li>
+</ul>
+<blockquote>
+<p>总结一下SpringCloud结果核心组件:</p>
+</blockquote>
+<ul>
+<li><p>Eureka:个服务启动时,Eureka会将服务注册到EurekaService,并且EurakeClient还可以返回过来从EurekaService拉去注册表,从而知道服务在哪里</p>
+</li>
+<li><p>Ribbon:服务间发起请求的时候,基于Ribbon服务做到负载均衡,从一个服务的对台机器中选择一台</p>
+<blockquote>
+<p>目前，在Spring cloud 中服务之间通过restful方式调用有两种方式  </p>
+<ul>
+<li>restTemplate+Ribbon </li>
+<li>feign</li>
+</ul>
+</blockquote>
+</li>
+<li><p>Feign:RPC框架，基于fegin的动态代理机制,根据注解和选择机器,拼接Url地址,发起请求,Feign是Netflix开发的声明式、模板化的HTTP客户端， Feign可以帮助我们更快捷、优雅地调用HTTP API。</p>
+</li>
+<li><p>Hystrix:发起的请求是通过Hystrix的线程池来走,不同的服务走不同的线程池,实现了不同的服务调度隔离,避免服务雪崩的问题</p>
+</li>
+<li><p>Zuul:如果前端后端移动端调用后台系统,统一走zull网关进入,有zull网关转发请求给对应的服务</p>
+</li>
+<li><p>Apollo（阿波罗）是携程框架部门研发的配置管理平台，能够集中化管理应用不同环境、不同集群的配置，配置修改后能够实时推送到应用端，并且具备规范的权限、流程治理等特性。<a href="https://github.com/ctripcorp/apollo/wiki/Apollo%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E8%AE%BE%E8%AE%A1">Apollo配置中心设计</a></p>
+</li>
+</ul>
+<h4 id="Ribbon"><a href="#Ribbon" class="headerlink" title="Ribbon"></a>Ribbon</h4><p>Ribbon 是一个基于 HTTP 和 TCP 客户端的负载均衡器</p>
+<p>它可以在客户端配置 ribbonServerList（服务端列表），然后轮询请求以实现均衡负载</p>
+<p>它在联合 Eureka 使用时</p>
+<p>ribbonServerList 会被 DiscoveryEnabledNIWSServerList 重写，扩展成从 Eureka 注册中心获取服务端列表</p>
+<p>同时它也会用 NIWSDiscoveryPing 来取代 IPing，它将职责委托给 Eureka 来确定服务端是否已经启动</p>
+<h4 id="Feign"><a href="#Feign" class="headerlink" title="Feign"></a>Feign</h4><p>Spring Cloud Netflix 的微服务都是以 HTTP 接口的形式暴露的，所以可以用 Apache 的 HttpClient 或 Spring 的 RestTemplate 去調用,而 Feign 是一個使用起來更加方便的 HTTP 客戶端，它用起來就好像調用本地方法一樣，完全感覺不到是調用的遠程方法</p>
+<p>总结起来就是：发布到注册中心的服务方接口，是 HTTP 的，也可以不用 Ribbon 或者 Feign，直接浏览器一样能够访问</p>
+<p>只不过 Ribbon 或者 Feign 调用起来要方便一些，最重要的是：它俩都支持软负载均衡</p>
+<p>注意：spring-cloud-starter-feign 里面已经包含了 spring-cloud-starter-ribbon（Feign 中也使用了 Ribbon）</p>
+<p>从实践上看，采用feign的方式更优雅（feign内部也使用了ribbon做负载均衡）。</p>
+<h2 id="Spring-Cloud-和dubbo区别"><a href="#Spring-Cloud-和dubbo区别" class="headerlink" title="Spring Cloud 和dubbo区别?"></a>Spring Cloud 和dubbo区别?</h2><p>其实Dubbo仅仅是一个RPC框架，实现Java程序的远程调用，而Spring Cloud则是实施微服务的一系列套件，包括：服务注册与发现、断路器、服务状态监控、配置管理、智能路由、一次性令牌、全局锁、分布式会话管理、集群状态管理等</p>
+<p>（1）服务调用方式 dubbo是RPC，springcloud是 Rest Api</p>
+<p>（2）注册中心,dubbo 是zookeeper springcloud是eureka，也可以是zookeeper</p>
+<p>（3）服务网关,dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。</p>
+<h2 id="常见的RPC组件："><a href="#常见的RPC组件：" class="headerlink" title="常见的RPC组件："></a>常见的RPC组件：</h2><ol>
+<li>RMI（远程方法调用）</li>
+</ol>
+<p>JAVA自带的远程方法调用工具，不过有一定的局限性，毕竟是JAVA语言最开始时的设计，后来很多框架的原理都基于RMI。</p>
+<ol start="2">
+<li><p>Hessian（基于HTTP的远程方法调用）</p>
+<p>基于HTTP协议传输，在性能方面还不够完美，负载均衡和失效转移依赖于应用的负载均衡器，Hessian的使用则与RMI类似，区别在于淡化了Registry的角色，通过显示的地址调用，利用HessianProxyFactory根据配置的地址create一个代理对象，另外还要引入Hessian的Jar包。</p>
+</li>
+<li><p>Dubbo（淘宝开源的基于TCP的RPC框架）</p>
+</li>
+</ol>
+<p>基于Netty的高性能RPC框架，是阿里巴巴开源的，总体原理如下：</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>spring</category>
+        <category>springcloud</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>Eureka</tag>
+        <tag>springcloud</tag>
+        <tag>Ribbon</tag>
+        <tag>Feign</tag>
+        <tag>Hystrix</tag>
+        <tag>Zuul</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>springboot框架总述</title>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/</url>
+    <content><![CDATA[<h1 id="SpringBoot主要特性"><a href="#SpringBoot主要特性" class="headerlink" title="SpringBoot主要特性"></a>SpringBoot主要特性</h1><p><strong>Spring boot</strong> 简化了使用 Spring 的难度，简省了繁重的配置（版本管理，依赖导入），提供了各种启动器，开发者能快速上手。 </p>
+<h2 id="SpringBoot的版本控制"><a href="#SpringBoot的版本控制" class="headerlink" title="SpringBoot的版本控制"></a>SpringBoot的版本控制</h2><p>pom.xml中有父项目</p>
+<ul>
+<li><p>spring-boot-dependencies：核心依赖在父工程中</p>
+</li>
+<li><p>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</p>
+</li>
+</ul>
+<h2 id="SpringBoot的自动装配"><a href="#SpringBoot的自动装配" class="headerlink" title="SpringBoot的自动装配"></a>SpringBoot的自动装配</h2><p>SpringBoot 自动配置主要通过 @EnableAutoConfiguration, @Conditional, @EnableConfigurationProperties 或者 @ConfigurationProperties 等几个注解来进行自动配置完成的。</p>
+<ul>
+<li><p>@EnableAutoConfiguration 开启自动配置，主要作用就是调用 Spring-Core 包里的 loadFactoryNames()，将 autoconfig 包里的已经写好的自动配置加载进来。</p>
+</li>
+<li><p>@Conditional 条件注解，通过判断类路径下有没有相应配置的 jar 包来确定是否加载和自动配置这个类。</p>
+</li>
+<li><p>@EnableConfigurationProperties 的作用就是，给自动配置提供具体的配置参数，只需要写在 application.properties 中，就可以通过映射写入配置类的 POJO 属性中。 </p>
+<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
+<blockquote>
+<p>该配置模块的主要使用到了<strong>SpringFactoriesLoader，即Spring工厂加载器</strong>，该对象提供了<strong>loadFactoryNames()<strong>方法，入参为factoryClass和classLoader，即需要传入上图中的工厂类名称和对应的类加载器，方法会根据指定的classLoader，加载该类加器搜索路径下的指定文件，即</strong>指定的配置文件META-INF/spring.factories</strong>，传入的工厂类为接口，而文件中对应的类则是接口的实现类，或最终作为实现类，所以文件中一般为一对多的类名集合，获取到这些实现类的类名后，loadFactoryNames方法返回类名集合，方法调用方得到这些集合后，再通过反射获取这些类的类对象、构造方法，最终生成实例。</p>
+<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/Users\sxyyl\Documents\GitHub_posts\spring\springboot\springboot\springboot_EnableAutoConfiguration.jpg" alt="springboot_EnableAutoConfiguration"></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h2><p>启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
+<span id="more"></span>
+
+
+
+<h1 id="springboot启动原理"><a href="#springboot启动原理" class="headerlink" title="springboot启动原理"></a>springboot启动原理</h1><p>我们发现启动流程主要分为<strong>三个部分</strong>，</p>
+<ol>
+<li><p>进行<strong>SpringApplication的初始化模块</strong>，配置一些基本的环境变量、资源、构造器、监听器；</p>
+</li>
+<li><p>实现了<strong>应用具体的启动方案</strong>，包括启动流程的监听模块、加载配置环境模块、及核心的创建上下文环境模块；</p>
+</li>
+<li><p>是自动化配置模块，</p>
+</li>
+</ol>
+<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
+<h3 id="SpringApplication初始化"><a href="#SpringApplication初始化" class="headerlink" title="SpringApplication初始化"></a>SpringApplication初始化</h3><p>初始化流程中最重要的就是通过SpringFactoriesLoader找到spring.factories文件中配置的ApplicationContextInitializer和ApplicationListener两个接口的实现类名称，以便后期构造相应的实例</p>
+<ul>
+<li>ApplicationContextInitializer的主要目的是在ConfigurableApplicationContext做refresh之前，对ConfigurableApplicationContext实例做进一步的设置或处理。</li>
+<li>ApplicationListener的目的就没什么好说的了，它是Spring框架对Java事件监听机制的一种框架实现。Spring Boot提供两种方式来添加自定义监听器通过SpringApplication.addListeners(ApplicationListener<?>... listeners)或者SpringApplication.setListeners(Collection<? extends ApplicationListener<?>&gt; listeners)两个方法来添加一个或者多个自定义监听器。然后还需要在我们直接在自己的jar包的META-INF/spring.factories文件中新增配置即可：</li>
+</ul>
+<h3 id="Spring-Boot启动流程"><a href="#Spring-Boot启动流程" class="headerlink" title="Spring Boot启动流程"></a>Spring Boot启动流程</h3><p><strong>SpringApplication的run方法</strong>的实现是我们本次旅程的主要线路，该方法的主要流程大体可以归纳如下：</p>
+<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/SpringApplication.jpg" alt="SpringApplication"></p>
+<p>1） 如果我们使用的是SpringApplication的静态run方法，那么，这个方法里面首先要创建一个SpringApplication对象实例，然后调用这个创建好的SpringApplication的实例方法。在SpringApplication实例初始化的时候，它会提前做几件事情：</p>
+<ul>
+<li>根据classpath里面是否存在某个特征类（org.springframework.web.context.ConfigurableWebApplicationContext）来决定是否应该创建一个为Web应用使用的ApplicationContext类型。</li>
+<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationContextInitializer。</li>
+<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationListener。</li>
+<li>推断并设置main方法的定义类。</li>
+</ul>
+<p>2） SpringApplication实例初始化完成并且完成设置后，就开始执行run方法的逻辑了，方法执行伊始，首先遍历执行所有通过<strong>SpringFactoriesLoader</strong>可以查找到并加载的SpringApplicationRunListener。调用它们的started()方法，告诉这些SpringApplicationRunListener，“嘿，SpringBoot应用要开始执行咯！”。</p>
+<p>3） 创建并配置当前Spring Boot应用将要使用的Environment（包括配置要使用的PropertySource以及Profile）。</p>
+<p>4） 遍历调用所有SpringApplicationRunListener的environmentPrepared()的方法，告诉他们：“当前SpringBoot应用使用的Environment准备好了咯！”。</p>
+<p>5） 如果SpringApplication的showBanner属性被设置为true，则打印banner。</p>
+<p>6） 根据用户是否明确设置了applicationContextClass类型以及初始化阶段的推断结果，决定该为当前SpringBoot应用创建什么类型的ApplicationContext并创建完成，然后根据条件决定是否添加ShutdownHook，决定是否使用自定义的BeanNameGenerator，决定是否使用自定义的ResourceLoader，当然，最重要的，将之前准备好的Environment设置给创建好的ApplicationContext使用。</p>
+<p>7） ApplicationContext创建好之后，SpringApplication会再次借助Spring-FactoriesLoader，查找并加载classpath中所有可用的ApplicationContext-Initializer，然后遍历调用这些ApplicationContextInitializer的initialize（applicationContext）方法来对已经创建好的ApplicationContext进行进一步的处理。</p>
+<p>8） 遍历调用所有SpringApplicationRunListener的contextPrepared()方法。</p>
+<p>9） 最核心的一步，将之前通过**@EnableAutoConfiguration**获取的所有配置以及其他形式的IoC容器配置加载到已经准备完毕的ApplicationContext。</p>
+<p>10） 遍历调用所有SpringApplicationRunListener的contextLoaded()方法。</p>
+<p>11） 调用ApplicationContext的refresh()方法，完成IoC容器可用的最后一道工序。</p>
+<p>12） 查找当前ApplicationContext中是否注册有CommandLineRunner，如果有，则遍历执行它们。</p>
+<p>13） 正常情况下，遍历执行SpringApplicationRunListener的finished()方法、（如果整个过程出现异常，则依然调用所有SpringApplicationRunListener的finished()方法，只不过这种情况下会将异常信息一并传入处理）</p>
+<h1 id="springboot-如何内置的tomcat"><a href="#springboot-如何内置的tomcat" class="headerlink" title="springboot 如何内置的tomcat"></a>springboot 如何内置的tomcat</h1><p>大致流程如下</p>
+<ol>
+<li>通过自动装配默认加载了DispatcherServlet，所有请求都会转发到DispatcherServlet</li>
+<li>DispatcherServlet的doService方法中拿到HttpServletRequest和HttpServletResponse对象</li>
+<li>从HttpServletRequest可以拿到我们的http头、url请求等信息</li>
+<li>根据获取的信息，从ioc容器中找到对应的Controller对应的action，进行反射调用</li>
+<li>根据HttpServletResponse返回调用结果给浏览器渲染<br></li>
+</ol>
+<p>springboot默认创建了一个DispatcherServlet来处理http请求<br>    - 不用再配置DispatcherServlet 简单的说就是默认加载META-INF/spring.factories定义的类，然后我们就可以在spring.factories中找到我们的关键类DispatcherServletAutoConfiguration</p>
+<h1 id="springboot常用注解"><a href="#springboot常用注解" class="headerlink" title="springboot常用注解"></a>springboot常用注解</h1><p><strong>@SpringBootApplication</strong> </p>
+<p>这个注解是Spring Boot<strong>最核心的注解</strong>，用在 Spring Boot的主类上，标识这是一个 Spring Boot 应用，用来开启 Spring Boot 的各项能力。实际上这个注解是@Configuration,@EnableAutoConfiguration,@ComponentScan三个注解的组合。由于这些注解一般都是一起使用，所以Spring Boot提供了一个统一的注解@SpringBootApplication。</p>
+<p><strong>@EnableAutoConfiguration</strong></p>
+<p>允许 Spring Boot 自动配置注解，开启这个注解之后，Spring Boot 就能根据当前类路径下的包或者类来配置 Spring Bean。</p>
+<p>如：当前类路径下有 Mybatis 这个 JAR 包，MybatisAutoConfiguration 注解就能根据相关参数来配置 Mybatis 的各个 Spring Bean。</p>
+<p><strong>@Configuration</strong></p>
+<p>用于定义配置类，指出该类是 Bean 配置的信息源，相当于传统的xml配置文件，一般加在主类上。如果有些第三方库需要用到xml文件，建议仍然通过@Configuration类作为项目的配置主类——可以使用@ImportResource注解加载xml配置文件。</p>
+<p><strong>@RestController</strong></p>
+<p>用于标注控制层组件(如struts中的action)，表示这是个控制器bean,并且是将函数的返回值直 接填入HTTP响应体中,是REST风格的控制器；它是@Controller和@ResponseBody的合集。</p>
+<p><strong>@Component</strong></p>
+<p>泛指组件，当组件不好归类的时候，我们可以使用这个注解进行标注。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>spring框架_事务管理</title>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6_%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h1 id="spring事务管理"><a href="#spring事务管理" class="headerlink" title="spring事务管理"></a>spring事务管理</h1><h2 id="Spring定义了7种传播行为："><a href="#Spring定义了7种传播行为：" class="headerlink" title="Spring定义了7种传播行为："></a>Spring定义了7种传播行为：</h2><ol>
+<li>propagation_requierd：如果当前没有事务，就新建一个事务，如果已存在一个事务中，<br>加入到这个事务中，这是Spring默认的选择。</li>
+<li>propagation_supports：支持当前事务，如果没有当前事务，就以非事务方法执行。</li>
+<li>propagation_mandatory：使用当前事务，如果没有当前事务，就抛出异常。</li>
+<li>propagation_required_new：新建事务，如果当前存在事务，把当前事务挂起。</li>
+<li>propagation_not_supported：以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。</li>
+<li>propagation_never：以非事务方式执行操作，如果当前事务存在则抛出异常。</li>
+<li>propagation_nested：如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与propagation_required类似的操作。嵌套事务一个非常重要的概念就是内层事务依赖于外层事务。外层事务失败时，会回滚内层事务所做的动作。而内层事务操作失败并不会引起外层事务的回滚。</li>
+</ol>
+<h2 id="Spring事务隔离级别"><a href="#Spring事务隔离级别" class="headerlink" title="Spring事务隔离级别"></a><strong>Spring事务隔离级别</strong></h2><h2 id="Spring事务隔离级别比数据库事务隔离级别多一个default"><a href="#Spring事务隔离级别比数据库事务隔离级别多一个default" class="headerlink" title="Spring事务隔离级别比数据库事务隔离级别多一个default"></a><strong>Spring事务隔离级别比数据库事务隔离级别多一个default</strong></h2><p><strong>1) DEFAULT （默认）</strong><br>这是一个PlatfromTransactionManager默认的隔离级别，使用数据库默认的事务隔离级别。另外四个与JDBC的隔离级别相对应。</p>
+<p><strong>2) READ_UNCOMMITTED （读未提交）</strong><br>这是事务最低的隔离级别，它允许另外一个事务可以看到这个事务未提交的数据。这种隔离级别会产生脏读，不可重复读和幻像读。</p>
+<p><strong>3) READ_COMMITTED （读已提交）</strong><br>保证一个事务修改的数据提交后才能被另外一个事务读取，另外一个事务不能读取该事务未提交的数据。这种事务隔离级别可以避免脏读出现，但是可能会出现不可重复读和幻像读。</p>
+<p><strong>4) REPEATABLE_READ （可重复读）</strong><br>这种事务隔离级别可以防止脏读、不可重复读，但是可能出现幻像读。它除了保证一个事务不能读取另一个事务未提交的数据外，还保证了不可重复读。</p>
+<p><strong>5) SERIALIZABLE（串行化）</strong><br>这是花费最高代价但是最可靠的事务隔离级别，事务被处理为顺序执行。除了防止脏读、不可重复读外，还避免了幻像读。</p>
+<h2 id="事务几种实现方式"><a href="#事务几种实现方式" class="headerlink" title="事务几种实现方式"></a>事务几种实现方式</h2><ol>
+<li>编程式事务管理对基于 POJO 的应用来说是唯一选择。我们需要在代码中调用beginTransaction()、commit()、rollback()等事务管理相关的方法，这就是编程式事务管理。</li>
+<li>基于 TransactionProxyFactoryBean的声明式事务管理</li>
+<li>基于 @Transactional 的声明式事务管理</li>
+<li>基于Aspectj AOP配置事务</li>
+</ol>
+<h3 id="基于-TransactionProxyFactoryBean的声明式事务管理"><a href="#基于-TransactionProxyFactoryBean的声明式事务管理" class="headerlink" title="基于 TransactionProxyFactoryBean的声明式事务管理"></a>基于 TransactionProxyFactoryBean的声明式事务管理</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 事务管理器 --&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myTracnsactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 事务代理工厂 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 生成事务代理对象 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;serviceProxy&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.transaction.interceptor.TransactionProxyFactoryBean&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;transactionManager&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;myTracnsactionManager&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;target&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;buyStockService&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;transactionAttributes&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- 主要 key 是方法   </span></span><br><span class="line"><span class="comment">                    ISOLATION_DEFAULT  事务的隔离级别</span></span><br><span class="line"><span class="comment">                    PROPAGATION_REQUIRED  传播行为</span></span><br><span class="line"><span class="comment">                --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;add*&quot;</span>&gt;</span>ISOLATION_DEFAULT,PROPAGATION_REQUIRED<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- -Exception 表示发生指定异常回滚，+Exception 表示发生指定异常提交 --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;buyStock&quot;</span>&gt;</span>ISOLATION_DEFAULT,PROPAGATION_REQUIRED,-BuyStockException<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        </span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="基于-Transactional-注解的声明式事务管理"><a href="#基于-Transactional-注解的声明式事务管理" class="headerlink" title="基于 @Transactional 注解的声明式事务管理"></a>基于 @Transactional 注解的声明式事务管理</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">public <span class="keyword">class</span> BuyStockServiceImpl implements BuyStockService&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> AccountDao accountDao;</span><br><span class="line">    <span class="keyword">private</span> StockDao stockDao;</span><br><span class="line">    </span><br><span class="line">    @<span class="constructor">Transactional(<span class="params">isolation</span>=Isolation.DEFAULT,<span class="params">propagation</span>=Propagation.REQUIRED)</span></span><br><span class="line">    @Override</span><br><span class="line">    public void add<span class="constructor">Account(String <span class="params">accountname</span>, <span class="params">double</span> <span class="params">money</span>)</span> &#123;</span><br><span class="line">        accountDao.add<span class="constructor">Account(<span class="params">accountname</span>,<span class="params">money</span>)</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @<span class="constructor">Transactional(<span class="params">isolation</span>=Isolation.DEFAULT,<span class="params">propagation</span>=Propagation.REQUIRED)</span></span><br><span class="line">    @Override</span><br><span class="line">    public void add<span class="constructor">Stock(String <span class="params">stockname</span>, <span class="params">int</span> <span class="params">amount</span>)</span> &#123;</span><br><span class="line">        stockDao.add<span class="constructor">Stock(<span class="params">stockname</span>,<span class="params">amount</span>)</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public <span class="constructor">BuyStockServiceImpl()</span> &#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @<span class="constructor">Transactional(<span class="params">isolation</span>=Isolation.DEFAULT,<span class="params">propagation</span>=Propagation.REQUIRED,<span class="params">rollbackFor</span>=BuyStockException.<span class="params">class</span>)</span></span><br><span class="line">    @Override</span><br><span class="line">    public void buy<span class="constructor">Stock(String <span class="params">accountname</span>, <span class="params">double</span> <span class="params">money</span>, String <span class="params">stockname</span>, <span class="params">int</span> <span class="params">amount</span>)</span> throws BuyStockException &#123;</span><br><span class="line">        boolean isBuy = <span class="literal">true</span>;</span><br><span class="line">        accountDao.update<span class="constructor">Account(<span class="params">accountname</span>, <span class="params">money</span>, <span class="params">isBuy</span>)</span>;</span><br><span class="line">        <span class="keyword">if</span>(isBuy==<span class="literal">true</span>)&#123;</span><br><span class="line">            throw <span class="keyword">new</span> <span class="constructor">BuyStockException(<span class="string">&quot;购买股票发生异常&quot;</span>)</span>;</span><br><span class="line">        &#125;</span><br><span class="line">            stockDao.update<span class="constructor">Stock(<span class="params">stockname</span>, <span class="params">amount</span>, <span class="params">isBuy</span>)</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public AccountDao get<span class="constructor">AccountDao()</span> &#123;</span><br><span class="line">        return accountDao;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void set<span class="constructor">AccountDao(AccountDao <span class="params">accountDao</span>)</span> &#123;</span><br><span class="line">        this.accountDao = accountDao;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public StockDao get<span class="constructor">StockDao()</span> &#123;</span><br><span class="line">        return stockDao;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void set<span class="constructor">StockDao(StockDao <span class="params">stockDao</span>)</span> &#123;</span><br><span class="line">        this.stockDao = stockDao;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置文件：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 事务管理器 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myTracnsactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 启用事务注解 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;myTracnsactionManager&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="基于Aspectj-AOP配置事务"><a href="#基于Aspectj-AOP配置事务" class="headerlink" title="基于Aspectj AOP配置事务"></a>基于Aspectj AOP配置事务</h3><figure class="highlight dust"><table><tr><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">&quot;classpath:jdbc.properties&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- 注册数据源 C3P0 --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;</span>  &gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driverClass&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.driverClass&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;jdbcUrl&quot;</span>  <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.url&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>  <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.username&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.password&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;accountDao&quot;</span> <span class="attr">class</span>=<span class="string">&quot;transaction.test4.dao.AccountDaoImpl&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;stockDao&quot;</span> <span class="attr">class</span>=<span class="string">&quot;transaction.test4.dao.StockDaoImpl&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;buyStockService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;transaction.test4.service.BuyStockServiceImpl&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;accountDao&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;accountDao&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;stockDao&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;stockDao&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- 事务管理器 --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myTracnsactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;myTracnsactionManager&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="comment">&lt;!-- 为连接点指定事务属性 --&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;add*&quot;</span> <span class="attr">isolation</span>=<span class="string">&quot;DEFAULT&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;buyStock&quot;</span> <span class="attr">isolation</span>=<span class="string">&quot;DEFAULT&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span> <span class="attr">rollback-for</span>=<span class="string">&quot;BuyStockException&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 切入点配置 --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">expression</span>=<span class="string">&quot;execution(* *..service.*.*(..))&quot;</span> <span class="attr">id</span>=<span class="string">&quot;point&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;point&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>原文地址：<a href="https://www.cnblogs.com/h-c-g/p/10872061.html">https://www.cnblogs.com/h-c-g/p/10872061.html</a></p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>spring</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>Spring</tag>
+        <tag>事务管理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>spring框架总述</title>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/</url>
+    <content><![CDATA[<h1 id="1-spring是什么"><a href="#1-spring是什么" class="headerlink" title="1.spring是什么"></a>1.spring是什么</h1><p>Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为了解决企业应用开发<br>的复杂性而创建的。Spring 的核心是控制反转（<strong>IoC</strong>）和面向切面编程（<strong>AOP</strong>）。<br></p>
+<hr>
+<h2 id="2-IOC控制反转"><a href="#2-IOC控制反转" class="headerlink" title="2.IOC控制反转"></a>2.IOC控制反转</h2><p>控制反转（IoC，Inversion of Control），是一个概念，是一种思想。指将传统上由程序代<br>码直接操控的对象调用权交给容器，通过容器来实现对象的装配和管理。控制反转就是对对<br>象控制权的转移，从程序代码本身反转到了外部容器。通过容器实现对象的创建，属性赋值，<br>依赖的管理。<br><br>spring对于IOC思想的具体实现就是：<strong>DI</strong>（依赖注入：DI(Dependency Injection)，程序代码不做定位查询，这些工作由容器自行完成。）</p>
+<h3 id="DI具体用法和实现"><a href="#DI具体用法和实现" class="headerlink" title="DI具体用法和实现"></a>DI具体用法和实现</h3><h4 id="ApplicationContext-接口（容器）"><a href="#ApplicationContext-接口（容器）" class="headerlink" title="ApplicationContext 接口（容器）"></a>ApplicationContext 接口（容器）</h4><p>ApplicationContext 用于加载 Spring 的配置文件，在程序中充当“容器”的角色。其实现<br>类有：<strong>ClassPathXmlApplicationContext</strong>(常用)，FileSystemXmlApplicationContext。<br></p>
+<ul>
+<li>若 Spring 配置文件存放在项目的类路径下，则使用 ClassPathXmlApplicationContext 实现<br>类进行加载。</li>
+<li>ApplicationContext 容器，会在容器对象初始化时，将其中的所有对象一次性全部装配好。<br>以后代码中若要使用到这些对象，只需从内存中直接获取即可。执行效率较高。但占用内存。<span id="more"></span></li>
+</ul>
+<h2 id="SpringIOC加载流程"><a href="#SpringIOC加载流程" class="headerlink" title="SpringIOC加载流程"></a>SpringIOC加载流程</h2><p><a href="https://javadoop.com/post/spring-ioc">IOC原理详解</a></p>
+<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/spring-IOC.jpg" alt="spring-IOC"></p>
+<p>其实总结起来IOC 总体来说有两处地方最重要：<strong>一个是创建 Bean 容器，一个是初始化 Bean</strong>。</p>
+<ol>
+<li><p>IOC是在Spring启动后初始化环境和上下文对象完成后开始执行的</p>
+</li>
+<li><p>首先是创建BeanFactory，并将它的引用交给ApplicationContext，解析xml中配置的Bean，将他们封装成BeanDefinition对象，并放入HashMap中</p>
+</li>
+</ol>
+<blockquote>
+<p>BeanDefinition对象中封装了IOC初始化需要用到的所有信息，例如全限定名，是否懒加载，注入的属性，作用域等等。</p>
+</blockquote>
+<ol start="3">
+<li><p>准备BeanFactory对象，为他设置类加载器，以及设置一些Spring环境中的特殊类，在注入时直接可以返回，防止重复创建；手动添加了几个BeanFactoryPostProcessor后置处理器（注册监听器、Aware接口的回调）</p>
+</li>
+<li><p>BeanFactory对象创建完成，开始执行后置处理器，除了Spring中定义好的以外，可能还会有用户或者框架定义的BeanFactoryPostProcessor，如MyBatis专门用于注册Mapper接口的处理器。</p>
+</li>
+<li><p>至此Bean的初始化完成（还未实例化），注册BeanPostProcessor，执行Bean初始化完成的前置处理，这里也是可以自己拓展的点。</p>
+</li>
+<li><p>这里还会有一些国际化、事件监听器的注册处理不细说了。</p>
+</li>
+<li><p>接着进入重头戏，Bean的实例化。</p>
+</li>
+</ol>
+<blockquote>
+<ol>
+<li>进行实例化前会有一系列的判断，懒加载、抽象类、AOP的切面类等等这些不会被实例化。</li>
+<li>处理FactoryBean，它和普通Bean不同的是，它的实现类是一个工厂类，Spring会调用定义的工厂类实例化对象，例如MyBatis的Mapper就是自定义了工厂类动态代理的生成对象。</li>
+<li>处理普通Bean，根据BeanDefinition对象中的全限定类名反射创建，然后注入它的属性，引用对象则为递归创建（循环引用问题，Spring都是按照先实例化后注入属性，实例化后会放入缓存中，如果遇到循环引用则会从缓存当中取出来，防止出现死循环）</li>
+</ol>
+</blockquote>
+<ol start="8">
+<li><p>Bean实例化全部完成后，调用BeanPostProcessor中的后置处理方法，这里可拓展。</p>
+</li>
+<li><p>发布Bean实例化完成事件，观察者模式的应用，监听器再做其他操作。</p>
+</li>
+</ol>
+<h4 id="注入分类"><a href="#注入分类" class="headerlink" title="注入分类:"></a>注入分类:<br></h4><p>bean 实例在调用无参构造器创建对象后，就要对 bean 对象的属性进行初始化。初始化<br>是由容器自动完成的，称为注入。<br>根据注入方式的不同，常用的有两类：<strong>set 注入、构造注入</strong>。</p>
+<ul>
+<li>Set注入：其实就是直接设置要的值<ul>
+<li>简单类型（设置property标签，通过value=”设置”）</li>
+<li>引用类型 （设置property标签，通过ref=”设置”）</li>
+</ul>
+</li>
+<li>构造注入：在构造调用者实例的同时，完成被调用者的实例化。即使用构造器设置依赖关系。<ul>
+<li>设置<constructor-arg>标签 name=”指定参数名称” value=”设置” 。（可选index）</constructor-arg></li>
+</ul>
+</li>
+</ul>
+<h5 id="引用类型属性自动注入"><a href="#引用类型属性自动注入" class="headerlink" title="引用类型属性自动注入"></a>引用类型属性自动注入</h5><p>对于引用类型属性的注入，也可不在配置文件中显示的注入。可以通过为<bean>标签<br>设置 autowire 属性值，为引用类型属性进行隐式自动注入（默认是不自动注入引用类型属<br>性）。根据自动注入判断标准的不同，可以分为两种：<br><br>byName：根据名称自动注入<br><br>byType： 根据类型自动注入<br><br>直接在bean标签内加上   autowire=”byName”</bean></p>
+<h4 id="为应用指定多个-Spring-配置文件"><a href="#为应用指定多个-Spring-配置文件" class="headerlink" title="为应用指定多个 Spring 配置文件"></a>为应用指定多个 Spring 配置文件</h4><p>在实际应用里，随着应用规模的增加，系统中 Bean 数量也大量增加，导致配置文件变<br>得非常庞大、臃肿。为了避免这种情况的产生，提高配置文件的可读性与可维护性，可以将<br>Spring 配置文件分解成多个配置文件。<br>包含关系的配置文件：<br><br>多个配置文件中有一个总文件，总配置文件将各其它子文件通过<import>引入。在 Java<br>代码中只需要使用总配置文件对容器进行初始化即可。<br><br>也可使用通配符*。但，此时要求父配置文件名不能满足*所能匹配的格式，否则将出现<br>循环递归包含。<br></import></p>
+<h3 id="基于注解的-DI"><a href="#基于注解的-DI" class="headerlink" title="基于注解的 DI"></a>基于注解的 DI</h3><p>对于 DI 使用注解，将不再需要在 Spring 配置文件中声明 bean 实例。<br><br>Spring 中使用注解，需要在 Spring 配置文件中<strong>配置组件扫描器</strong>，用于在指定的基本包中扫描注解。<br>指定多个包的三种方式：<br><br>1)使用多个 context:component-scan 指定不同的包路<br><br>2)指定 base-package 的值使用分隔符<br><br>3)base-package 是指定到父包名<br></p>
+<h5 id="注解方式声明bean"><a href="#注解方式声明bean" class="headerlink" title="注解方式声明bean"></a>注解方式声明bean</h5><ul>
+<li>定义 Bean 的注解@Component</li>
+<li>@Repository 用于对 DAO 实现类进行注解</li>
+<li>@Service 用于对 Service 实现类进行注解</li>
+<li>@Controller 用于对 Controller 实现类进行注解<br></li>
+</ul>
+<p>这三个注解与@Component 都可以创建对象，但这三个注解还有其他的含义：<br></p>
+<p>@Service创建业务层对象，业务层对象可以加入事务功能，<br><br>@Controller 注解创建的对象可以作为处理器接收用户的请求。<br><br>@Repository，@Service，@Controller 是对@Component 注解的细化，标注不同层的对象。即持久层对象，业务层对象，控制层对象。<br></p>
+<h3 id="Component-和-Bean-的区别"><a href="#Component-和-Bean-的区别" class="headerlink" title="@Component 和 @Bean 的区别"></a><code>@Component</code> 和 <code>@Bean</code> 的区别</h3><ol>
+<li>作用对象不同：**@Component <strong>注解作用于</strong>类<strong>，而 <strong>@Bean</strong> 注解作用于</strong>方法**、</li>
+<li>@Component 通常是通过路径扫描来自动侦测以及自动装配到 Spring 容器中(我们可以使用 @ComponentScan 注解定义要扫描的路径从中找出标识了需要装配的类自动装配到 Spring 的 bean 容器中)。@Bean 注解通常是我们在标有该注解的方法中定义产生这个 bean，@Bean 告诉了 Spring 这是某个类的实例，当我们需要用它的时候还给我。</li>
+<li>@Bean 注解比 @Component 注解的自定义性更强，而且很多地方我们只能通过 @Bean 注解来注册 bean。</li>
+</ol>
+<h5 id="简单类型属性注入-Value"><a href="#简单类型属性注入-Value" class="headerlink" title="简单类型属性注入@Value"></a>简单类型属性注入@Value</h5><p>需要在属性上使用注解@Value，该注解的 value 属性用于指定要注入的值。<br>使用该注解完成属性注入时，类中无需 setter。</p>
+<figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    @Value(<span class="string">&quot;张三&quot;</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> name;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="AutoWired"><a href="#AutoWired" class="headerlink" title="@AutoWired"></a>@AutoWired</h4><h5 id="byType-自动注入-Autowired"><a href="#byType-自动注入-Autowired" class="headerlink" title="byType 自动注入@Autowired"></a>byType 自动注入@Autowired</h5><p>该注解默认使用<strong>按类型自动装配 Bean</strong></p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="symbol">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> age;</span><br><span class="line">	<span class="comment">/******/</span></span><br><span class="line">    @Autowired</span><br><span class="line">    <span class="keyword">private</span> School school;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="byName-自动注入-Autowired-与-Qualifier"><a href="#byName-自动注入-Autowired-与-Qualifier" class="headerlink" title="byName 自动注入@Autowired 与@Qualifier"></a>byName 自动注入@Autowired 与@Qualifier</h5><p>需要在引用属性上联合使用注解@Autowired 与@Qualifier。@Qualifier 的 value 属性用<br>于指定要匹配的 Bean 的 id 值。类中无需 set 方法，也可加到 set 方法上。<br><br>@Autowired 还有一个属性 required，默认值为 true，表示当匹配失败后，会终止程序运<br>行。若将其值设置为 false，则匹配失败，将被忽略，未匹配的属性值为 null。<br></p>
+<h4 id="JDK-注解-Resource-自动注入"><a href="#JDK-注解-Resource-自动注入" class="headerlink" title="JDK 注解@Resource 自动注入"></a>JDK 注解@Resource 自动注入</h4><p>Spring提供了对 jdk中@Resource注解的支持。@Resource 注解既可以按名称匹配Bean，<br>也可以按类型匹配 Bean。默认是按名称注入。使用该注解，要求 JDK 必须是 6 及以上版本。<br>@Resource 可在属性上，也可在 set 方法上。<br></p>
+<p>@Resource 注解若不带任何参数，采用<strong>默认按名称的方式</strong>注入，按名称不能注入 bean，<br>则会按照类型进行 Bean 的匹配注入。</p>
+<hr>
+<h2 id="3-AOP面向切面编程"><a href="#3-AOP面向切面编程" class="headerlink" title="3.AOP面向切面编程"></a>3.AOP面向切面编程</h2><p>AOP（Aspect Orient Programming），面向切面编程。面向切面编程是从动态角度考虑程<br>序运行过程。<br><br>AOP 底层，就是采用动态代理模式实现的。采用了两种代理：<strong>JDK 的动态代理，与 CGLIB的动态代理。</strong><br></p>
+<p>JDK动态代理，必须要实现接口<br>    - 创建目标类<br>    - 创建<strong>InvocationHandler</strong>接口的实现类重写<strong>Invoke</strong>，在这个类实现给目标方法增加功能<br>    - 使用JDK中的类<strong>proxy</strong>，创建代理对象，实现创建对象的能力，在使用代理对象调用方法</p>
+<p>CGLIB的动态代理，字节码的编辑器，asm编辑器，原理是继承，通过继承目标类生成代理类，只要求目标类不是final修饰的就行</p>
+<h3 id="Aop术语"><a href="#Aop术语" class="headerlink" title="Aop术语"></a>Aop术语</h3><ol>
+<li>切面（Aspect）<br><br>切面泛指交叉业务逻辑。上例中的事务处理、日志处理就可以理解为切面。常用的切面<br>是通知（Advice）。实际就是对主业务逻辑的一种增强。</li>
+<li>连接点（JoinPoint）<br><br>连接点指可以被切面织入的具体方法。通常业务接口中的方法均为连接点。</li>
+<li>切入点（Pointcut）<br><br>切入点指声明的一个或多个连接点的集合。通过切入点指定一组方法。<br><br>被标记为 final 的方法是不能作为连接点与切入点的。因为最终的是不能被修改的，不<br>能被增强的。我们通常使用明确的类和方法名称，或者是使用正则表达式定义所匹配的类和方法名称来指定切点。</li>
+<li>目标对象（Target）<br><br>目 标 对 象 指 将 要 被 增 强 的 对 象 。 即 包 含 主 业 务 逻 辑 的 类 的 对 象 。 上 例 中 的<br>StudentServiceImpl 的对象若被增强，则该类称为目标类，该类对象称为目标对象。当然，<br>不被增强，也就无所谓目标不目标了。</li>
+<li>通知（Advice）<br>通知表示切面的执行时间，Advice 也叫增强。上例中的 MyInvocationHandler 就可以理<br>解为是一种通知。换个角度来说，通知定义了增强代码切入到目标代码的时间点，是目标方<br>法执行之前执行，还是之后执行等。通知类型不同，切入时间不同。<br></li>
+</ol>
+<p>  <strong>切入点定义切入的位置，通知定义切入的时间</strong>。</p>
+<h4 id="AOP的主要实践-aspectj"><a href="#AOP的主要实践-aspectj" class="headerlink" title="AOP的主要实践 aspectj"></a>AOP的主要实践 aspectj</h4><p> aspectj有两种实现方式：<br><br> 1.使用xml配置<br> 2.使用注解（常用5个：@Before，@AfterReturning，**@Around**，@AfterThrowing，@After）</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>spring</category>
+        <category>IOC&amp;AOP</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>Spring</tag>
+        <tag>Ioc</tag>
+        <tag>Aop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Eureka</title>
+    <url>/2021/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/</url>
+    <content><![CDATA[<h1 id="Eureka-Server：注册中心服务端"><a href="#Eureka-Server：注册中心服务端" class="headerlink" title="Eureka Server：注册中心服务端"></a>Eureka Server：注册中心服务端</h1><p>注册中心服务端主要对外提供了三个功能：</p>
+<ul>
+<li>服务注册<br>服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表</li>
+<li>提供注册表<br> 服务消费者在调用服务时，如果 Eureka Client 没有缓存注册表的话，会从 Eureka Server 获取最新的注册表<ul>
+<li>注册表的数据结构：registry的<strong>CocurrentHashMap</strong>，就是注册表的核心结构。同时维护注册表、拉取注册表、更新心跳时间，全部<strong>发生在内存里</strong>！这是Eureka Server非常核心的一个点。</li>
+</ul>
+</li>
+<li>同步状态</li>
+</ul>
+<h2 id="高可用原理"><a href="#高可用原理" class="headerlink" title="高可用原理"></a>高可用原理</h2><p>其实每一个服务端（这里指实例）都内置了一个Eureka Client，也就是说一个服务端可以接受其他Client的注册，也可以作为一个Client注册到其他Server上，被其他Client发现和调用。一个服务端实例你可以理解为由一个Server+Client组成。</p>
+<p><img src="/2021/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/Eureka.jpg" alt="Eureka"></p>
+<p> Eureka Server 集群相互之间通过 Replicate 来同步数据，相互之间<strong>不区分主节点和从节点</strong>，所有的节点都是平等的。在这种架构中，节点通过彼此互相注册来提高可用性，每个节点需要添加一个或多个有效的 serviceUrl 指向其他节点</p>
+<p>如果某台 Eureka Server 宕机，Eureka Client 的请求会自动切换到新的 Eureka Server 节点。当宕机的服务器重新恢复后，Eureka 会再次将其纳入到服务器集群管理之中。当节点开始接受客户端请求时，所有的操作都会进行节点间复制，将请求复制到其它 Eureka Server 当前所知的所有节点中。</p>
+<p>另外 Eureka Server 的同步遵循着一个非常简单的原则：只要有一条边将节点连接，就可以进行信息传播与同步。所以，如果存在多个节点，只需要将节点之间两两连接起来形成通路，那么其它注册中心都可以共享信息。每个 Eureka Server 同时也是 Eureka Client，多个 Eureka Server 之间通过 P2P 的方式完成服务注册表的同步。</p>
+<p>Eureka Server 集群之间的状态是采用异步方式同步的，所以不保证节点间的状态一定是一致的，不过基本能保证最终状态是一致的。</p>
+<p><strong>Eureka 保证 AP</strong>，优先保证可用性，牺牲了一定的一致性。相对的zookeeper则是保证了CP，牺牲了部分的可用性。</p>
+]]></content>
+      <categories>
+        <category>基础概念</category>
+        <category>分布式</category>
+        <category>Erueka</category>
+      </categories>
+      <tags>
+        <tag>Eureka</tag>
+        <tag>Eureka高可用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java基础提升_JVM</title>
+    <url>/2021/08/17/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/</url>
+    <content><![CDATA[<h1 id="JVM的定义"><a href="#JVM的定义" class="headerlink" title="JVM的定义"></a>JVM的定义</h1><p>JVM(Java Virtual Machine，Java虚拟机)。<br><br>JVM是JAVA实现跨平台的主要手段，事实上jvm是有较多的实现版本，各种系统下的JVM不同。<br></p>
+<p>由于jvm是处在Java语言和操作系统之间的，所以它要向上提供对Java的支持，向下与操作系统良好交互。</p>
+<p><img src="/2021/08/17/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/jvm.jpg" alt="jvm"></p>
+<h1 id="JVM中的数据结构"><a href="#JVM中的数据结构" class="headerlink" title="JVM中的数据结构"></a>JVM中的数据结构</h1><p>主要分为<strong>基本类型</strong>和<strong>引用类型</strong>。</p>
+<span id="more"></span>
+
+<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><ul>
+<li>基本类型<ul>
+<li><strong>数值类型</strong><ul>
+<li>整型</li>
+<li>浮点型</li>
+<li>char类型</li>
+</ul>
+</li>
+<li><strong>boolean类型</strong><br><ul>
+<li>true</li>
+<li>false<br><br>&nbsp;&nbsp;（boolean类型的操作会被转化为int类型的操作进行，boolean数组会当成byte数组去操作。1表示true，0表示false。）</li>
+</ul>
+</li>
+<li><strong>returnAddress类型</strong><br><br>&nbsp;&nbsp;是一个指针，指向jvm指令的操作码，<br>在Java中没有与之对应的类型。<h2 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h2></li>
+</ul>
+</li>
+<li>引用类型<ul>
+<li><strong>类类型</strong></li>
+<li><strong>数组类型</strong><ul>
+<li>component类型<br><br>&nbsp;&nbsp;(数组去掉最外层维度后剩下的类型，可能还是一个数组类型（对于多维数组）)</li>
+<li>element类型 </li>
+</ul>
+</li>
+<li><strong>接口类型</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="JVM中的内存结构"><a href="#JVM中的内存结构" class="headerlink" title="JVM中的内存结构"></a>JVM中的内存结构</h1><ul>
+<li><p><em>运行时公有数据区</em>（线程共享）</p>
+<ul>
+<li><strong>堆</strong>（GC发生的主要区域）<br><br>  对象实例和数组<ul>
+<li>新生代 1/3<ul>
+<li>Eden 区 80%</li>
+<li>From Survivor 区 10%</li>
+<li>To Survivor 区 10%</li>
+</ul>
+</li>
+<li>老年代 2/3</li>
+</ul>
+</li>
+<li><strong>方法区</strong>（永久代，Java 8后就把方法区的实现移到了本地内存中的<strong>元空间</strong>中）<br><br>  &nbsp;&nbsp;&nbsp;&nbsp;用于存储被 JVM 加载的<strong>常量、静态变量、类信息、即时编译器编译后的代码</strong>等数据。<br><ul>
+<li>运行时常量池<blockquote>
+<p>属于方法区一部分，用于存放编译期生成的各种字面量和符号引用。编译器和运行期(String 的 intern() )都可以将常量放入池中。内存有限，无法申请时抛出 OutOfMemoryError。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<p>  &nbsp;&nbsp;&nbsp;&nbsp;指内存的永久保存区域，主要存放 Class 和 Meta（元数据）的信息,Class 在被加载的时候被放入永久区域,GC 不会在主程序运行期对永久区域进行清理。所以这也导致了永久代的区域会随着加载的 Class 的增多而胀满，最终抛出 OOM 异常。</p>
+</li>
+<li><p><em>运行时私有数据区</em>（线程私有）</p>
+<ul>
+<li><p><strong>pc寄存器</strong>（程序计数器）<br><br>&nbsp;&nbsp;（计数器记录的是虚拟机字节码指令的地址（当前指令的地址 （可以理解为代码的行号，线程被挂起了，再恢复回来执行时需要定位原来执行到的地方）是由字节码执行引擎更新）。如果是Native方法，则为空。<br><br>&nbsp;&nbsp;这个内存区域是唯一一个在虚拟机中没有规定任何 OutOfMemoryError 情况的区域）</p>
+</li>
+<li><p><strong>jvm栈</strong>（虚拟机栈）<br></p>
+<p><img src="/2021/08/17/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/%E6%A0%88-%E6%A0%88%E5%B8%A7.jpg" alt="栈-栈帧"></p>
+<ul>
+<li>栈帧（ Frame）<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是描述java方法执行的内存模型，每个方法在执行的同时都会创建一个栈帧（Stack Frame）<br>用于存储<strong>局部变量表、操作数栈、动态链接（方法区的地址，找到方法区存的代码）、方法出口（原调用方法的调用时的信息）</strong>等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;局部变量表：存放了编译期可知的各种<strong>基本类型</strong>(boolean、byte、char、short、int、float、long、double)、对象引用(reference 类型,即局部变量是对象时为<strong>对象在堆中的内存地址</strong>)和 returnAddress 类型(指向了一条字节码指令的地址)<ul>
+<li><p>StackOverflowError：线程请求的栈深度大于虚拟机所允许的深度。</p>
+</li>
+<li><p>OutOfMemoryError：如果虚拟机栈可以动态扩展，而扩展时无法申请到足够的内存。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>native方法栈</strong>（本地方法栈）<br><br>调用非java方法时使用</p>
+</li>
+</ul>
+</li>
+<li><p><em>直接内存</em></p>
+<ul>
+<li><strong>元空间</strong>（java8以后将永久代移动到了元空间中）</li>
+<li><strong>直接内存</strong><blockquote>
+<p>非虚拟机运行时数据区的部分</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<!--more-->
+<h1 id="HotSpot-虚拟机对象"><a href="#HotSpot-虚拟机对象" class="headerlink" title="HotSpot 虚拟机对象"></a>HotSpot 虚拟机对象</h1><blockquote>
+<p>在 HotSpot 虚拟机中，分为 3 块区域：<br><br>对象头(Header)<br><br>实例数据(Instance Data)<br><br>对齐填充(Padding)<br></p>
+</blockquote>
+<h2 id="对象头-Header"><a href="#对象头-Header" class="headerlink" title="对象头(Header)"></a>对象头(Header)</h2><ul>
+<li>第一部分 (Mark Word)<br><br>  用于存储对象自身的运行时数据，如哈希码、GC 分代年龄、锁状态标志、线程持有的锁、偏向线程 ID、偏向时间戳等，32 位虚拟机占 32 bit，64 位虚拟机占 64 bit。</li>
+<li>第二部分 类型指针<br><br>即对象指向它的类的元数据指针，虚拟机通过这个指针确定这个对象是哪个类的实例。另外，如果是 Java 数组，对象头中还必须有一块用于记录数组长度的数据，因为普通对象可以通过 Java 对象元数据确定大小，而数组对象不可以。<h2 id="实例数据-Instance-Data"><a href="#实例数据-Instance-Data" class="headerlink" title="实例数据(Instance Data)"></a>实例数据(Instance Data)</h2>程序代码中所定义的各种类型的字段内容(包含父类继承下来的和子类中定义的)。<h2 id="对齐填充-Padding"><a href="#对齐填充-Padding" class="headerlink" title="对齐填充(Padding)"></a>对齐填充(Padding)</h2>不是必然需要，主要是占位，保证对象大小是某个字节的整数倍。</li>
+</ul>
+<hr>
+<h1 id="JVM垃圾回收"><a href="#JVM垃圾回收" class="headerlink" title="JVM垃圾回收"></a>JVM垃圾回收</h1><p>   主要在堆中进行，java8之前还有永久代（也就是方法区），java8后方法区移到了直接内存中的元空间中去了，所以只有堆进行GC，对象实例和数组都是在堆上分配的，GC 也主要对这两类数据进行回收。</p>
+<h2 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h2><p>最容易想到的一种方式是引用计数法，啥叫引用计数法，简单地说，就是对象被引用一次，在它的对象头上加一次引用次数，如果没有被引用（引用次数为 0），则此对象可回收，但此方法无法解决循环引用问题，循环引用后，即使没有真正的引用了，但其引用无法归0。所以现代虚拟机都不用引用计数法来判断对象是否应该被回收。</p>
+<h2 id="可达性算法"><a href="#可达性算法" class="headerlink" title="可达性算法"></a>可达性算法</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>现代虚拟机基本都是采用这种算法</strong>来判断对象是否存活，可达性算法的原理是以一系列叫做  GC Root  的对象为起点出发，引出它们指向的下一个节点，再以下个节点为起点，引出此节点指向的下一个结点。。。（这样通过 GC Root 串成的一条线就叫引用链），直到所有的结点都遍历完毕,如果相关对象不在任意一个以 GC Root 为起点的引用链中，则这些对象会被判断为「垃圾」,会被 GC 回收。<br></p>
+<p>fullGC时虚拟机会STW（stop the world），好用来判断GC Root，（如果客户线程不停的话可能之前标记为非垃圾的对象，后面由于用户线程继续执行，栈帧后面被销毁，按可达性算法，又变为了垃圾）。</p>
+<h3 id="GC-Roots"><a href="#GC-Roots" class="headerlink" title="GC Roots"></a>GC Roots</h3><p>哪些对象可以作为 GC Root 呢，有以下几类<br></p>
+<ul>
+<li><strong>虚拟机栈（栈帧中的局部变量表）</strong> 中引用的对象</li>
+<li><strong>方法区中类静态属性</strong>引用的对象</li>
+<li><strong>方法区中常量</strong>引用的对象</li>
+<li><strong>本地方法栈中 JNI</strong>（即一般说的 Native 方法）引用的对象<h4 id="虚拟机栈中引用的对象"><a href="#虚拟机栈中引用的对象" class="headerlink" title="虚拟机栈中引用的对象"></a>虚拟机栈中引用的对象</h4>如下代码所示，a 是栈帧中的本地变量，当 a = null 时，由于此时 a 充当了 GC Root 的作用，a 与原来指向的实例 new Test() 断开了连接，所以对象会被回收。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">publicclass Test &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	Test a = <span class="keyword">new</span> Test();</span><br><span class="line">	a = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="方法区中类静态属性引用的对象"><a href="#方法区中类静态属性引用的对象" class="headerlink" title="方法区中类静态属性引用的对象"></a>方法区中类静态属性引用的对象</h4>如下代码所示，当栈帧中的本地变量 a = null 时，由于 a 原来指向的对象与 GC Root (变量 a) 断开了连接，所以 a 原来指向的对象会被回收，而由于我们给 s 赋值了变量的引用，s 在此时是类静态属性引用，充当了 GC Root 的作用，它指向的对象依然存活!<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Test s;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	Test a = <span class="keyword">new</span> Test();</span><br><span class="line">	a.s = <span class="keyword">new</span> Test();</span><br><span class="line">	a = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="方法区中常量引用的对象"><a href="#方法区中常量引用的对象" class="headerlink" title="方法区中常量引用的对象"></a>方法区中常量引用的对象</h4>如下代码所示，常量 s 指向的对象并不会因为 a 指向的对象被回收而回收<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Test s = <span class="keyword">new</span> Test();</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	    Test a = <span class="keyword">new</span> Test();</span><br><span class="line">	    a = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="本地方法栈中-JNI-引用的对象"><a href="#本地方法栈中-JNI-引用的对象" class="headerlink" title="本地方法栈中 JNI 引用的对象"></a>本地方法栈中 JNI 引用的对象</h4>所谓本地方法就是一个 java 调用非 java 代码的接口，该方法并非 Java 实现的，可能由 C 或 Python等其他语言实现的， Java 通过 JNI 来调用本地方法， 而本地方法是以库文件的形式存放的（在 WINDOWS 平台上是 DLL 文件形式，在 UNIX 机器上是 SO 文件形式）。通过调用本地的库文件的内部方法，使 JAVA 可以实现和本地机器的紧密联系，调用系统级的各接口方法。</li>
+</ul>
+<p>当调用 Java 方法时，虚拟机会创建一个栈桢并压入 Java 栈，而当它调用的是本地方法时，虚拟机会保持 Java 栈不变，不会在 Java 栈祯中压入新的祯，虚拟机只是简单地动态连接并直接调用指定的本地方法。</p>
+<h3 id="对象可回收，就一定会被回收吗"><a href="#对象可回收，就一定会被回收吗" class="headerlink" title="对象可回收，就一定会被回收吗?"></a>对象可回收，就一定会被回收吗?</h3><p>并不是，对象的 finalize 方法给了对象一次垂死挣扎的机会，当对象不可达（可回收）时，当发生GC时，会先判断对象是否执行了 finalize 方法，如果未执行，则会先执行 finalize 方法，我们可以在此方法里将当前对象与 GC Roots 关联，这样执行 finalize 方法之后，GC 会再次判断对象是否可达，如果不可达，则会被回收，如果可达，则不回收！</p>
+<p>注意： <strong>finalize 方法只会被执行一次</strong>，<em>如果第一次执行 finalize 方法此对象变成了可达确实不会回收，但如果对象再次被 GC，则会忽略 finalize 方法，对象会被回收！这一点切记!</em></p>
+<h2 id="垃圾回收主要方法"><a href="#垃圾回收主要方法" class="headerlink" title="垃圾回收主要方法"></a>垃圾回收主要方法</h2><p><strong>Full GC</strong>就是针对整个新生代、老生代、元空间（metaspace，java8以上版本取代perm gen）的全局范围的GC；</p>
+<ul>
+<li>标记清除算法<br>顾名思义，先标记可回收的对象，进行清除。<br><br>缺点：剩余的内存不连续</li>
+<li>复制算法<br><br>将内存分为两块，一块空的，一块是已用的，在已用的里面标记出存活的对象，再复制到另一块中，再把原来的那块都清了。<br><br>缺点：可用内存减半；复制的效率低</li>
+<li>标记整理法<br><br>前面两步和标记清除法一样，不同的是它在标记清除法的基础上添加了一个整理的过程 ，即将所有的存活对象都往一端移动,紧邻排列（如图示），再清理掉另一端的所有区域，这样的话就解决了内存碎片的问题。<br><br>缺点：每进一次垃圾清除都要频繁地移动存活的对象，效率十分低下。</li>
+</ul>
+<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>根据大多数java对象的存活特征，所以分代收集算法根据对象存活周期的不同将堆分成==新生代和老生代==（Java8以前还有个永久代）,默认比例为 ==1 : 2==，新生代又分为<strong>Eden 区， from Survivor 区（简称S0），to Survivor 区(简称 S1)</strong>,三者的比例为 <strong>8: 1: 1</strong> ，这样就可以根据新老生代的特点选择最合适的垃圾回收算法，我们把<strong>新生代发生的 GC 称为 Young GC（也叫 Minor GC）,老年代发生的 GC 称为 Old GC（也称为 Full GC）</strong>*(不严谨 但可这么理解)。<br></p>
+<ol>
+<li>当 Eden 区将满时，触发 Minor GC。采用复制删除算法。Eden标记出来存活对象 -&gt; 复制到S0中<br></li>
+<li>第二次：Eden 和 S0（或S1）存活对象一起移到 S1（Eden 和 S0 的存活对象年龄+1）, 同时清空 Eden 和 S0 的空间。（后续S0和S1的角色会以此互换以重复上述过程）<br>具体过程：<a href="https://mp.weixin.qq.com/s/_AKQs-xXDHlk84HbwKUzOw">link</a><br></li>
+</ol>
+<p>FULL GC采用标记整理算法</p>
+<h4 id="升级到老年代"><a href="#升级到老年代" class="headerlink" title="升级到老年代"></a>升级到老年代</h4><ul>
+<li>当对象的年龄达到了我们设定的阈值，则会从S0（或S1）晋升到老年代</li>
+<li>大对象 当某个对象分配需要大量的连续内存时，此时对象的创建不会分配在 Eden 区，会直接分配在老年代，因为如果把大对象分配在 Eden 区, Minor GC 后再移动到 S0,S1 会有很大的开销（对象比较大，复制会比较慢，也占空间），也很快会占满 S0,S1 区，所以干脆就直接移到老年代.</li>
+<li>还有一种情况也会让对象晋升到老年代，即在 S0（或S1） 区相同年龄的对象大小之和大于 S0（或S1）空间一半以上时，则年龄大于等于该年龄的对象也会晋升到老年代。<h4 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h4></li>
+</ul>
+<p>在发生 MinorGC 之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象的总空间，如果大于，那么Minor GC 可以确保是安全的,如果不大于，那么虚拟机会查看 HandlePromotionFailure 设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用连续空间是否大于历次晋升到老年代对象的平均大小，如果大于则进行 Minor GC，否则可能进行一次 Full GC。</p>
+<h1 id="JVM调优"><a href="#JVM调优" class="headerlink" title="JVM调优"></a>JVM调优</h1><h2 id="GC分析"><a href="#GC分析" class="headerlink" title="GC分析"></a>GC分析</h2><p>jstack，jmap，jinfo，</p>
+<h3 id="1-检查jvm配置"><a href="#1-检查jvm配置" class="headerlink" title="1.检查jvm配置"></a>1.检查jvm配置</h3><ul>
+<li>通过以下命令查看JVM的启动参数：<br><br> <code>ps aux | grep &quot;applicationName=adsearch&quot;</code><h3 id="2-观察老年代的内存变化"><a href="#2-观察老年代的内存变化" class="headerlink" title="2.观察老年代的内存变化"></a>2.观察老年代的内存变化</h3></li>
+<li>通过观察老年代的使用情况，可以看到：每次FGC后，内存是否有效回收了，否则考虑内存泄漏等原因。<h3 id="3-通过jmap命令查看堆内存中的对象"><a href="#3-通过jmap命令查看堆内存中的对象" class="headerlink" title="3.通过jmap命令查看堆内存中的对象"></a>3.通过jmap命令查看堆内存中的对象</h3><code>jmap -histo 7276 | head -n20</code><h3 id="4-进一步dump堆内存文件进行分析"><a href="#4-进一步dump堆内存文件进行分析" class="headerlink" title="4. 进一步dump堆内存文件进行分析"></a>4. 进一步dump堆内存文件进行分析</h3>通过以下命令dump堆内存：<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">jmap -dump:format=b,file=heap 7276</span><br><span class="line">jmap -heap pid</span><br></pre></td></tr></table></figure>
+JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对象所占空间</li>
+</ul>
+<p>   在调试程序时，有时需要查看程序加载的类、内存回收情况、调用的本地接口等。这时候就需要-verbose命令。在myeclipse可以通过右键设置（如下），也可以在命令行输入java -verbose来查看。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-verbose:class 查看类加载情况</span><br><span class="line">-verbose:gc 查看虚拟机中内存回收情况</span><br><span class="line">-verbose:jni 查看本地方法调用的情况</span><br></pre></td></tr></table></figure>
+<h4 id="阿里jvm工具"><a href="#阿里jvm工具" class="headerlink" title="阿里jvm工具"></a>阿里jvm工具</h4><p>JVM调优工具_arthas(阿尔萨斯)。</p>
+<p>直接java -jar即可使用</p>
+<h1 id="jvm参数详解"><a href="#jvm参数详解" class="headerlink" title="jvm参数详解"></a>jvm参数详解</h1><p>-Xms:设置Java程序启动时初始化堆大小<br><br>-Xmx:设置Java程序能获得最大的堆大小 <br><br>-Xmn：可以设置新生代的大小，设置一个比较大的新生代会减少老年代的大小，这个参数对系统性能以及GC行为有很大的影响，新生代大小一般会设置整个堆空间的1/3到1/4左右。<br><br>-Xss：栈内存大小，设置单个线程栈大小，一般默认512~1024kb。单个线程栈大小跟操作系统和JDK版本都有关系-Xss = -XX:ThreadStackSize<br><br>-XX:SurvivorRatio：用来设置新生代中eden空间和from/to空间的比例。含义：-XX:SurvivorRatio=eden/from=eden/to。<br>不同的堆分布情况，对系统执行会产生一定的影响，在实际工作中，应该根据系统的特点做出合理的配置，基本策略：尽可能将对象预留在新生代，减少老年代的GC次数。<br><br>-XX:MetaspaceSize 初始元数据空间大小<br><br>-XX:MaxMetaspaceSize=128m    <br></p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>可以通过</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">javap -c ***.class</span><br></pre></td></tr></table></figure>
+
+<p>命令进行代码反汇编</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>限流算法</title>
+    <url>/2021/08/17/%E7%AE%97%E6%B3%95%E7%AF%87/%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<blockquote>
+<p>1 计数器（固定窗口）算法</p>
+<p>计数器算法是使用计数器在周期内累加访问次数，当达到设定的限流值时，触发限流策略。下一个周期开始时，进行清零，重新计数。此算法可用性不高，存在一个非常严重的问题，那就是临界问题，其实只是为了引出滑动窗口算法。</p>
+</blockquote>
+<h2 id="2-滑动窗口算法"><a href="#2-滑动窗口算法" class="headerlink" title="2.滑动窗口算法"></a>2.滑动窗口算法</h2><p>滑动窗口算法是将时间周期分为N个小周期，分别记录每个小周期内访问次数，并且根据时间滑动删除过期的小周期。</p>
+<p>如下图，假设时间周期为1min，将1min再分为2个小周期，统计每个小周期的访问数量，则可以看到，第一个时间周期内，访问数量为75，第二个时间周期内，访问数量为100，超过100的访问则被限流掉了由此可见，当<strong>滑动窗口的格子</strong>划分的越多，那么滑动窗口的滚动就越平滑，限流的统计就会越精确。此算法可以很好的解决固定窗口算法的临界问题。</p>
+<h2 id="3-漏桶算法"><a href="#3-漏桶算法" class="headerlink" title="3.漏桶算法"></a>3.漏桶算法</h2><p>漏桶算法是访问请求到达时直接放入漏桶，如当前容量已达到上限（限流值），则进行丢弃（触发限流策略）。漏桶以固定的速率进行释放访问请求（即请求通过），直到漏桶为空。</p>
+<h2 id="4-令牌桶算法"><a href="#4-令牌桶算法" class="headerlink" title="4.令牌桶算法"></a>4.令牌桶算法</h2><p>令牌桶算法是程序以r（r=时间周期/限流值）的速度向令牌桶中增加令牌，直到令牌桶满，请求到达时向令牌桶请求令牌，如获取到令牌则通过请求，否则触发限流策略</p>
+<ul>
+<li><a href="https://blog.csdn.net/weixin_41846320/article/details/95941361">原文出处</a></li>
+</ul>
+<h2 id="漏桶算法VS令牌桶算法"><a href="#漏桶算法VS令牌桶算法" class="headerlink" title="漏桶算法VS令牌桶算法"></a>漏桶算法VS令牌桶算法</h2><p><a href="https://www.baidu.com/s?wd=%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">漏桶算法</a>与<a href="https://www.baidu.com/s?wd=%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">令牌桶算法</a>的区别在于：<a href="https://www.baidu.com/s?wd=%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">漏桶算法</a>能够强行限制数据的<a href="https://www.baidu.com/s?wd=%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">传输速率</a>。<a href="https://www.baidu.com/s?wd=%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">令牌桶算法</a>能够在限制数据的平均<a href="https://www.baidu.com/s?wd=%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">传输速率</a>的同时还允许某种程度的<a href="https://www.baidu.com/s?wd=%E7%AA%81%E5%8F%91%E4%BC%A0%E8%BE%93&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">突发传输</a>。需要说明的是：在某些情况下，漏桶算法不能够有效地使用网络资源。因为漏桶的漏出速率是固定的，所以即使网络中没有发生拥塞，漏桶算法也不能使某一个单独的数据流达到端口速率。因此，漏桶算法对于存在突发特性的流量来说缺乏效率。而令牌桶算法则能够满足这些具有突发特性的流量。通常，漏桶算法与令牌桶算法结合起来为<a href="https://www.baidu.com/s?wd=%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">网络流量</a>提供更高效的控制。</p>
+<p>总结起来：<strong>自己的系统</strong>扛不了大量请求，用<strong>令牌桶</strong>。对接的<strong>下游系统</strong>抗不了突发大量请求，可以用<strong>漏桶算法</strong>。</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>限流</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql_优化系列_索引优化</title>
+    <url>/2021/08/12/sql/mysql_%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97_%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="模糊匹配like-怎么优化"><a href="#模糊匹配like-怎么优化" class="headerlink" title="模糊匹配like %%怎么优化"></a>模糊匹配like %%怎么优化</h2><ol>
+<li><strong>开启ICP（索引条件下推）</strong><br></li>
+</ol>
+<ul>
+<li><strong>索引下推</strong>（index condition pushdown ）简称ICP，在<strong>Mysql5.6</strong>的版本上推出，用于优化查询。</li>
+<li>在使用ICP的情况下，如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。</li>
+<li><strong>索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数</strong>。****</li>
+</ul>
+<p>  可以通过索引筛选，返回给Server层筛选后的记录，减少不必要的IO开销。<br><br>  如果where后只有一个 like ‘%xxx%’条件，表有主键的前提下，可以通过子查询优化</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span>  <span class="operator">*</span> <span class="keyword">from</span> users01 a , </span><br><span class="line">(<span class="keyword">select</span> id <span class="keyword">from</span> users01 <span class="keyword">where</span> nickname <span class="keyword">like</span> <span class="string">&#x27;%SK%&#x27;</span>) b</span><br><span class="line"> <span class="keyword">where</span> a.id <span class="operator">=</span> b.id;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><strong>建立全文索引</strong><br><br>两种检索模式</li>
+</ol>
+<ul>
+<li><p>MySQL 5.6 以前的版本，只有 MyISAM 存储引擎支持全文索引；</p>
+</li>
+<li><p>MySQL 5.6 及以后的版本，MyISAM 和 InnoDB 存储引擎均支持全文索引;</p>
+</li>
+<li><p>只有字段的数据类型为 char、varchar、text 及其系列才可以建全文索引。</p>
+</li>
+<li><p>IN NATURAL LANGUAGE MODE：默认模式，以自然语言的方式搜索，AGAINST(‘看风’ IN NATURAL LANGUAGE MODE ) 等价于AGAINST(‘看风’)。</p>
+</li>
+<li><p>IN BOOLEAN MODE：布尔模式，表是字符串前后的字符有特殊含义，如查找包含SK，但不包含Lyn的记录，可以用+，-符号。<br>AGAINST(‘+SK -Lyn’ in BOOLEAN MODE);</p>
+</li>
+</ul>
+<p>创建全文索引：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> fulltext index idx_full_nickname(nickname) <span class="keyword">with</span> parser ngram;</span><br></pre></td></tr></table></figure>
+<p>改写like语句：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> users01 <span class="keyword">where</span> <span class="keyword">match</span>(nickname) against(<span class="string">&#x27;看风&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>生成列（虚拟列）</strong><br><br>对于where条件后的 like ‘%xxx’ 是无法利用索引扫描，可以利用MySQL 5.7的生成列模拟函数索引的方式解决，具体步骤如下：<br>利用内置reverse函数将like ‘%风云’反转为like ‘云风%’，基于此函数添加虚拟生成列。<br>在虚拟生成列上创建索引。<br>将SQL改写成通过生成列like reverse(‘%风云’)去过滤，走生成列上的索引。<br>建立生成列<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> reverse_nickname <span class="type">varchar</span>(<span class="number">200</span>) generated always <span class="keyword">as</span> (reverse(nickname));</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="索引很长的字段怎么优化？"><a href="#索引很长的字段怎么优化？" class="headerlink" title="索引很长的字段怎么优化？"></a>索引很长的字段怎么优化？</h2><p>有时候需要索引很长的字符(例如BLOB,TEXT,或者很长的VARCHAR)，这样会使得索引又大又慢。</p>
+<ol>
+<li><strong>改用哈希索引</strong>。<br>InnoDB是支持Btree索引，但不显式支持hash索引。可以<strong>使用生成列来间接使用哈希索引</strong>。</li>
+<li>使用字符串的前几个字符作为索引(即前缀索引)。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> INDEX `idx_city` (`city`(<span class="number">7</span>)) <span class="keyword">USING</span> BTREE ;</span><br><span class="line"><span class="comment">-- 或者这个也行</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> KEY `idx_city` (`city`(<span class="number">7</span>))</span><br></pre></td></tr></table></figure>
+<p>当然在选择前缀时要选择合适的前缀索引长度，保持好的选择性。其方法主要是计算数据分布。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 查询重复次数最多的10条完整城市名称及其数量(图1)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, city <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> city <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前3个字符)及其数量,可以发现:前3个字符的相同数量过大,不适合做前缀索引(图2)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">3</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前7个字符)及其数量,可以发现:前7个字符的相同数量和完整城市名称很相近了,可以考虑作为做前缀索引(图3)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">7</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="MRR"><a href="#MRR" class="headerlink" title="MRR"></a>MRR</h1><p>MRR全称是Multi-Range Read，是MYSQL5.6优化器的一个新特性，在MariaDB5.5也有这个特性。优化的功能在使用二级索引做范围扫描的过程中减少磁盘随机IO和减少主键索引的访问次数。二级索引通过将主键放在buffer中排序将<strong>随机IO转换为顺序IO</strong>。对于随机读写能力较弱的机械硬盘有比较大优化。</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+        <category>索引优化</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>sql</tag>
+        <tag>索引优化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PMP备考系列_7-9章笔记</title>
+    <url>/2021/08/12/pmp/PMP7-9/</url>
+    <content><![CDATA[<h1 id="7-项目成本管理"><a href="#7-项目成本管理" class="headerlink" title="7 项目成本管理"></a>7 项目成本管理</h1>]]></content>
+      <categories>
+        <category>PMP</category>
+      </categories>
+      <tags>
+        <tag>PMP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式</title>
+    <url>/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="1-请列举出在-JDK-中几个常用的设计模式？"><a href="#1-请列举出在-JDK-中几个常用的设计模式？" class="headerlink" title="1.请列举出在 JDK 中几个常用的设计模式？"></a>1.请列举出在 JDK 中几个常用的设计模式？</h1><p>单例模式（Singleton pattern）用于 Runtime，Calendar 和其他的一些类中。工厂模式<br>（Factory pattern）被用于各种不可变的类如 Boolean，像 Boolean.valueOf，观察者模式<br>（Observer pattern）被用于 Swing 和很多的事件监听中。装饰器设计模式（Decorator<br>design pattern）被用于多个 Java IO 类中。</p>
+<h1 id="2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？"><a href="#2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？" class="headerlink" title="2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？"></a>2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？</h1><p>设计模式是世界上各种各样程序员用来解决特定设计问题的尝试和测试的方法。设计模式<br>是代码可用性的延伸。</p>
+<p>模板方法模式定义一个操作中的算法的骨架，将一些步骤延迟到子类中，模板方法使得子类可以不改变一个算法的结构即可重定义该算法的某些步骤。</p>
+<p>应用场景如下：</p>
+<p>对于一些功能，在不同的对象身上展示不同的作用，但是功能的框架是一样的。</p>
+<h1 id="3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式"><a href="#3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式" class="headerlink" title="3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式"></a>3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式</h1><p>单例模式重点在于在整个系统上共享一些创建时较耗资源的对象。整个应用中只维护一个<br>特定类实例，它被所有组件共同使用。Java.lang.Runtime 是单例模式的经典例子。从 Java<br>5 开始你可以使用枚举（enum）来实现线程安全的单例。</p>
+<span id="more"></span>
+
+<h1 id="4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？"><a href="#4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？" class="headerlink" title="4.在 Java 中，什么叫观察者设计模式（observer design pattern）？"></a>4.在 Java 中，什么叫观察者设计模式（observer design pattern）？</h1><p>观察者模式是基于对象的状态变化和观察者的通讯，以便他们作出相应的操作。简单的例<br>子就是一个天气系统，当天气变化时必须在展示给公众的视图中进行反映。这个视图对象<br>是一个主体，而不同的视图是观察者。</p>
+<h1 id="5-使用工厂模式最主要的好处是什么？在哪里使用？"><a href="#5-使用工厂模式最主要的好处是什么？在哪里使用？" class="headerlink" title="5.使用工厂模式最主要的好处是什么？在哪里使用？"></a>5.使用工厂模式最主要的好处是什么？在哪里使用？</h1><p>工厂模式的最大好处是增加了创建对象时的封装层次。如果你使用工厂来创建对象，之后<br>你可以使用更高级和更高性能的实现来替换原始的产品实现或类，这不需要在调用层做任<br>何修改。</p>
+<h1 id="6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？"><a href="#6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？" class="headerlink" title="6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？"></a>6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？</h1><p>装饰模式增加强了单个对象的能力。Java IO 到处都使用了装饰模式，典型例子就是<br>Buffered 系列类如 BufferedReader 和 BufferedWriter，它们增强了 Reader 和 Writer 对象，<br>以实现提升性能的 Buffer 层次的读取和写入。</p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+        <category>常见面试</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
@@ -822,46 +1205,6 @@
       </categories>
       <tags>
         <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>spring框架_事务管理</title>
-    <url>/2021/08/10/spring/spring/spring%E6%A1%86%E6%9E%B6_%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/</url>
-    <content><![CDATA[<h1 id="spring事务管理"><a href="#spring事务管理" class="headerlink" title="spring事务管理"></a>spring事务管理</h1><h2 id="Spring定义了7种传播行为："><a href="#Spring定义了7种传播行为：" class="headerlink" title="Spring定义了7种传播行为："></a>Spring定义了7种传播行为：</h2><ol>
-<li>propagation_requierd：如果当前没有事务，就新建一个事务，如果已存在一个事务中，<br>加入到这个事务中，这是Spring默认的选择。</li>
-<li>propagation_supports：支持当前事务，如果没有当前事务，就以非事务方法执行。</li>
-<li>propagation_mandatory：使用当前事务，如果没有当前事务，就抛出异常。</li>
-<li>propagation_required_new：新建事务，如果当前存在事务，把当前事务挂起。</li>
-<li>propagation_not_supported：以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。</li>
-<li>propagation_never：以非事务方式执行操作，如果当前事务存在则抛出异常。</li>
-<li>propagation_nested：如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与propagation_required类似的操作。嵌套事务一个非常重要的概念就是内层事务依赖于外层事务。外层事务失败时，会回滚内层事务所做的动作。而内层事务操作失败并不会引起外层事务的回滚。</li>
-</ol>
-<h2 id="Spring事务隔离级别"><a href="#Spring事务隔离级别" class="headerlink" title="Spring事务隔离级别"></a><strong>Spring事务隔离级别</strong></h2><h2 id="Spring事务隔离级别比数据库事务隔离级别多一个default"><a href="#Spring事务隔离级别比数据库事务隔离级别多一个default" class="headerlink" title="Spring事务隔离级别比数据库事务隔离级别多一个default"></a><strong>Spring事务隔离级别比数据库事务隔离级别多一个default</strong></h2><p><strong>1) DEFAULT （默认）</strong><br>这是一个PlatfromTransactionManager默认的隔离级别，使用数据库默认的事务隔离级别。另外四个与JDBC的隔离级别相对应。</p>
-<p><strong>2) READ_UNCOMMITTED （读未提交）</strong><br>这是事务最低的隔离级别，它允许另外一个事务可以看到这个事务未提交的数据。这种隔离级别会产生脏读，不可重复读和幻像读。</p>
-<p><strong>3) READ_COMMITTED （读已提交）</strong><br>保证一个事务修改的数据提交后才能被另外一个事务读取，另外一个事务不能读取该事务未提交的数据。这种事务隔离级别可以避免脏读出现，但是可能会出现不可重复读和幻像读。</p>
-<p><strong>4) REPEATABLE_READ （可重复读）</strong><br>这种事务隔离级别可以防止脏读、不可重复读，但是可能出现幻像读。它除了保证一个事务不能读取另一个事务未提交的数据外，还保证了不可重复读。</p>
-<p><strong>5) SERIALIZABLE（串行化）</strong><br>这是花费最高代价但是最可靠的事务隔离级别，事务被处理为顺序执行。除了防止脏读、不可重复读外，还避免了幻像读。</p>
-<h2 id="事务几种实现方式"><a href="#事务几种实现方式" class="headerlink" title="事务几种实现方式"></a>事务几种实现方式</h2><ol>
-<li>编程式事务管理对基于 POJO 的应用来说是唯一选择。我们需要在代码中调用beginTransaction()、commit()、rollback()等事务管理相关的方法，这就是编程式事务管理。</li>
-<li>基于 TransactionProxyFactoryBean的声明式事务管理</li>
-<li>基于 @Transactional 的声明式事务管理</li>
-<li>基于Aspectj AOP配置事务</li>
-</ol>
-<h3 id="基于-TransactionProxyFactoryBean的声明式事务管理"><a href="#基于-TransactionProxyFactoryBean的声明式事务管理" class="headerlink" title="基于 TransactionProxyFactoryBean的声明式事务管理"></a>基于 TransactionProxyFactoryBean的声明式事务管理</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 事务管理器 --&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myTracnsactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 事务代理工厂 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 生成事务代理对象 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;serviceProxy&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.transaction.interceptor.TransactionProxyFactoryBean&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;transactionManager&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;myTracnsactionManager&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;target&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;buyStockService&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;transactionAttributes&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- 主要 key 是方法   </span></span><br><span class="line"><span class="comment">                    ISOLATION_DEFAULT  事务的隔离级别</span></span><br><span class="line"><span class="comment">                    PROPAGATION_REQUIRED  传播行为</span></span><br><span class="line"><span class="comment">                --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;add*&quot;</span>&gt;</span>ISOLATION_DEFAULT,PROPAGATION_REQUIRED<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- -Exception 表示发生指定异常回滚，+Exception 表示发生指定异常提交 --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;buyStock&quot;</span>&gt;</span>ISOLATION_DEFAULT,PROPAGATION_REQUIRED,-BuyStockException<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        </span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="基于-Transactional-注解的声明式事务管理"><a href="#基于-Transactional-注解的声明式事务管理" class="headerlink" title="基于 @Transactional 注解的声明式事务管理"></a>基于 @Transactional 注解的声明式事务管理</h3><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">public <span class="keyword">class</span> BuyStockServiceImpl implements BuyStockService&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> AccountDao accountDao;</span><br><span class="line">    <span class="keyword">private</span> StockDao stockDao;</span><br><span class="line">    </span><br><span class="line">    @<span class="constructor">Transactional(<span class="params">isolation</span>=Isolation.DEFAULT,<span class="params">propagation</span>=Propagation.REQUIRED)</span></span><br><span class="line">    @Override</span><br><span class="line">    public void add<span class="constructor">Account(String <span class="params">accountname</span>, <span class="params">double</span> <span class="params">money</span>)</span> &#123;</span><br><span class="line">        accountDao.add<span class="constructor">Account(<span class="params">accountname</span>,<span class="params">money</span>)</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @<span class="constructor">Transactional(<span class="params">isolation</span>=Isolation.DEFAULT,<span class="params">propagation</span>=Propagation.REQUIRED)</span></span><br><span class="line">    @Override</span><br><span class="line">    public void add<span class="constructor">Stock(String <span class="params">stockname</span>, <span class="params">int</span> <span class="params">amount</span>)</span> &#123;</span><br><span class="line">        stockDao.add<span class="constructor">Stock(<span class="params">stockname</span>,<span class="params">amount</span>)</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public <span class="constructor">BuyStockServiceImpl()</span> &#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @<span class="constructor">Transactional(<span class="params">isolation</span>=Isolation.DEFAULT,<span class="params">propagation</span>=Propagation.REQUIRED,<span class="params">rollbackFor</span>=BuyStockException.<span class="params">class</span>)</span></span><br><span class="line">    @Override</span><br><span class="line">    public void buy<span class="constructor">Stock(String <span class="params">accountname</span>, <span class="params">double</span> <span class="params">money</span>, String <span class="params">stockname</span>, <span class="params">int</span> <span class="params">amount</span>)</span> throws BuyStockException &#123;</span><br><span class="line">        boolean isBuy = <span class="literal">true</span>;</span><br><span class="line">        accountDao.update<span class="constructor">Account(<span class="params">accountname</span>, <span class="params">money</span>, <span class="params">isBuy</span>)</span>;</span><br><span class="line">        <span class="keyword">if</span>(isBuy==<span class="literal">true</span>)&#123;</span><br><span class="line">            throw <span class="keyword">new</span> <span class="constructor">BuyStockException(<span class="string">&quot;购买股票发生异常&quot;</span>)</span>;</span><br><span class="line">        &#125;</span><br><span class="line">            stockDao.update<span class="constructor">Stock(<span class="params">stockname</span>, <span class="params">amount</span>, <span class="params">isBuy</span>)</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public AccountDao get<span class="constructor">AccountDao()</span> &#123;</span><br><span class="line">        return accountDao;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void set<span class="constructor">AccountDao(AccountDao <span class="params">accountDao</span>)</span> &#123;</span><br><span class="line">        this.accountDao = accountDao;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public StockDao get<span class="constructor">StockDao()</span> &#123;</span><br><span class="line">        return stockDao;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void set<span class="constructor">StockDao(StockDao <span class="params">stockDao</span>)</span> &#123;</span><br><span class="line">        this.stockDao = stockDao;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>配置文件：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 事务管理器 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myTracnsactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 启用事务注解 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;myTracnsactionManager&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="基于Aspectj-AOP配置事务"><a href="#基于Aspectj-AOP配置事务" class="headerlink" title="基于Aspectj AOP配置事务"></a>基于Aspectj AOP配置事务</h3><figure class="highlight dust"><table><tr><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">&quot;classpath:jdbc.properties&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- 注册数据源 C3P0 --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;</span>  &gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driverClass&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.driverClass&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;jdbcUrl&quot;</span>  <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.url&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>  <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.username&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.password&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;accountDao&quot;</span> <span class="attr">class</span>=<span class="string">&quot;transaction.test4.dao.AccountDaoImpl&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;stockDao&quot;</span> <span class="attr">class</span>=<span class="string">&quot;transaction.test4.dao.StockDaoImpl&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;buyStockService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;transaction.test4.service.BuyStockServiceImpl&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;accountDao&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;accountDao&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;stockDao&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;stockDao&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- 事务管理器 --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myTracnsactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;myTracnsactionManager&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="comment">&lt;!-- 为连接点指定事务属性 --&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;add*&quot;</span> <span class="attr">isolation</span>=<span class="string">&quot;DEFAULT&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;buyStock&quot;</span> <span class="attr">isolation</span>=<span class="string">&quot;DEFAULT&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span> <span class="attr">rollback-for</span>=<span class="string">&quot;BuyStockException&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 切入点配置 --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">expression</span>=<span class="string">&quot;execution(* *..service.*.*(..))&quot;</span> <span class="attr">id</span>=<span class="string">&quot;point&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;point&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>原文地址：<a href="https://www.cnblogs.com/h-c-g/p/10872061.html">https://www.cnblogs.com/h-c-g/p/10872061.html</a></p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>spring</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>Spring</tag>
-        <tag>事务管理</tag>
       </tags>
   </entry>
   <entry>
@@ -1080,163 +1423,6 @@
       </categories>
       <tags>
         <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java基础提升_JVM</title>
-    <url>/2021/08/10/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/</url>
-    <content><![CDATA[<h1 id="JVM的定义"><a href="#JVM的定义" class="headerlink" title="JVM的定义"></a>JVM的定义</h1><p>JVM(Java Virtual Machine，Java虚拟机)。<br><br>JVM是JAVA实现跨平台的主要手段，事实上jvm是有较多的实现版本，各种系统下的JVM不同。<br></p>
-<p>由于jvm是处在Java语言和操作系统之间的，所以它要向上提供对Java的支持，向下与操作系统良好交互。</p>
-<p><img src="/2021/08/10/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/jvm.jpg" alt="jvm"></p>
-<h1 id="JVM中的数据结构"><a href="#JVM中的数据结构" class="headerlink" title="JVM中的数据结构"></a>JVM中的数据结构</h1><p>主要分为<strong>基本类型</strong>和<strong>引用类型</strong>。</p>
-<span id="more"></span>
-
-<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><ul>
-<li>基本类型<ul>
-<li><strong>数值类型</strong><ul>
-<li>整型</li>
-<li>浮点型</li>
-<li>char类型</li>
-</ul>
-</li>
-<li><strong>boolean类型</strong><br><ul>
-<li>true</li>
-<li>false<br><br>&nbsp;&nbsp;（boolean类型的操作会被转化为int类型的操作进行，boolean数组会当成byte数组去操作。1表示true，0表示false。）</li>
-</ul>
-</li>
-<li><strong>returnAddress类型</strong><br><br>&nbsp;&nbsp;是一个指针，指向jvm指令的操作码，<br>在Java中没有与之对应的类型。<h2 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h2></li>
-</ul>
-</li>
-<li>引用类型<ul>
-<li><strong>类类型</strong></li>
-<li><strong>数组类型</strong><ul>
-<li>component类型<br><br>&nbsp;&nbsp;(数组去掉最外层维度后剩下的类型，可能还是一个数组类型（对于多维数组）)</li>
-<li>element类型 </li>
-</ul>
-</li>
-<li><strong>接口类型</strong></li>
-</ul>
-</li>
-</ul>
-<hr>
-<h1 id="JVM中的内存结构"><a href="#JVM中的内存结构" class="headerlink" title="JVM中的内存结构"></a>JVM中的内存结构</h1><ul>
-<li><p><em>运行时公有数据区</em>（线程共享）</p>
-<ul>
-<li><strong>堆</strong>（GC发生的主要区域）<br><br>  对象实例和数组<ul>
-<li>新生代 1/3<ul>
-<li>Eden 区 80%</li>
-<li>From Survivor 区 10%</li>
-<li>To Survivor 区 10%</li>
-</ul>
-</li>
-<li>老年代 2/3</li>
-</ul>
-</li>
-<li><strong>方法区</strong>（永久代，Java 8后就把方法区的实现移到了本地内存中的<strong>元空间</strong>中）<br><br>  &nbsp;&nbsp;&nbsp;&nbsp;用于存储被 JVM 加载的<strong>常量、静态变量、类信息、即时编译器编译后的代码</strong>等数据。<br><ul>
-<li>运行时常量池<blockquote>
-<p>属于方法区一部分，用于存放编译期生成的各种字面量和符号引用。编译器和运行期(String 的 intern() )都可以将常量放入池中。内存有限，无法申请时抛出 OutOfMemoryError。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<p>  &nbsp;&nbsp;&nbsp;&nbsp;指内存的永久保存区域，主要存放 Class 和 Meta（元数据）的信息,Class 在被加载的时候被放入永久区域,GC 不会在主程序运行期对永久区域进行清理。所以这也导致了永久代的区域会随着加载的 Class 的增多而胀满，最终抛出 OOM 异常。</p>
-</li>
-<li><p><em>运行时私有数据区</em>（线程私有）</p>
-<ul>
-<li><p><strong>pc寄存器</strong>（程序计数器）<br><br>&nbsp;&nbsp;（计数器记录的是虚拟机字节码指令的地址（当前指令的地址 （可以理解为代码的行号，线程被挂起了，再恢复回来执行时需要定位原来执行到的地方）是由字节码执行引擎更新）。如果是Native方法，则为空。<br><br>&nbsp;&nbsp;这个内存区域是唯一一个在虚拟机中没有规定任何 OutOfMemoryError 情况的区域）</p>
-</li>
-<li><p><strong>jvm栈</strong>（虚拟机栈）<br></p>
-<p><img src="/2021/08/10/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/%E6%A0%88-%E6%A0%88%E5%B8%A7.jpg" alt="栈-栈帧"></p>
-<ul>
-<li>栈帧（ Frame）<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是描述java方法执行的内存模型，每个方法在执行的同时都会创建一个栈帧（Stack Frame）<br>用于存储<strong>局部变量表、操作数栈、动态链接（方法区的地址，找到方法区存的代码）、方法出口（原调用方法的调用时的信息）</strong>等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;局部变量表：存放了编译期可知的各种<strong>基本类型</strong>(boolean、byte、char、short、int、float、long、double)、对象引用(reference 类型,即局部变量是对象时为<strong>对象在堆中的内存地址</strong>)和 returnAddress 类型(指向了一条字节码指令的地址)<pre><code>- StackOverflowError：线程请求的栈深度大于虚拟机所允许的深度。
-</code></pre>
-OutOfMemoryError：如果虚拟机栈可以动态扩展，而扩展时无法申请到足够的内存。</li>
-</ul>
-</li>
-<li><p><strong>native方法栈</strong>（本地方法栈）<br><br>调用非java方法时使用</p>
-</li>
-</ul>
-</li>
-<li><p><em>直接内存</em></p>
-<ul>
-<li><strong>元空间</strong>（java8以后将永久代移动到了元空间中）</li>
-<li><strong>直接内存</strong><blockquote>
-<p>非虚拟机运行时数据区的部分</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<!--more-->
-<h1 id="HotSpot-虚拟机对象"><a href="#HotSpot-虚拟机对象" class="headerlink" title="HotSpot 虚拟机对象"></a>HotSpot 虚拟机对象</h1><blockquote>
-<p>在 HotSpot 虚拟机中，分为 3 块区域：<br><br>对象头(Header)<br><br>实例数据(Instance Data)<br><br>对齐填充(Padding)<br></p>
-</blockquote>
-<h2 id="对象头-Header"><a href="#对象头-Header" class="headerlink" title="对象头(Header)"></a>对象头(Header)</h2><ul>
-<li>第一部分 (Mark Word)<br><br>  用于存储对象自身的运行时数据，如哈希码、GC 分代年龄、锁状态标志、线程持有的锁、偏向线程 ID、偏向时间戳等，32 位虚拟机占 32 bit，64 位虚拟机占 64 bit。</li>
-<li>第二部分 类型指针<br><br>即对象指向它的类的元数据指针，虚拟机通过这个指针确定这个对象是哪个类的实例。另外，如果是 Java 数组，对象头中还必须有一块用于记录数组长度的数据，因为普通对象可以通过 Java 对象元数据确定大小，而数组对象不可以。<h2 id="实例数据-Instance-Data"><a href="#实例数据-Instance-Data" class="headerlink" title="实例数据(Instance Data)"></a>实例数据(Instance Data)</h2>程序代码中所定义的各种类型的字段内容(包含父类继承下来的和子类中定义的)。<h2 id="对齐填充-Padding"><a href="#对齐填充-Padding" class="headerlink" title="对齐填充(Padding)"></a>对齐填充(Padding)</h2>不是必然需要，主要是占位，保证对象大小是某个字节的整数倍。</li>
-</ul>
-<hr>
-<h1 id="JVM垃圾回收"><a href="#JVM垃圾回收" class="headerlink" title="JVM垃圾回收"></a>JVM垃圾回收</h1><p>   主要在堆中进行，java8之前还有永久代（也就是方法区），java8后方法区移到了直接内存中的元空间中去了，所以只有堆进行GC，对象实例和数组都是在堆上分配的，GC 也主要对这两类数据进行回收。</p>
-<h2 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h2><p>最容易想到的一种方式是引用计数法，啥叫引用计数法，简单地说，就是对象被引用一次，在它的对象头上加一次引用次数，如果没有被引用（引用次数为 0），则此对象可回收，但此方法无法解决循环引用问题，循环引用后，即使没有真正的引用了，但其引用无法归0。所以现代虚拟机都不用引用计数法来判断对象是否应该被回收。</p>
-<h2 id="可达性算法"><a href="#可达性算法" class="headerlink" title="可达性算法"></a>可达性算法</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>现代虚拟机基本都是采用这种算法</strong>来判断对象是否存活，可达性算法的原理是以一系列叫做  GC Root  的对象为起点出发，引出它们指向的下一个节点，再以下个节点为起点，引出此节点指向的下一个结点。。。（这样通过 GC Root 串成的一条线就叫引用链），直到所有的结点都遍历完毕,如果相关对象不在任意一个以 GC Root 为起点的引用链中，则这些对象会被判断为「垃圾」,会被 GC 回收。<br></p>
-<p>fullGC时虚拟机会STW（stop the world），好用来判断GC Root，（如果客户线程不停的话可能之前标记为非垃圾的对象，后面由于用户线程继续执行，栈帧后面被销毁，按可达性算法，又变为了垃圾）。</p>
-<h3 id="GC-Roots"><a href="#GC-Roots" class="headerlink" title="GC Roots"></a>GC Roots</h3><p>哪些对象可以作为 GC Root 呢，有以下几类<br></p>
-<ul>
-<li><strong>虚拟机栈（栈帧中的局部变量表）</strong> 中引用的对象</li>
-<li><strong>方法区中类静态属性</strong>引用的对象</li>
-<li><strong>方法区中常量</strong>引用的对象</li>
-<li><strong>本地方法栈中 JNI</strong>（即一般说的 Native 方法）引用的对象<h4 id="虚拟机栈中引用的对象"><a href="#虚拟机栈中引用的对象" class="headerlink" title="虚拟机栈中引用的对象"></a>虚拟机栈中引用的对象</h4>如下代码所示，a 是栈帧中的本地变量，当 a = null 时，由于此时 a 充当了 GC Root 的作用，a 与原来指向的实例 new Test() 断开了连接，所以对象会被回收。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">publicclass Test &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	Test a = <span class="keyword">new</span> Test();</span><br><span class="line">	a = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="方法区中类静态属性引用的对象"><a href="#方法区中类静态属性引用的对象" class="headerlink" title="方法区中类静态属性引用的对象"></a>方法区中类静态属性引用的对象</h4>如下代码所示，当栈帧中的本地变量 a = null 时，由于 a 原来指向的对象与 GC Root (变量 a) 断开了连接，所以 a 原来指向的对象会被回收，而由于我们给 s 赋值了变量的引用，s 在此时是类静态属性引用，充当了 GC Root 的作用，它指向的对象依然存活!<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Test s;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	Test a = <span class="keyword">new</span> Test();</span><br><span class="line">	a.s = <span class="keyword">new</span> Test();</span><br><span class="line">	a = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="方法区中常量引用的对象"><a href="#方法区中常量引用的对象" class="headerlink" title="方法区中常量引用的对象"></a>方法区中常量引用的对象</h4>如下代码所示，常量 s 指向的对象并不会因为 a 指向的对象被回收而回收<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Test s = <span class="keyword">new</span> Test();</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	    Test a = <span class="keyword">new</span> Test();</span><br><span class="line">	    a = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="本地方法栈中-JNI-引用的对象"><a href="#本地方法栈中-JNI-引用的对象" class="headerlink" title="本地方法栈中 JNI 引用的对象"></a>本地方法栈中 JNI 引用的对象</h4>所谓本地方法就是一个 java 调用非 java 代码的接口，该方法并非 Java 实现的，可能由 C 或 Python等其他语言实现的， Java 通过 JNI 来调用本地方法， 而本地方法是以库文件的形式存放的（在 WINDOWS 平台上是 DLL 文件形式，在 UNIX 机器上是 SO 文件形式）。通过调用本地的库文件的内部方法，使 JAVA 可以实现和本地机器的紧密联系，调用系统级的各接口方法。</li>
-</ul>
-<p>当调用 Java 方法时，虚拟机会创建一个栈桢并压入 Java 栈，而当它调用的是本地方法时，虚拟机会保持 Java 栈不变，不会在 Java 栈祯中压入新的祯，虚拟机只是简单地动态连接并直接调用指定的本地方法。</p>
-<h3 id="对象可回收，就一定会被回收吗"><a href="#对象可回收，就一定会被回收吗" class="headerlink" title="对象可回收，就一定会被回收吗?"></a>对象可回收，就一定会被回收吗?</h3><p>并不是，对象的 finalize 方法给了对象一次垂死挣扎的机会，当对象不可达（可回收）时，当发生GC时，会先判断对象是否执行了 finalize 方法，如果未执行，则会先执行 finalize 方法，我们可以在此方法里将当前对象与 GC Roots 关联，这样执行 finalize 方法之后，GC 会再次判断对象是否可达，如果不可达，则会被回收，如果可达，则不回收！</p>
-<p>注意： <strong>finalize 方法只会被执行一次</strong>，<em>如果第一次执行 finalize 方法此对象变成了可达确实不会回收，但如果对象再次被 GC，则会忽略 finalize 方法，对象会被回收！这一点切记!</em></p>
-<h2 id="垃圾回收主要方法"><a href="#垃圾回收主要方法" class="headerlink" title="垃圾回收主要方法"></a>垃圾回收主要方法</h2><p><strong>Full GC</strong>就是针对整个新生代、老生代、元空间（metaspace，java8以上版本取代perm gen）的全局范围的GC；</p>
-<ul>
-<li>标记清除算法<br>顾名思义，先标记可回收的对象，进行清除。<br><br>缺点：剩余的内存不连续</li>
-<li>复制算法<br><br>将内存分为两块，一块空的，一块是已用的，在已用的里面标记出存活的对象，再复制到另一块中，再把原来的那块都清了。<br><br>缺点：可用内存减半；复制的效率低</li>
-<li>标记整理法<br><br>前面两步和标记清除法一样，不同的是它在标记清除法的基础上添加了一个整理的过程 ，即将所有的存活对象都往一端移动,紧邻排列（如图示），再清理掉另一端的所有区域，这样的话就解决了内存碎片的问题。<br><br>缺点：每进一次垃圾清除都要频繁地移动存活的对象，效率十分低下。</li>
-</ul>
-<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>根据大多数java对象的存活特征，所以分代收集算法根据对象存活周期的不同将堆分成==新生代和老生代==（Java8以前还有个永久代）,默认比例为 ==1 : 2==，新生代又分为<strong>Eden 区， from Survivor 区（简称S0），to Survivor 区(简称 S1)</strong>,三者的比例为 <strong>8: 1: 1</strong> ，这样就可以根据新老生代的特点选择最合适的垃圾回收算法，我们把<strong>新生代发生的 GC 称为 Young GC（也叫 Minor GC）,老年代发生的 GC 称为 Old GC（也称为 Full GC）</strong>*(不严谨 但可这么理解)。<br></p>
-<ol>
-<li>当 Eden 区将满时，触发 Minor GC。采用复制删除算法。Eden标记出来存活对象 -&gt; 复制到S0中<br></li>
-<li>第二次：Eden 和 S0（或S1）存活对象一起移到 S1（Eden 和 S0 的存活对象年龄+1）, 同时清空 Eden 和 S0 的空间。（后续S0和S1的角色会以此互换以重复上述过程）<br>具体过程：<a href="https://mp.weixin.qq.com/s/_AKQs-xXDHlk84HbwKUzOw">link</a><br></li>
-</ol>
-<p>FULL GC采用标记整理算法</p>
-<h4 id="升级到老年代"><a href="#升级到老年代" class="headerlink" title="升级到老年代"></a>升级到老年代</h4><ul>
-<li>当对象的年龄达到了我们设定的阈值，则会从S0（或S1）晋升到老年代</li>
-<li>大对象 当某个对象分配需要大量的连续内存时，此时对象的创建不会分配在 Eden 区，会直接分配在老年代，因为如果把大对象分配在 Eden 区, Minor GC 后再移动到 S0,S1 会有很大的开销（对象比较大，复制会比较慢，也占空间），也很快会占满 S0,S1 区，所以干脆就直接移到老年代.</li>
-<li>还有一种情况也会让对象晋升到老年代，即在 S0（或S1） 区相同年龄的对象大小之和大于 S0（或S1）空间一半以上时，则年龄大于等于该年龄的对象也会晋升到老年代。<h4 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h4></li>
-</ul>
-<p>在发生 MinorGC 之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象的总空间，如果大于，那么Minor GC 可以确保是安全的,如果不大于，那么虚拟机会查看 HandlePromotionFailure 设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用连续空间是否大于历次晋升到老年代对象的平均大小，如果大于则进行 Minor GC，否则可能进行一次 Full GC。</p>
-<h1 id="JVM调优"><a href="#JVM调优" class="headerlink" title="JVM调优"></a>JVM调优</h1><h2 id="GC分析"><a href="#GC分析" class="headerlink" title="GC分析"></a>GC分析</h2><p>jstack，jmap，jinfo，</p>
-<h3 id="1-检查jvm配置"><a href="#1-检查jvm配置" class="headerlink" title="1.检查jvm配置"></a>1.检查jvm配置</h3><ul>
-<li>通过以下命令查看JVM的启动参数：<br><br> <code>ps aux | grep &quot;applicationName=adsearch&quot;</code><h3 id="2-观察老年代的内存变化"><a href="#2-观察老年代的内存变化" class="headerlink" title="2.观察老年代的内存变化"></a>2.观察老年代的内存变化</h3></li>
-<li>通过观察老年代的使用情况，可以看到：每次FGC后，内存是否有效回收了，否则考虑内存泄漏等原因。<h3 id="3-通过jmap命令查看堆内存中的对象"><a href="#3-通过jmap命令查看堆内存中的对象" class="headerlink" title="3.通过jmap命令查看堆内存中的对象"></a>3.通过jmap命令查看堆内存中的对象</h3><code>jmap -histo 7276 | head -n20</code><h3 id="4-进一步dump堆内存文件进行分析"><a href="#4-进一步dump堆内存文件进行分析" class="headerlink" title="4. 进一步dump堆内存文件进行分析"></a>4. 进一步dump堆内存文件进行分析</h3>通过以下命令dump堆内存：<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">jmap -dump:format=b,file=heap 7276</span><br><span class="line">jmap -heap pid</span><br></pre></td></tr></table></figure>
-JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对象所占空间</li>
-</ul>
-<p>   在调试程序时，有时需要查看程序加载的类、内存回收情况、调用的本地接口等。这时候就需要-verbose命令。在myeclipse可以通过右键设置（如下），也可以在命令行输入java -verbose来查看。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-verbose:class 查看类加载情况</span><br><span class="line">-verbose:gc 查看虚拟机中内存回收情况</span><br><span class="line">-verbose:jni 查看本地方法调用的情况</span><br></pre></td></tr></table></figure>
-<h4 id="阿里jvm工具"><a href="#阿里jvm工具" class="headerlink" title="阿里jvm工具"></a>阿里jvm工具</h4><p>JVM调优工具_arthas(阿尔萨斯)。</p>
-<p>直接java -jar即可使用</p>
-<h1 id="jvm参数详解"><a href="#jvm参数详解" class="headerlink" title="jvm参数详解"></a>jvm参数详解</h1><p>-Xms:设置Java程序启动时初始化堆大小<br><br>-Xmx:设置Java程序能获得最大的堆大小 <br><br>-Xmn：可以设置新生代的大小，设置一个比较大的新生代会减少老年代的大小，这个参数对系统性能以及GC行为有很大的影响，新生代大小一般会设置整个堆空间的1/3到1/4左右。<br><br>-Xss：栈内存大小，设置单个线程栈大小，一般默认512~1024kb。单个线程栈大小跟操作系统和JDK版本都有关系-Xss = -XX:ThreadStackSize<br><br>-XX:SurvivorRatio：用来设置新生代中eden空间和from/to空间的比例。含义：-XX:SurvivorRatio=eden/from=eden/to。<br>不同的堆分布情况，对系统执行会产生一定的影响，在实际工作中，应该根据系统的特点做出合理的配置，基本策略：尽可能将对象预留在新生代，减少老年代的GC次数。<br><br>-XX:MetaspaceSize 初始元数据空间大小<br><br>-XX:MaxMetaspaceSize=128m    <br></p>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>可以通过</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">javap -c ***.class</span><br></pre></td></tr></table></figure>
-
-<p>命令进行代码反汇编</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>基础</category>
-        <category>JVM</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>JVM</tag>
       </tags>
   </entry>
   <entry>
@@ -1908,95 +2094,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>redis持久化和集群高可用</title>
-    <url>/2021/08/03/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h2><h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><ul>
-<li>RDB做镜像全量持久化<br><br>是对 Redis 中的数据执行周期性的持久化。<br><ul>
-<li>优点：<br><br>RDB对Redis的性能影响非常小，是因为在同步数据的时候他只是fork了一个子进程去做持久化的，<br>而且他在数据恢复的时候速度比AOF来的快。适合做快照之类的备份。<br></li>
-<li>缺点：<br><br>RDB都是快照文件，生成时间间隔可能比较大（默认5分钟），可能丢失数据,<br>还有就是RDB在生成数据快照的时候，如果文件很大，客户端可能会暂停几毫秒甚至几秒.</li>
-</ul>
-</li>
-</ul>
-<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><ul>
-<li>AOF做增量持久化。<br><br>  AOF 机制对每条写入命令作为日志，以 append-only 的模式写入一个日志文件中，因为这个模式是只追加的方式，所以没有任何磁盘寻址的开销，所以很快，有点像Mysql中的binlog。<ul>
-<li>优点：<br><br>可能丢失的数据少（1秒），<br><br>AOF日志可读性好，可对有问题的命令做修改.</li>
-<li>缺点：<br><br>AOF文件体积较大。<br><br>AOF开启后，Redis支持写的QPS会比RDB支持写的要低</li>
-</ul>
-</li>
-</ul>
-<h3 id="总结：RDB和AOF配合使用"><a href="#总结：RDB和AOF配合使用" class="headerlink" title="总结：RDB和AOF配合使用"></a>总结：RDB和AOF配合使用</h3><p>因为RDB会耗费较长时间，不够实时，在停机的时候会导致大量丢失数据，所以需要AOF来配合使用。在redis实例重启时，会使用RDB持久化文件重新构建内存，再使用AOF重放近期的操作指令来实现完整恢复重启之前的状态。</p>
-<hr>
-<h2 id="Redis集群高可用"><a href="#Redis集群高可用" class="headerlink" title="Redis集群高可用"></a>Redis集群高可用</h2><p>Redis的集群高可用方案常见的有3种：</p>
-<ol>
-<li>主从同步/复制</li>
-<li>哨兵模式</li>
-<li>Cluster 集群</li>
-</ol>
-<h3 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h3><h4 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h4><ol>
-<li>从服务器连接主服务器，发送SYNC命令； </li>
-<li>主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令； </li>
-<li>主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令； </li>
-<li>从服务器收到快照文件后丢弃所有旧数据，载入收到的快照； </li>
-<li>主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令； </li>
-<li>从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；（从服务器初始化完成）</li>
-<li>主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令（从服务器初始化完成后的操作）<h4 id="主从复制优缺点："><a href="#主从复制优缺点：" class="headerlink" title="主从复制优缺点："></a>主从复制优缺点：</h4>优点：</li>
-</ol>
-<ul>
-<li>支持主从复制，主机会自动将数据同步到从机，可以进行读写分离</li>
-<li>为了分载Master的读操作压力，Slave服务器可以为客户端提供只读操作的服务，写服务仍然必须由Master来完成</li>
-<li>Slave同样可以接受其它Slaves的连接和同步请求，这样可以有效的分载Master的同步压力。</li>
-<li>Master Server是以非阻塞的方式为Slaves提供服务。所以在Master-Slave同步期间，客户端仍然可以提交查询或修改请求。</li>
-<li>Slave Server同样是以非阻塞的方式完成数据同步。在同步期间，如果有客户端提交查询请求，Redis则返回同步之前的数据.<br>缺点：</li>
-<li>Redis不具备自动容错和恢复功能，主机从机的宕机都会导致前端部分读写请求失败，需要等待机器重启或者手动切换前端的IP才能恢复。</li>
-<li>主机宕机，宕机前有部分数据未能及时同步到从机，切换IP后还会引入数据不一致的问题，降低了系统的可用性。</li>
-<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li>
-</ul>
-<h3 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h3><p>当主服务器中断服务后，可以将一个从服务器升级为主服务器，以便继续提供服务，但是这个过程需要人工手动来操作。 为此，Redis 2.8中提供了哨兵工具来实现自动化的系统监控和故障恢复功能。</p>
-<p>哨兵的作用就是监控Redis系统的运行状况。它的功能包括以下两个。</p>
-<ol>
-<li>监控主服务器和从服务器是否正常运行。 </li>
-<li>主服务器出现故障时自动将从服务器转换为主服务器。<br>哨兵组件的主要作用：</li>
-</ol>
-<ul>
-<li>集群监控：负责监控 Redis master 和 slave 进程是否正常工作。</li>
-<li>消息通知：如果某个 Redis 实例有故障，那么哨兵负责发送消息作为报警通知给管理员。</li>
-<li>故障转移：如果 master node 挂掉了，会自动转移到 slave node 上。</li>
-</ul>
-<p>配置中心：如果故障转移发生了，通知 client 客户端新的 master 地址。</p>
-<h4 id="哨兵的工作方式："><a href="#哨兵的工作方式：" class="headerlink" title="哨兵的工作方式："></a>哨兵的工作方式：</h4><ol>
-<li>每个Sentinel（哨兵）进程以每秒钟一次的频率向整个集群中的Master主服务器，Slave从服务器以及其他Sentinel（哨兵）进程发送一个 PING 命令。</li>
-<li>如果一个实例（instance）距离最后一次有效回复 PING 命令的时间超过 down-after-milliseconds 选项所指定的值， 则这个实例会被 Sentinel（哨兵）进程标记为主观下线（SDOWN）</li>
-<li>如果一个Master主服务器被标记为主观下线（SDOWN），则正在监视这个Master主服务器的所有 Sentinel（哨兵）进程要以每秒一次的频率确认Master主服务器的确进入了主观下线状态</li>
-<li>当有足够数量的 Sentinel（哨兵）进程（大于等于配置文件指定的值）在指定的时间范围内确认Master主服务器进入了主观下线状态（SDOWN）， 则Master主服务器会被标记为客观下线（ODOWN）</li>
-<li>在一般情况下， 每个 Sentinel（哨兵）进程会以每 10 秒一次的频率向集群中的所有Master主服务器、Slave从服务器发送 INFO 命令。<br>当Master主服务器被 Sentinel（哨兵）进程标记为客观下线（ODOWN）时，Sentinel（哨兵）进程向下线的 Master主服务器的所有 Slave从服务器发送 INFO 命令的频率会从 10 秒一次改为每秒一次。</li>
-<li>若没有足够数量的 Sentinel（哨兵）进程同意 Master主服务器下线， Master主服务器的客观下线状态就会被移除。若 Master主服务器重新向 Sentinel（哨兵）进程发送 PING 命令返回有效回复，Master主服务器的主观下线状态就会被移除。<br>哨兵模式的优缺点</li>
-</ol>
-<p>优点：</p>
-<ul>
-<li>哨兵模式是基于主从模式的，所有主从的优点，哨兵模式都具有。</li>
-<li>主从可以自动切换，系统更健壮，可用性更高。<br><br>缺点：</li>
-<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li>
-</ul>
-<h4 id="Redis-Cluster集群"><a href="#Redis-Cluster集群" class="headerlink" title="Redis-Cluster集群"></a>Redis-Cluster集群</h4><p>redis的哨兵模式基本已经可以实现高可用，读写分离 ，但是在这种模式下每台redis服务器都存储相同的数据，很浪费内存，同时主从模式还是不能很好<strong>解决过多的写</strong>（只有一个master写）所以在redis3.0上加入了cluster模式，实现的redis的分布式存储，也就是说每台redis节点上存储不同的内容。</p>
-<p> Redis-Cluster采用无中心结构,它的特点如下：</p>
-<p>所有的redis节点彼此互联(PING-PONG机制),内部使用二进制协议优化传输速度和带宽。</p>
-<p>节点的fail是通过集群中超过半数的节点检测失效时才生效。</p>
-<p>客户端与redis节点直连,不需要中间代理层.客户端不需要连接集群所有节点,连接集群中任何一个可用节点即可。</p>
-<h4 id="Redis-Cluster集群原理："><a href="#Redis-Cluster集群原理：" class="headerlink" title="Redis-Cluster集群原理："></a>Redis-Cluster集群原理：</h4><p>在redis的每一个节点上，都有这么两个东西，一个是插槽（slot），它的的取值范围是：0-16383。还有一个就是cluster，可以理解为是一个集群管理的插件。当我们的存取的key到达的时候，redis会根据crc16的算法得出一个结果，然后把结果对 16384 求余数，这样每个 key 都会对应一个编号在 0-16383 之间的哈希槽，通过这个值，去找到对应的插槽所对应的节点，然后直接自动跳转到这个对应的节点上进行存取操作。</p>
-<p>为了保证高可用，redis-cluster集群引入了主从模式，一个主节点对应一个或者多个从节点，当主节点宕机的时候，就会启用从节点。当其它主节点ping一个主节点A时，如果半数以上的主节点与A通信超时，那么认为主节点A宕机了。如果主节点A和它的从节点A1都宕机了，那么该集群就无法再提供服务了。</p>
-<p>集群里面，故障转移是由集群中其他在线的主节点负责进行的，所以集群不必另外使用Redis Sentinel。</p>
-<p>参考：<a href="https://www.cnblogs.com/cqming/p/11191079.html">https://www.cnblogs.com/cqming/p/11191079.html</a></p>
-]]></content>
-      <categories>
-        <category>中间件</category>
-        <category>nosql</category>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>股票主要技术指标解析</title>
     <url>/2021/08/03/k%E7%BA%BF%E6%8C%87%E6%A0%87/%E8%82%A1%E7%A5%A8%E4%B8%BB%E8%A6%81%E6%8A%80%E6%9C%AF%E6%8C%87%E6%A0%87%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<h1 id="MA"><a href="#MA" class="headerlink" title="MA"></a>MA</h1><p>Moving Average - 移动平均线 ，将一定时期内的证券价格（指数）<strong>加以平均</strong>，并把不同时间的<strong>平均值</strong>连接起来，形成一根MA，用以观察证券价格变动趋势的一种技术指标。</p>
@@ -2118,36 +2215,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>基础概念</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Eureka</title>
-    <url>/2021/08/03/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/</url>
-    <content><![CDATA[<h1 id="Eureka-Server：注册中心服务端"><a href="#Eureka-Server：注册中心服务端" class="headerlink" title="Eureka Server：注册中心服务端"></a>Eureka Server：注册中心服务端</h1><p>注册中心服务端主要对外提供了三个功能：</p>
-<ul>
-<li>服务注册<br>服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表</li>
-<li>提供注册表<br> 服务消费者在调用服务时，如果 Eureka Client 没有缓存注册表的话，会从 Eureka Server 获取最新的注册表<ul>
-<li>注册表的数据结构：registry的<strong>CocurrentHashMap</strong>，就是注册表的核心结构。同时维护注册表、拉取注册表、更新心跳时间，全部<strong>发生在内存里</strong>！这是Eureka Server非常核心的一个点。</li>
-</ul>
-</li>
-<li>同步状态</li>
-</ul>
-<h2 id="高可用原理"><a href="#高可用原理" class="headerlink" title="高可用原理"></a>高可用原理</h2><p>其实每一个服务端（这里指实例）都内置了一个Eureka Client，也就是说一个服务端可以接受其他Client的注册，也可以作为一个Client注册到其他Server上，被其他Client发现和调用。一个服务端实例你可以理解为由一个Server+Client组成。</p>
-<p><img src="/2021/08/03/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/Eureka.jpg" alt="Eureka"></p>
-<p> Eureka Server 集群相互之间通过 Replicate 来同步数据，相互之间<strong>不区分主节点和从节点</strong>，所有的节点都是平等的。在这种架构中，节点通过彼此互相注册来提高可用性，每个节点需要添加一个或多个有效的 serviceUrl 指向其他节点</p>
-<p>如果某台 Eureka Server 宕机，Eureka Client 的请求会自动切换到新的 Eureka Server 节点。当宕机的服务器重新恢复后，Eureka 会再次将其纳入到服务器集群管理之中。当节点开始接受客户端请求时，所有的操作都会进行节点间复制，将请求复制到其它 Eureka Server 当前所知的所有节点中。</p>
-<p>另外 Eureka Server 的同步遵循着一个非常简单的原则：只要有一条边将节点连接，就可以进行信息传播与同步。所以，如果存在多个节点，只需要将节点之间两两连接起来形成通路，那么其它注册中心都可以共享信息。每个 Eureka Server 同时也是 Eureka Client，多个 Eureka Server 之间通过 P2P 的方式完成服务注册表的同步。</p>
-<p>Eureka Server 集群之间的状态是采用异步方式同步的，所以不保证节点间的状态一定是一致的，不过基本能保证最终状态是一致的。</p>
-<p><strong>Eurka 保证 AP</strong>，优先保证可用性，牺牲了一定的一致性。相对的zookeeper则是保证了CP，牺牲了部分的可用性。</p>
-]]></content>
-      <categories>
-        <category>基础概念</category>
-        <category>分布式</category>
-        <category>Erueka</category>
-      </categories>
-      <tags>
-        <tag>Eureka</tag>
-        <tag>Eureka高可用</tag>
       </tags>
   </entry>
   <entry>
@@ -2712,6 +2779,74 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>基础知识TCP</title>
+    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
+    <content><![CDATA[<p>&nbsp;</p>
+<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
+<ul>
+<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
+</li>
+<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
+</li>
+<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
+</li>
+</ul>
+<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
+<ul>
+<li>Socket：由 IP 地址和端口号组成</li>
+<li>序列号：用来解决乱序问题等</li>
+<li>窗口大小：用来做流量控制</li>
+</ul>
+<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
+<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
+<li>源地址</li>
+<li>源端口</li>
+<li>目的地址</li>
+<li>目的端口<span id="more"></span>
+<h2 id="有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？"><a href="#有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？" class="headerlink" title="有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？"></a>有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？</h2>主要受限于服务器的资源，第一是文件描述符限制，TCP连接中得socket是文件得，所以受文件描述符限制，这个由系统参数ulimit 配置，但这个也受限于系统内存，内存不大，参数设置得过大也无法实现。</li>
+</ul>
+<h2 id="UDP-和-TCP-有什么区别呢？分别的应用场景是？"><a href="#UDP-和-TCP-有什么区别呢？分别的应用场景是？" class="headerlink" title="UDP 和 TCP 有什么区别呢？分别的应用场景是？"></a>UDP 和 TCP 有什么区别呢？分别的应用场景是？</h2><p>UDP 是不需要连接，即刻传输数据。且可以一对多，多对多。UDP 是尽最大努力交付，不保证可靠交付数据。UDP没有流量控制。UDP首部只有 8 个字节，并且是固定不变的，开销较小<br><br>TCP则是面向连接的，只能一对一，TCP比较可靠数据可以无差错、不丢失、不重复、按需到达，可以进行流量控制。<br></p>
+<p>一句话来说UDP比较高效，舍弃了可靠性，TCP则是专注于点对点的高质量传输。<br><br><strong>TCP：</strong><br><br>FTP 文件传输<br><br>HTTP / HTTPS<br><br><br><strong>UDP</strong><br><br>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于：</p>
+<p>包总量较少的通信，如 DNS 、SNMP 等</p>
+<p>视频、音频等多媒体通信</p>
+<p>广播通信</p>
+<h2 id="为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？"><a href="#为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？" class="headerlink" title="为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？"></a>为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？</h2><p>原因是 TCP 有可变长的「选项」字段，而 UDP 头部长度则是不会变化的，无需多一个字段去记录 UDP 的首部长度。</p>
+<h2 id="三次握手，四次挥手"><a href="#三次握手，四次挥手" class="headerlink" title="三次握手，四次挥手"></a>三次握手，四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
+<li>一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态;<br></li>
+<li>客户端发起一个SYN请求，同时送过去随机生成的客户端序列号client_isn,之后客户端处于 SYN-SENT 状态。<br></li>
+<li>服务端接收到SYN请求，返回一个ACK和服务端的SYN，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1，生成一个服务端的序列号server_isn，传送给客户端，之后服务端处于 SYN-RCVD 状态;<br></li>
+<li>客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。</li>
+<li>服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。</li>
+</ol>
+<h3 id="三次握手的意义"><a href="#三次握手的意义" class="headerlink" title="三次握手的意义"></a>三次握手的意义</h3><p>阻止历史重复连接的初始化（主要原因）</p>
+<p>三次握手才可以同步双方的初始序列号</p>
+<p>三次握手才可以避免资源浪费<br></p>
+<p>从上面的过程可以发现<strong>第三次握手是可以携带数据的，前两次握手是不可以携带数据</strong>的。</p>
+<h3 id="如何在-Linux-系统中查看-TCP-状态？"><a href="#如何在-Linux-系统中查看-TCP-状态？" class="headerlink" title="如何在 Linux 系统中查看 TCP 状态？"></a>如何在 Linux 系统中查看 TCP 状态？</h3><p>TCP 的连接状态查看，在 Linux 可以通过 <strong>netstat -napt</strong> 命令查看。</p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
+<li>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</li>
+<li>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</li>
+<li>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</li>
+<li>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</li>
+<li>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态</li>
+<li>服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</li>
+<li>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭。</li>
+</ol>
+<p><strong>主动关闭连接的，才有 TIME_WAIT 状态。</strong></p>
+<h2 id="TCP性能的优化"><a href="#TCP性能的优化" class="headerlink" title="TCP性能的优化"></a>TCP性能的优化</h2><p>tcp_syn_retries 控制SYN包重传的次数，默认值是5</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">echo <span class="number">5</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/net/i</span>pv4/tcp_syn_retries</span><br></pre></td></tr></table></figure>
+<h2 id="如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？"><a href="#如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？" class="headerlink" title="如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？"></a>如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -s |grep &quot;SYNs to LISTEN&quot;</span><br></pre></td></tr></table></figure>
+<p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
+<h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>cs基础</category>
+        <category>tcp</category>
+      </categories>
+      <tags>
+        <tag>tcp</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Macbook外接显示器需要注意的设置</title>
     <url>/2021/05/22/%E7%A1%AC%E4%BB%B6&amp;%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>设备：MacBook Pro2018 A1989<br>系统：BigSur11.2.3<br>外接的显示器：Dell P2319H</p>
@@ -2783,74 +2918,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>基础知识TCP</title>
-    <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/</url>
-    <content><![CDATA[<p>&nbsp;</p>
-<h2 id="什么是-TCP-？"><a href="#什么是-TCP-？" class="headerlink" title="什么是 TCP ？"></a>什么是 TCP ？</h2><p>Transmission Control Protocol（传输控制协议）<br><br>TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。</p>
-<ul>
-<li><p>面向连接：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；</p>
-</li>
-<li><p>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</p>
-</li>
-<li><p>字节流：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。</p>
-</li>
-</ul>
-<h2 id="什么是-TCP-连接？"><a href="#什么是-TCP-连接？" class="headerlink" title="什么是 TCP 连接？"></a>什么是 TCP 连接？</h2><p>TCP连接主要包括三个部分：socket，序列号，窗口大小。<br><br>通过TCP连接可以控制流量，和提高可靠性。<br></p>
-<ul>
-<li>Socket：由 IP 地址和端口号组成</li>
-<li>序列号：用来解决乱序问题等</li>
-<li>窗口大小：用来做流量控制</li>
-</ul>
-<p><img src="/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Btcp/tcp.jpeg" alt="TCP"></p>
-<h2 id="如何唯一确定一个-TCP-连接呢？"><a href="#如何唯一确定一个-TCP-连接呢？" class="headerlink" title="如何唯一确定一个 TCP 连接呢？"></a>如何唯一确定一个 TCP 连接呢？</h2><ul>
-<li>源地址</li>
-<li>源端口</li>
-<li>目的地址</li>
-<li>目的端口<span id="more"></span>
-<h2 id="有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？"><a href="#有一个-IP-的服务器监听了一个端口，它的-TCP-的最大连接数是多少？" class="headerlink" title="有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？"></a>有一个 IP 的服务器监听了一个端口，它的 TCP 的最大连接数是多少？</h2>主要受限于服务器的资源，第一是文件描述符限制，TCP连接中得socket是文件得，所以受文件描述符限制，这个由系统参数ulimit 配置，但这个也受限于系统内存，内存不大，参数设置得过大也无法实现。</li>
-</ul>
-<h2 id="UDP-和-TCP-有什么区别呢？分别的应用场景是？"><a href="#UDP-和-TCP-有什么区别呢？分别的应用场景是？" class="headerlink" title="UDP 和 TCP 有什么区别呢？分别的应用场景是？"></a>UDP 和 TCP 有什么区别呢？分别的应用场景是？</h2><p>UDP 是不需要连接，即刻传输数据。且可以一对多，多对多。UDP 是尽最大努力交付，不保证可靠交付数据。UDP没有流量控制。UDP首部只有 8 个字节，并且是固定不变的，开销较小<br><br>TCP则是面向连接的，只能一对一，TCP比较可靠数据可以无差错、不丢失、不重复、按需到达，可以进行流量控制。<br></p>
-<p>一句话来说UDP比较高效，舍弃了可靠性，TCP则是专注于点对点的高质量传输。<br><br><strong>TCP：</strong><br><br>FTP 文件传输<br><br>HTTP / HTTPS<br><br><br><strong>UDP</strong><br><br>由于 UDP 面向无连接，它可以随时发送数据，再加上UDP本身的处理既简单又高效，因此经常用于：</p>
-<p>包总量较少的通信，如 DNS 、SNMP 等</p>
-<p>视频、音频等多媒体通信</p>
-<p>广播通信</p>
-<h2 id="为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？"><a href="#为什么-UDP-头部没有「首部长度」字段，而-TCP-头部有「首部长度」字段呢？" class="headerlink" title="为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？"></a>为什么 UDP 头部没有「首部长度」字段，而 TCP 头部有「首部长度」字段呢？</h2><p>原因是 TCP 有可变长的「选项」字段，而 UDP 头部长度则是不会变化的，无需多一个字段去记录 UDP 的首部长度。</p>
-<h2 id="三次握手，四次挥手"><a href="#三次握手，四次挥手" class="headerlink" title="三次握手，四次挥手"></a>三次握手，四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ol>
-<li>一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态;<br></li>
-<li>客户端发起一个SYN请求，同时送过去随机生成的客户端序列号client_isn,之后客户端处于 SYN-SENT 状态。<br></li>
-<li>服务端接收到SYN请求，返回一个ACK和服务端的SYN，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1，生成一个服务端的序列号server_isn，传送给客户端，之后服务端处于 SYN-RCVD 状态;<br></li>
-<li>客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。</li>
-<li>服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。</li>
-</ol>
-<h3 id="三次握手的意义"><a href="#三次握手的意义" class="headerlink" title="三次握手的意义"></a>三次握手的意义</h3><p>阻止历史重复连接的初始化（主要原因）</p>
-<p>三次握手才可以同步双方的初始序列号</p>
-<p>三次握手才可以避免资源浪费<br></p>
-<p>从上面的过程可以发现<strong>第三次握手是可以携带数据的，前两次握手是不可以携带数据</strong>的。</p>
-<h3 id="如何在-Linux-系统中查看-TCP-状态？"><a href="#如何在-Linux-系统中查看-TCP-状态？" class="headerlink" title="如何在 Linux 系统中查看 TCP 状态？"></a>如何在 Linux 系统中查看 TCP 状态？</h3><p>TCP 的连接状态查看，在 Linux 可以通过 <strong>netstat -napt</strong> 命令查看。</p>
-<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
-<li>客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。</li>
-<li>服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。</li>
-<li>客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。</li>
-<li>等待服务端处理完数据后，也向客户端发送 FIN 报文，之后服务端进入 LAST_ACK 状态。</li>
-<li>客户端收到服务端的 FIN 报文后，回一个 ACK 应答报文，之后进入 TIME_WAIT 状态</li>
-<li>服务器收到了 ACK 应答报文后，就进入了 CLOSE 状态，至此服务端已经完成连接的关闭。</li>
-<li>客户端在经过 2MSL 一段时间后，自动进入 CLOSE 状态，至此客户端也完成连接的关闭。</li>
-</ol>
-<p><strong>主动关闭连接的，才有 TIME_WAIT 状态。</strong></p>
-<h2 id="TCP性能的优化"><a href="#TCP性能的优化" class="headerlink" title="TCP性能的优化"></a>TCP性能的优化</h2><p>tcp_syn_retries 控制SYN包重传的次数，默认值是5</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">echo <span class="number">5</span> &gt; <span class="regexp">/proc/</span>sys<span class="regexp">/net/i</span>pv4/tcp_syn_retries</span><br></pre></td></tr></table></figure>
-<h2 id="如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？"><a href="#如何查看由于-SYN-半连接队列已满，而被丢弃连接的情况？" class="headerlink" title="如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？"></a>如何查看由于 SYN 半连接队列已满，而被丢弃连接的情况？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">netstat -s |grep &quot;SYNs to LISTEN&quot;</span><br></pre></td></tr></table></figure>
-<p>&nbsp;上面输出的数值是累计值，表示共有多少个 TCP<br> 连接因为半连接队列溢出而被丢弃。隔几秒执行几次，如果有上升的趋势，说明当前存在半连接队列溢出的现象。</p>
-<h2 id="如何查看由于-accept-连接队列已满，而被丢弃的连接？"><a href="#如何查看由于-accept-连接队列已满，而被丢弃的连接？" class="headerlink" title="如何查看由于 accept 连接队列已满，而被丢弃的连接？"></a>如何查看由于 accept 连接队列已满，而被丢弃的连接？</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">date;netstat -s |grep overflowed</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>cs基础</category>
-        <category>tcp</category>
-      </categories>
-      <tags>
-        <tag>tcp</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基础知识HTTP</title>
     <url>/2021/05/22/%E5%9F%BA%E7%A1%80%E5%8D%8F%E8%AE%AE%E7%B1%BB/%E5%9F%BA%E7%A1%80%E4%B9%8Bhttp/</url>
     <content><![CDATA[<h2 id="什么是HTTP？"><a href="#什么是HTTP？" class="headerlink" title="什么是HTTP？"></a>什么是HTTP？</h2><p>HyperText Transfer Protocol（超文本传输协议）,它是一个<strong>无状态的工作在应用层的协议</strong>.<br><br>超文本指的是<strong>HTML</strong>，css，JavaScript和图片等，HTTP的出现是为了接收和发布HTML页面，也可以用于接收一些音频，视频，文件等内容。<br><br>HTTP协议是用于客户端和服务器端之间的通信，用于客户端和服务器端之间的通信有HTTP协议和TCP/IP协议族在内的其他众多的协议。<br></p>
@@ -2914,33 +2981,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>消息队列</title>
-    <url>/2021/05/22/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</url>
-    <content><![CDATA[<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
-<ol>
-<li><strong>异步</strong>、</li>
-<li><strong>削峰</strong>、</li>
-<li><strong>解耦</strong></li>
-</ol>
-<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>比如一个流程下需要正常的业务处理，中间需要发送短信，扣减优惠卷等，可以生产消息进入队列，由短信系统，优惠卷系统异步处理，减少主业务逻辑链路，提升效率。</p>
-<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
-<h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
-<span id="more"></span>
-<h2 id="消息重复消费"><a href="#消息重复消费" class="headerlink" title="消息重复消费"></a>消息重复消费</h2><p>系统重试等原因造成<br>解决方法：</p>
-<ol>
-<li>接口幂等 无论多次执行，其结果都是一样的.更复杂的操作幂等保证是利用唯一交易号(流水号)实现.请求的是相同的流水号的话，判断处理过的话 直接返回成功就行了。</li>
-</ol>
-<h1 id="消息顺序消费"><a href="#消息顺序消费" class="headerlink" title="消息顺序消费"></a>消息顺序消费</h1><p>一个topic下有多个队列，为了保证发送有序，RocketMQ提供了MessageQueueSelector队列选择机制<br>我们可使用Hash取模法，让同一个订单发送到同一个队列中，再使用同步发送，只有同个订单的创建消息发送成功，再发送支付消息。这样，我们保证了发送有序。<br>RocketMQ的topic内的队列机制,可以保证存储满足FIFO（First Input First Output 简单说就是指先进先出）,剩下的只需要消费者顺序消费即可。</p>
-]]></content>
-      <categories>
-        <category>中间件</category>
-        <category>消息队列</category>
-      </categories>
-      <tags>
-        <tag>消息队列</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>oracle大批量数据更新操作，提供并发&amp;小事务</title>
     <url>/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/</url>
     <content><![CDATA[<p>oracle提供了很好用的大数据量数据更新的函数dbms_parallel_execute，改用dbms_parallel_execute执行，可以进行并行更新并且事务大小可控。</p>
@@ -2986,7 +3026,7 @@ start_id和end_id是两个占位符，用来标识CHUNK的开始和结束；PARA
   </entry>
   <entry>
     <title>redis使用之缓存问题及解决方案</title>
-    <url>/2021/04/01/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E5%B8%B8%E8%A7%81%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</url>
+    <url>/2021/04/01/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E5%B8%B8%E8%A7%81%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><p>缓存穿透是指<strong>缓存和数据库中都没有</strong>的数据，而用户不断发起请求，如发起为id为“-1”的数据或id为特别大不存在的数据。这时的用户很可能是攻击者，攻击会导致数据库压力过大。</p>
 <p>举例：<br>简单来说就是你数据库的id都是1开始然后自增的，那我知道你接口是通过id查询的，我就拿负数去查询，这个时候，会发现缓存里面没这个数据，我又去数据库查也没有，一个请求这样，100个，1000个，10000个呢？你的DB基本上就扛不住了</p>
 <p>解决方案：</p>
