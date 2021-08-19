@@ -10,7 +10,7 @@
   </entry>
   <entry>
     <title>消息队列</title>
-    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</url>
+    <url>/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</url>
     <content><![CDATA[<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
 <ol>
 <li><strong>异步</strong>、</li>
@@ -21,11 +21,14 @@
 <h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
 <h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
 <span id="more"></span>
+
 <h2 id="消息重复消费"><a href="#消息重复消费" class="headerlink" title="消息重复消费"></a>消息重复消费</h2><p>系统重试等原因造成<br>解决方法：</p>
 <ol>
 <li>接口幂等 无论多次执行，其结果都是一样的.更复杂的操作幂等保证是利用唯一交易号(流水号)实现.请求的是相同的流水号的话，判断处理过的话 直接返回成功就行了。</li>
 </ol>
-<h1 id="消息顺序消费"><a href="#消息顺序消费" class="headerlink" title="消息顺序消费"></a>消息顺序消费</h1><p>一个topic下有多个队列，为了保证发送有序，RocketMQ提供了MessageQueueSelector队列选择机制<br>我们可使用Hash取模法，让同一个订单发送到同一个队列中，再使用同步发送，只有同个订单的创建消息发送成功，再发送支付消息。这样，我们保证了发送有序。<br>RocketMQ的topic内的队列机制,可以保证存储满足FIFO（First Input First Output 简单说就是指先进先出）,剩下的只需要消费者顺序消费即可。</p>
+<h1 id="消息顺序消费"><a href="#消息顺序消费" class="headerlink" title="消息顺序消费"></a>消息顺序消费</h1><p>要保证顺序消费，需要确保整个流程中有序：生产者生产有序，放入消息中间件中有序，消费者消费时有序。</p>
+<p>一个topic下有多个队列，为了保证发送有序，RocketMQ提供了<strong>MessageQueueSelector</strong>队列选择机制<br>我们可使用<strong>Hash取模法</strong>，让同一个订单发送到<strong>同一个队列</strong>中，再使用同步发送，只有同个订单的创建消息发送成功，再发送支付消息。这样，我们保证了<strong>发送有序</strong>。<br><strong>RocketMQ的topic内的队列机制</strong>,可以保证存储满足FIFO（First Input First Output 简单说就是指先进先出）。</p>
+<p>剩下的只需要消费者顺序消费即可。</p>
 ]]></content>
       <categories>
         <category>中间件</category>
@@ -37,7 +40,7 @@
   </entry>
   <entry>
     <title>消息队列_Rocketmq</title>
-    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/</url>
+    <url>/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/</url>
     <content><![CDATA[<h1 id="主流消息队列选型"><a href="#主流消息队列选型" class="headerlink" title="主流消息队列选型"></a>主流消息队列选型</h1><table>
 <thead>
 <tr>
@@ -95,7 +98,7 @@
 <h1 id="ROCKETMQ特点"><a href="#ROCKETMQ特点" class="headerlink" title="ROCKETMQ特点"></a>ROCKETMQ特点</h1><ol>
 <li>支持发布/订阅（Pub/Sub）和点对点（P2P）消息模型</li>
 <li>在一个队列中可靠的先进先出（FIFO）和严格的顺序传递</li>
-<li>支持拉（pull）和推（push）两种消息模式</li>
+<li>支持拉（pull）和推（push）两种消息模式（其实push也是用轮询形式的pull实现）</li>
 <li>单一队列百万消息的堆积能力</li>
 <li>支持多种消息协议，如 JMS、MQTT 等</li>
 <li>分布式高可用的部署架构,满足至少一次消息传递语义</li>
@@ -116,7 +119,7 @@
 <li>异步发送时采用<strong>异步有回调</strong>的方式 （可以再加个本地消息表，MQ回调通知消息发送结果，对应更新数据库MQ发送状态，JOB轮询超过一定时间（时间根据业务配置）还未发送成功的消息去重试）</li>
 </ol>
 </li>
-<li><p><strong>mq丢失</strong>，即mq未及时刷盘，然后宕机了，导致内存中未处理的消息丢了<br><br>RocketMQ分为同步刷盘和异步刷盘两种方式，可以通过<strong>设置为同步刷盘</strong>的方式来保证消息可靠性，这样即使MQ挂了，恢复的时候也可以从磁盘中去恢复消息。(对性能有损耗，需要根据具体业务逻辑设置)</p>
+<li><p><strong>mq丢失</strong>，即mq未及时刷盘，然后宕机了，导致内存中未处理的消息丢了<br><br> RocketMQ分为同步刷盘和异步刷盘两种方式，可以通过<strong>设置为同步刷盘</strong>的方式来保证消息可靠性，这样即使MQ挂了，恢复的时候也可以从磁盘中去恢复消息。(对性能有损耗，需要根据具体业务逻辑设置)</p>
 </li>
 <li><p><strong>消费者丢失</strong>（消费者刚收到消息，此时服务器宕机，MQ认为消费者已经消费，不会重复发送消息，消息丢失。）</p>
 </li>
@@ -126,8 +129,8 @@
 <blockquote>
 <p>rocketmq的顺序消息需要满足2点：<br>1.Producer端保证发送消息有序，且发送到同一个队列。<br>2.consumer端保证消费同一个队列。</p>
 </blockquote>
-<h2 id="如何保证消息不被重复消费"><a href="#如何保证消息不被重复消费" class="headerlink" title="如何保证消息不被重复消费"></a>如何保证消息不被重复消费</h2><p>分析：这个问题其实换一种问法就是，如何保证消息队列的幂等性？这个问题可以认为是消息队列领域的基本问题。换句话来说，是在考察你的设计能力，这个问题的回答可以根据具体的业务场景来答，没有固定的答案。</p>
-<p>回答：先来说一下为什么会造成重复消费？<br>其实无论是哪种消息队列，造成重复消费原因其实都是类似的。正常情况下，消费者在消费消息的时候，消费完毕后，会发送一个确认消息给消息队列，消息队列就知道该消息被消费了，就会将该消息从消息队列中删除。RocketMQ返回一个CONSUME_SUCCESS成功标志,简单说一下，就是每一个消息都有一个offset，让消息队列知道自己已经消费过了。</p>
+<h2 id="如何保证消息不被重复消费"><a href="#如何保证消息不被重复消费" class="headerlink" title="如何保证消息不被重复消费"></a>如何保证消息不被重复消费</h2><p>分析：这个问题其实换一种问法就是，如何保证消息队列的<strong>幂等性</strong>？这个问题可以认为是消息队列领域的基本问题。换句话来说，是在考察你的设计能力，这个问题的回答可以根据具体的业务场景来答，没有固定的答案。</p>
+<p>回答：先来说一下为什么会造成重复消费？<br>其实无论是哪种消息队列，造成重复消费原因其实都是类似的。正常情况下，消费者在消费消息的时候，消费完毕后，会发送一个确认消息给消息队列，消息队列就知道该消息被消费了，就会将该消息从消息队列中删除。RocketMQ返回一个CONSUME_SUCCESS成功标志,简单说一下，就是<strong>每一个消息都有一个offset</strong>，让消息队列知道自己已经消费过了。</p>
 <p><strong>那造成重复消费的原因？</strong>，就是因为网络传输等等故障，确认信息没有传送到消息队列，导致消息队列不知道自己已经消费过该消息了，再次将消息分发给其他的消费者。</p>
 <p>如何解决？这个问题针对业务场景来答，分以下三种情况：</p>
 <p>（1）比如，你拿到这个消息做数据库的insert操作，那就容易了，给这个消息做一个<strong>唯一的主键</strong>，那么就算出现重复消费的情况，就会导致主键冲突，避免数据库出现脏数据。</p>
@@ -149,6 +152,365 @@
       <tags>
         <tag>消息队列</tag>
         <tag>Rocketmq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubbo框架总述</title>
+    <url>/2021/08/19/%E6%A1%86%E6%9E%B6/dubbo/dubbo%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>java</category>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>spring框架总述</title>
+    <url>/2021/08/19/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/</url>
+    <content><![CDATA[<h1 id="1-spring是什么"><a href="#1-spring是什么" class="headerlink" title="1.spring是什么"></a>1.spring是什么</h1><p>Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为了解决企业应用开发<br>的复杂性而创建的。Spring 的核心是控制反转（<strong>IoC</strong>）和面向切面编程（<strong>AOP</strong>）。<br></p>
+<hr>
+<h2 id="2-IOC控制反转"><a href="#2-IOC控制反转" class="headerlink" title="2.IOC控制反转"></a>2.IOC控制反转</h2><p>控制反转（IoC，Inversion of Control），是一个概念，是一种思想。指将传统上由程序代<br>码直接操控的对象调用权交给容器，通过容器来实现对象的装配和管理。控制反转就是对对<br>象控制权的转移，从程序代码本身反转到了外部容器。通过容器实现对象的创建，属性赋值，<br>依赖的管理。<br><br>spring对于IOC思想的具体实现就是：<strong>DI</strong>（依赖注入：DI(Dependency Injection)，程序代码不做定位查询，这些工作由容器自行完成。）</p>
+<h3 id="DI具体用法和实现"><a href="#DI具体用法和实现" class="headerlink" title="DI具体用法和实现"></a>DI具体用法和实现</h3><h4 id="ApplicationContext-接口（容器）"><a href="#ApplicationContext-接口（容器）" class="headerlink" title="ApplicationContext 接口（容器）"></a>ApplicationContext 接口（容器）</h4><p>ApplicationContext 用于加载 Spring 的配置文件，在程序中充当“容器”的角色。其实现<br>类有：<strong>ClassPathXmlApplicationContext</strong>(常用)，FileSystemXmlApplicationContext。<br></p>
+<ul>
+<li>若 Spring 配置文件存放在项目的类路径下，则使用 ClassPathXmlApplicationContext 实现<br>类进行加载。</li>
+<li>ApplicationContext 容器，会在容器对象初始化时，将其中的所有对象一次性全部装配好。<br>以后代码中若要使用到这些对象，只需从内存中直接获取即可。执行效率较高。但占用内存。<span id="more"></span></li>
+</ul>
+<h2 id="SpringIOC加载流程"><a href="#SpringIOC加载流程" class="headerlink" title="SpringIOC加载流程"></a>SpringIOC加载流程</h2><p><a href="https://javadoop.com/post/spring-ioc">IOC原理详解</a></p>
+<p><img src="/2021/08/19/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/spring-IOC.jpg" alt="spring-IOC"></p>
+<p>其实总结起来IOC 总体来说有两处地方最重要：<strong>一个是创建 Bean 容器，一个是初始化 Bean</strong>。</p>
+<ol>
+<li><p>IOC是在Spring启动后<strong>初始化环境和上下文对象</strong>完成后开始执行的</p>
+</li>
+<li><p>首先是<strong>创建BeanFactory</strong>，并将它的<strong>引用交给ApplicationContext</strong>，<strong>解析xml</strong>中配置的<strong>Bean</strong>，将他们<strong>封装成BeanDefinition对象，并放入HashMap</strong>中</p>
+</li>
+</ol>
+<blockquote>
+<p>BeanDefinition对象中封装了IOC初始化需要用到的所有信息，例如全限定名，是否懒加载，注入的属性，作用域等等。</p>
+</blockquote>
+<ol start="3">
+<li><p>准备BeanFactory对象，为他设置类加载器，以及设置一些Spring环境中的特殊类，在注入时直接可以返回，防止重复创建；手动添加了几个BeanFactoryPostProcessor后置处理器（注册监听器、Aware接口的回调）</p>
+</li>
+<li><p>BeanFactory对象创建完成，开始执行后置处理器，除了Spring中定义好的以外，可能还会有用户或者框架定义的BeanFactoryPostProcessor，如MyBatis专门用于注册Mapper接口的处理器。</p>
+</li>
+<li><p>至此Bean的初始化完成（还未实例化），注册BeanPostProcessor，执行Bean初始化完成的前置处理，这里也是可以自己拓展的点。</p>
+</li>
+<li><p>这里还会有一些国际化、事件监听器的注册处理不细说了。</p>
+</li>
+<li><p>接着进入重头戏，<strong>Bean的实例化</strong>。</p>
+</li>
+</ol>
+<blockquote>
+<ol>
+<li>进行实例化前会有一系列的判断，懒加载、抽象类、AOP的切面类等等这些不会被实例化。</li>
+<li><strong>处理FactoryBean</strong>，它和普通Bean不同的是，它的实现类是一个工厂类，Spring会调用定义的工厂类实例化对象，例如MyBatis的Mapper就是自定义了工厂类动态代理的生成对象。</li>
+<li><strong>处理普通Bean</strong>，根据<strong>BeanDefinition对象</strong>中的全限定类名<strong>反射</strong>创建，然后注入它的属性，引用对象则为递归创建（循环引用问题，Spring都是按照先实例化后注入属性，实例化后会放入缓存中，如果遇到循环引用则会从缓存当中取出来，防止出现死循环）</li>
+</ol>
+</blockquote>
+<ol start="8">
+<li><p>Bean实例化全部完成后，调用BeanPostProcessor中的后置处理方法，这里可拓展。</p>
+</li>
+<li><p>发布Bean实例化完成事件，观察者模式的应用，监听器再做其他操作。</p>
+</li>
+</ol>
+<h4 id="注入分类"><a href="#注入分类" class="headerlink" title="注入分类:"></a>注入分类:<br></h4><p>bean 实例在调用无参构造器创建对象后，就要对 bean 对象的属性进行初始化。初始化<br>是由容器自动完成的，称为注入。<br>根据注入方式的不同，常用的有两类：<strong>set 注入、构造注入</strong>。</p>
+<ul>
+<li>Set注入：其实就是直接设置要的值<ul>
+<li>简单类型（设置property标签，通过value=”设置”）</li>
+<li>引用类型 （设置property标签，通过ref=”设置”）</li>
+</ul>
+</li>
+<li>构造注入：在构造调用者实例的同时，完成被调用者的实例化。即使用构造器设置依赖关系。<ul>
+<li>设置<constructor-arg>标签 name=”指定参数名称” value=”设置” 。（可选index）</constructor-arg></li>
+</ul>
+</li>
+</ul>
+<h5 id="引用类型属性自动注入"><a href="#引用类型属性自动注入" class="headerlink" title="引用类型属性自动注入"></a>引用类型属性自动注入</h5><p>对于引用类型属性的注入，也可不在配置文件中显示的注入。可以通过为<bean>标签<br>设置 autowire 属性值，为引用类型属性进行隐式自动注入（默认是不自动注入引用类型属<br>性）。根据自动注入判断标准的不同，可以分为两种：<br><br>byName：根据名称自动注入<br><br>byType： 根据类型自动注入<br><br>直接在bean标签内加上   autowire=”byName”</bean></p>
+<h4 id="为应用指定多个-Spring-配置文件"><a href="#为应用指定多个-Spring-配置文件" class="headerlink" title="为应用指定多个 Spring 配置文件"></a>为应用指定多个 Spring 配置文件</h4><p>在实际应用里，随着应用规模的增加，系统中 Bean 数量也大量增加，导致配置文件变<br>得非常庞大、臃肿。为了避免这种情况的产生，提高配置文件的可读性与可维护性，可以将<br>Spring 配置文件分解成多个配置文件。<br>包含关系的配置文件：<br><br>多个配置文件中有一个总文件，总配置文件将各其它子文件通过<import>引入。在 Java<br>代码中只需要使用总配置文件对容器进行初始化即可。<br><br>也可使用通配符*。但，此时要求父配置文件名不能满足*所能匹配的格式，否则将出现<br>循环递归包含。<br></import></p>
+<h3 id="基于注解的-DI"><a href="#基于注解的-DI" class="headerlink" title="基于注解的 DI"></a>基于注解的 DI</h3><p>对于 DI 使用注解，将不再需要在 Spring 配置文件中声明 bean 实例。<br><br>Spring 中使用注解，需要在 Spring 配置文件中<strong>配置组件扫描器</strong>，用于在指定的基本包中扫描注解。<br>指定多个包的三种方式：<br><br>1)使用多个 context:component-scan 指定不同的包路<br><br>2)指定 base-package 的值使用分隔符<br><br>3)base-package 是指定到父包名<br></p>
+<h5 id="注解方式声明bean"><a href="#注解方式声明bean" class="headerlink" title="注解方式声明bean"></a>注解方式声明bean</h5><ul>
+<li>定义 Bean 的注解@Component</li>
+<li>@Repository 用于对 DAO 实现类进行注解</li>
+<li>@Service 用于对 Service 实现类进行注解</li>
+<li>@Controller 用于对 Controller 实现类进行注解<br></li>
+</ul>
+<p>这三个注解与@Component 都可以创建对象，但这三个注解还有其他的含义：<br></p>
+<p>@Service创建业务层对象，业务层对象可以加入事务功能，<br><br>@Controller 注解创建的对象可以作为处理器接收用户的请求。<br><br>@Repository，@Service，@Controller 是对@Component 注解的细化，标注不同层的对象。即持久层对象，业务层对象，控制层对象。<br></p>
+<h3 id="Component-和-Bean-的区别"><a href="#Component-和-Bean-的区别" class="headerlink" title="@Component 和 @Bean 的区别"></a><code>@Component</code> 和 <code>@Bean</code> 的区别</h3><ol>
+<li>作用对象不同：**@Component <strong>注解作用于</strong>类<strong>，而 <strong>@Bean</strong> 注解作用于</strong>方法**、</li>
+<li>@Component 通常是通过路径扫描来自动侦测以及自动装配到 Spring 容器中(我们可以使用 @ComponentScan 注解定义要扫描的路径从中找出标识了需要装配的类自动装配到 Spring 的 bean 容器中)。@Bean 注解通常是我们在标有该注解的方法中定义产生这个 bean，@Bean 告诉了 Spring 这是某个类的实例，当我们需要用它的时候还给我。</li>
+<li>@Bean 注解比 @Component 注解的自定义性更强，而且很多地方我们只能通过 @Bean 注解来注册 bean。</li>
+</ol>
+<h5 id="简单类型属性注入-Value"><a href="#简单类型属性注入-Value" class="headerlink" title="简单类型属性注入@Value"></a>简单类型属性注入@Value</h5><p>需要在属性上使用注解@Value，该注解的 value 属性用于指定要注入的值。<br>使用该注解完成属性注入时，类中无需 setter。</p>
+<figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    @Value(<span class="string">&quot;张三&quot;</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> name;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="AutoWired"><a href="#AutoWired" class="headerlink" title="@AutoWired"></a>@AutoWired</h4><h5 id="byType-自动注入-Autowired"><a href="#byType-自动注入-Autowired" class="headerlink" title="byType 自动注入@Autowired"></a>byType 自动注入@Autowired</h5><p>该注解<strong>默认使用按类型</strong>自动装配 Bean</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="symbol">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> age;</span><br><span class="line">	<span class="comment">/******/</span></span><br><span class="line">    @Autowired</span><br><span class="line">    <span class="keyword">private</span> School school;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="byName-自动注入-Autowired-与-Qualifier"><a href="#byName-自动注入-Autowired-与-Qualifier" class="headerlink" title="byName 自动注入@Autowired 与@Qualifier"></a>byName 自动注入@Autowired 与@Qualifier</h5><p>需要在引用属性上联合使用注解@Autowired 与@Qualifier。@Qualifier 的 value 属性用<br>于指定要匹配的 Bean 的 id 值。类中无需 set 方法，也可加到 set 方法上。<br><br>@Autowired 还有一个属性 required，默认值为 true，表示当匹配失败后，会终止程序运<br>行。若将其值设置为 false，则匹配失败，将被忽略，未匹配的属性值为 null。<br></p>
+<h4 id="JDK-注解-Resource-自动注入"><a href="#JDK-注解-Resource-自动注入" class="headerlink" title="JDK 注解@Resource 自动注入"></a>JDK 注解@Resource 自动注入</h4><p>Spring提供了对 jdk中@Resource注解的支持。@Resource 注解既可以按名称匹配Bean，<br>也可以按类型匹配 Bean。默认是按名称注入。使用该注解，要求 JDK 必须是 6 及以上版本。<br>@Resource 可在属性上，也可在 set 方法上。<br></p>
+<p><strong>@Resource</strong> 注解若不带任何参数，采用<strong>默认按名称的方式</strong>注入，按名称不能注入 bean，<br>则会按照类型进行 Bean 的匹配注入。</p>
+<hr>
+<h2 id="3-AOP面向切面编程"><a href="#3-AOP面向切面编程" class="headerlink" title="3.AOP面向切面编程"></a>3.AOP面向切面编程</h2><p>AOP（Aspect Orient Programming），面向切面编程。面向切面编程是从动态角度考虑程<br>序运行过程。<br><br>AOP 底层，就是采用动态代理模式实现的。采用了两种代理：</p>
+<p><strong>JDK 的动态代理，与 CGLIB的动态代理。</strong><br></p>
+<p>JDK动态代理，<strong>必须要实现接口</strong><br>    - 创建目标类<br>    - 创建<strong>InvocationHandler</strong>接口的实现类重写<strong>Invoke</strong>，在这个类实现给目标方法增加功能<br>    - 使用JDK中的类<strong>proxy</strong>，创建代理对象，实现创建对象的能力，在使用代理对象调用方法</p>
+<p>CGLIB的动态代理，是通过使用一个小而快的字节码处理框架ASM，来转换字节码并生成新的类，原理是继承，通过继承目标类生成代理类，只<strong>要求目标类不是final修饰</strong>的就行</p>
+<h3 id="Aop术语"><a href="#Aop术语" class="headerlink" title="Aop术语"></a>Aop术语</h3><ol>
+<li>切面（Aspect）<br><br> 切面泛指交叉业务逻辑。上例中的事务处理、日志处理就可以理解为切面。常用的切面<br> 是通知（Advice）。实际就是对主业务逻辑的一种增强。</li>
+<li>连接点（JoinPoint）<br><br> 连接点指可以被切面织入的具体方法。通常业务接口中的方法均为连接点。</li>
+<li>切入点（Pointcut）<br><br> 切入点指声明的一个或多个连接点的集合。通过切入点指定一组方法。<br><br> 被标记为 final 的方法是不能作为连接点与切入点的。因为最终的是不能被修改的，不<br> 能被增强的。我们通常使用明确的类和方法名称，或者是使用正则表达式定义所匹配的类和方法名称来指定切点。</li>
+<li>目标对象（Target）<br><br> 目 标 对 象 指 将 要 被 增 强 的 对 象 。 即 包 含 主 业 务 逻 辑 的 类 的 对 象 。 上 例 中 的<br> StudentServiceImpl 的对象若被增强，则该类称为目标类，该类对象称为目标对象。当然，<br> 不被增强，也就无所谓目标不目标了。</li>
+<li>通知（Advice）<br> 通知表示切面的执行时间，Advice 也叫增强。上例中的 MyInvocationHandler 就可以理<br> 解为是一种通知。换个角度来说，通知定义了增强代码切入到目标代码的时间点，是目标方<br> 法执行之前执行，还是之后执行等。通知类型不同，切入时间不同。<br><br> <strong>切入点定义切入的位置，通知定义切入的时间</strong>。</li>
+</ol>
+<h4 id="AOP的主要实践-aspectj"><a href="#AOP的主要实践-aspectj" class="headerlink" title="AOP的主要实践 aspectj"></a>AOP的主要实践 aspectj</h4><p> aspectj有两种实现方式：<br><br> 1.使用xml配置<br> 2.使用注解（常用5个：@Before，@AfterReturning，**@Around**，@AfterThrowing，@After）</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>spring</category>
+        <category>IOC&amp;AOP</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>Spring</tag>
+        <tag>Ioc</tag>
+        <tag>Aop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>java基础_java1.8新特性</title>
+    <url>/2021/08/19/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80_java1.8%E6%96%B0%E7%89%B9%E6%80%A7/</url>
+    <content><![CDATA[<h1 id="1-Lambda-表达式"><a href="#1-Lambda-表达式" class="headerlink" title="1.Lambda 表达式"></a>1.Lambda 表达式</h1><p>Lambda 允许把函数作为一个方法的参数（<strong>函数作为参数传递到方法中</strong>）。</p>
+<h2 id="1-1-语法"><a href="#1-1-语法" class="headerlink" title="1.1 语法"></a>1.1 语法</h2><p>lambda 表达式的语法格式如下：</p>
+<p>(parameters) -&gt; expression或(parameters) -&gt;{statements; }</p>
+<h1 id="2-Java-8-方法引用"><a href="#2-Java-8-方法引用" class="headerlink" title="2.Java 8 方法引用"></a>2.Java 8 方法引用</h1><p>方法引用提供了非常有用的语法，可以直接引用已有Java类或对象（实例）的方法或构造器。与lambda联合使用，方法引用可以使语言的构造更紧凑简洁，减少冗余代码。</p>
+<p>方法引用可以使语言的构造更紧凑简洁，减少冗余代码。</p>
+<p>方法引用使用一对冒号 :: 。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List names = <span class="keyword">new</span> ArrayList();</span><br><span class="line">names.add(<span class="string">&quot;Google&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;Runoob&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;Taobao&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;Baidu&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;Sina&quot;</span>);</span><br><span class="line">names.forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="3-默认方法"><a href="#3-默认方法" class="headerlink" title="3.默认方法"></a>3.默认方法</h1><p>默认方法就是一个在接口里面有了一个实现的方法。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">vehicle</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;我是一辆车!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="4-新工具"><a href="#4-新工具" class="headerlink" title="4.新工具"></a>4.新工具</h1><p>新的编译工具，如：Nashorn引擎 jjs、 类依赖分析器jdeps。</p>
+<h1 id="5-Stream-API"><a href="#5-Stream-API" class="headerlink" title="5.Stream API"></a>5.Stream API</h1><h2 id="5-1概念理解"><a href="#5-1概念理解" class="headerlink" title="5.1概念理解"></a>5.1概念理解</h2><p>新添加的Stream API（java.util.stream） 把真正的函数式编程风格引入到Java中。</p>
+<p>Java 8 API添加了一个新的抽象称为流Stream，可以让你以一种声明的方式处理数据。</p>
+<p>Stream使用一种<strong>类似用SQL语句</strong>从数据库查询数据的直观方式来提供一种对Java集合运算和表达的高阶抽象。</p>
+<p>Stream API可以极大提高Java程序员的生产力，让程序员写出高效率、干净、简洁的代码。</p>
+<p>这种风格<strong>将要处理的元素集合看作一种流</strong>，流在管道中传输，并且可以在管道的节点上进行处理，比如<strong>筛选，排序，聚合</strong>等。</p>
+<p>元素流在管道中经过中间操作（intermediate operation）的处理，最后由最终操作(terminal operation)得到前面处理的结果。</p>
+<h2 id="5-2生成流"><a href="#5-2生成流" class="headerlink" title="5.2生成流"></a>5.2生成流</h2><p>在Java 8中,集合接口有两个方法来生成流：</p>
+<p>stream() −为集合创建串行流。</p>
+<p>parallelStream() − 为集合创建并行流。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span>` `<span class="keyword">static</span>` `<span class="keyword">void</span>` `main(String[] args) &#123;``  ``List&lt;String&gt; strings = Arrays.asList(``<span class="string">&quot;abc&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;bc&quot;</span>``, ``<span class="string">&quot;efg&quot;</span>``, ``<span class="string">&quot;abcd&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;jkl&quot;</span>``);``  ``List&lt;String&gt; filtered = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());``&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-3-forEach"><a href="#5-3-forEach" class="headerlink" title="5.3  forEach"></a>5.3  forEach</h3><p>Stream 提供了新的方法 ‘forEach’ 来迭代流中的每个数据。以下代码片段使用forEach 输出了10个随机数：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Random random = ``<span class="keyword">new</span>` `Random();``random.ints().limit(``<span class="number">10</span>``).forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-4-map"><a href="#5-4-map" class="headerlink" title="5.4 map"></a>5.4 map</h3><p>map 方法用于映射每个元素到对应的结果，以下代码片段使用 map 输出了元素对应的平方数：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(``<span class="number">3</span>``, ``<span class="number">2</span>``, ``<span class="number">2</span>``, ``<span class="number">3</span>``, ``<span class="number">7</span>``, ``<span class="number">3</span>``, ``<span class="number">5</span>``);``<span class="comment">// 获取对应的平方数``List&lt;Integer&gt; squaresList = numbers.stream().map(i -&gt; i * i).distinct().collect(Collectors.toList());</span></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-5-filter"><a href="#5-5-filter" class="headerlink" title="5.5 filter"></a>5.5 filter</h3><p>filter 方法用于通过设置条件过滤出元素。以下代码片段使用filter 方法过滤出空字符串：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt;strings = Arrays.asList(``<span class="string">&quot;abc&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;bc&quot;</span>``, ``<span class="string">&quot;efg&quot;</span>``, ``<span class="string">&quot;abcd&quot;</span>``,``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;jkl&quot;</span>``);``<span class="comment">// 获取空字符串的数量``int` `count = (``int``) strings.stream().filter(string -&gt; string.isEmpty()).count();</span></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-6-limit"><a href="#5-6-limit" class="headerlink" title="5.6 limit"></a>5.6 limit</h3><p>limit 方法用于获取指定数量的流。以下代码片段使用 limit 方法打印出 10 条数据：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Random random = ``<span class="keyword">new</span>` `Random();``random.ints().limit(``<span class="number">10</span>``).forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-7-sorted"><a href="#5-7-sorted" class="headerlink" title="5.7 sorted"></a>5.7 sorted</h3><p>sorted 方法用于对流进行排序。以下代码片段使用 sorted 方法对输出的 10 个随机数进行排序：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Random random = ``<span class="keyword">new</span>` `Random();``random.ints().limit(``<span class="number">10</span>``).sorted().forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-8-并行（parallel）程序"><a href="#5-8-并行（parallel）程序" class="headerlink" title="5.8 并行（parallel）程序"></a>5.8 并行（parallel）程序</h3><p>parallelStream 是流并行处理程序的代替方法。以下实例我们使用parallelStream 来输出空字符串的数量：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(``<span class="string">&quot;abc&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;bc&quot;</span>``, ``<span class="string">&quot;efg&quot;</span>``, ``<span class="string">&quot;abcd&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;jkl&quot;</span>``);``<span class="comment">// 获取空字符串的数量``int` `count = (``int``) strings.parallelStream().filter(string -&gt; string.isEmpty()).count();</span></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<p>我们可以很容易的在顺序运行和并行直接切换。</p>
+<h3 id="5-9-Collectors"><a href="#5-9-Collectors" class="headerlink" title="5.9 Collectors"></a>5.9 Collectors</h3><p>Collectors 类实现了很多归约操作，例如将流转换成集合和聚合元素。Collectors可用于返回列表或字符串：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(``<span class="string">&quot;abc&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;bc&quot;</span>``, ``<span class="string">&quot;efg&quot;</span>``, ``<span class="string">&quot;abcd&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;jkl&quot;</span>``);``List&lt;String&gt; filtered = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());``System.out.println(``<span class="string">&quot;筛选列表: &quot;</span>` `+ filtered);``String mergedString = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.joining(``<span class="string">&quot;, &quot;</span>``));``System.out.println(``<span class="string">&quot;合并字符串: &quot;</span>` `+ mergedString);</span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-10-统计"><a href="#5-10-统计" class="headerlink" title="5.10 统计"></a>5.10 统计</h3><p>另外，一些产生统计结果的收集器也非常有用。它们主要用于int、double、long等基本类型上，它们可以用来产生类似如下的统计结果。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(``<span class="number">3</span>``, ``<span class="number">2</span>``, ``<span class="number">2</span>``, ``<span class="number">3</span>``, ``<span class="number">7</span>``, ``<span class="number">3</span>``, ``<span class="number">5</span>``);``IntSummaryStatistics stats = numbers.stream().mapToInt((x) -&gt; x).summaryStatistics();``System.out.println(``<span class="string">&quot;列表中最大的数 : &quot;</span>` `+ stats.getMax());``System.out.println(``<span class="string">&quot;列表中最小的数 : &quot;</span>` `+ stats.getMin());``System.out.println(``<span class="string">&quot;所有数之和 : &quot;</span>` `+ stats.getSum());``System.out.println(``<span class="string">&quot;平均数 : &quot;</span>` `+ stats.getAverage());</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="6-Date-Time-API"><a href="#6-Date-Time-API" class="headerlink" title="6.Date Time API"></a>6.Date Time API</h1><p>加强对日期与时间的处理。</p>
+<h1 id="7-Optional-类"><a href="#7-Optional-类" class="headerlink" title="7.Optional 类"></a>7.Optional 类</h1><p>Optional 类是一个可以为null的容器对象。如果值存在则isPresent()方法会返回true，调用get()方法会返回该对象。</p>
+<p>Optional 是个容器：它可以保存类型T的值，或者仅仅保存null。Optional提供很多有用的方法，这样我们就不用显式进行空值检测。</p>
+<p>Optional 类的引入很好的解决空指针异常。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer value1 = <span class="keyword">null</span>;</span><br><span class="line">Integer value2 = <span class="keyword">new</span> Integer(<span class="number">10</span>);</span><br><span class="line"><span class="comment">// Optional.ofNullable - 允许传递为 null 参数</span></span><br><span class="line">Optional&lt;Integer&gt; a = Optional.ofNullable(value1);</span><br><span class="line"><span class="comment">// Optional.of - 如果传递的参数是 null，抛出异常 NullPointerException</span></span><br><span class="line">Optional&lt;Integer&gt; b = Optional.of(value2);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="8-Nashorn-JavaScript-引擎"><a href="#8-Nashorn-JavaScript-引擎" class="headerlink" title="8.Nashorn JavaScript 引擎"></a>8.Nashorn JavaScript 引擎</h1><p>Java 8提供了一个新的Nashorn javascript引擎，它允许我们在JVM上运行特定的javascript应用。</p>
+<p>参考：<a href="https://www.cnblogs.com/liuxiaozhi23/p/10880147.html">java8新特性详解及示例代码</a></p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>jdk1.8</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>java1.8</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ZooKeeper</title>
+    <url>/2021/08/19/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/ZooKeeper/</url>
+    <content><![CDATA[<h1 id="Zookeeper基础概念"><a href="#Zookeeper基础概念" class="headerlink" title="Zookeeper基础概念"></a>Zookeeper基础概念</h1><p>ZooKeeper是一个开放源码的分布式协调服务，它是集群的管理者，监视着集群中各个节点的状态根据节点提交的反馈进行下一步合理操作。最终，将简单易用的接口和性能高效、功能稳定的系统提供给用户。</p>
+<p>分布式应用程序可以基于Zookeeper实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选举、分布式锁和分布式队列等功能。</p>
+<p>客户端的读请求可以被集群中的任意一台机器处理，<strong>如果读请求在节点上注册了监听器，这个监听器也是由所连接的zookeeper机器来处理</strong>。对于写请求，这些请求会同时发给其他zookeeper机器并且达成一致后，请求才会返回成功。因此，随着zookeeper的集群机器增多，读请求的吞吐会提高但是写请求的吞吐会下降。</p>
+<p>有序性是zookeeper中非常重要的一个特性，所有的更新都是<strong>全局有序</strong>的，每个更新都有一个<strong>唯一的时间戳</strong>，这个时间戳称为zxid（Zookeeper Transaction Id）。而读请求只会相对于更新有序，也就是读请求的返回结果中会带有这个zookeeper最新的zxid。</p>
+<h2 id="ZooKeeper提供了什么？"><a href="#ZooKeeper提供了什么？" class="headerlink" title="ZooKeeper提供了什么？"></a>ZooKeeper提供了什么？</h2><p>区别于Eureka专用于注册中心的功能，zookeeper主要提供的能力是</p>
+<ul>
+<li>文件系统</li>
+<li>通知机制</li>
+</ul>
+<h2 id="Zookeeper文件系统"><a href="#Zookeeper文件系统" class="headerlink" title="Zookeeper文件系统"></a>Zookeeper文件系统</h2><ul>
+<li>Zookeeper提供一个多层级的节点命名空间（节点称为znode）。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。</li>
+<li>Zookeeper为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，<strong>这种特性使得Zookeeper不能用于存放大量的数据，每个节点的存放数据上限为1M</strong>。</li>
+</ul>
+<h2 id="ZAB协议？"><a href="#ZAB协议？" class="headerlink" title="ZAB协议？"></a>ZAB协议？</h2><p>ZAB协议是为分布式协调服务Zookeeper专门设计的一种支持崩溃恢复的原子广播协议。</p>
+<p>ZAB协议包括两种基本的模式：<strong>崩溃恢复和消息广播</strong>。</p>
+<p>当整个zookeeper集群刚刚启动或者Leader服务器宕机、重启或者网络故障导致不存在过半的服务器与Leader服务器保持正常通信时，所有进程（服务器）进入崩溃恢复模式，首先选举产生新的Leader服务器，然后集群中Follower服务器开始与新的Leader服务器进行数据同步，当集群中超过半数机器与该Leader服务器完成数据同步之后，退出恢复模式进入消息广播模式，Leader服务器开始接收客户端的事务请求生成事物提案来进行事务请求处理。</p>
+<h2 id="四种类型的数据节点-Znode"><a href="#四种类型的数据节点-Znode" class="headerlink" title="四种类型的数据节点 Znode"></a>四种类型的数据节点 Znode</h2><ul>
+<li>PERSISTENT-持久节点<br>除非手动删除，否则节点一直存在于Zookeeper上</li>
+<li>EPHEMERAL-临时节点<br>临时节点的生命周期与客户端会话绑定，一旦客户端会话失效（客户端与zookeeper连接断开不一定会话失效），那么这个客户端创建的所有临时节点都会被移除。</li>
+<li>PERSISTENT_SEQUENTIAL-持久顺序节点<br>基本特性同持久节点，只是增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。</li>
+<li>EPHEMERAL_SEQUENTIAL-临时顺序节点<br>基本特性同临时节点，增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。</li>
+</ul>
+<h2 id="Zookeeper-Watcher-机制-–-数据变更通知"><a href="#Zookeeper-Watcher-机制-–-数据变更通知" class="headerlink" title="Zookeeper Watcher 机制 – 数据变更通知"></a>Zookeeper Watcher 机制 – 数据变更通知</h2><p>Zookeeper允许客户端向服务端的某个Znode注册一个Watcher监听，当服务端的一些指定事件触发了这个Watcher，服务端会向指定客户端发送一个事件通知来实现分布式的通知功能，然后客户端根据Watcher通知状态和事件类型做出业务上的改变。</p>
+<p>工作机制：</p>
+<ul>
+<li>客户端注册watcher</li>
+<li>服务端处理watcher</li>
+<li>客户端回调watcher</li>
+</ul>
+<h2 id="Watcher特性总结："><a href="#Watcher特性总结：" class="headerlink" title="Watcher特性总结："></a>Watcher特性总结：</h2><ol>
+<li>一次性<br>无论是服务端还是客户端，一旦一个Watcher被触发，Zookeeper都会将其从相应的存储中移除。这样的设计有效的减轻了服务端的压力，不然对于更新非常频繁的节点，服务端会不断的向客户端发送事件通知，无论对于网络还是服务端的压力都非常大。</li>
+<li>客户端串行执行<br>客户端Watcher回调的过程是一个串行同步的过程。</li>
+<li>轻量<ul>
+<li>Watcher通知非常简单，只会告诉客户端发生了事件，而不会说明事件的具体内容。</li>
+<li>客户端向服务端注册Watcher的时候，并不会把客户端真实的Watcher对象实体传递到服务端，仅仅是在客户端请求中使用boolean类型属性进行了标记。</li>
+</ul>
+</li>
+<li>watcher event异步发送watcher的通知事件从server发送到client是异步的，这就存在一个问题，不同的客户端和服务器之间通过socket进行通信，由于网络延迟或其他因素导致客户端在不通的时刻监听到事件，由于Zookeeper本身提供了ordering guarantee，即客户端监听事件后，才会感知它所监视znode发生了变化。所以我们使用Zookeeper不能期望能够监控到节点每次的变化。Zookeeper只能保证最终的一致性，而无法保证强一致性。</li>
+<li>注册watcher getData、exists、getChildren</li>
+<li>触发watcher create、delete、setData</li>
+<li>当一个客户端连接到一个新的服务器上时，watch将会被以任意会话事件触发。当与一个服务器失去连接的时候，是无法接收到watch的。而当client重新连接时，如果需要的话，所有先前注册过的watch，都会被重新注册。通常这是完全透明的。只有在一个特殊情况下，watch可能会丢失：对于一个未创建的znode的exist watch，如果在客户端断开连接期间被创建了，并且随后在客户端连接上之前又删除了，这种情况下，这个watch事件可能会被丢失。</li>
+</ol>
+<h2 id="ZooKeeper实现分布式锁原理"><a href="#ZooKeeper实现分布式锁原理" class="headerlink" title="ZooKeeper实现分布式锁原理"></a>ZooKeeper实现分布式锁原理</h2><p>其实如果有客户端C、客户端D等N个客户端争抢一个zk分布式锁，原理都是类似的。</p>
+<ul>
+<li>大家都是上来直接创建一个锁节点下的一个接一个的临时顺序节点</li>
+<li>如果自己不是第一个节点，就对自己上一个节点加监听器</li>
+<li>只要上一个节点释放锁，自己就排到前面去了，相当于是一个排队机制。</li>
+</ul>
+<p>而且用临时顺序节点的另外一个用意就是，如果某个客户端创建临时顺序节点之后，不小心自己宕机了也没关系，zk感知到那个客户端宕机，会自动删除对应的临时顺序节点，相当于自动释放锁，或者是自动取消自己的排队。</p>
+]]></content>
+      <categories>
+        <category>基础概念</category>
+        <category>分布式</category>
+        <category>ZooKeeper</category>
+      </categories>
+      <tags>
+        <tag>ZooKeeper</tag>
+        <tag>ZooKeeper高可用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java基础提升_多线程</title>
+    <url>/2021/08/19/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
+    <content><![CDATA[<h2 id="线程创建方式"><a href="#线程创建方式" class="headerlink" title="线程创建方式"></a>线程创建方式</h2><ol>
+<li>继承Thread类<ul>
+<li>start()方法是一个 native 方法,它将启动一个新线程，并执行 run()方法。</li>
+</ul>
+</li>
+<li>实现runnable接口，<ul>
+<li>当一个类已经有继承了，此时可通过实现runnable接口来创建线程</li>
+</ul>
+</li>
+<li>采用线程池，实现callable接口（有返回）,ExecutorService<ul>
+<li><strong>有返回值</strong>的任务必须实现 Callable 接口。执行Callable 任务后，可以获取一个<strong>Future 的对象</strong>，在该对象上调用 get 就可以获取到 Callable 任务返回的 Object 了，再结合线程池接口 ExecutorService 就可以实现传说中有返回结果的多线程了。</li>
+</ul>
+</li>
+</ol>
+<h2 id="多线程中的主要问题"><a href="#多线程中的主要问题" class="headerlink" title="多线程中的主要问题"></a>多线程中的主要问题</h2><ol>
+<li>可见性问题<br> volatile修饰，保证了多线程之间的内存可见性</li>
+<li>原子性问题<br> AtomicInteger（Java中有那么一些类，是以Atomic开头的。这一系列的类我们称之为原子操作类。以最简单的类AtomicInteger为例。它相当于一个int变量，我们执行Int的 i++ 的时候并不是一个原子操作。而使用AtomicInteger的incrementAndGet却能保证原子操作）</li>
+<li>有序性问题<br> volatile 防止指令重排序</li>
+<li>死锁的问题</li>
+</ol>
+<h2 id="synchronized-关键字"><a href="#synchronized-关键字" class="headerlink" title="synchronized 关键字"></a>synchronized 关键字</h2><h3 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h3><ol>
+<li><p>修饰一个<strong>代码块</strong>，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； </p>
+</li>
+<li><p>修饰一个<strong>方法</strong>，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； </p>
+</li>
+<li><p>修改一个<strong>静态的方法</strong>，其作用的范围是整个静态方法，作用的对象是这个==类的所有对象==； </p>
+</li>
+<li><p>修改一个<strong>类</strong>，其作用的范围是synchronized后面括号括起来的部分，作用主的对象是这个类的所有对象。</p>
+<span id="more"></span>
+<h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3></li>
+<li><p>修饰代码块时：<br>synchronized是JVM层面的，同步语句块的实现使用的是<strong>monitorenter 和 monitorexit</strong>指令，其中 monitorenter 指令指向同步代码块的开始位置，monitorexit 指令则指明同步代码块的结束位置。当执行 monitorenter 指令时，线程试图获取锁也就是获取 monitor(monitor对象存在于每个<strong>Java对象的对象头</strong>中，synchronized 锁便是通过这种方式获取锁的，也是为什么Java中任意对象可以作为锁的原因)</p>
+</li>
+<li><p>synchronized 修饰方法时：<br>synchronized 修饰的方法并没有 monitorenter 指令和 monitorexit 指令，取而代之的确实是 ACC_SYNCHRONIZED 标识，该标识指明了该方法是一个同步方法，JVM 通过该 ACC_SYNCHRONIZED 访问标志来辨别一个方法是否声明为同步方法，从而执行相应的同步调用。</p>
+</li>
+</ol>
+<h2 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h2><p>作用：保证变量的可见性然后还有一个作用是防止指令重排序。</p>
+<h3 id="synchronized关键字和volatile关键字比较"><a href="#synchronized关键字和volatile关键字比较" class="headerlink" title="synchronized关键字和volatile关键字比较"></a>synchronized关键字和volatile关键字比较</h3><ul>
+<li>volatile关键字是线程同步的轻量级实现，所以volatile性能肯定比synchronized关键字要好。但是<strong>volatile关键字只能用于变量</strong>而synchronized关键字可以修饰方法以及代码块。synchronized关键字在JavaSE1.6之后进行了主要包括为了减少获得锁和释放锁带来的性能消耗而引入的偏向锁和轻量级锁以及其它各种优化之后执行效率有了显著提升，实际开发中使用 synchronized 关键字的场景还是更多一些。</li>
+<li>多线程访问volatile关键字不会发生阻塞，而synchronized关键字可能会发生阻塞</li>
+<li>volatile关键字能保证数据的可见性，但不能保证数据的原子性。synchronized关键字两者都能保证。</li>
+<li>volatile关键字主要用于解决变量在多个线程之间的可见性，而 synchronized关键字解决的是多个线程之间访问资源的同步性。<h3 id="wait和notify"><a href="#wait和notify" class="headerlink" title="wait和notify"></a>wait和notify</h3>wait和notify这两个方法是一对，wait方法阻塞当前线程，而notify是唤醒被wait方法阻塞的线程。<br></li>
+</ul>
+<ol>
+<li><p>wait()、notify/notifyAll() 方法是Object的本地final方法，无法被重写。</p>
+</li>
+<li><p>wait()使当前线程阻塞，前提是 必须先获得锁，一般配合synchronized 关键字使用，即，一般在synchronized 同步代码块里使用 wait()、notify/notifyAll() 方法。</p>
+</li>
+<li><p> 由于 wait()、notify/notifyAll() 在synchronized 代码块执行，说明当前线程一定是获取了锁的。<br><br>当线程执行wait()方法时候，会释放当前的锁，然后让出CPU，进入等待状态。<br>只有当 notify/notifyAll() 被执行时候，才会唤醒一个或多个正处于等待状态的线程，然后继续往下执行，直到执行完synchronized 代码块的代码或是中途遇到wait() ，再次释放锁。<br>也就是说，notify/notifyAll() 的执行只是唤醒沉睡的线程，而不会立即释放锁，锁的释放要看代码块的具体执行情况。所以在编程中，尽量在使用了notify/notifyAll() 后立即退出临界区，以唤醒其他线程让其获得锁</p>
+</li>
+<li><p>wait() 需要被try catch包围，以便发生异常中断也可以使wait等待的线程唤醒。</p>
+</li>
+<li><p>notify 和wait 的顺序不能错，如果A线程先执行notify方法，B线程在执行wait方法，那么B线程是无法被唤醒的。</p>
+</li>
+<li><p>notify 和 notifyAll的区别<br>notify方法只唤醒一个等待（对象的）线程并使该线程开始执行。所以如果有多个线程等待一个对象，这个方法只会唤醒其中一个线程（<strong>不确定唤醒哪个</strong>），选择哪个线程取决于操作系统对多线程管理的实现。notifyAll 会唤醒所有等待(对象的)线程，尽管哪一个线程将会第一个处理取决于操作系统的实现。如果当前情况下有多个线程需要被唤醒，推荐使用notifyAll 方法。比如在生产者-消费者里面的使用，每次都需要唤醒所有的消费者或是生产者，以判断程序是否可以继续往下执行。</p>
+</li>
+<li><p>在多线程中要测试某个条件的变化，使用if 还是while？<br>　　要注意，notify唤醒沉睡的线程后，线程会接着上次的执行继续往下执行。所以在进行条件判断时候，可以先把 wait 语句忽略不计来进行考虑；显然，要确保程序一定要执行，并且要保证程序直到满足一定的条件再执行，要使用while进行等待，</p>
+</li>
+</ol>
+<h2 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h2><p>join() 定义在Thread.java中。<br>join() 的作用：让“主线程”等待“子线程”结束之后才能继续运行。<br>注意：如果线程被生成了，但还未被起动，调用它的 join() 方法是没有作用的，将直接继续向下执行</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 主线程</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Father</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        <span class="type">Son</span> s = <span class="keyword">new</span> <span class="type">Son</span>();</span><br><span class="line">        s.start();</span><br><span class="line">        s.join();</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子线程</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="ThreadLocal详解"><a href="#ThreadLocal详解" class="headerlink" title="ThreadLocal详解"></a>ThreadLocal详解</h2><p>作用：</p>
+<ol>
+<li>每个线程独立的变量 </li>
+<li>可以贯穿整个线程的全局变量，避免参数传递</li>
+</ol>
+<h3 id="InheritableThreadLocal"><a href="#InheritableThreadLocal" class="headerlink" title="InheritableThreadLocal"></a>InheritableThreadLocal</h3><p>如果我想共享线程的ThreadLocal数据怎么办？使用InheritableThreadLocal可以实现多个线程访问ThreadLocal的值，我们在主线程中创建一个InheritableThreadLocal的实例，然后在子线程中得到这个InheritableThreadLocal实例设置的值。</p>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;% post_link Java基础提升_线程池 Java基础提升_线程池 %&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>基础</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -610,115 +972,6 @@
         <tag>java</tag>
         <tag>Spring</tag>
         <tag>事务管理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>spring框架总述</title>
-    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/</url>
-    <content><![CDATA[<h1 id="1-spring是什么"><a href="#1-spring是什么" class="headerlink" title="1.spring是什么"></a>1.spring是什么</h1><p>Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为了解决企业应用开发<br>的复杂性而创建的。Spring 的核心是控制反转（<strong>IoC</strong>）和面向切面编程（<strong>AOP</strong>）。<br></p>
-<hr>
-<h2 id="2-IOC控制反转"><a href="#2-IOC控制反转" class="headerlink" title="2.IOC控制反转"></a>2.IOC控制反转</h2><p>控制反转（IoC，Inversion of Control），是一个概念，是一种思想。指将传统上由程序代<br>码直接操控的对象调用权交给容器，通过容器来实现对象的装配和管理。控制反转就是对对<br>象控制权的转移，从程序代码本身反转到了外部容器。通过容器实现对象的创建，属性赋值，<br>依赖的管理。<br><br>spring对于IOC思想的具体实现就是：<strong>DI</strong>（依赖注入：DI(Dependency Injection)，程序代码不做定位查询，这些工作由容器自行完成。）</p>
-<h3 id="DI具体用法和实现"><a href="#DI具体用法和实现" class="headerlink" title="DI具体用法和实现"></a>DI具体用法和实现</h3><h4 id="ApplicationContext-接口（容器）"><a href="#ApplicationContext-接口（容器）" class="headerlink" title="ApplicationContext 接口（容器）"></a>ApplicationContext 接口（容器）</h4><p>ApplicationContext 用于加载 Spring 的配置文件，在程序中充当“容器”的角色。其实现<br>类有：<strong>ClassPathXmlApplicationContext</strong>(常用)，FileSystemXmlApplicationContext。<br></p>
-<ul>
-<li>若 Spring 配置文件存放在项目的类路径下，则使用 ClassPathXmlApplicationContext 实现<br>类进行加载。</li>
-<li>ApplicationContext 容器，会在容器对象初始化时，将其中的所有对象一次性全部装配好。<br>以后代码中若要使用到这些对象，只需从内存中直接获取即可。执行效率较高。但占用内存。<span id="more"></span></li>
-</ul>
-<h2 id="SpringIOC加载流程"><a href="#SpringIOC加载流程" class="headerlink" title="SpringIOC加载流程"></a>SpringIOC加载流程</h2><p><a href="https://javadoop.com/post/spring-ioc">IOC原理详解</a></p>
-<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/spring-IOC.jpg" alt="spring-IOC"></p>
-<p>其实总结起来IOC 总体来说有两处地方最重要：<strong>一个是创建 Bean 容器，一个是初始化 Bean</strong>。</p>
-<ol>
-<li><p>IOC是在Spring启动后初始化环境和上下文对象完成后开始执行的</p>
-</li>
-<li><p>首先是创建BeanFactory，并将它的引用交给ApplicationContext，解析xml中配置的Bean，将他们封装成BeanDefinition对象，并放入HashMap中</p>
-</li>
-</ol>
-<blockquote>
-<p>BeanDefinition对象中封装了IOC初始化需要用到的所有信息，例如全限定名，是否懒加载，注入的属性，作用域等等。</p>
-</blockquote>
-<ol start="3">
-<li><p>准备BeanFactory对象，为他设置类加载器，以及设置一些Spring环境中的特殊类，在注入时直接可以返回，防止重复创建；手动添加了几个BeanFactoryPostProcessor后置处理器（注册监听器、Aware接口的回调）</p>
-</li>
-<li><p>BeanFactory对象创建完成，开始执行后置处理器，除了Spring中定义好的以外，可能还会有用户或者框架定义的BeanFactoryPostProcessor，如MyBatis专门用于注册Mapper接口的处理器。</p>
-</li>
-<li><p>至此Bean的初始化完成（还未实例化），注册BeanPostProcessor，执行Bean初始化完成的前置处理，这里也是可以自己拓展的点。</p>
-</li>
-<li><p>这里还会有一些国际化、事件监听器的注册处理不细说了。</p>
-</li>
-<li><p>接着进入重头戏，Bean的实例化。</p>
-</li>
-</ol>
-<blockquote>
-<ol>
-<li>进行实例化前会有一系列的判断，懒加载、抽象类、AOP的切面类等等这些不会被实例化。</li>
-<li>处理FactoryBean，它和普通Bean不同的是，它的实现类是一个工厂类，Spring会调用定义的工厂类实例化对象，例如MyBatis的Mapper就是自定义了工厂类动态代理的生成对象。</li>
-<li>处理普通Bean，根据BeanDefinition对象中的全限定类名反射创建，然后注入它的属性，引用对象则为递归创建（循环引用问题，Spring都是按照先实例化后注入属性，实例化后会放入缓存中，如果遇到循环引用则会从缓存当中取出来，防止出现死循环）</li>
-</ol>
-</blockquote>
-<ol start="8">
-<li><p>Bean实例化全部完成后，调用BeanPostProcessor中的后置处理方法，这里可拓展。</p>
-</li>
-<li><p>发布Bean实例化完成事件，观察者模式的应用，监听器再做其他操作。</p>
-</li>
-</ol>
-<h4 id="注入分类"><a href="#注入分类" class="headerlink" title="注入分类:"></a>注入分类:<br></h4><p>bean 实例在调用无参构造器创建对象后，就要对 bean 对象的属性进行初始化。初始化<br>是由容器自动完成的，称为注入。<br>根据注入方式的不同，常用的有两类：<strong>set 注入、构造注入</strong>。</p>
-<ul>
-<li>Set注入：其实就是直接设置要的值<ul>
-<li>简单类型（设置property标签，通过value=”设置”）</li>
-<li>引用类型 （设置property标签，通过ref=”设置”）</li>
-</ul>
-</li>
-<li>构造注入：在构造调用者实例的同时，完成被调用者的实例化。即使用构造器设置依赖关系。<ul>
-<li>设置<constructor-arg>标签 name=”指定参数名称” value=”设置” 。（可选index）</constructor-arg></li>
-</ul>
-</li>
-</ul>
-<h5 id="引用类型属性自动注入"><a href="#引用类型属性自动注入" class="headerlink" title="引用类型属性自动注入"></a>引用类型属性自动注入</h5><p>对于引用类型属性的注入，也可不在配置文件中显示的注入。可以通过为<bean>标签<br>设置 autowire 属性值，为引用类型属性进行隐式自动注入（默认是不自动注入引用类型属<br>性）。根据自动注入判断标准的不同，可以分为两种：<br><br>byName：根据名称自动注入<br><br>byType： 根据类型自动注入<br><br>直接在bean标签内加上   autowire=”byName”</bean></p>
-<h4 id="为应用指定多个-Spring-配置文件"><a href="#为应用指定多个-Spring-配置文件" class="headerlink" title="为应用指定多个 Spring 配置文件"></a>为应用指定多个 Spring 配置文件</h4><p>在实际应用里，随着应用规模的增加，系统中 Bean 数量也大量增加，导致配置文件变<br>得非常庞大、臃肿。为了避免这种情况的产生，提高配置文件的可读性与可维护性，可以将<br>Spring 配置文件分解成多个配置文件。<br>包含关系的配置文件：<br><br>多个配置文件中有一个总文件，总配置文件将各其它子文件通过<import>引入。在 Java<br>代码中只需要使用总配置文件对容器进行初始化即可。<br><br>也可使用通配符*。但，此时要求父配置文件名不能满足*所能匹配的格式，否则将出现<br>循环递归包含。<br></import></p>
-<h3 id="基于注解的-DI"><a href="#基于注解的-DI" class="headerlink" title="基于注解的 DI"></a>基于注解的 DI</h3><p>对于 DI 使用注解，将不再需要在 Spring 配置文件中声明 bean 实例。<br><br>Spring 中使用注解，需要在 Spring 配置文件中<strong>配置组件扫描器</strong>，用于在指定的基本包中扫描注解。<br>指定多个包的三种方式：<br><br>1)使用多个 context:component-scan 指定不同的包路<br><br>2)指定 base-package 的值使用分隔符<br><br>3)base-package 是指定到父包名<br></p>
-<h5 id="注解方式声明bean"><a href="#注解方式声明bean" class="headerlink" title="注解方式声明bean"></a>注解方式声明bean</h5><ul>
-<li>定义 Bean 的注解@Component</li>
-<li>@Repository 用于对 DAO 实现类进行注解</li>
-<li>@Service 用于对 Service 实现类进行注解</li>
-<li>@Controller 用于对 Controller 实现类进行注解<br></li>
-</ul>
-<p>这三个注解与@Component 都可以创建对象，但这三个注解还有其他的含义：<br></p>
-<p>@Service创建业务层对象，业务层对象可以加入事务功能，<br><br>@Controller 注解创建的对象可以作为处理器接收用户的请求。<br><br>@Repository，@Service，@Controller 是对@Component 注解的细化，标注不同层的对象。即持久层对象，业务层对象，控制层对象。<br></p>
-<h3 id="Component-和-Bean-的区别"><a href="#Component-和-Bean-的区别" class="headerlink" title="@Component 和 @Bean 的区别"></a><code>@Component</code> 和 <code>@Bean</code> 的区别</h3><ol>
-<li>作用对象不同：**@Component <strong>注解作用于</strong>类<strong>，而 <strong>@Bean</strong> 注解作用于</strong>方法**、</li>
-<li>@Component 通常是通过路径扫描来自动侦测以及自动装配到 Spring 容器中(我们可以使用 @ComponentScan 注解定义要扫描的路径从中找出标识了需要装配的类自动装配到 Spring 的 bean 容器中)。@Bean 注解通常是我们在标有该注解的方法中定义产生这个 bean，@Bean 告诉了 Spring 这是某个类的实例，当我们需要用它的时候还给我。</li>
-<li>@Bean 注解比 @Component 注解的自定义性更强，而且很多地方我们只能通过 @Bean 注解来注册 bean。</li>
-</ol>
-<h5 id="简单类型属性注入-Value"><a href="#简单类型属性注入-Value" class="headerlink" title="简单类型属性注入@Value"></a>简单类型属性注入@Value</h5><p>需要在属性上使用注解@Value，该注解的 value 属性用于指定要注入的值。<br>使用该注解完成属性注入时，类中无需 setter。</p>
-<figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    @Value(<span class="string">&quot;张三&quot;</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> name;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="AutoWired"><a href="#AutoWired" class="headerlink" title="@AutoWired"></a>@AutoWired</h4><h5 id="byType-自动注入-Autowired"><a href="#byType-自动注入-Autowired" class="headerlink" title="byType 自动注入@Autowired"></a>byType 自动注入@Autowired</h5><p>该注解默认使用<strong>按类型自动装配 Bean</strong></p>
-<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="symbol">Student</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> age;</span><br><span class="line">	<span class="comment">/******/</span></span><br><span class="line">    @Autowired</span><br><span class="line">    <span class="keyword">private</span> School school;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="byName-自动注入-Autowired-与-Qualifier"><a href="#byName-自动注入-Autowired-与-Qualifier" class="headerlink" title="byName 自动注入@Autowired 与@Qualifier"></a>byName 自动注入@Autowired 与@Qualifier</h5><p>需要在引用属性上联合使用注解@Autowired 与@Qualifier。@Qualifier 的 value 属性用<br>于指定要匹配的 Bean 的 id 值。类中无需 set 方法，也可加到 set 方法上。<br><br>@Autowired 还有一个属性 required，默认值为 true，表示当匹配失败后，会终止程序运<br>行。若将其值设置为 false，则匹配失败，将被忽略，未匹配的属性值为 null。<br></p>
-<h4 id="JDK-注解-Resource-自动注入"><a href="#JDK-注解-Resource-自动注入" class="headerlink" title="JDK 注解@Resource 自动注入"></a>JDK 注解@Resource 自动注入</h4><p>Spring提供了对 jdk中@Resource注解的支持。@Resource 注解既可以按名称匹配Bean，<br>也可以按类型匹配 Bean。默认是按名称注入。使用该注解，要求 JDK 必须是 6 及以上版本。<br>@Resource 可在属性上，也可在 set 方法上。<br></p>
-<p>@Resource 注解若不带任何参数，采用<strong>默认按名称的方式</strong>注入，按名称不能注入 bean，<br>则会按照类型进行 Bean 的匹配注入。</p>
-<hr>
-<h2 id="3-AOP面向切面编程"><a href="#3-AOP面向切面编程" class="headerlink" title="3.AOP面向切面编程"></a>3.AOP面向切面编程</h2><p>AOP（Aspect Orient Programming），面向切面编程。面向切面编程是从动态角度考虑程<br>序运行过程。<br><br>AOP 底层，就是采用动态代理模式实现的。采用了两种代理：<strong>JDK 的动态代理，与 CGLIB的动态代理。</strong><br></p>
-<p>JDK动态代理，必须要实现接口<br>    - 创建目标类<br>    - 创建<strong>InvocationHandler</strong>接口的实现类重写<strong>Invoke</strong>，在这个类实现给目标方法增加功能<br>    - 使用JDK中的类<strong>proxy</strong>，创建代理对象，实现创建对象的能力，在使用代理对象调用方法</p>
-<p>CGLIB的动态代理，字节码的编辑器，asm编辑器，原理是继承，通过继承目标类生成代理类，只要求目标类不是final修饰的就行</p>
-<h3 id="Aop术语"><a href="#Aop术语" class="headerlink" title="Aop术语"></a>Aop术语</h3><ol>
-<li>切面（Aspect）<br><br>切面泛指交叉业务逻辑。上例中的事务处理、日志处理就可以理解为切面。常用的切面<br>是通知（Advice）。实际就是对主业务逻辑的一种增强。</li>
-<li>连接点（JoinPoint）<br><br>连接点指可以被切面织入的具体方法。通常业务接口中的方法均为连接点。</li>
-<li>切入点（Pointcut）<br><br>切入点指声明的一个或多个连接点的集合。通过切入点指定一组方法。<br><br>被标记为 final 的方法是不能作为连接点与切入点的。因为最终的是不能被修改的，不<br>能被增强的。我们通常使用明确的类和方法名称，或者是使用正则表达式定义所匹配的类和方法名称来指定切点。</li>
-<li>目标对象（Target）<br><br>目 标 对 象 指 将 要 被 增 强 的 对 象 。 即 包 含 主 业 务 逻 辑 的 类 的 对 象 。 上 例 中 的<br>StudentServiceImpl 的对象若被增强，则该类称为目标类，该类对象称为目标对象。当然，<br>不被增强，也就无所谓目标不目标了。</li>
-<li>通知（Advice）<br>通知表示切面的执行时间，Advice 也叫增强。上例中的 MyInvocationHandler 就可以理<br>解为是一种通知。换个角度来说，通知定义了增强代码切入到目标代码的时间点，是目标方<br>法执行之前执行，还是之后执行等。通知类型不同，切入时间不同。<br></li>
-</ol>
-<p>  <strong>切入点定义切入的位置，通知定义切入的时间</strong>。</p>
-<h4 id="AOP的主要实践-aspectj"><a href="#AOP的主要实践-aspectj" class="headerlink" title="AOP的主要实践 aspectj"></a>AOP的主要实践 aspectj</h4><p> aspectj有两种实现方式：<br><br> 1.使用xml配置<br> 2.使用注解（常用5个：@Before，@AfterReturning，**@Around**，@AfterThrowing，@After）</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>spring</category>
-        <category>IOC&amp;AOP</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>Spring</tag>
-        <tag>Ioc</tag>
-        <tag>Aop</tag>
       </tags>
   </entry>
   <entry>
@@ -1807,89 +2060,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java基础提升_多线程</title>
-    <url>/2021/08/05/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
-    <content><![CDATA[<h2 id="线程创建方式"><a href="#线程创建方式" class="headerlink" title="线程创建方式"></a>线程创建方式</h2><ol>
-<li>继承Thread类<ul>
-<li>start()方法是一个 native 方法,它将启动一个新线程，并执行 run()方法。</li>
-</ul>
-</li>
-<li>实现runnable接口，<ul>
-<li>当一个类已经有继承了，此时可通过实现runnable接口来创建线程</li>
-</ul>
-</li>
-<li>采用线程池，实现callable接口（有返回）,ExecutorService<ul>
-<li>有返回值的任务必须实现 Callable 接口。执行Callable 任务后，可以获取一个 Future 的对象，在该对象上调用 get 就可以获取到 Callable 任务返回的 Object 了，再结合线程池接口 ExecutorService 就可以实现传说中有返回结果的多线程了。</li>
-</ul>
-</li>
-</ol>
-<h2 id="多线程中的主要问题"><a href="#多线程中的主要问题" class="headerlink" title="多线程中的主要问题"></a>多线程中的主要问题</h2><ol>
-<li>可见性问题<br> volatile修饰，保证了多线程之间的内存可见性</li>
-<li>原子性问题<br> AtomicInteger</li>
-<li>有序性问题<br> volatile 防止指令重排序</li>
-<li>死锁的问题</li>
-</ol>
-<h2 id="synchronized-关键字"><a href="#synchronized-关键字" class="headerlink" title="synchronized 关键字"></a>synchronized 关键字</h2><h3 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h3><ol>
-<li><p>修饰一个<strong>代码块</strong>，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； </p>
-</li>
-<li><p>修饰一个<strong>方法</strong>，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； </p>
-</li>
-<li><p>修改一个<strong>静态的方法</strong>，其作用的范围是整个静态方法，作用的对象是这个==类的所有对象==； </p>
-</li>
-<li><p>修改一个<strong>类</strong>，其作用的范围是synchronized后面括号括起来的部分，作用主的对象是这个类的所有对象。</p>
-<span id="more"></span>
-<h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3></li>
-<li><p>修饰代码块时：<br>synchronized是JVM层面的，同步语句块的实现使用的是<strong>monitorenter 和 monitorexit</strong>指令，其中 monitorenter 指令指向同步代码块的开始位置，monitorexit 指令则指明同步代码块的结束位置。当执行 monitorenter 指令时，线程试图获取锁也就是获取 monitor(monitor对象存在于每个<strong>Java对象的对象头</strong>中，synchronized 锁便是通过这种方式获取锁的，也是为什么Java中任意对象可以作为原因)</p>
-</li>
-<li><p>synchronized 修饰方法时：<br>synchronized 修饰的方法并没有 monitorenter 指令和 monitorexit 指令，取而代之的确实是 ACC_SYNCHRONIZED 标识，该标识指明了该方法是一个同步方法，JVM 通过该 ACC_SYNCHRONIZED 访问标志来辨别一个方法是否声明为同步方法，从而执行相应的同步调用。</p>
-</li>
-</ol>
-<h2 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h2><p>作用：保证变量的可见性然后还有一个作用是防止指令重排序。</p>
-<h3 id="synchronized关键字和volatile关键字比较"><a href="#synchronized关键字和volatile关键字比较" class="headerlink" title="synchronized关键字和volatile关键字比较"></a>synchronized关键字和volatile关键字比较</h3><ul>
-<li>volatile关键字是线程同步的轻量级实现，所以volatile性能肯定比synchronized关键字要好。但是<strong>volatile关键字只能用于变量</strong>而synchronized关键字可以修饰方法以及代码块。synchronized关键字在JavaSE1.6之后进行了主要包括为了减少获得锁和释放锁带来的性能消耗而引入的偏向锁和轻量级锁以及其它各种优化之后执行效率有了显著提升，实际开发中使用 synchronized 关键字的场景还是更多一些。</li>
-<li>多线程访问volatile关键字不会发生阻塞，而synchronized关键字可能会发生阻塞</li>
-<li>volatile关键字能保证数据的可见性，但不能保证数据的原子性。synchronized关键字两者都能保证。</li>
-<li>volatile关键字主要用于解决变量在多个线程之间的可见性，而 synchronized关键字解决的是多个线程之间访问资源的同步性。<h3 id="wait和notify"><a href="#wait和notify" class="headerlink" title="wait和notify"></a>wait和notify</h3>wait和notify这两个方法是一对，wait方法阻塞当前线程，而notify是唤醒被wait方法阻塞的线程。<br></li>
-</ul>
-<ol>
-<li><p>wait()、notify/notifyAll() 方法是Object的本地final方法，无法被重写。</p>
-</li>
-<li><p>wait()使当前线程阻塞，前提是 必须先获得锁，一般配合synchronized 关键字使用，即，一般在synchronized 同步代码块里使用 wait()、notify/notifyAll() 方法。</p>
-</li>
-<li><p> 由于 wait()、notify/notifyAll() 在synchronized 代码块执行，说明当前线程一定是获取了锁的。<br><br>当线程执行wait()方法时候，会释放当前的锁，然后让出CPU，进入等待状态。<br>只有当 notify/notifyAll() 被执行时候，才会唤醒一个或多个正处于等待状态的线程，然后继续往下执行，直到执行完synchronized 代码块的代码或是中途遇到wait() ，再次释放锁。<br>也就是说，notify/notifyAll() 的执行只是唤醒沉睡的线程，而不会立即释放锁，锁的释放要看代码块的具体执行情况。所以在编程中，尽量在使用了notify/notifyAll() 后立即退出临界区，以唤醒其他线程让其获得锁</p>
-</li>
-<li><p>wait() 需要被try catch包围，以便发生异常中断也可以使wait等待的线程唤醒。</p>
-</li>
-<li><p>notify 和wait 的顺序不能错，如果A线程先执行notify方法，B线程在执行wait方法，那么B线程是无法被唤醒的。</p>
-</li>
-<li><p>notify 和 notifyAll的区别<br>notify方法只唤醒一个等待（对象的）线程并使该线程开始执行。所以如果有多个线程等待一个对象，这个方法只会唤醒其中一个线程，选择哪个线程取决于操作系统对多线程管理的实现。notifyAll 会唤醒所有等待(对象的)线程，尽管哪一个线程将会第一个处理取决于操作系统的实现。如果当前情况下有多个线程需要被唤醒，推荐使用notifyAll 方法。比如在生产者-消费者里面的使用，每次都需要唤醒所有的消费者或是生产者，以判断程序是否可以继续往下执行。</p>
-</li>
-<li><p>在多线程中要测试某个条件的变化，使用if 还是while？<br>　　要注意，notify唤醒沉睡的线程后，线程会接着上次的执行继续往下执行。所以在进行条件判断时候，可以先把 wait 语句忽略不计来进行考虑；显然，要确保程序一定要执行，并且要保证程序直到满足一定的条件再执行，要使用while进行等待，</p>
-</li>
-</ol>
-<h2 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h2><p>join() 定义在Thread.java中。<br>join() 的作用：让“主线程”等待“子线程”结束之后才能继续运行。<br>注意：如果线程被生成了，但还未被起动，调用它的 join() 方法是没有作用的，将直接继续向下执行</p>
-<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 主线程</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Father</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        <span class="type">Son</span> s = <span class="keyword">new</span> <span class="type">Son</span>();</span><br><span class="line">        s.start();</span><br><span class="line">        s.join();</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子线程</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="ThreadLocal详解"><a href="#ThreadLocal详解" class="headerlink" title="ThreadLocal详解"></a>ThreadLocal详解</h2><p>作用：</p>
-<ol>
-<li>每个线程独立的变量 </li>
-<li>可以贯穿整个线程的全局变量，避免参数传递</li>
-</ol>
-<h3 id="InheritableThreadLocal"><a href="#InheritableThreadLocal" class="headerlink" title="InheritableThreadLocal"></a>InheritableThreadLocal</h3><p>如果我想共享线程的ThreadLocal数据怎么办？使用InheritableThreadLocal可以实现多个线程访问ThreadLocal的值，我们在主线程中创建一个InheritableThreadLocal的实例，然后在子线程中得到这个InheritableThreadLocal实例设置的值。</p>
-<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>另外开坑写单独篇</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>基础</category>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
