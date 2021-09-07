@@ -190,6 +190,382 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/07/05/java%E5%9F%BA%E7%A1%80/String%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/05/java%E5%9F%BA%E7%A1%80/String%E7%B1%BB/" class="post-title-link" itemprop="url">Java基础提升_String类</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-05 18:06:07" itemprop="dateCreated datePublished" datetime="2021-07-05T18:06:07+08:00">2021-07-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/String/" itemprop="url" rel="index"><span itemprop="name">String</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="String（字符串常量）概述"><a href="#String（字符串常量）概述" class="headerlink" title="String（字符串常量）概述"></a>String（字符串常量）概述</h1><p>在API中是这样描述：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*String 类代表字符串。Java 程序中的所有字符串字面值（如 &quot;abc&quot; ）都作为此类的实例实现。</span></span><br><span class="line"><span class="comment">字符串是常量；它们的值在创建之后不能更改。字符串缓冲区支持可变的字符串。因为 String 对象是不可变的，所以可以共享。</span></span><br><span class="line"><span class="comment">       String str = &quot;abc&quot;;</span></span><br><span class="line"><span class="comment">   </span></span><br><span class="line"><span class="comment">相当于：</span></span><br><span class="line"><span class="comment">       char data[] = &#123;&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;&#125;;</span></span><br><span class="line"><span class="comment">       String str = new String(data);</span></span><br><span class="line"><span class="comment">   </span></span><br><span class="line"><span class="comment">以下是一些有关如何使用字符串的更多示例：</span></span><br><span class="line"><span class="comment">       System.out.println(&quot;abc&quot;);</span></span><br><span class="line"><span class="comment">       String cde = &quot;cde&quot;;</span></span><br><span class="line"><span class="comment">       System.out.println(&quot;abc&quot; + cde);</span></span><br><span class="line"><span class="comment">       String c = &quot;abc&quot;.substring(2,3);</span></span><br><span class="line"><span class="comment">       String d = cde.substring(1, 2);</span></span><br><span class="line"><span class="comment">   </span></span><br><span class="line"><span class="comment">类String包括用于检查序列中的单个字符、比较字符串、搜索字符串、提取子字符串以及创建所有字符都转换为大写或小写的字符串副本的方法。 大小写映射基于Character类指定的 Unicode 标准版本。</span></span><br><span class="line"><span class="comment">...</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">String</span></span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">String</span>&gt;, <span class="title">CharSequence</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>需要注意的是：String是一个<strong>不可变对象</strong>，可以认为是特殊的常量，因此存在方法区的<strong>运行时常量池</strong>中，可以被共享使用(<strong>享元模式</strong>),而不是创建一个新对象，但是这样的做法仅仅适合于通过=符号进行的初始化<br></p>
+</blockquote>
+<p>由此引申出许多判断各种情况下，string对象是否相等的判断</p>
+<h2 id="常见的String-比较"><a href="#常见的String-比较" class="headerlink" title="常见的String == 比较"></a>常见的String == 比较</h2><p>首先，我们在比较两个string对象之前，需要了解：</p>
+<ol>
+<li>通过<strong>构造方法</strong>创建（new创建）的String对象，存放在java虚拟机的<strong>堆内存</strong>，堆内存里存放的是<strong>字符串常量的地址</strong>，字符串常量存放在方法区的常量池中；</li>
+<li>直接赋值：通过直接赋值所创建的对象直接是<strong>方法区中的常量池</strong>中的字符串常量。</li>
+</ol>
+<p>下面列举一些常见的比较例子：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">   String <span class="built_in">s1</span> = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">   String <span class="built_in">s2</span> = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">   String <span class="built_in">s3</span> = <span class="string">&quot;Hel&quot;</span> + <span class="string">&quot;lo&quot;</span>;</span><br><span class="line">   String <span class="built_in">s4</span> = <span class="string">&quot;Hel&quot;</span> + new String(<span class="string">&quot;lo&quot;</span>);</span><br><span class="line">   String <span class="built_in">s5</span> = new String(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">   String <span class="built_in">s6</span> = <span class="built_in">s5</span>.intern();</span><br><span class="line">   String <span class="built_in">s7</span> = <span class="string">&quot;H&quot;</span>;</span><br><span class="line">   String <span class="built_in">s8</span> = <span class="string">&quot;ello&quot;</span>;</span><br><span class="line">   String s9 = <span class="built_in">s7</span> + <span class="built_in">s8</span>;</span><br><span class="line"></span><br><span class="line">   System.out.println(<span class="built_in">s1</span> == <span class="built_in">s2</span>)<span class="comment">;  // true</span></span><br><span class="line">System.out.println(<span class="built_in">s1</span>.equals(<span class="built_in">s2</span>))<span class="comment">;  //true</span></span><br><span class="line">System.out.println(<span class="built_in">s1</span>.equals(<span class="built_in">s5</span>))<span class="comment">;  //true</span></span><br><span class="line">   System.out.println(<span class="built_in">s1</span> == <span class="built_in">s3</span>)<span class="comment">;  // true</span></span><br><span class="line">   System.out.println(<span class="built_in">s1</span> == <span class="built_in">s4</span>)<span class="comment">;  // false</span></span><br><span class="line">   System.out.println(<span class="built_in">s1</span> == s9)<span class="comment">;  // false</span></span><br><span class="line">   System.out.println(<span class="built_in">s4</span> == <span class="built_in">s5</span>)<span class="comment">;  // false</span></span><br><span class="line">   System.out.println(<span class="built_in">s1</span> == <span class="built_in">s6</span>)<span class="comment">;  // true</span></span><br></pre></td></tr></table></figure>
+<p>分析：</p>
+<ol>
+<li>s1 = = s2 很容易可以判断出来。s1 和 s2 都指向了方法区常量池中的Hello。</li>
+<li>s1 = = s3 这里要注意一下，因为做+号的时候，会进行优化，自动生成Hello赋值给s3，所以也是true</li>
+<li>s1 = = s4 s4是分别用了常量池中的字符串和存放对象的堆中的字符串，做+的时候会进行动态调用，最后生成的仍然是一个String对象存放在堆中。</li>
+<li>s1 = = s9 在JAVA9中，因为用的是动态调用，所以返回的是一个新的String对象。所以s9和s4，s5这三者都不是指向同一块内存</li>
+<li>s1 = = s6 为啥s1 和 s6地址相等呢？ 归功于intern方法，这个方法首先在常量池中查找是否存在一份equal相等的字符串如果有的话就返回该字符串的引用，没有的话就将它加入到字符串常量池中，所以存在于class中的常量池并非固定不变的，可以用intern方法加入新的</li>
+</ol>
+<h2 id="String、StringBuffer、StringBuilder。"><a href="#String、StringBuffer、StringBuilder。" class="headerlink" title="String、StringBuffer、StringBuilder。"></a>String、StringBuffer、StringBuilder。</h2><ul>
+<li>String 和 StringBuffer、StringBuilder 的区别在于 String 声明的是不可变的对象，<strong>每次操作</strong>都会生成<strong>新的 String 对象</strong>，然后将指针指向新的 String 对象；</li>
+<li>而 StringBuffer、StringBuilder 可以在<strong>原有对象的基础</strong>上进行操作，所以在经常改变字符串内容的情况下最好不要使用 String。</li>
+<li>StringBuffer 和 StringBuilder 最大的区别在于，<strong>StringBuffer</strong> 是<strong>线程安全</strong>的，而 <strong>StringBuilder</strong> 是<strong>非线程安全</strong>的；</li>
+<li>但 StringBuilder 的性能却高于 StringBuffer，所以在单线程环境下推荐使用 StringBuilder，多线程环境下推荐使用 StringBuffer。</li>
+</ul>
+<h2 id="如何将字符串反转"><a href="#如何将字符串反转" class="headerlink" title="如何将字符串反转"></a>如何将字符串反转</h2><p>使用 StringBuilder 或者 stringBuffer 的 reverse() 方法。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// StringBuffer reverse</span></span><br><span class="line">StringBuffer stringBuffer = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">stringBuffer.<span class="keyword">append</span>(<span class="string">&quot;abcdefg&quot;</span>);</span><br><span class="line">System.out.<span class="keyword">println</span>(stringBuffer.<span class="keyword">reverse</span>()); <span class="comment">// gfedcba</span></span><br></pre></td></tr></table></figure>
+<h2 id="String-类的常用方法都有那些？"><a href="#String-类的常用方法都有那些？" class="headerlink" title="String 类的常用方法都有那些？"></a>String 类的常用方法都有那些？</h2><ul>
+<li>indexOf()：返回指定字符的索引。</li>
+<li>charAt()：返回指定索引处的字符。</li>
+<li>replace()：字符串替换。</li>
+<li>trim()：去除字符串两端空白。</li>
+<li>split()：分割字符串，返回一个分割后的字符串数组。</li>
+<li>getBytes()：返回字符串的 byte 类型数组。</li>
+<li>length()：返回字符串长度。</li>
+<li>toLowerCase()：将字符串转成小写字母。</li>
+<li>toUpperCase()：将字符串转成大写字符。</li>
+<li>substring()：截取字符串。</li>
+<li>equals()：字符串比较。</li>
+</ul>
+
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/07/05/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/05/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/" class="post-title-link" itemprop="url">Java基础提升_Object</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-05 18:06:07" itemprop="dateCreated datePublished" datetime="2021-07-05T18:06:07+08:00">2021-07-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/Object/" itemprop="url" rel="index"><span itemprop="name">Object</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Object类  是类层次结构的根类。</p>
+<p>Object类是所有类的超类。所有对象（包括数组）都实现这个类的方法。</p>
+<p>所以需要了解Object类的所有方法：</p>
+<h3 id="1-hashCode"><a href="#1-hashCode" class="headerlink" title="1.hashCode()"></a>1.hashCode()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span>；</span></span><br></pre></td></tr></table></figure>
+<p>返回该对象的哈希码值。默认情况下，该方法会根据对象的地址来计算。<br>不同对象的 hashCode() 的值一般是不相同。但是，同一个对象的hashCode() 值肯定相同。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/05/java%E5%9F%BA%E7%A1%80/Object%E7%B1%BB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/07/01/%E7%AE%97%E6%B3%95%E7%AF%87/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/01/%E7%AE%97%E6%B3%95%E7%AF%87/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/" class="post-title-link" itemprop="url">排序算法比较</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-01 09:17:30" itemprop="dateCreated datePublished" datetime="2021-07-01T09:17:30+08:00">2021-07-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="各排序算法比较"><a href="#各排序算法比较" class="headerlink" title="各排序算法比较"></a>各排序算法比较</h3><table>
+<thead>
+<tr>
+<th>类别</th>
+<th>排序方法</th>
+<th>时间复杂度</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>复杂性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+<td>最好-平均-最坏</td>
+<td>辅助存储</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>插入排序</td>
+<td>1-1直接插入</td>
+<td>O(N)-O(N2)-O(N2)</td>
+<td>O(1)</td>
+<td>稳定</td>
+<td>简单</td>
+</tr>
+<tr>
+<td>插入排序</td>
+<td>1-2希尔排序</td>
+<td>O(N)-O(N1.3)-O(N2)</td>
+<td>O(1)</td>
+<td>不稳定</td>
+<td>复杂</td>
+</tr>
+<tr>
+<td>选择排序</td>
+<td>2-1直接选择</td>
+<td>O(N)-O(N2)-O(N2)</td>
+<td>O(1)</td>
+<td>不稳定</td>
+<td>简单</td>
+</tr>
+<tr>
+<td>选择排序</td>
+<td>2-2堆排序</td>
+<td>O(N<em>log2N)-O(N</em>log2N)-O(N*log2N)</td>
+<td>O(1)</td>
+<td>不稳定</td>
+<td>复杂</td>
+</tr>
+<tr>
+<td>交换排序</td>
+<td>3-1冒泡排序</td>
+<td>O(N)-O(N2)-O(N2)</td>
+<td>O(1)</td>
+<td>稳定</td>
+<td>简单</td>
+</tr>
+<tr>
+<td>交换排序</td>
+<td>3-2快速排序</td>
+<td>O(N<em>log2N)-O(N</em>log2N)- O(N2)</td>
+<td>O(log2n)~O(n)</td>
+<td>不稳定</td>
+<td>复杂</td>
+</tr>
+<tr>
+<td>归并排序</td>
+<td></td>
+<td>O(N<em>log2N)-O(N</em>log2N)-O(N*log2N)</td>
+<td>O(1)</td>
+<td>稳定</td>
+<td>复杂</td>
+</tr>
+<tr>
+<td>基数排序</td>
+<td></td>
+<td>O(d(r+n))-O(d(r+n))-O(d(r+n))</td>
+<td>O(rd+n)</td>
+<td>稳定</td>
+<td>复杂</td>
+</tr>
+</tbody></table>
+<h3 id="1-冒泡排序"><a href="#1-冒泡排序" class="headerlink" title="1.冒泡排序"></a>1.冒泡排序</h3><p>1、冒泡排序是一种用时间换空间的排序方法<br>2、最坏情况是把顺序的排列变成逆序，或者把逆序的数列变成顺序，最差时间复杂度O(N^2)只是表示其操作次数的数量级<br>3、最好的情况是数据本来就有序，复杂度为O(n)</p>
+<h3 id="2-快速排序"><a href="#2-快速排序" class="headerlink" title="2.快速排序"></a>2.快速排序</h3><p>1、n大时好，快速排序比较占用内存，内存随n的增大而增大，但却是效率高不稳定的排序算法。<br>2、划分之后一边是一个，一边是n-1个，<br>这种极端情况的时间复杂度就是O(N^2)<br>3、最好的情况是每次都能均匀的划分序列，O(N*log2N)</p>
+<h3 id="3-归并排序"><a href="#3-归并排序" class="headerlink" title="3.归并排序"></a>3.归并排序</h3><p>1、n大时好，归并比较占用内存，内存随n的增大而增大，但却是效率高且稳定的排序算法。</p>
+
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/06/15/shell/unix%E4%B8%ADfor%E5%BE%AA%E7%8E%AF%E7%9A%84%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -660,92 +1036,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/22/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/" class="post-title-link" itemprop="url">Macbook外接显示器需要注意的设置</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%A1%AC%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">硬件</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%A1%AC%E4%BB%B6/mac/" itemprop="url" rel="index"><span itemprop="name">mac</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>设备：MacBook Pro2018 A1989<br>系统：BigSur11.2.3<br>外接的显示器：Dell P2319H</p>
-<h2 id="颜色问题"><a href="#颜色问题" class="headerlink" title="颜色问题"></a>颜色问题</h2><p>mac 会将外接显示器识别为TV，会用 YCbCr 色域来输出,我们需要使用脚本来为外接显示器生成强制RGB渲染的颜色描述文件，然后替换掉系统原有颜色描述文件，来使显示器用RGB模式显示。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/22/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/%E7%AE%97%E6%B3%95%E7%AF%87/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -911,181 +1201,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/" class="post-title-link" itemprop="url">mysql知识点</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="用-rownum-rownum-1-实现-rownum-功能"><a href="#用-rownum-rownum-1-实现-rownum-功能" class="headerlink" title="用 @rownum := @rownum+1 实现 rownum 功能"></a>用 @rownum := @rownum+1 实现 rownum 功能</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="variable">@rownum</span> :<span class="operator">=</span> <span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">AS</span> rownum, </span><br><span class="line">               table1.<span class="operator">*</span> </span><br><span class="line">  <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) r ，</span><br><span class="line">       table1;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/22/sql/sql%E4%B8%AD%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84%E5%86%99%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/" class="post-title-link" itemprop="url">oracle大批量数据更新操作，提供并发&小事务</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-22 11:46:27" itemprop="dateCreated datePublished" datetime="2021-05-22T11:46:27+08:00">2021-05-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/oracle/" itemprop="url" rel="index"><span itemprop="name">oracle</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>oracle提供了很好用的大数据量数据更新的函数dbms_parallel_execute，改用dbms_parallel_execute执行，可以进行并行更新并且事务大小可控。</p>
-<p>以下在命令窗口执行：</p>
-<ol>
-<li>首先创建一个TASK，名称为update_pzjcxx:<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_task(<span class="string">&#x27;update_pzjcxx&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
-<li>把将要更新的表按照ROWID进行分批，分到各个CHUNK中：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">exec</span> dbms_parallel_execute.create_chunks_by_rowid(task_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;update_pzjcxx&#x27;</span>,table_owner <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;V7PROD&#x27;</span>,table_name <span class="operator">=</span><span class="operator">&gt;</span> <span class="string">&#x27;KCDY_PZJCXX&#x27;</span>,by_row <span class="operator">=</span><span class="operator">&gt;</span> <span class="literal">true</span>,chunk_size <span class="operator">=</span><span class="operator">&gt;</span> <span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
-BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行；如果是FALSE，则后面的CHUNK_SIZE表示的是BLOCK。<br>CHUNK_SIZE：CHUNK大小。如果BY_ROW为TRUE，表示多少行分为一个CHUNK；如果BY_ROW为FALSE，则表示多少块分为一个CHUNK。</li></ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/22/sql/oracle%E5%A4%A7%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1157,20 +1272,20 @@ BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">54</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">60</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1192,7 +1307,7 @@ BY_ROW：分CHUNK的类型。如果为TRUE，则后面的CHUNK_SIZE表示是行�
     <h3 class="widget-title">标签云</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
         <canvas width="250" height="250" id="resCanvas" style="width=100%">
-            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/n/" rel="tag">n</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nextcloud%E9%98%BF%E9%87%8C/" rel="tag">nextcloud阿里</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
         </canvas>
     </div>
 </div>
