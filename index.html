@@ -266,6 +266,352 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/10/13/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Centos%E4%B8%8Bdocker%E6%A8%A1%E5%BC%8F%E4%B8%8B%E5%AE%89%E8%A3%85gitlab%E7%A7%81%E6%9C%89%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/13/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Centos%E4%B8%8Bdocker%E6%A8%A1%E5%BC%8F%E4%B8%8B%E5%AE%89%E8%A3%85gitlab%E7%A7%81%E6%9C%89%E5%BA%93/" class="post-title-link" itemprop="url">Centos下docker模式下安装gitlab私有库</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-10-13 09:44:36" itemprop="dateCreated datePublished" datetime="2021-10-13T09:44:36+08:00">2021-10-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/" itemprop="url" rel="index"><span itemprop="name">环境安装</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/Centos/" itemprop="url" rel="index"><span itemprop="name">Centos</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>主机信息：阿里云ECS</p>
+<p>CPU&amp;内存：1核2 GiB </p>
+<p>磁盘：100G</p>
+<p>操作系统：CentOS 8.4 64位</p>
+</blockquote>
+<h3 id="1-gitlab镜像拉取"><a href="#1-gitlab镜像拉取" class="headerlink" title="1.gitlab镜像拉取"></a>1.gitlab镜像拉取</h3><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># gitlab-ce为稳定版本，后面不填写版本则默认pull最新latest版本</span></span><br><span class="line"><span class="variable">$ </span>docker pull gitlab/gitlab-ce</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-运行gitlab镜像"><a href="#2-运行gitlab镜像" class="headerlink" title="2.运行gitlab镜像"></a>2.运行gitlab镜像</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -d  -p <span class="number">443</span>:<span class="number">443</span> -p <span class="number">80</span>:<span class="number">80</span> -p <span class="number">222</span>:<span class="number">22</span> --name gitlab --restart always -v /root/gitlab/config:/etc/gitlab -v /root/gitlab/logs:/<span class="keyword">var</span>/log/gitlab -v /root/gitlab/data:/<span class="keyword">var</span>/opt/gitlab gitlab/gitlab-ce</span><br><span class="line"><span class="meta"># -d：后台运行</span></span><br><span class="line"><span class="meta"># -p：将容器内部端口向外映射</span></span><br><span class="line"><span class="meta"># --name：命名容器名称</span></span><br><span class="line"><span class="meta"># -v：将容器内数据文件夹或者日志、配置等文件夹挂载到宿主机指定目录</span></span><br></pre></td></tr></table></figure>
+
+<p>以上操作完似乎就可以使用了，/root/gitlab/config 中有root用户的初始密码。</p>
+<h3 id="3-然而"><a href="#3-然而" class="headerlink" title="3.然而"></a>3.然而</h3><p>运行后主机死翘翘了，内存太低，直接100%，ssh都登不上了。</p>
+<p>不慌，阿里巴巴控制台强制重启，然后进去把docker中的gitlab停了。</p>
+<h3 id="4-低配置主机添加swap空间"><a href="#4-低配置主机添加swap空间" class="headerlink" title="4.低配置主机添加swap空间"></a>4.低配置主机添加swap空间</h3><p>使用磁盘当内存，速度慢但还勉强能用。</p>
+<h4 id="一-添加SWAP空间"><a href="#一-添加SWAP空间" class="headerlink" title="一.添加SWAP空间"></a>一.添加SWAP空间</h4><p>使用dd命令创建名为swapfile 的swap交换文件（文件名和目录任意）:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1.  dd  <span class="attribute">if</span>=/dev/zero  <span class="attribute">of</span>=/var/swapfile  <span class="attribute">bs</span>=1024  <span class="attribute">count</span>=2097152  </span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   dd  <span class="attribute">if</span>=/dev/zero  <span class="attribute">of</span>=/var/swapfile  <span class="attribute">bs</span>=1024  <span class="attribute">count</span>=2048k</span><br><span class="line">[root@aliyun ~]# dd  <span class="attribute">if</span>=/dev/zero  <span class="attribute">of</span>=/var/swapfile  <span class="attribute">bs</span>=1024  <span class="attribute">count</span>=2048k</span><br><span class="line">记录了2097152+0 的读入</span><br><span class="line">记录了2097152+0 的写出</span><br><span class="line">2147483648字节(2.1 GB)已复制，31.7458 秒，67.6 MB/秒</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>科普：if(即输入文件,input file)，of(即输出文件,output file)。dev/zero是Linux的一种特殊字符设备(输入设备)，可以用来创建一个指定长度用于初始化的空文件，如临时交换文件，该设备无穷尽地提供0，可以提供任何你需要的数目。 bs=1024 ：单位数据块（block）同时读入/输出的块字节大小为1024 个字节即1KB，bs(即block size)。count=2048000 ：数据块（block）数量为2048000 ，即2048000个1KB。可以计算swap分区的容量为：1KB <em>2097152=1KB *1024(k)*1024</em>2=2097152=2G。（dd命令里的单位M表示1024*1024,k表示1024）。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">回车后，会执行2g的读写操作，系统会卡一段时间，耐心等待执行结果。</span><br></pre></td></tr></table></figure>
+
+<p>执行完毕，对交换文件格式化并转换为swap分区：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  mkswap  <span class="regexp">/var/</span>swapfile  </span><br><span class="line">[root@aliyun ~]# mkswap <span class="regexp">/var/</span>swapfile</span><br><span class="line">正在设置交换空间版本 <span class="number">1</span>，大小 = <span class="number">2097148</span> KiB</span><br><span class="line">无标签，UUID=f88182d5-<span class="number">1155</span>-<span class="number">4</span>cf4-<span class="number">8</span>cb9-<span class="number">5</span>db460d9ac4e</span><br></pre></td></tr></table></figure>
+
+<p>挂载并激活分区：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  swapon   <span class="regexp">/var/</span>swapfile  </span><br><span class="line">[root@aliyun ~]# swapon <span class="regexp">/var/</span>swapfile</span><br><span class="line">swapon: <span class="regexp">/var/</span>swapfile：不安全的权限 <span class="number">0644</span>，建议使用 <span class="number">0600</span>。</span><br></pre></td></tr></table></figure>
+
+<p>执行以上命令可能会出现：“不安全的权限 0644，建议使用 0600”类似提示，不要紧张，实际上已经激活了，可以忽略提示，也可以听从系统的建议修改下权限：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  chmod -R <span class="number">0600</span> <span class="regexp">/var/</span>swapfile  </span><br></pre></td></tr></table></figure>
+
+<p>这时候可以用 free –h 或 swapon –s命令查看新swap分区是否正常添加并激活使用。</p>
+<p>修改 fstab 配置，设置开机自动挂载该分区：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  vim    <span class="regexp">/etc/</span>fstab  </span><br></pre></td></tr></table></figure>
+
+<p>在fstab文件末尾追加如下内容后:wq!保存即可：<br>/var/swapfile swap swap defaults 0 0<br>或直接对fstab进行echo追加:</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>  echo  <span class="string">&quot;/var/swapfile   swap  swap  defaults  0  0&quot;</span> &gt;&gt;  <span class="regexp">/etc/</span>fstab  </span><br></pre></td></tr></table></figure>
+
+<h4 id="二-删除某swap分区"><a href="#二-删除某swap分区" class="headerlink" title="二. 删除某swap分区"></a>二. 删除某swap分区</h4><p>先停止正在使用swap分区：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  swapoff  <span class="regexp">/var/</span>swapfile  </span><br></pre></td></tr></table></figure>
+
+<p>删除swap分区文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  rm -rf   <span class="regexp">/var/</span>swapfile  </span><br></pre></td></tr></table></figure>
+
+<p>删除或注释掉我们之前在fstab文件里追加的开机自动挂载配置内容：<br>/var/swapfile swap swap defaults 0 0</p>
+<h1 id="————————————————–"><a href="#————————————————–" class="headerlink" title="————————————————–"></a>————————————————–</h1><h4 id="三-更改Swap配置（进阶级"><a href="#三-更改Swap配置（进阶级" class="headerlink" title="三. 更改Swap配置（进阶级)"></a>三. 更改Swap配置（进阶级)</h4><blockquote>
+<p>swappiness值（0-100），系统对swap分区的依赖程度，越高则越倾向于使用swap分区。<br>当然，高度依赖swap会造成物理内存远未使用完，就使用swap分区，我们知道swap分区性能远不如物理内存，这反而降低了系统性能，违背了我们创建swap分区的初衷。<br>我们希望在物理内存即将满荷时再使用swap，这就决定了swappiness值一般为10-60为宜，固态硬盘可以偏高些。<br>查看当前的swappiness数值：</p>
+</blockquote>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  cat   <span class="regexp">/proc/</span>sys<span class="regexp">/vm/</span>swappiness   </span><br></pre></td></tr></table></figure>
+
+<p>修改swappiness值，这里以50为例。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1.  sysctl vm.<span class="attribute">swappiness</span>=50   </span><br></pre></td></tr></table></figure>
+
+<p>若希望vm.swappiness=50永久生效，则需要修改sysctl配置文件，直接echo追加配置内容，重启系统后即可生效：</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>  echo <span class="string">&quot;vm.swappiness = 50&quot;</span>  &gt;&gt;  <span class="regexp">/etc/</span>sysctl.conf</span><br></pre></td></tr></table></figure>
+
+<h1 id="————————————————–-1"><a href="#————————————————–-1" class="headerlink" title="————————————————–"></a>————————————————–</h1><h4 id="四-增加-扩大-swap分区大小"><a href="#四-增加-扩大-swap分区大小" class="headerlink" title="四. 增加(扩大)swap分区大小"></a>四. 增加(扩大)swap分区大小</h4><ol>
+<li>首先我们来查看swap空间的大小</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># free -m</span></span><br><span class="line">             <span class="string">total</span>       <span class="string">used</span>       <span class="string">free</span>     <span class="string">shared</span>    <span class="string">buffers</span>     <span class="string">cached</span></span><br><span class="line"><span class="attr">Mem:</span>          <span class="number">2026       </span><span class="number">1931         </span><span class="number">95</span>          <span class="number">0</span>         <span class="number">15</span>       <span class="number">1789</span></span><br><span class="line"><span class="string">-/+</span> <span class="attr">buffers/cache:</span>        <span class="number">127</span>       <span class="number">1899</span></span><br><span class="line"><span class="attr">Swap:</span>         <span class="number">3074          </span><span class="number">2</span>       <span class="number">3071</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>用dd命令创建一个2G大小的文件（1024<em>1024</em>2=2097152）</li>
+</ol>
+<p>dd if=/dev/zero of=/var/swapfile1 bs=1024 count=2097152</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# dd <span class="attribute">if</span>=/dev/zero <span class="attribute">of</span>=/var/swapfile1 <span class="attribute">bs</span>=1024 <span class="attribute">count</span>=2097152</span><br><span class="line">记录了2097152+0 的读入</span><br><span class="line">记录了2097152+0 的写出</span><br><span class="line">2147483648字节(2.1 GB)已复制，48.2387 秒，44.5 MB/秒</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>将该文件创建为linux swap</li>
+</ol>
+<p>mkswap /var/swapfile1</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# mkswap /var/swapfile1</span><br><span class="line">正在设置交换空间版本 1，大小 = 2097148 KiB</span><br><span class="line">无标签，UUID=43c47001<span class="string">-58</span>a3<span class="string">-43</span>ec<span class="string">-8510</span>-bc8b2ad2ff51</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>激活该文件</li>
+</ol>
+<p>swapon /var/swapfile1</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# swapon <span class="regexp">/var/</span>swapfile1</span><br><span class="line">swapon: <span class="regexp">/var/</span>swapfile1：不安全的权限 <span class="number">0644</span>，建议使用 <span class="number">0600</span>。</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>至此添加swap空间成功，但此时只要系统一重启就会丢失这个swap空间，所以我们要设置一下/etc/fstab文件，<br>在文件的末尾加上/var/swapfile1 swap swap defaults 0 0</p>
+</li>
+<li><p>查看大小 free -h</p>
+</li>
+</ol>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]<span class="comment"># free -h</span></span><br><span class="line">              total        used        free      <span class="keyword">shared </span> <span class="keyword">buff/cache </span>  available</span><br><span class="line"><span class="symbol">Mem:</span>           <span class="number">1</span>.<span class="number">8</span>G        <span class="number">1</span>.<span class="number">1</span>G         <span class="number">73</span>M         <span class="number">22</span>M        <span class="number">606</span>M        <span class="number">496</span>M</span><br><span class="line"><span class="keyword">Swap: </span>         <span class="number">4</span>.<span class="number">0</span>G        <span class="number">1</span>.<span class="number">0</span>G        <span class="number">3</span>.<span class="number">0</span>G</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/10/13/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/13/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">shell中常见的字符串操作</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-10-13 09:44:36" itemprop="dateCreated datePublished" datetime="2021-10-13T09:44:36+08:00">2021-10-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unix/" itemprop="url" rel="index"><span itemprop="name">unix</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unix/shell/" itemprop="url" rel="index"><span itemprop="name">shell</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/unix/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/" itemprop="url" rel="index"><span itemprop="name">字符串操作</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>shell中定位字符的方式，包括常见的分割：按位置分隔，按指定的字符串截取，按照指定要求（如指定后缀）分割。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/10/13/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/10/13/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B9%8BRaft%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/13/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B9%8BRaft%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">分布式之Raft算法总结</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-10-13 09:44:36" itemprop="dateCreated datePublished" datetime="2021-10-13T09:44:36+08:00">2021-10-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基础概念</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F%EF%BC%8CRaft%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" itemprop="url" rel="index"><span itemprop="name">分布式，Raft算法总结</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h2 id="Raft"><a href="#Raft" class="headerlink" title="Raft"></a>Raft</h2><p>Raft 协议是一个分布式共识(consensus)算法。</p>
+<p>为了达到易于理解的目标，raft做了很多努力，其中最主要是两件事情：</p>
+<ul>
+<li>问题分解</li>
+<li>状态简化（而状态简化更好理解，就是对算法做出一些限制，减少需要考虑的状态数，使得算法更加清晰，更少的不确定性（比如，保证新选举出来的leader会包含所有commited log entry））</li>
+</ul>
+<h3 id="1-问题分解"><a href="#1-问题分解" class="headerlink" title="1 问题分解"></a>1 问题分解</h3><p>Raft 协议将 consensus problem 划分为下面的几个子问题, 分别提出对应的解决方案：</p>
+<ul>
+<li>Leader Election</li>
+<li>Log Eeplication</li>
+<li>Safety</li>
+</ul>
+<p>Raft 算法首先从集群所有节点中选举出一个 <strong>Leader</strong>, 其余节点称为 <strong>Follower</strong>, 由 Leader 来负责管理日志. Leader 负责处理用户的请求, 并将之转化为日志, 并复制到其他的节点上. 当 Leader 将日志复制到大多数节点时, 就能将之应用(apply)到状态机, 并将之 <em>commit</em>, 最后将结果返回给用户.</p>
+<p>为了保证日志条目(log entry)的有序性, 算法将时间划分为不同的 <em>term</em>, term 是一个连续的单调递增的整数. 当节点中发生 Leader 选举时, term 加一, 当节点观察到比自身更大的 term 时, 切换到该 term. 同时, 每条日志具有一个 <em>index</em> 来唯一标记, index 同样单调递增, 新的日志的 index 大于旧的日志的 index. 算法中用 term 和 index 来标记日志.</p>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xybaby/p/10124083.html">https://www.cnblogs.com/xybaby/p/10124083.html</a></p>
+
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/09/07/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -604,124 +950,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/09/07/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Centos%E4%B8%8Bdocker%E6%A8%A1%E5%BC%8F%E4%B8%8B%E5%AE%89%E8%A3%85gitlab%E7%A7%81%E6%9C%89%E5%BA%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/07/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Centos%E4%B8%8Bdocker%E6%A8%A1%E5%BC%8F%E4%B8%8B%E5%AE%89%E8%A3%85gitlab%E7%A7%81%E6%9C%89%E5%BA%93/" class="post-title-link" itemprop="url">Centos下docker模式下安装gitlab私有库</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-09-07 20:13:55" itemprop="dateCreated datePublished" datetime="2021-09-07T20:13:55+08:00">2021-09-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/" itemprop="url" rel="index"><span itemprop="name">环境安装</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/Centos/" itemprop="url" rel="index"><span itemprop="name">Centos</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>主机信息：阿里云ECS</p>
-<p>CPU&amp;内存：1核2 GiB </p>
-<p>磁盘：100G</p>
-<p>操作系统：CentOS 8.4 64位</p>
-</blockquote>
-<h3 id="1-gitlab镜像拉取"><a href="#1-gitlab镜像拉取" class="headerlink" title="1.gitlab镜像拉取"></a>1.gitlab镜像拉取</h3><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># gitlab-ce为稳定版本，后面不填写版本则默认pull最新latest版本</span></span><br><span class="line"><span class="variable">$ </span>docker pull gitlab/gitlab-ce</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-运行gitlab镜像"><a href="#2-运行gitlab镜像" class="headerlink" title="2.运行gitlab镜像"></a>2.运行gitlab镜像</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -d  -p <span class="number">443</span>:<span class="number">443</span> -p <span class="number">80</span>:<span class="number">80</span> -p <span class="number">222</span>:<span class="number">22</span> --name gitlab --restart always -v /root/gitlab/config:/etc/gitlab -v /root/gitlab/logs:/<span class="keyword">var</span>/log/gitlab -v /root/gitlab/data:/<span class="keyword">var</span>/opt/gitlab gitlab/gitlab-ce</span><br><span class="line"><span class="meta"># -d：后台运行</span></span><br><span class="line"><span class="meta"># -p：将容器内部端口向外映射</span></span><br><span class="line"><span class="meta"># --name：命名容器名称</span></span><br><span class="line"><span class="meta"># -v：将容器内数据文件夹或者日志、配置等文件夹挂载到宿主机指定目录</span></span><br></pre></td></tr></table></figure>
-
-<p>以上操作完似乎就可以使用了，/root/gitlab/config 中有root用户的初始密码。</p>
-<h3 id="3-然而"><a href="#3-然而" class="headerlink" title="3.然而"></a>3.然而</h3><p>运行后主机死翘翘了，内存太低，直接100%，ssh都登不上了。</p>
-<p>不慌，阿里巴巴控制台强制重启，然后进去把docker中的gitlab停了。</p>
-<h3 id="4-低配置主机添加swap空间"><a href="#4-低配置主机添加swap空间" class="headerlink" title="4.低配置主机添加swap空间"></a>4.低配置主机添加swap空间</h3><p>使用磁盘当内存，速度慢但还勉强能用。</p>
-<p>使用dd命令创建名为swapfile 的swap交换文件（文件名和目录任意）:</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1.  dd  <span class="attribute">if</span>=/dev/zero  <span class="attribute">of</span>=/var/swapfile  <span class="attribute">bs</span>=1024  <span class="attribute">count</span>=2097152  </span><br></pre></td></tr></table></figure>
-
-<p>或</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   dd  <span class="attribute">if</span>=/dev/zero  <span class="attribute">of</span>=/var/swapfile  <span class="attribute">bs</span>=1024  <span class="attribute">count</span>=2048k</span><br><span class="line">[root@aliyun ~]# dd  <span class="attribute">if</span>=/dev/zero  <span class="attribute">of</span>=/var/swapfile  <span class="attribute">bs</span>=1024  <span class="attribute">count</span>=2048k</span><br><span class="line">记录了2097152+0 的读入</span><br><span class="line">记录了2097152+0 的写出</span><br><span class="line">2147483648字节(2.1 GB)已复制，31.7458 秒，67.6 MB/秒</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>科普：if(即输入文件,input file)，of(即输出文件,output file)。dev/zero是Linux的一种特殊字符设备(输入设备)，可以用来创建一个指定长度用于初始化的空文件，如临时交换文件，该设备无穷尽地提供0，可以提供任何你需要的数目。 bs=1024 ：单位数据块（block）同时读入/输出的块字节大小为1024 个字节即1KB，bs(即block size)。count=2048000 ：数据块（block）数量为2048000 ，即2048000个1KB。可以计算swap分区的容量为：1KB <em>2097152=1KB *1024(k)*1024</em>2=2097152=2G。（dd命令里的单位M表示1024*1024,k表示1024）。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">回车后，会执行2g的读写操作，系统会卡一段时间，耐心等待执行结果。</span><br></pre></td></tr></table></figure>
-
-<p>执行完毕，对交换文件格式化并转换为swap分区：</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  mkswap  <span class="regexp">/var/</span>swapfile  </span><br><span class="line">[root@aliyun ~]# mkswap <span class="regexp">/var/</span>swapfile</span><br><span class="line">正在设置交换空间版本 <span class="number">1</span>，大小 = <span class="number">2097148</span> KiB</span><br><span class="line">无标签，UUID=f88182d5-<span class="number">1155</span>-<span class="number">4</span>cf4-<span class="number">8</span>cb9-<span class="number">5</span>db460d9ac4e</span><br></pre></td></tr></table></figure>
-
-<p>挂载并激活分区：</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  swapon   <span class="regexp">/var/</span>swapfile  </span><br><span class="line">[root@aliyun ~]# swapon <span class="regexp">/var/</span>swapfile</span><br><span class="line">swapon: <span class="regexp">/var/</span>swapfile：不安全的权限 <span class="number">0644</span>，建议使用 <span class="number">0600</span>。</span><br></pre></td></tr></table></figure>
-
-<p>执行以上命令可能会出现：“不安全的权限 0644，建议使用 0600”类似提示，不要紧张，实际上已经激活了，可以忽略提示，也可以听从系统的建议修改下权限：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  chmod -R <span class="number">0600</span> <span class="regexp">/var/</span>swapfile  </span><br></pre></td></tr></table></figure>
-
-<p>这时候可以用 free –h 或 swapon –s命令查看新swap分区是否正常添加并激活使用。</p>
-<p>修改 fstab 配置，设置开机自动挂载该分区：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  vim    <span class="regexp">/etc/</span>fstab  </span><br></pre></td></tr></table></figure>
-
-<p>在fstab文件末尾追加如下内容后:wq!保存即可：<br>/var/swapfile swap swap defaults 0 0<br>或直接对fstab进行echo追加:</p>
-<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>  echo  <span class="string">&quot;/var/swapfile   swap  swap  defaults  0  0&quot;</span> &gt;&gt;  <span class="regexp">/etc/</span>fstab  </span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/09/07/pmp/PMP4-6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -994,219 +1222,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/" class="post-title-link" itemprop="url">消息队列_Rocketmq</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="主流消息队列选型"><a href="#主流消息队列选型" class="headerlink" title="主流消息队列选型"></a>主流消息队列选型</h1><table>
-<thead>
-<tr>
-<th>维度</th>
-<th>Kafka</th>
-<th>RocketMQ</th>
-<th>RabbitMQ</th>
-<th>ActiveMQ</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>单机吞吐量</td>
-<td>10万级</td>
-<td>10万级</td>
-<td>万级</td>
-<td>万级</td>
-</tr>
-<tr>
-<td>开发语言</td>
-<td>Scala</td>
-<td>Java</td>
-<td>Erlang</td>
-<td>Java</td>
-</tr>
-<tr>
-<td>高可用</td>
-<td>分布式架构</td>
-<td>分布式架构</td>
-<td>主从架构</td>
-<td>主从架构</td>
-</tr>
-<tr>
-<td>性能</td>
-<td>ms级</td>
-<td>ms级</td>
-<td>us级</td>
-<td>ms级</td>
-</tr>
-<tr>
-<td>功能</td>
-<td>只支持主要的MQ功能</td>
-<td>顺序消息、事务消息等功能完善</td>
-<td>并发强、性能好、延时低</td>
-<td>成熟的社区产品、文档丰富</td>
-</tr>
-</tbody></table>
-<ol>
-<li>rocketmq主要为java开发，语言适配性好，</li>
-<li>性能好，社区成熟。 </li>
-<li>支持顺序消息，事务消息。</li>
-<li>支持分布式架构</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/%E6%A1%86%E6%9E%B6/dubbo/dubbo%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/19/%E6%A1%86%E6%9E%B6/dubbo/dubbo%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/" class="post-title-link" itemprop="url">dubbo框架总述</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/dubbo/" itemprop="url" rel="index"><span itemprop="name">dubbo</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1278,14 +1293,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-count">55</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -1313,7 +1328,7 @@
     <h3 class="widget-title">标签云</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
         <canvas width="250" height="250" id="resCanvas" style="width=100%">
-            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/n/" rel="tag">n</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nextcloud%E9%98%BF%E9%87%8C/" rel="tag">nextcloud阿里</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nextcloud%E9%98%BF%E9%87%8C/" rel="tag">nextcloud阿里</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
         </canvas>
     </div>
 </div>
