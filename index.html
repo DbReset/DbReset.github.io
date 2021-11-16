@@ -1133,7 +1133,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -1147,7 +1147,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/" class="post-title-link" itemprop="url">消息队列_Rocketmq</a>
+            <a href="/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" class="post-title-link" itemprop="url">消息队列</a>
         </h2>
 
         <div class="post-meta">
@@ -1186,61 +1186,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="主流消息队列选型"><a href="#主流消息队列选型" class="headerlink" title="主流消息队列选型"></a>主流消息队列选型</h1><table>
-<thead>
-<tr>
-<th>维度</th>
-<th>Kafka</th>
-<th>RocketMQ</th>
-<th>RabbitMQ</th>
-<th>ActiveMQ</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>单机吞吐量</td>
-<td>10万级</td>
-<td>10万级</td>
-<td>万级</td>
-<td>万级</td>
-</tr>
-<tr>
-<td>开发语言</td>
-<td>Scala</td>
-<td>Java</td>
-<td>Erlang</td>
-<td>Java</td>
-</tr>
-<tr>
-<td>高可用</td>
-<td>分布式架构</td>
-<td>分布式架构</td>
-<td>主从架构</td>
-<td>主从架构</td>
-</tr>
-<tr>
-<td>性能</td>
-<td>ms级</td>
-<td>ms级</td>
-<td>us级</td>
-<td>ms级</td>
-</tr>
-<tr>
-<td>功能</td>
-<td>只支持主要的MQ功能</td>
-<td>顺序消息、事务消息等功能完善</td>
-<td>并发强、性能好、延时低</td>
-<td>成熟的社区产品、文档丰富</td>
-</tr>
-</tbody></table>
+          <h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
 <ol>
-<li>rocketmq主要为java开发，语言适配性好，</li>
-<li>性能好，社区成熟。 </li>
-<li>支持顺序消息，事务消息。</li>
-<li>支持分布式架构</li>
+<li><strong>异步</strong>、</li>
+<li><strong>削峰</strong>、</li>
+<li><strong>解耦</strong></li>
 </ol>
+<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>比如一个流程下需要正常的业务处理，中间需要发送短信，扣减优惠卷等，可以生产消息进入队列，由短信系统，优惠卷系统异步处理，减少主业务逻辑链路，提升效率。</p>
+<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
+<h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/#more" rel="contents">
+              <a class="btn" href="/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1364,6 +1321,17 @@
   </div>
 
 
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://gitee.com/leithda" title="https:&#x2F;&#x2F;gitee.com&#x2F;leithda" rel="noopener" target="_blank">leithda</a>
+        </li>
+    </ul>
+  </div>
 
 <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
