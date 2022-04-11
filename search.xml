@@ -9,6 +9,54 @@
 ]]></content>
   </entry>
   <entry>
+    <title>shell中常见的字符串操作</title>
+    <url>/2022/04/11/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<p>shell中定位字符的方式，包括常见的分割：按位置分隔，按指定的字符串截取，按照指定要求（如指定后缀）分割。</p>
+<span id="more"></span>
+<h1 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h1><h2 id="一、按位置分隔"><a href="#一、按位置分隔" class="headerlink" title="一、按位置分隔"></a>一、按位置分隔</h2><p>Linux shell <strong>截取</strong>字符变量的<strong>前8位</strong>，有方法如下：</p>
+<ul>
+<li><p>1.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">expr substr “$a” 1 8</span><br></pre></td></tr></table></figure></li>
+<li><p>2.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $a|awk ‘&#123;print substr(,1,8)&#125;&#x27;</span><br></pre></td></tr></table></figure></li>
+<li><p>3.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $a|cut -c1-8</span><br></pre></td></tr></table></figure></li>
+<li><p>4.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">expr $a : ‘\(.\\).*&#x27;</span><br></pre></td></tr></table></figure></li>
+<li><p>5.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $a|dd bs=1 count=8 2&gt;/dev/null</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="二、按指定的字符串截取"><a href="#二、按指定的字符串截取" class="headerlink" title="二、按指定的字符串截取"></a>二、按指定的字符串截取</h2><h3 id="1-第一种方法"><a href="#1-第一种方法" class="headerlink" title="1. 第一种方法:"></a>1. 第一种方法:</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">&#123;varible<span class="comment">##*string&#125; #从左向右截取最后一个string后的字符串</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;varible<span class="comment">#*string&#125; #从左向右截取第一个string后的字符串</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;varible%%string*&#125; <span class="comment">#从右向左截取最后一个string后的字符串</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;varible%string*&#125; <span class="comment">#从右向左截取第一个string后的字符串</span></span></span><br></pre></td></tr></table></figure>
+<p>“*”只是一个通配符可以不要</p>
+<p>例子：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> MYVAR=foodforthought.jpg</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="variable">$&#123;MYVAR##*fo&#125;</span></span></span><br><span class="line"></span><br><span class="line">rthought.jpg</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="variable">$&#123;MYVAR#*fo&#125;</span></span></span><br><span class="line"></span><br><span class="line">odforthought.jpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-第二种方法："><a href="#2-第二种方法：" class="headerlink" title="2. 第二种方法："></a>2. 第二种方法：</h3><p>${varible:n1:n2}:截取变量varible从n1到n2之间的字符串。</p>
+<p>可以根据特定字符偏移和长度，使用另一种形式的变量扩展，来选择特定子字符串。试着在 bash 中输入以下行：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> EXCLAIM=cowabunga</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="variable">$&#123;EXCLAIM:0:3&#125;</span></span></span><br><span class="line"></span><br><span class="line">cow</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="variable">$&#123;EXCLAIM:3:7&#125;</span></span></span><br><span class="line"></span><br><span class="line">abunga</span><br></pre></td></tr></table></figure>
+<p>这种形式的字符串截断非常简便，只需用冒号分开来指定起始字符和子字符串长度。</p>
+<h2 id="三、按照指定要求分割："><a href="#三、按照指定要求分割：" class="headerlink" title="三、按照指定要求分割："></a>三、按照指定要求分割：</h2><p>比如获取后缀名</p>
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ls</span> -<span class="keyword">al</span> | cut -d “.” -f2</span><br></pre></td></tr></table></figure>
+<p>应用心得：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="variable">$MYVAR</span>=<span class="string">&quot;12|dadg&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;MYVAR##*|&#125;</span>   <span class="comment">#打印分隔符后的字符串</span></span><br><span class="line"></span><br><span class="line">dafa</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;MYVAR%%|*&#125;</span> <span class="comment">#打印分隔符前的字符串</span></span><br><span class="line"></span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、批量替换所有文件中的指定字符串"><a href="#四、批量替换所有文件中的指定字符串" class="headerlink" title="四、批量替换所有文件中的指定字符串"></a>四、批量替换所有文件中的指定字符串</h2><p>sed -i “s/原字符串/新字符串/g” <code>grep 原字符串 -rl 所在目录</code></p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sed</span> -i <span class="string">&quot;s/mahuinan/huinanma/g&quot;</span> <span class="string">&#x27;grep mahuinan -rl /www&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>1）只替换第1个子串<br>格式：${变量名/old/new}</p>
+<p>2）替换全部子串<br>格式：${变量名//old/new}<br>将phone字符串中的所有8都替换为X:</p>
+<h2 id="五、awk-提取两个字符串之间的内容"><a href="#五、awk-提取两个字符串之间的内容" class="headerlink" title="五、awk 提取两个字符串之间的内容"></a>五、awk 提取两个字符串之间的内容</h2><figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line"><span class="comment">#/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">src</span>=<span class="variable">$1</span></span><br><span class="line"><span class="attribute">dst</span>=<span class="variable">$2</span></span><br><span class="line">cat <span class="variable">$&#123;src&#125;</span> | grep -E <span class="string">&quot;&lt;plate&gt;.*&lt;/plate&gt;&quot;</span> | awk <span class="string">&#x27;&#123;t=$0;gsub(/.*&lt;plate&gt;|&lt;\/plate&gt;.*/,&quot;&quot;,t);print t&#125;&#x27;</span> &gt; <span class="variable">$&#123;dst&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>unix</category>
+        <category>shell</category>
+        <category>字符串操作</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Centos下docker模式下安装gitlab私有库</title>
     <url>/2021/10/13/%E7%A1%AC%E4%BB%B6&amp;%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Centos%E4%B8%8Bdocker%E6%A8%A1%E5%BC%8F%E4%B8%8B%E5%AE%89%E8%A3%85gitlab%E7%A7%81%E6%9C%89%E5%BA%93/</url>
     <content><![CDATA[<blockquote>
@@ -107,52 +155,6 @@
       <tags>
         <tag>docker</tag>
         <tag>gitlab</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>shell中常见的字符串操作</title>
-    <url>/2021/10/13/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<p>shell中定位字符的方式，包括常见的分割：按位置分隔，按指定的字符串截取，按照指定要求（如指定后缀）分割。</p>
-<span id="more"></span>
-<h1 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h1><h2 id="一、按位置分隔"><a href="#一、按位置分隔" class="headerlink" title="一、按位置分隔"></a>一、按位置分隔</h2><p>Linux shell <strong>截取</strong>字符变量的<strong>前8位</strong>，有方法如下：</p>
-<ul>
-<li><p>1.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">expr substr “$a” 1 8</span><br></pre></td></tr></table></figure></li>
-<li><p>2.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $a|awk ‘&#123;print substr(,1,8)&#125;&#x27;</span><br></pre></td></tr></table></figure></li>
-<li><p>3.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $a|cut -c1-8</span><br></pre></td></tr></table></figure></li>
-<li><p>4.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">expr $a : ‘\(.\\).*&#x27;</span><br></pre></td></tr></table></figure></li>
-<li><p>5.</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $a|dd bs=1 count=8 2&gt;/dev/null</span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<h2 id="二、按指定的字符串截取"><a href="#二、按指定的字符串截取" class="headerlink" title="二、按指定的字符串截取"></a>二、按指定的字符串截取</h2><h3 id="1-第一种方法"><a href="#1-第一种方法" class="headerlink" title="1. 第一种方法:"></a>1. 第一种方法:</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">&#123;varible<span class="comment">##*string&#125; #从左向右截取最后一个string后的字符串</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;varible<span class="comment">#*string&#125; #从左向右截取第一个string后的字符串</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;varible%%string*&#125; <span class="comment">#从右向左截取最后一个string后的字符串</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash">&#123;varible%string*&#125; <span class="comment">#从右向左截取第一个string后的字符串</span></span></span><br></pre></td></tr></table></figure>
-<p>“*”只是一个通配符可以不要</p>
-<p>例子：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> MYVAR=foodforthought.jpg</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="variable">$&#123;MYVAR##*fo&#125;</span></span></span><br><span class="line"></span><br><span class="line">rthought.jpg</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="variable">$&#123;MYVAR#*fo&#125;</span></span></span><br><span class="line"></span><br><span class="line">odforthought.jpg</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-第二种方法："><a href="#2-第二种方法：" class="headerlink" title="2. 第二种方法："></a>2. 第二种方法：</h3><p>${varible:n1:n2}:截取变量varible从n1到n2之间的字符串。</p>
-<p>可以根据特定字符偏移和长度，使用另一种形式的变量扩展，来选择特定子字符串。试着在 bash 中输入以下行：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> EXCLAIM=cowabunga</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="variable">$&#123;EXCLAIM:0:3&#125;</span></span></span><br><span class="line"></span><br><span class="line">cow</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="variable">$&#123;EXCLAIM:3:7&#125;</span></span></span><br><span class="line"></span><br><span class="line">abunga</span><br></pre></td></tr></table></figure>
-<p>这种形式的字符串截断非常简便，只需用冒号分开来指定起始字符和子字符串长度。</p>
-<h2 id="三、按照指定要求分割："><a href="#三、按照指定要求分割：" class="headerlink" title="三、按照指定要求分割："></a>三、按照指定要求分割：</h2><p>比如获取后缀名</p>
-<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ls</span> -<span class="keyword">al</span> | cut -d “.” -f2</span><br></pre></td></tr></table></figure>
-<p>应用心得：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="variable">$MYVAR</span>=<span class="string">&quot;12|dadg&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;MYVAR##*|&#125;</span>   <span class="comment">#打印分隔符后的字符串</span></span><br><span class="line"></span><br><span class="line">dafa</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;MYVAR%%|*&#125;</span> <span class="comment">#打印分隔符前的字符串</span></span><br><span class="line"></span><br><span class="line">12</span><br></pre></td></tr></table></figure>
-
-<h2 id="四、批量替换所有文件中的指定字符串"><a href="#四、批量替换所有文件中的指定字符串" class="headerlink" title="四、批量替换所有文件中的指定字符串"></a>四、批量替换所有文件中的指定字符串</h2><p>sed -i “s/原字符串/新字符串/g” <code>grep 原字符串 -rl 所在目录</code></p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sed</span> -i <span class="string">&quot;s/mahuinan/huinanma/g&quot;</span> <span class="string">&#x27;grep mahuinan -rl /www&#x27;</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>unix</category>
-        <category>shell</category>
-        <category>字符串操作</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
       </tags>
   </entry>
   <entry>
