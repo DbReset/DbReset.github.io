@@ -9,8 +9,46 @@
 ]]></content>
   </entry>
   <entry>
+    <title>shell知识点</title>
+    <url>/2022/04/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h2 id="Shell-中数字相加"><a href="#Shell-中数字相加" class="headerlink" title="Shell 中数字相加"></a>Shell 中数字相加</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line">c=`expr $&#123;a&#125; + $&#123;b&#125;`</span><br><span class="line">echo &quot;$c&quot;</span><br><span class="line"></span><br><span class="line">let 命令是 BASH 中用于计算的工具，用于执行一个或多个表达式，变量计算中不需要加上</span><br><span class="line"><span class="meta"> $</span><span class="bash"> 来表示变量。如果表达式中包含了空格或其他特殊字符，则必须引起来。</span></span><br><span class="line"> </span><br><span class="line">let a=5+4</span><br><span class="line">let b=9-3 </span><br><span class="line">echo $a $b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ftp ip.ip.ip.ip</span><br><span class="line"><span class="meta">#</span><span class="bash">获取文件</span></span><br><span class="line">mget</span><br><span class="line"><span class="meta">#</span><span class="bash">上传文件</span></span><br><span class="line">mput</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭确认提示</span></span><br><span class="line">prompt</span><br><span class="line"><span class="meta">#</span><span class="bash">删除文件</span></span><br><span class="line">delete xxx.dat</span><br><span class="line"><span class="meta">#</span><span class="bash">批量删除文件 支持通配</span></span><br><span class="line">mdelete *xxx*</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="awk中输入外部的变量"><a href="#awk中输入外部的变量" class="headerlink" title="awk中输入外部的变量"></a>awk中输入外部的变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意 <span class="string">&quot; 和 &#x27;</span></span></span><br><span class="line">grep kdpl_acct_bal load.sh|awk &#x27;&#123;print &quot;&#x27;$FilePath&#x27;&quot;$4&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h2 id="数字的比较："><a href="#数字的比较：" class="headerlink" title="数字的比较："></a>数字的比较：</h2><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">-<span class="literal">eq</span> 相等（equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ne</span> 不等<span class="built_in">（not</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">gt</span> 大于（greater than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">lt</span> 小于（less than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ge</span> 大于等于 （greater than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">le</span> 小于等于 （less than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">字符串的比较：</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> = <span class="variable">$str2</span> ] 等于</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> != <span class="variable">$str2</span> ] 不等于</span><br><span class="line"></span><br><span class="line">[ -z <span class="variable">$str</span> ] 空字符串返<span class="built_in">回true</span></span><br><span class="line"></span><br><span class="line">[ -n <span class="variable">$str</span> ] 或者 [ <span class="variable">$str</span> ] 非空字符串返<span class="built_in">回true</span></span><br></pre></td></tr></table></figure>
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">grep</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-r 是递归查找</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-n 是显示行号</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-R 查找所有文件包含子目录</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-i 忽略大小写</span></span><br><span class="line">grep -rn &quot;hello,world!&quot; *</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="清文件，腾空间相关"><a href="#清文件，腾空间相关" class="headerlink" title="清文件，腾空间相关"></a>清文件，腾空间相关</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看空间：</span></span><br><span class="line">df -h</span><br><span class="line">du -sh *   //查看当前所有目录及目录大小</span><br><span class="line">du -h --max-depth=1   //列出当前目录每个目录下的大小兑付-</span><br><span class="line">删除：</span><br><span class="line">/bin/rm -rf ./2016*       bin下执行  不进入回收站</span><br></pre></td></tr></table></figure>
+
+<h2 id="查找包含某段信息的文件名"><a href="#查找包含某段信息的文件名" class="headerlink" title="查找包含某段信息的文件名"></a>查找包含某段信息的文件名</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find .|xargs grep -ri &quot;01000000000275&quot; -l </span><br><span class="line">find . -name *.* |xargs grep &quot;2052019052300000000138&quot; -l</span><br><span class="line">ps -ef|grep java //查找进程 java</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="强杀进程"><a href="#强杀进程" class="headerlink" title="强杀进程"></a>强杀进程</h1><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">ps -ef|<span class="keyword">grep</span> job|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> $ORACLE_SID|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> sqlldr|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br></pre></td></tr></table></figure>
+
+<p>脚本开头加入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"><span class="comment">#检查是否有未绑定变量</span></span><br><span class="line"><span class="built_in">set</span> -o nounset</span><br><span class="line"><span class="comment">#异常退出</span></span><br><span class="line"><span class="built_in">set</span> -o errexit</span><br><span class="line"><span class="comment">#退出前的处理 finally</span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">&#x27;echo &quot;exitting&quot;&#x27;</span> <span class="built_in">exit</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>unix</category>
+        <category>shell</category>
+        <category>日常使用</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+        <tag>运算</tag>
+        <tag>ftp</tag>
+        <tag>awk</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>shell中常见的字符串操作</title>
-    <url>/2022/04/11/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</url>
+    <url>/2022/04/15/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>shell中定位字符的方式，包括常见的分割：按位置分隔，按指定的字符串截取，按照指定要求（如指定后缀）分割。</p>
 <span id="more"></span>
 <h1 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h1><h2 id="一、按位置分隔"><a href="#一、按位置分隔" class="headerlink" title="一、按位置分隔"></a>一、按位置分隔</h2><p>Linux shell <strong>截取</strong>字符变量的<strong>前8位</strong>，有方法如下：</p>
@@ -46,7 +84,20 @@
 
 <p>1）只替换第1个子串<br>格式：${变量名/old/new}</p>
 <p>2）替换全部子串<br>格式：${变量名//old/new}<br>将phone字符串中的所有8都替换为X:</p>
-<h2 id="五、awk-提取两个字符串之间的内容"><a href="#五、awk-提取两个字符串之间的内容" class="headerlink" title="五、awk 提取两个字符串之间的内容"></a>五、awk 提取两个字符串之间的内容</h2><figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line"><span class="comment">#/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">src</span>=<span class="variable">$1</span></span><br><span class="line"><span class="attribute">dst</span>=<span class="variable">$2</span></span><br><span class="line">cat <span class="variable">$&#123;src&#125;</span> | grep -E <span class="string">&quot;&lt;plate&gt;.*&lt;/plate&gt;&quot;</span> | awk <span class="string">&#x27;&#123;t=$0;gsub(/.*&lt;plate&gt;|&lt;\/plate&gt;.*/,&quot;&quot;,t);print t&#125;&#x27;</span> &gt; <span class="variable">$&#123;dst&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
+<h2 id="五、awk-提取两个字符串之间的内容"><a href="#五、awk-提取两个字符串之间的内容" class="headerlink" title="五、awk 提取两个字符串之间的内容"></a>五、awk 提取两个字符串之间的内容</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">/bin/bash</span></span><br><span class="line"></span><br><span class="line">src=$1</span><br><span class="line">dst=$2</span><br><span class="line">cat $&#123;src&#125; | grep -E &quot;&lt;plate&gt;.*&lt;/plate&gt;&quot; | awk &#x27;&#123;t=$0;gsub(/.*&lt;plate&gt;|&lt;\/plate&gt;.*/,&quot;&quot;,t);print t&#125;&#x27; &gt; $&#123;dst&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="六、shell下在while循环中使用ssh命令的问题"><a href="#六、shell下在while循环中使用ssh命令的问题" class="headerlink" title="六、shell下在while循环中使用ssh命令的问题"></a>六、shell下在while循环中使用ssh命令的问题</h1><hr>
+<p>1 现象描述　　最近使用ssh批量执行命令(已经做了密钥互信了)，脚本读取配置文件中的主机列表(内容为每行一台主机IP地址)，然后执行，可是每次只是执行第一台，就退出循环了。</p>
+<p>2 排查思路　　由于脚本比较简单，只是读取主机，然后ssh而已，所以问题应该出现在ssh上</p>
+<p>3 确定问题　　搞不通ssh命令为什么会导致shell退出，最后上网搜了一下才找到答案。</p>
+<p><code>ssh命令在每次执行时，会读取所有的标准输入中的内容。 </code>　　对于while循环，当按照如下方式使用时：</p>
+<p><code>while  read Line    do         </code></p>
+<p> echo $Line done  &lt; $filename `　　这里使用重定向，将文件内容输入到while命令，while命令每次使用read从输入中读取一行数据。　　问题就在这里，如果在while循环中调用了ssh命令，<strong>那么ssh就会把当前输入中所有的数据读走，也就是重定向给while命令的数据，都被ssh命令读走了，以至于下次循环的时候，read读到的内容为空，导致循环提前结束。</strong></p>
+<p>4 处理结果　　　　</p>
+<p>解决这个问题两种方式使用ssh的-n参数：用/dev/null来当ssh的输入，阻止ssh读取本地的标准输入内容。ssh xxxx &lt; /dev/null 重定向shell命令的输入</p>
+]]></content>
       <categories>
         <category>unix</category>
         <category>shell</category>
@@ -2911,40 +2962,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>PMP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>shell知识点</title>
-    <url>/2021/07/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h2 id="Shell-中数字相加"><a href="#Shell-中数字相加" class="headerlink" title="Shell 中数字相加"></a>Shell 中数字相加</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line">c=`expr $&#123;a&#125; + $&#123;b&#125;`</span><br><span class="line">echo &quot;$c&quot;</span><br><span class="line"></span><br><span class="line">let 命令是 BASH 中用于计算的工具，用于执行一个或多个表达式，变量计算中不需要加上</span><br><span class="line"><span class="meta"> $</span><span class="bash"> 来表示变量。如果表达式中包含了空格或其他特殊字符，则必须引起来。</span></span><br><span class="line"> </span><br><span class="line">let a=5+4</span><br><span class="line">let b=9-3 </span><br><span class="line">echo $a $b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ftp ip.ip.ip.ip</span><br><span class="line"><span class="meta">#</span><span class="bash">获取文件</span></span><br><span class="line">mget</span><br><span class="line"><span class="meta">#</span><span class="bash">上传文件</span></span><br><span class="line">mput</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭确认提示</span></span><br><span class="line">prompt</span><br><span class="line"><span class="meta">#</span><span class="bash">删除文件</span></span><br><span class="line">delete xxx.dat</span><br><span class="line"><span class="meta">#</span><span class="bash">批量删除文件 支持通配</span></span><br><span class="line">mdelete *xxx*</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="awk中输入外部的变量"><a href="#awk中输入外部的变量" class="headerlink" title="awk中输入外部的变量"></a>awk中输入外部的变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意 <span class="string">&quot; 和 &#x27;</span></span></span><br><span class="line">grep kdpl_acct_bal load.sh|awk &#x27;&#123;print &quot;&#x27;$FilePath&#x27;&quot;$4&#125;&#x27;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<h2 id="数字的比较："><a href="#数字的比较：" class="headerlink" title="数字的比较："></a>数字的比较：</h2><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">-<span class="literal">eq</span> 相等（equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ne</span> 不等<span class="built_in">（not</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">gt</span> 大于（greater than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">lt</span> 小于（less than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ge</span> 大于等于 （greater than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">le</span> 小于等于 （less than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">字符串的比较：</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> = <span class="variable">$str2</span> ] 等于</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> != <span class="variable">$str2</span> ] 不等于</span><br><span class="line"></span><br><span class="line">[ -z <span class="variable">$str</span> ] 空字符串返<span class="built_in">回true</span></span><br><span class="line"></span><br><span class="line">[ -n <span class="variable">$str</span> ] 或者 [ <span class="variable">$str</span> ] 非空字符串返<span class="built_in">回true</span></span><br></pre></td></tr></table></figure>
-<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">grep</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-r 是递归查找</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-n 是显示行号</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-R 查找所有文件包含子目录</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-i 忽略大小写</span></span><br><span class="line">grep -rn &quot;hello,world!&quot; *</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="清文件，腾空间相关"><a href="#清文件，腾空间相关" class="headerlink" title="清文件，腾空间相关"></a>清文件，腾空间相关</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看空间：</span></span><br><span class="line">df -h</span><br><span class="line">du -sh *   //查看当前所有目录及目录大小</span><br><span class="line">du -h --max-depth=1   //列出当前目录每个目录下的大小兑付-</span><br><span class="line">删除：</span><br><span class="line">/bin/rm -rf ./2016*       bin下执行  不进入回收站</span><br></pre></td></tr></table></figure>
-
-<h2 id="查找包含某段信息的文件名"><a href="#查找包含某段信息的文件名" class="headerlink" title="查找包含某段信息的文件名"></a>查找包含某段信息的文件名</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find .|xargs grep -ri &quot;01000000000275&quot; -l </span><br><span class="line">find . -name *.* |xargs grep &quot;2052019052300000000138&quot; -l</span><br><span class="line">ps -ef|grep java //查找进程 java</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="强杀进程"><a href="#强杀进程" class="headerlink" title="强杀进程"></a>强杀进程</h1><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">ps -ef|<span class="keyword">grep</span> job|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> $ORACLE_SID|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> sqlldr|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>unix</category>
-        <category>shell</category>
-        <category>日常使用</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
-        <tag>运算</tag>
-        <tag>ftp</tag>
-        <tag>awk</tag>
       </tags>
   </entry>
   <entry>

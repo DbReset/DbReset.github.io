@@ -190,6 +190,150 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/" class="post-title-link" itemprop="url">springcloud_五大组件</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/spring/springcloud/" itemprop="url" rel="index"><span itemprop="name">springcloud</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="SpringCloud进阶"><a href="#SpringCloud进阶" class="headerlink" title="SpringCloud进阶"></a>SpringCloud进阶</h2><ul>
+<li><input checked disabled type="checkbox"> javase</li>
+<li><input checked disabled type="checkbox"> 数据库</li>
+<li>[] 前端</li>
+<li>[] servlet</li>
+<li>[] Http</li>
+<li><input checked disabled type="checkbox"> Mybatis</li>
+<li><input checked disabled type="checkbox"> Spring</li>
+<li>[] SpringMVC</li>
+<li>[] SpringBoot</li>
+<li><input checked disabled type="checkbox"> Dubbo,zookeeper,分布式基础</li>
+<li><input checked disabled type="checkbox"> maven</li>
+</ul>
+<blockquote>
+<p>总结一下SpringCloud结果核心组件:</p>
+</blockquote>
+<ul>
+<li><p>Eureka:个服务启动时,Eureka会将服务注册到EurekaService,并且EurakeClient还可以返回过来从EurekaService拉去注册表,从而知道服务在哪里</p>
+</li>
+<li><p>Ribbon:服务间发起请求的时候,基于Ribbon服务做到负载均衡,从一个服务的对台机器中选择一台</p>
+<blockquote>
+<p>目前，在Spring cloud 中服务之间通过restful方式调用有两种方式  </p>
+<ul>
+<li>restTemplate+Ribbon </li>
+<li>feign</li>
+</ul>
+</blockquote>
+</li>
+<li><p>Feign:RPC框架，基于fegin的动态代理机制,根据注解和选择机器,拼接Url地址,发起请求,Feign是Netflix开发的声明式、模板化的HTTP客户端， Feign可以帮助我们更快捷、优雅地调用HTTP API。</p>
+</li>
+<li><p>Hystrix:发起的请求是通过Hystrix的线程池来走,不同的服务走不同的线程池,实现了不同的服务调度隔离,避免服务雪崩的问题</p>
+</li>
+<li><p>Zuul:如果前端后端移动端调用后台系统,统一走zull网关进入,有zull网关转发请求给对应的服务</p>
+</li>
+<li><p>Apollo（阿波罗）是携程框架部门研发的配置管理平台，能够集中化管理应用不同环境、不同集群的配置，配置修改后能够实时推送到应用端，并且具备规范的权限、流程治理等特性。<a target="_blank" rel="noopener" href="https://github.com/ctripcorp/apollo/wiki/Apollo%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E8%AE%BE%E8%AE%A1">Apollo配置中心设计</a></p>
+</li>
+</ul>
+<h4 id="Ribbon"><a href="#Ribbon" class="headerlink" title="Ribbon"></a>Ribbon</h4><p>Ribbon 是一个基于 HTTP 和 TCP 客户端的负载均衡器</p>
+<p>它可以在客户端配置 ribbonServerList（服务端列表），然后轮询请求以实现均衡负载</p>
+<p>它在联合 Eureka 使用时</p>
+<p>ribbonServerList 会被 DiscoveryEnabledNIWSServerList 重写，扩展成从 Eureka 注册中心获取服务端列表</p>
+<p>同时它也会用 NIWSDiscoveryPing 来取代 IPing，它将职责委托给 Eureka 来确定服务端是否已经启动</p>
+<h4 id="Feign"><a href="#Feign" class="headerlink" title="Feign"></a>Feign</h4><p>Spring Cloud Netflix 的微服务都是以 HTTP 接口的形式暴露的，所以可以用 Apache 的 HttpClient 或 Spring 的 RestTemplate 去調用,而 Feign 是一個使用起來更加方便的 HTTP 客戶端，它用起來就好像調用本地方法一樣，完全感覺不到是調用的遠程方法</p>
+<p>总结起来就是：发布到注册中心的服务方接口，是 HTTP 的，也可以不用 Ribbon 或者 Feign，直接浏览器一样能够访问</p>
+<p>只不过 Ribbon 或者 Feign 调用起来要方便一些，最重要的是：它俩都支持软负载均衡</p>
+<p>注意：spring-cloud-starter-feign 里面已经包含了 spring-cloud-starter-ribbon（Feign 中也使用了 Ribbon）</p>
+<p>从实践上看，采用feign的方式更优雅（feign内部也使用了ribbon做负载均衡）。</p>
+<h2 id="Spring-Cloud-和dubbo区别"><a href="#Spring-Cloud-和dubbo区别" class="headerlink" title="Spring Cloud 和dubbo区别?"></a>Spring Cloud 和dubbo区别?</h2><p>其实Dubbo仅仅是一个RPC框架，实现Java程序的远程调用，而Spring Cloud则是实施微服务的一系列套件，包括：服务注册与发现、断路器、服务状态监控、配置管理、智能路由、一次性令牌、全局锁、分布式会话管理、集群状态管理等</p>
+<p>（1）服务调用方式 dubbo是RPC，springcloud是 Rest Api</p>
+<p>（2）注册中心,dubbo 是zookeeper springcloud是eureka，也可以是zookeeper</p>
+<p>（3）服务网关,dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。</p>
+<h2 id="常见的RPC组件："><a href="#常见的RPC组件：" class="headerlink" title="常见的RPC组件："></a>常见的RPC组件：</h2><ol>
+<li>RMI（远程方法调用）</li>
+</ol>
+<p>JAVA自带的远程方法调用工具，不过有一定的局限性，毕竟是JAVA语言最开始时的设计，后来很多框架的原理都基于RMI。</p>
+<ol start="2">
+<li><p>Hessian（基于HTTP的远程方法调用）</p>
+<p>基于HTTP协议传输，在性能方面还不够完美，负载均衡和失效转移依赖于应用的负载均衡器，Hessian的使用则与RMI类似，区别在于淡化了Registry的角色，通过显示的地址调用，利用HessianProxyFactory根据配置的地址create一个代理对象，另外还要引入Hessian的Jar包。</p>
+</li>
+<li><p>Dubbo（淘宝开源的基于TCP的RPC框架）</p>
+</li>
+</ol>
+<p>基于Netty的高性能RPC框架，是阿里巴巴开源的，总体原理如下：</p>
+
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1051,105 +1195,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80%E4%B9%8BThreadLocal/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/10/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80%E4%B9%8BThreadLocal/" class="post-title-link" itemprop="url">java基础之ThreadLocal</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="ThreadLocal原理和用法"><a href="#ThreadLocal原理和用法" class="headerlink" title="ThreadLocal原理和用法"></a>ThreadLocal原理和用法</h2><h3 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h3><ul>
-<li>ThreadLocal提供了线程的局部变量，每个线程都可以通过set()和get()来对这个局部变量进行操作，<br>但不会和其他线程的局部变量进行冲突，实现了线程的<strong>数据隔离</strong>。</li>
-<li>实现线程级别的全局变量,避免使用一层层的传参。<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Requestcontext</span> &#123;</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;<span class="keyword">String</span>&gt; traceldLocal = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> <span class="title">getTraceId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> threadIdLocal.<span class="built_in">get</span>();</span><br><span class="line">    &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> <span class="title">setTraceId</span> <span class="params">(<span class="keyword">String</span> traceld)</span></span>&#123;</span><br><span class="line">            threadldLocal.<span class="built_in">set</span>(traceld);</span><br><span class="line">        &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*一处设置traceid*/</span></span><br><span class="line"><span class="module-access"><span class="module"><span class="identifier">Requestcontext</span>.</span></span>set<span class="constructor">TraceId(UUID.<span class="params">randomUUID</span>()</span>.<span class="keyword">to</span><span class="constructor">String()</span>);</span><br><span class="line"><span class="comment">/*另一处读取traceId，不在同一个类中调用*/</span></span><br><span class="line"><span class="module-access"><span class="module"><span class="identifier">RequestContext</span>.</span></span>get<span class="constructor">TraceId()</span>;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>使用举例:<br><br>java8之前的日期组件,SimpleDataFormat。当我们使用SimpleDataFormat的parse()方法，内部有一个Calendar对象，调用SimpleDataFormat的parse()方法会先调用Calendar.clear（），然后调用Calendar.add()，如果一个线程先调用了add()然后另一个线程又调用了clear()，这时候parse()方法解析的时间就不对了。从而导致了线程安全问题。当然我们可以每用一次new一个新对象出来，不过这样效率太低。<br><br>所以我们可以使用了线程池加上ThreadLocal包装SimpleDataFormat，再调用initialValue让每个线程有一个SimpleDataFormat的副本，从而解决了线程安全的问题，也提高了性能。</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static ThreadLocal&lt;DateFormat&gt; threadLocal = <span class="module-access"><span class="module"><span class="identifier">ThreadLocal</span>.</span></span><span class="keyword">with</span><span class="constructor">Initial(SimpleDateFormat::<span class="params">new</span>)</span>;</span><br></pre></td></tr></table></figure>
-<p>不过Java8之后可以用java.time.format.DateTimeFormatter了。</p>
-<h4 id="注意（弱引用引起的内存泄露问题）："><a href="#注意（弱引用引起的内存泄露问题）：" class="headerlink" title="注意（弱引用引起的内存泄露问题）："></a>注意（弱引用引起的内存泄露问题）：</h4><p>当线程没有结束，但是 ThreadLocal 已经被回收，则可能导致线程中存在ThreadLocalMap&lt;null, Object&gt; 的键值对，造成内存泄露。(ThreadLocal 被回收，ThreadLocal 关联的线程共享变量还存在。<br></p>
-<p>解决方案：<br></p>
-<ol>
-<li>使用完线程共享变量后，显式调用 ThreadLocalMap.remove 方法清除线程共享变量。</li>
-</ol>
-<hr>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>简单说 ThreadLocal 就是一种以空间换时间的做法，在每个 Thread 里面维护了一个以开放定址法(区别于hashmap，没有链表，发生冲突时往后找空位就行了)实现的ThreadLocal.ThreadLocalMap，把数据进行隔离，数据不共享，自然就没有线程安全方面的问题了。</p>
-<p>结构图：<br><br><img src="/2021/08/10/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80%E4%B9%8BThreadLocal/ThreadLocal_structure.jpg" alt="ThreadLocal"><br>每个Thread对象中都维护了一个ThreadLocalMap，这个Map使用ThreadLocal对象作为key。<br><br>可以看到的是，ThreadLocal对象虽然是同一个，但是每个线程中的ThreadLocalMap都是单独的，所以各个线程之间是互不影响的。具体数据则时放在ThreadLocalMap的entry数组下的。</p>
-<h3 id="父子线程怎么共享数据"><a href="#父子线程怎么共享数据" class="headerlink" title="父子线程怎么共享数据"></a>父子线程怎么共享数据</h3><p>可以使用<strong>interitableThreadLocals</strong>，子线程能继承到父线程的数据，子线程中的修改不影响父线程。</p>
-<p>private</p>
-
       
     </div>
     
