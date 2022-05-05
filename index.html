@@ -266,6 +266,154 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-05 22:32:24" itemprop="dateCreated datePublished" datetime="2022-05-05T22:32:24+08:00">2022-05-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>2020年软件设计师上午</p>
+<hr>
+<ol>
+<li>高速缓存和主存间的地址映射由<strong>硬件</strong>自动完成。</li>
+</ol>
+<p>全相联映射-将主存一个块的地址与内容一起存入 cache 中，拷贝灵活但是比较器电路难设计实现；</p>
+<p>直接映射-一个主存块只能拷贝到 cache 的特定行上 去，硬件简单成本低但是容易冲突效率下降。</p>
+<p>组相联映射-主存块放到哪个组是固定的，但 是放到哪一行是灵活的，折中办法广泛采用。</p>
+<ol start="2">
+<li></li>
+</ol>
+<ul>
+<li>存储器：内存，外存</li>
+<li>运算器：算术逻辑单元ALU，累加寄存器AC，数据缓冲寄存器DR，状态条件寄存器PSW</li>
+<li>控制器：指令寄存器IR，程序计数器PC，地址寄存器AR，指令译码器ID</li>
+</ul>
+<ol start="3">
+<li>浮点数相加减</li>
+</ol>
+<p>运算过程：对阶（阶码小的向阶码大的对齐 损失更少精度）、尾数求和（(阶码用双符号位，尾数用单符号位）、规格化、舍入、溢出判断</p>
+<p>![截屏2022-05-05 22.31.15](截屏2022-05-05 22.31.15.png)</p>
+<ol start="4">
+<li><p>指令执行速度（MIPS）=主频（MHz）/cpi  ;CPI=机器周期*时钟周期；</p>
+</li>
+<li><p>中断向量提供中断服务程序入口地址</p>
+</li>
+<li><p>认证只能阻止主动攻击（中断，篡改，伪造），不能阻止被动攻击（窃听）。</p>
+</li>
+<li><ul>
+<li>路由信息<em>协议</em>(<em>RIP</em>) 是一种距离矢量<em>协议</em>，这表示它根据跳数来判断到达目标的最佳路由。</li>
+<li>O<em>SPF</em>路由<em>协议</em>是用于网际<em>协议</em>（IP）网络的链路状态路由<em>协议</em>。</li>
+<li><em>BGP协议</em>一般指边界网关协议。 边界网关协议（BGP）是运行于 TCP 上的一种自治系统的路由协议。</li>
+<li><em>UDP协议</em>一般指UDP。 Internet 协议集支持一个无连接的传输协议，该协议称为用户数据报协议（UDP，User Datagram Protocol）。</li>
+</ul>
+<ol start="8">
+<li></li>
+</ol>
+<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/1.png" alt="截屏2022-05-05 23.12.49"></p>
+</li>
+<li><ul>
+<li><p>修改权受到永久保护。作者的署名权、修改权、保护作品完整权的保护期不受限制。</p>
+</li>
+<li><p>发表权、著作财产权的保护期为作者终生及其死亡后五十年,截止于作者死亡后第五十年的12月31日;如果是合作作品,截止于最后死亡的作者死亡后第五十年的12月31日。</p>
+</li>
+</ul>
+</li>
+<li><p>结构化分析方法中 ，数据流图中的元素在<strong>数据字典</strong>中进行定义。</p>
+</li>
+<li><p>启发式设计原则    </p>
+<ul>
+<li><p>提高模块独立性</p>
+</li>
+<li><p>模块作用域在其控制域之内</p>
+</li>
+<li><p>降低模块接口复杂性</p>
+</li>
+</ul>
+</li>
+<li><p>关键路径指的是花费时间最长的事件和活动的序列。<br>相关概念说明：<br>①最早开始时间：某段工程开始点之前最长的输入流之和<br>②最晚开始：关键路径-开始点到最后整个工程最后结束点的距离<br>③最早结束：某段工程结束点之前最长的输入流之和<br>④最晚结束：关键路径-该结束点到整个工程最后结束点的距离</p>
+<p>1.关键路径：从开始到结束得所有路径中，所话时间最长的一条为关键路径。<br>注意：在关键路径上的任务的松弛时间为0<br>最早开始时间：在关键路径上，从开始到该任务的最早执行的时间<br>最晚开始时间：关键路径的总时间-反向得出该任务的时间<br>2.松弛时间（最多延迟执行的时间）<br>第一种求法：最晚开始时间-最早开始时间<br>第二种求法：关键路径的总时间-包含该任务的关键路径花的时间</p>
+</li>
+<li><p>软件项目成本估算模型 COCOM01I 中，体系结构阶段模型基于<strong>源代码的行数</strong>进行估算。</p>
+</li>
+<li><p>语法树 后缀式(逆波兰式）</p>
+</li>
+<li><p>C/C++语言 预处理、编译、汇编、链接</p>
+</li>
+<li><p>进程 资源 化简即为判断有无死锁</p>
+</li>
+<li><p>页式存储  根据页面大小计算高位和页内地址，高位通过表转换 拼接页内地址得到变换后的物理地址</p>
+</li>
+<li><p>索引文件结构 </p>
+</li>
+<li><p>根据题干可得：</p>
+<p>其中0<del>4号节点为直接索引，对应逻辑块号为0</del>4。<br>其中5~6号节点为一级间接索引方式，对应逻辑块号从5开始。本题第一空选择B选项。<br>每个索引盘大小为1KB，地址项大小为4B，故每个索引盘有（1KB/4B）=256个索引。<br>一级间接索引有2个盘块，共有512个索引，对应512个逻辑盘块。<br>其中7号节点为二级间接索引，共有256*256=65536个索引，对应65536个逻辑盘块。<br>单个文件最大为：(5+512+65536)*1KB=66053KB。</p>
+</li>
+<li><p>PV操作中信号量的分析 </p>
+<p>PV信息量的取值表示资源数，最大值为初始可用资源5；<br>当信号量取值小于0时，可表示排队进程数，此时n个进程，最大排队数为n-5，信号量最小取值为-（n-5）。本题选择D选项。</p>
+</li>
+<li><p>喷泉模型 是面向对象的开发方法的软件过程模型，不包括开发活动之间存在明显界限</p>
+</li>
+<li><p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/mnHbDC3dJp.png" alt="img"></p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2022/04/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1129,100 +1277,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/09/07/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/07/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="post-title-link" itemprop="url">Java基础提升_线程池</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-09-07 20:13:55" itemprop="dateCreated datePublished" datetime="2021-09-07T20:13:55+08:00">2021-09-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" itemprop="url" rel="index"><span itemprop="name">线程池</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在《阿里巴巴java开发手册》中指出了线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，这样一方面是线程的创建更加规范，可以合理控制开辟线程的数量；另一方面线程的细节管理交给线程池处理，优化了资源的开销。<br><br>而线程池不允许使用Executors去创建，而要通过<strong>ThreadPoolExecutor</strong>方式，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活【消耗内存等】；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险，所以阿里巴巴java开发规范线程池首选ThreadPoolExcutor。<br></p>
-<p>话虽如此但常见的Executor框架还是要有所了解。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/09/07/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1294,7 +1348,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

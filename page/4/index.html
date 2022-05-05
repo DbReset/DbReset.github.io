@@ -190,6 +190,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/sql/mybatis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/10/sql/mybatis/" class="post-title-link" itemprop="url">mybatis</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mybatis/" itemprop="url" rel="index"><span itemprop="name">mybatis</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li>#{}和${}的区别是什么？</li>
+</ol>
+<ul>
+<li>#{}是预编译处理#{}可以防止Sql 注入，它会将所有传入的参数作为一个字符串来处理。</li>
+<li>${}是字符串替换。${} 则将传入的参数拼接到Sql上去执行，一般用于表名和字段名参数，$ 所对应的参数应该由服务器端提供，前端可以用参数进行选择，避免 Sql 注入的风险<br>Mybatis在处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement的set方法来赋值；<br>Mybatis在处理时，就是把{}替换成变量的值。<br><br>使用#{}可以有效的防止SQL注入，提高系统安全性。</li>
+</ul>
+<ol start="2">
+<li>Mybatis是如何进行<strong>分页</strong>的？分页插件的原理是什么？<br><br>Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的<strong>内存分页</strong>，而非物理分页，可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。<br><br>分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。<br></li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/10/sql/mybatis/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80%E4%B9%8BThreadLocal/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1066,114 +1160,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/03/codeEnglish/code_language/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/03/codeEnglish/code_language/" class="post-title-link" itemprop="url">常见英文</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-03 11:49:38" itemprop="dateCreated datePublished" datetime="2021-08-03T11:49:38+08:00">2021-08-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%8B%B1%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">英文</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>one write;read everywhere.</p>
-<ul>
-<li>Algorithm  算法</li>
-<li>Array 数组</li>
-<li>Atomic 原子的</li>
-<li>Capacity 容量</li>
-<li>Constructor 构造器</li>
-<li>Diagram 图解</li>
-<li>Dispatcher 调度器 分发器</li>
-<li>Duplicate  完全一样的; 复制的;</li>
-<li>Element 要素; 基本部分 </li>
-<li>Enterprise 企业</li>
-<li>Exclusively 独占 isHeldExclusively（）</li>
-<li>fetch 拿来</li>
-<li>filter 过滤</li>
-<li>Generic 泛型</li>
-<li>Hierarchical 分等级的, 等级的, 分层, 层次, 分层的 hierarchy 等级制度(尤指社会或组织); 统治集团; 层次体系;</li>
-<li>Implements 实现</li>
-<li>Inherited 继承(金钱、财产等), 经遗传获得(品质、身体特征等), 接替(责任等), 继任 inherit的过去分词和过去式</li>
-<li>interpreter 翻译人员</li>
-<li>isolation 隔离</li>
-<li>priority 优先级</li>
-<li>propagation 传播</li>
-<li>protocol 协议</li>
-<li>Qualifier 预选赛</li>
-<li>reference 参考</li>
-<li>Retention 维持</li>
-<li>Serializable 可序列化的 </li>
-<li>stamped 盖章</li>
-<li>Statement 说明</li>
-<li>transient 短暂的  临时工; java中 不可反序列</li>
-<li>vector 向量</li>
-<li>mandatory 强制的</li>
-<li>nested 嵌套的</li>
-</ul>
-
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1245,7 +1231,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
