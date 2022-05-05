@@ -9,7 +9,7 @@
 ]]></content>
   </entry>
   <entry>
-    <title></title>
+    <title>shell中常见的字符串操作</title>
     <url>/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/</url>
     <content><![CDATA[<p>2020年软件设计师上午</p>
 <hr>
@@ -31,7 +31,9 @@
 <li>浮点数相加减</li>
 </ol>
 <p>运算过程：对阶（阶码小的向阶码大的对齐 损失更少精度）、尾数求和（(阶码用双符号位，尾数用单符号位）、规格化、舍入、溢出判断</p>
-<p>![截屏2022-05-05 22.31.15](截屏2022-05-05 22.31.15.png)</p>
+<p>![截屏2022-05-05 22.31.15](2020年软件设计师上午/截屏2022-05-05 22.31.15.png)</p>
+<span id="more"></span>
+
 <ol start="4">
 <li><p>指令执行速度（MIPS）=主频（MHz）/cpi  ;CPI=机器周期*时钟周期；</p>
 </li>
@@ -96,6 +98,14 @@
 </li>
 </ol>
 ]]></content>
+      <categories>
+        <category>cs基础</category>
+        <category>软考</category>
+        <category>真题</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+      </tags>
   </entry>
   <entry>
     <title>shell知识点</title>
