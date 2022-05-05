@@ -9,10 +9,9 @@
 ]]></content>
   </entry>
   <entry>
-    <title>shell中常见的字符串操作</title>
+    <title>2020年软件设计师上午</title>
     <url>/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/</url>
-    <content><![CDATA[<p>2020年软件设计师上午</p>
-<hr>
+    <content><![CDATA[<h1 id="2020年软件设计师上午"><a href="#2020年软件设计师上午" class="headerlink" title="2020年软件设计师上午"></a>2020年软件设计师上午</h1><hr>
 <ol>
 <li>高速缓存和主存间的地址映射由<strong>硬件</strong>自动完成。</li>
 </ol>
@@ -104,7 +103,7 @@
         <category>真题</category>
       </categories>
       <tags>
-        <tag>shell</tag>
+        <tag>软考</tag>
       </tags>
   </entry>
   <entry>
