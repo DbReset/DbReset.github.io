@@ -30,6 +30,7 @@
 <meta property="og:site_name" content="裸泳的猪">
 <meta property="og:description" content="2020年软件设计师上午  高速缓存和主存间的地址映射由硬件自动完成。  全相联映射-将主存一个块的地址与内容一起存入 cache 中，拷贝灵活但是比较器电路难设计实现； 直接映射-一个主存块只能拷贝到 cache 的特定行上 去，硬件简单成本低但是容易冲突效率下降。 组相联映射-主存块放到哪个组是固定的，但 是放到哪一行是灵活的，折中办法广泛采用。     存储器：内存，外存 运算器：算术逻辑单">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/2.png">
 <meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/1.png">
 <meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/mnHbDC3dJp.png">
 <meta property="article:published_time" content="2022-05-05T14:32:24.646Z">
@@ -37,7 +38,7 @@
 <meta property="article:author" content="Luo">
 <meta property="article:tag" content="软考">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/1.png">
+<meta name="twitter:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/2.png">
 
 <link rel="canonical" href="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/">
 
@@ -279,7 +280,7 @@
 <li>浮点数相加减</li>
 </ol>
 <p>运算过程：对阶（阶码小的向阶码大的对齐 损失更少精度）、尾数求和（(阶码用双符号位，尾数用单符号位）、规格化、舍入、溢出判断</p>
-<p>![截屏2022-05-05 22.31.15](2020年软件设计师上午/截屏2022-05-05 22.31.15.png)</p>
+<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/2.png" alt="截屏2022-05-05 22.31.15"></p>
 <span id="more"></span>
 
 <ol start="4">
