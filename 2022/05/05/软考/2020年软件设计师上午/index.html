@@ -23,17 +23,20 @@
     var CONFIG = {"hostname":"dbreset.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="2020年软件设计师上午  高速缓存和主存间的地址映射由硬件自动完成。  全相联映射-将主存一个块的地址与内容一起存入 cache 中，拷贝灵活但是比较器电路难设计实现； 直接映射-一个主存块只能拷贝到 cache 的特定行上 去，硬件简单成本低但是容易冲突效率下降。 组相联映射-主存块放到哪个组是固定的，但 是放到哪一行是灵活的，折中办法广泛采用。     存储器：内存，外存 运算器：算术逻辑单">
+  <meta name="description" content="2020年软件设计师知识点  高速缓存和主存间的地址映射由硬件自动完成。  全相联映射-将主存一个块的地址与内容一起存入 cache 中，拷贝灵活但是比较器电路难设计实现； 直接映射-一个主存块只能拷贝到 cache 的特定行上 去，硬件简单成本低但是容易冲突效率下降。 组相联映射-主存块放到哪个组是固定的，但 是放到哪一行是灵活的，折中办法广泛采用。     存储器：内存，外存 运算器：算术逻辑">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2020年软件设计师上午">
+<meta property="og:title" content="2020年软件设计师知识点整理">
 <meta property="og:url" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/index.html">
 <meta property="og:site_name" content="裸泳的猪">
-<meta property="og:description" content="2020年软件设计师上午  高速缓存和主存间的地址映射由硬件自动完成。  全相联映射-将主存一个块的地址与内容一起存入 cache 中，拷贝灵活但是比较器电路难设计实现； 直接映射-一个主存块只能拷贝到 cache 的特定行上 去，硬件简单成本低但是容易冲突效率下降。 组相联映射-主存块放到哪个组是固定的，但 是放到哪一行是灵活的，折中办法广泛采用。     存储器：内存，外存 运算器：算术逻辑单">
+<meta property="og:description" content="2020年软件设计师知识点  高速缓存和主存间的地址映射由硬件自动完成。  全相联映射-将主存一个块的地址与内容一起存入 cache 中，拷贝灵活但是比较器电路难设计实现； 直接映射-一个主存块只能拷贝到 cache 的特定行上 去，硬件简单成本低但是容易冲突效率下降。 组相联映射-主存块放到哪个组是固定的，但 是放到哪一行是灵活的，折中办法广泛采用。     存储器：内存，外存 运算器：算术逻辑">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/2.png">
 <meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8D%8F%E8%AE%AE.png">
 <meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/1.png">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95.png">
 <meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/mnHbDC3dJp.png">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%86%85%E8%81%9A.png">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E7%B1%BB%E5%9B%BE-%E5%AF%B9%E8%B1%A1%E5%9B%BE.png">
 <meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E6%B5%81%E6%B0%B4%E7%BA%BF.png">
 <meta property="article:published_time" content="2022-05-05T14:32:24.646Z">
 <meta property="article:modified_time" content="2022-05-05T14:32:24.646Z">
@@ -55,7 +58,7 @@
   };
 </script>
 
-  <title>2020年软件设计师上午 | 裸泳的猪</title>
+  <title>2020年软件设计师知识点整理 | 裸泳的猪</title>
   
 
 
@@ -213,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          2020年软件设计师上午
+          2020年软件设计师知识点整理
         </h1>
 
         <div class="post-meta">
@@ -263,7 +266,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="2020年软件设计师上午"><a href="#2020年软件设计师上午" class="headerlink" title="2020年软件设计师上午"></a>2020年软件设计师上午</h1><hr>
+        <h1 id="2020年软件设计师知识点"><a href="#2020年软件设计师知识点" class="headerlink" title="2020年软件设计师知识点"></a>2020年软件设计师知识点</h1><hr>
 <ol>
 <li>高速缓存和主存间的地址映射由<strong>硬件</strong>自动完成。</li>
 </ol>
@@ -299,6 +302,8 @@
 <li><em>UDP协议</em>一般指UDP。 Internet 协议集支持一个无连接的传输协议，该协议称为用户数据报协议（UDP，User Datagram Protocol）。</li>
 </ul>
 <p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8D%8F%E8%AE%AE.png" alt="image-20220509213944537"></p>
+<p>MIME互联网标准，扩展了电子邮件标准，使其能够支持。</p>
+<p>S/MIME安全多用途互联网邮件扩展协议</p>
 <ol start="8">
 <li>常见unix命令</li>
 </ol>
@@ -310,6 +315,10 @@
 <li><p>发表权、著作财产权的保护期为作者终生及其死亡后五十年,截止于作者死亡后第五十年的12月31日;如果是合作作品,截止于最后死亡的作者死亡后第五十年的12月31日。</p>
 </li>
 </ul>
+</li>
+<li><p>加密算法</p>
+<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95.png" alt="截屏2022-05-09 22.52.23"></p>
+<p>非对称：EIGamal,背包算法，Rabin(RSA的特例)，ECC（椭圆曲线加密算法）</p>
 </li>
 <li><p>结构化分析方法中 ，数据流图中的元素在<strong>数据字典</strong>中进行定义。</p>
 </li>
@@ -326,9 +335,9 @@
 <li><p>关键路径指的是花费时间最长的事件和活动的序列。<br>相关概念说明：<br>①最早开始时间：某段工程开始点之前最长的输入流之和<br>②最晚开始：关键路径-开始点到最后整个工程最后结束点的距离<br>③最早结束：某段工程结束点之前最长的输入流之和<br>④最晚结束：关键路径-该结束点到整个工程最后结束点的距离</p>
 <p>1.关键路径：从开始到结束得所有路径中，所话时间最长的一条为关键路径。<br>注意：在关键路径上的任务的松弛时间为0<br>最早开始时间：在关键路径上，从开始到该任务的最早执行的时间<br>最晚开始时间：关键路径的总时间-反向得出该任务的时间<br>2.松弛时间（最多延迟执行的时间）<br>第一种求法：最晚开始时间-最早开始时间<br>第二种求法：关键路径的总时间-包含该任务的关键路径花的时间</p>
 </li>
-<li><p>软件项目成本估算模型 COCOM01I 中，体系结构阶段模型基于<strong>源代码的行数</strong>进行估算。</p>
+<li><p>软件项目成本估算模型 <strong>COCOM01I</strong> 中，体系结构阶段模型基于<strong>源代码的行数</strong>进行估算。</p>
 </li>
-<li><p>语法树 后缀式(逆波兰式）</p>
+<li><p>语法树 <strong>后缀式(逆波兰式）</strong>  原语法按中序排列构造，再按后序遍历得出</p>
 </li>
 <li><p>C/C++语言 预处理、编译、汇编、链接</p>
 </li>
@@ -347,6 +356,7 @@
 <li><p>喷泉模型 是面向对象的开发方法的软件过程模型，不包括开发活动之间存在明显界限</p>
 </li>
 <li><p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/mnHbDC3dJp.png" alt="img"></p>
+<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%86%85%E8%81%9A.png" alt="截屏2022-05-09 22.57.53"></p>
 </li>
 <li><p>面向对象的概念</p>
 <ul>
@@ -358,16 +368,30 @@
 <li>继承</li>
 </ul>
 </li>
-<li><p>UML类图 面向对象的     </p>
+<li><p><strong>UML类图</strong> 面向对象的     </p>
 <p>抽象类没有直接对象。因为A标识为{abstract}，即抽象类，抽象类不能直接进行实例化，即没有直接对象，只能有非直接对象，即子类的对象。</p>
 </li>
 </ol>
 <ul>
-<li>对象图：展现了某一个时刻一组对象以及它们之间的关系。</li>
-<li>类图：展现了一组对象、接口、协作和它们之间的关系。</li>
-<li>用例图：展现了一组用例、参与者以及它们之间的关系。</li>
-<li>序列图：是场景的图形化表示，描述了以时间顺序组织的对象之间的交互活动。</li>
-<li>多重度：图示表示的是1个A可以对应多个B，1个B只能对应1个A 。</li>
+<li><p>对象图：展现了某一个时刻一组对象以及它们之间的关系。</p>
+</li>
+<li><p>类图：展现了一组对象、接口、协作和它们之间的关系。</p>
+</li>
+<li><p>用例图：展现了一组用例、参与者以及它们之间的关系。</p>
+</li>
+<li><p>序列图：是场景的图形化表示，描述了以时间顺序组织的对象之间的交互活动。</p>
+</li>
+<li><p>多重度：图示表示的是1个A可以对应多个B，1个B只能对应1个A 。</p>
+<p><strong>UML对象图</strong></p>
+<p>重点：对象图是类图的实例，几乎使用与类图完全相同的标识。他们的不同点在于对象图显示类的多个对象实例，而不是实际的类。一个对象图是类图的一个实例。由于对象存在生命周期，因此对象图只能在系统某一时间段存在。 一般<strong>对象图的对象名会有：标识</strong>，且一般<strong>不会出现多重度</strong>。</p>
+<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E7%B1%BB%E5%9B%BE-%E5%AF%B9%E8%B1%A1%E5%9B%BE.png" alt="截屏2022-05-09 23.19.33"></p>
+<p><strong>UML状态图</strong></p>
+<p>状态图展现了一个状态机，它由状态、转换、事件和活动组成，通常包括简单状态和组合状态、转换（事件和动作）。</p>
+<p>由于状态可以是单一的，也可以是嵌套的（嵌套在另一个状态中的状态称为子状态，含有子状态的状态称为组合状态），所以活动可以在状态内执行，也可以在状态迁移时执行，A选项说法是正确的。</p>
+<p>转换（迁移）是两个状态之间的一种关系，表示对象将在源状态执行一定的事件或动作，并在某个特定事件发生而且某个特定的监护条件满足时离开当前状态而进入目标状态，事件触发没有特定监护条件的迁移，对象也会离开当前状态，B选项正确。</p>
+<p>转换（迁移）是从源状态和目的状态之间的一种关系，可以包含触发事件、监护条件、状态（源状态和目的状态）、动作，C选项说法不准确，本题选择C选项。</p>
+<p>当某个事件发生后，对象的状态将发生变化，事件可以触发迁移，D选项说法是正确的。</p>
+</li>
 </ul>
 <ol start="25">
 <li>设计模式：Builder关键字，是生成器模式。</li>
@@ -415,6 +439,47 @@
 <li></li>
 </ol>
 <p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E6%B5%81%E6%B0%B4%E7%BA%BF.png" alt="截屏2022-05-09 21.44.50"></p>
+<ol start="36">
+<li><p>敏捷开发方法scrum</p>
+</li>
+<li><p>我们⾸先需要确定⼀个<strong>Product Backlog</strong>（产品代办事项清单）（按优先顺序排列的⼀个产品需求列表），这个是由Product Owner 负责的；</p>
+</li>
+<li><p>Scrum Team根据<strong>Product Backlog</strong>列表，做⼯作量的预估和安排；</p>
+</li>
+<li><p>有了Product Backlog列表，我们需要通过 Sprint Planning Meeting（Sprint计划会议） 来从中挑选出⼀个Story作为本次迭代完<br>成的⽬标，这个⽬标的时间周期是1~4个星期，然后把这个Story进⾏细化，形成⼀个Sprint Backlog；</p>
+</li>
+<li><p>Sprint Backlog是由Scrum Team去完成的，每个成员根据Sprint Backlog再细化成更⼩的任务；</p>
+</li>
+<li><p>在Scrum Team完成计划会议上选出的<strong>Sprint Backlog</strong>过程中，需要进⾏ Daily Scrum Meeting（每⽇站⽴会议），每次会议控制<br>在15分钟左右，今天⼲了什么、明天要⼲什么、有什么困难 ，更新⾃⼰的 Sprint burn down（燃尽图）；</p>
+</li>
+<li><p>当⼀次<strong>Sprint</strong>（冲刺迭代）完成，这时，我们要进⾏ Srpint Review Meeting（演⽰会议），每个成员⽤Demo演⽰⾃⼰负责的任务，让产品负责<br>⼈评估是否完成；</p>
+</li>
+<li><p>最后就是 Sprint Retrospective Meeting（回顾会议），整个团队沟通上个Sprint执⾏中的问题和改进点，总结并讨论改进的地⽅，<br>放⼊下⼀轮Sprint的产品需求</p>
+</li>
+</ol>
+<ol start="37">
+<li><p><strong>McCabe</strong></p>
+<p>在程序控制流程图中，节点是程序中代码的最小单元，边代表节点间的程序流。一个有<strong>e条边（不包含自己回到自己的）</strong>和n个节点的流程图F，其环路复杂度为</p>
+<p><u>V（G） =e－n+2</u>。</p>
+<p>（1）流图中的区域数等于环形复杂度。<br>（2）流图G的环形复杂度V(G)=E-N+2，其中，E是流图中边的条数，N是结点数。<br>（3）流图G的环形复杂度V(G)=P+1，其中，P是流图中判定结点的数目。</p>
+<p>环路复杂度越高，程序中的控制路径越复杂。mccabe指出，典型的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%A8%8B%E5%BA%8F%E6%A8%A1%E5%9D%97">程序模块</a>的圈复杂度为10。</p>
+</li>
+<li><p><strong>E-R图</strong></p>
+</li>
+<li><p><strong>设计模式</strong></p>
+<p>将抽象部分与其实现部分分离，使它们都可以独立的变化，为桥接模式，桥接模式是结构型对象模式。</p>
+</li>
+<li><p><strong>关系代数表达式</strong>   笛卡尔积  投影 选择  自然连接</p>
+</li>
+<li><p>邻接矩阵 行列数都为结点个数   邻接节点</p>
+</li>
+<li><p>排序算法</p>
+</li>
+<li><p>贪心算法  分数背包</p>
+</li>
+<li><p>霍夫曼编码  霍夫曼树</p>
+</li>
+</ol>
 
     </div>
     
@@ -507,7 +572,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88"><span class="nav-number">1.</span> <span class="nav-text">2020年软件设计师上午</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">2020年软件设计师知识点</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
