@@ -31,8 +31,10 @@
 <meta property="og:description" content="2020年软件设计师上午  高速缓存和主存间的地址映射由硬件自动完成。  全相联映射-将主存一个块的地址与内容一起存入 cache 中，拷贝灵活但是比较器电路难设计实现； 直接映射-一个主存块只能拷贝到 cache 的特定行上 去，硬件简单成本低但是容易冲突效率下降。 组相联映射-主存块放到哪个组是固定的，但 是放到哪一行是灵活的，折中办法广泛采用。     存储器：内存，外存 运算器：算术逻辑单">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/2.png">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8D%8F%E8%AE%AE.png">
 <meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/1.png">
 <meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/mnHbDC3dJp.png">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E6%B5%81%E6%B0%B4%E7%BA%BF.png">
 <meta property="article:published_time" content="2022-05-05T14:32:24.646Z">
 <meta property="article:modified_time" content="2022-05-05T14:32:24.646Z">
 <meta property="article:author" content="Luo">
@@ -292,12 +294,13 @@
 </li>
 <li><ul>
 <li>路由信息<em>协议</em>(<em>RIP</em>) 是一种距离矢量<em>协议</em>，这表示它根据跳数来判断到达目标的最佳路由。</li>
-<li>O<em>SPF</em>路由<em>协议</em>是用于网际<em>协议</em>（IP）网络的链路状态路由<em>协议</em>。</li>
-<li><em>BGP协议</em>一般指边界网关协议。 边界网关协议（BGP）是运行于 TCP 上的一种自治系统的路由协议。</li>
+<li><strong>O<em>SPF</em>路由<em>协议</em></strong>是用于网际<em>协议</em>（IP）网络的链路状态路由<em>协议</em>。</li>
+<li><em><strong>BGP协议</strong></em>一般指边界网关协议。 边界网关协议（BGP）是运行于 TCP 上的一种自治系统的路由协议。</li>
 <li><em>UDP协议</em>一般指UDP。 Internet 协议集支持一个无连接的传输协议，该协议称为用户数据报协议（UDP，User Datagram Protocol）。</li>
 </ul>
+<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8D%8F%E8%AE%AE.png" alt="image-20220509213944537"></p>
 <ol start="8">
-<li></li>
+<li>常见unix命令</li>
 </ol>
 <p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/1.png" alt="截屏2022-05-05 23.12.49"></p>
 </li>
@@ -355,7 +358,8 @@
 <li>继承</li>
 </ul>
 </li>
-<li><p>UML类图 面向对象的     抽象类没有直接对象。因为A标识为{abstract}，即抽象类，抽象类不能直接进行实例化，即没有直接对象，只能有非直接对象，即子类的对象。</p>
+<li><p>UML类图 面向对象的     </p>
+<p>抽象类没有直接对象。因为A标识为{abstract}，即抽象类，抽象类不能直接进行实例化，即没有直接对象，只能有非直接对象，即子类的对象。</p>
 </li>
 </ol>
 <ul>
@@ -402,11 +406,15 @@
 </li>
 <li><p>图的遍历  广度优先 深度优先</p>
 </li>
+<li><p>快速排序的实现。</p>
+</li>
 <li><p>DHCP协议 无效的IP：169.254.X.X  (win)  0.0.0.0 (linux)</p>
 </li>
 <li><p>URL格式  协议://主机名.域名.域名后缀或者IP地址:端口/目录/文件名</p>
 </li>
+<li></li>
 </ol>
+<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E6%B5%81%E6%B0%B4%E7%BA%BF.png" alt="截屏2022-05-09 21.44.50"></p>
 
     </div>
     
