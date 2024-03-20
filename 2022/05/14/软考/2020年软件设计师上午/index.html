@@ -26,26 +26,26 @@
   <meta name="description" content="2020年软件设计师知识点  高速缓存和主存间的地址映射由硬件自动完成。  全相联映射-将主存一个块的地址与内容一起存入 cache 中，拷贝灵活但是比较器电路难设计实现； 直接映射-一个主存块只能拷贝到 cache 的特定行上 去，硬件简单成本低但是容易冲突效率下降。 组相联映射-主存块放到哪个组是固定的，但 是放到哪一行是灵活的，折中办法广泛采用。     存储器：内存，外存 运算器：算术逻辑">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2020年软件设计师知识点整理">
-<meta property="og:url" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/index.html">
+<meta property="og:url" content="http://dbreset.github.io/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/index.html">
 <meta property="og:site_name" content="裸泳的猪">
 <meta property="og:description" content="2020年软件设计师知识点  高速缓存和主存间的地址映射由硬件自动完成。  全相联映射-将主存一个块的地址与内容一起存入 cache 中，拷贝灵活但是比较器电路难设计实现； 直接映射-一个主存块只能拷贝到 cache 的特定行上 去，硬件简单成本低但是容易冲突效率下降。 组相联映射-主存块放到哪个组是固定的，但 是放到哪一行是灵活的，折中办法广泛采用。     存储器：内存，外存 运算器：算术逻辑">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/2.png">
-<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8D%8F%E8%AE%AE.png">
-<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/1.png">
-<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95.png">
-<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/mnHbDC3dJp.png">
-<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%86%85%E8%81%9A.png">
-<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E7%B1%BB%E5%9B%BE-%E5%AF%B9%E8%B1%A1%E5%9B%BE.png">
-<meta property="og:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E6%B5%81%E6%B0%B4%E7%BA%BF.png">
-<meta property="article:published_time" content="2022-05-05T14:32:24.646Z">
-<meta property="article:modified_time" content="2022-05-05T14:32:24.646Z">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/2.png">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8D%8F%E8%AE%AE.png">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/1.png">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/mnHbDC3dJp.png">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%86%85%E8%81%9A.png">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E7%B1%BB%E5%9B%BE-%E5%AF%B9%E8%B1%A1%E5%9B%BE.png">
+<meta property="og:image" content="http://dbreset.github.io/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E6%B5%81%E6%B0%B4%E7%BA%BF.png">
+<meta property="article:published_time" content="2022-05-14T02:54:42.896Z">
+<meta property="article:modified_time" content="2022-05-14T02:54:42.896Z">
 <meta property="article:author" content="Luo">
 <meta property="article:tag" content="软考">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/2.png">
+<meta name="twitter:image" content="http://dbreset.github.io/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/2.png">
 
-<link rel="canonical" href="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/">
+<link rel="canonical" href="http://dbreset.github.io/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/">
 
 
 <script id="page-configurations">
@@ -203,7 +203,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -228,7 +228,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-05-05 22:32:24" itemprop="dateCreated datePublished" datetime="2022-05-05T22:32:24+08:00">2022-05-05</time>
+              <time title="创建时间：2022-05-14 10:54:42" itemprop="dateCreated datePublished" datetime="2022-05-14T10:54:42+08:00">2022-05-14</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -284,30 +284,30 @@
 <ol start="3">
 <li>浮点数相加减</li>
 </ol>
-<p>运算过程：对阶（阶码小的向阶码大的对齐 损失更少精度）、尾数求和（(阶码用双符号位，尾数用单符号位）、规格化、舍入、溢出判断</p>
-<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/2.png" alt="截屏2022-05-05 22.31.15"></p>
+<p>运算过程：对阶（<strong>阶码小的向阶码大的对齐</strong> 损失更少精度）、尾数求和（(阶码用双符号位，尾数用单符号位）、规格化、舍入、溢出判断</p>
+<p><img src="/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/2.png" alt="截屏2022-05-05 22.31.15"></p>
 <span id="more"></span>
 
 <ol start="4">
-<li><p>指令执行速度（MIPS）=主频（MHz）/cpi  ;CPI=机器周期*时钟周期；</p>
+<li><p>指令执行速度（<strong>MIPS</strong>）=<strong>主频（MHz）/cpi</strong>  ;CPI=<strong>机器周期*时钟周期</strong>；</p>
 </li>
-<li><p>中断向量提供中断服务程序入口地址</p>
+<li><p>中断向量提供中断服务程序入口地址，用来恢复运行。</p>
 </li>
-<li><p>认证只能阻止主动攻击（中断，篡改，伪造），不能阻止被动攻击（窃听）。</p>
+<li><p>认证只能阻止<strong>主动攻击（中断，篡改，伪造）</strong>，不能阻止<strong>被动攻击（窃听</strong>）。</p>
 </li>
 <li><ul>
-<li>路由信息<em>协议</em>(<em>RIP</em>) 是一种距离矢量<em>协议</em>，这表示它根据跳数来判断到达目标的最佳路由。</li>
+<li>路由信息<em>协议</em>(<em><strong>RIP</strong></em>) 是一种距离矢量<em>协议</em>，这表示它根据跳数来判断到达目标的最佳路由。</li>
 <li><strong>O<em>SPF</em>路由<em>协议</em></strong>是用于网际<em>协议</em>（IP）网络的链路状态路由<em>协议</em>。</li>
 <li><em><strong>BGP协议</strong></em>一般指边界网关协议。 边界网关协议（BGP）是运行于 TCP 上的一种自治系统的路由协议。</li>
 <li><em>UDP协议</em>一般指UDP。 Internet 协议集支持一个无连接的传输协议，该协议称为用户数据报协议（UDP，User Datagram Protocol）。</li>
 </ul>
-<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8D%8F%E8%AE%AE.png" alt="image-20220509213944537"></p>
-<p>MIME互联网标准，扩展了电子邮件标准，使其能够支持。</p>
+<p><img src="/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8D%8F%E8%AE%AE.png" alt="image-20220509213944537"></p>
+<p><strong>MIME</strong>互联网标准，扩展了电子邮件标准，使其能够支持附件等功能。</p>
 <p>S/MIME安全多用途互联网邮件扩展协议</p>
 <ol start="8">
 <li>常见unix命令</li>
 </ol>
-<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/1.png" alt="截屏2022-05-05 23.12.49"></p>
+<p><img src="/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/1.png" alt="截屏2022-05-05 23.12.49"></p>
 </li>
 <li><ul>
 <li><p>修改权受到永久保护。作者的署名权、修改权、保护作品完整权的保护期不受限制。</p>
@@ -317,10 +317,10 @@
 </ul>
 </li>
 <li><p>加密算法</p>
-<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95.png" alt="截屏2022-05-09 22.52.23"></p>
-<p>非对称：EIGamal,背包算法，Rabin(RSA的特例)，ECC（椭圆曲线加密算法）</p>
+<p><img src="/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95.png" alt="截屏2022-05-09 22.52.23"></p>
+<p><strong>非对称：EIGamal,背包算法，Rabin(RSA的特例)，ECC（椭圆曲线加密算法）</strong></p>
 </li>
-<li><p>结构化分析方法中 ，数据流图中的元素在<strong>数据字典</strong>中进行定义。</p>
+<li><p><strong>结构化分析方法</strong>中 ，数据流图中的元素在<strong>数据字典</strong>中进行定义。</p>
 </li>
 <li><p>启发式设计原则    </p>
 <ul>
@@ -332,31 +332,32 @@
 </li>
 </ul>
 </li>
-<li><p>关键路径指的是花费时间最长的事件和活动的序列。<br>相关概念说明：<br>①最早开始时间：某段工程开始点之前最长的输入流之和<br>②最晚开始：关键路径-开始点到最后整个工程最后结束点的距离<br>③最早结束：某段工程结束点之前最长的输入流之和<br>④最晚结束：关键路径-该结束点到整个工程最后结束点的距离</p>
-<p>1.关键路径：从开始到结束得所有路径中，所话时间最长的一条为关键路径。<br>注意：在关键路径上的任务的松弛时间为0<br>最早开始时间：在关键路径上，从开始到该任务的最早执行的时间<br>最晚开始时间：关键路径的总时间-反向得出该任务的时间<br>2.松弛时间（最多延迟执行的时间）<br>第一种求法：最晚开始时间-最早开始时间<br>第二种求法：关键路径的总时间-包含该任务的关键路径花的时间</p>
+<li><p><strong>关键路径</strong>指的是花费时间最长的事件和活动的序列。<br>相关概念说明：<br>①最早开始时间：某段工程开始点之前最长的输入流之和<br>②最晚开始：关键路径-开始点到最后整个工程最后结束点的距离<br>③最早结束：某段工程结束点之前最长的输入流之和<br>④最晚结束：关键路径-该结束点到整个工程最后结束点的距离</p>
+<p>1.关键路径：从开始到结束得所有路径中，所<strong>花费时间最长</strong>的一条为关键路径。<br>注意：在关键路径上的任务的松弛时间为0<br>最早开始时间：在关键路径上，从开始到该任务的最早执行的时间<br>最晚开始时间：关键路径的总时间-反向得出该任务的时间<br>2.松弛时间（最多延迟执行的时间）<br>第一种求法：最晚开始时间-最早开始时间<br>第二种求法：<strong>关键路径的总时间-包含该任务的关键路径花的时间</strong></p>
 </li>
 <li><p>软件项目成本估算模型 <strong>COCOM01I</strong> 中，体系结构阶段模型基于<strong>源代码的行数</strong>进行估算。</p>
 </li>
+<li></li>
 <li><p>语法树 <strong>后缀式(逆波兰式）</strong>  原语法按中序排列构造，再按后序遍历得出</p>
 </li>
 <li><p>C/C++语言 预处理、编译、汇编、链接</p>
 </li>
-<li><p>进程 资源 化简即为判断有无死锁</p>
+<li><p>进程 资源  能否化简即为判断有无<strong>死锁</strong></p>
 </li>
-<li><p>页式存储  根据页面大小计算高位和页内地址，高位通过表转换 拼接页内地址得到变换后的物理地址</p>
+<li><p>页式存储  根据<strong>页面大小</strong>计算高位和页内地址，<strong>高位通过表转换</strong> 拼接页内地址得到变换后的物理地址</p>
 </li>
 <li><p>索引文件结构 </p>
 </li>
 <li><p>根据题干可得：</p>
-<p>其中0<del>4号节点为直接索引，对应逻辑块号为0</del>4。<br>其中5~6号节点为一级间接索引方式，对应逻辑块号从5开始。本题第一空选择B选项。<br>每个索引盘大小为1KB，地址项大小为4B，故每个索引盘有（1KB/4B）=256个索引。<br>一级间接索引有2个盘块，共有512个索引，对应512个逻辑盘块。<br>其中7号节点为二级间接索引，共有256*256=65536个索引，对应65536个逻辑盘块。<br>单个文件最大为：(5+512+65536)*1KB=66053KB。</p>
+<p>其中0<del>4号节点为<strong>直接索引</strong>，对应逻辑块号为0</del>4。<br>其中5~6号节点为<strong>一级间接索引</strong>方式，对应逻辑块号从5开始。本题第一空选择B选项。<br>每个索引盘大小为1KB，地址项大小为4B，故每个索引盘有（1KB/4B）=256个索引。<br>一级间接索引有2个盘块，共有512个索引，对应512个逻辑盘块。<br>其中7号节点为二级间接索引，共有256 * 256=65536个索引，对应65536个逻辑盘块。<br><strong>单个文件最大</strong>为：(5+512+65536)*1KB=66053KB。</p>
 </li>
 <li><p>PV操作中信号量的分析 </p>
-<p>PV信息量的取值表示资源数，最大值为初始可用资源5；<br>当信号量取值小于0时，可表示排队进程数，此时n个进程，最大排队数为n-5，信号量最小取值为-（n-5）。本题选择D选项。</p>
+<p>PV信息量的取值表示资源数，最大值为初始可用资源5；<br>当信号量取值小于0时，可表示排队进程数，此时n个进程，<strong>最大排队数为n-5</strong>，信号量最小取值为-（n-5）。本题选择D选项。</p>
 </li>
-<li><p>喷泉模型 是面向对象的开发方法的软件过程模型，不包括开发活动之间存在明显界限</p>
+<li><p><strong>喷泉模型</strong> 是面向对象的开发方法的软件过程模型，不包括开发活动之间存在明显界限</p>
 </li>
-<li><p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/mnHbDC3dJp.png" alt="img"></p>
-<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%86%85%E8%81%9A.png" alt="截屏2022-05-09 22.57.53"></p>
+<li><p><img src="/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/mnHbDC3dJp.png" alt="img"></p>
+<p><img src="/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E5%86%85%E8%81%9A.png" alt="截屏2022-05-09 22.57.53"></p>
 </li>
 <li><p>面向对象的概念</p>
 <ul>
@@ -384,7 +385,7 @@
 <li><p>多重度：图示表示的是1个A可以对应多个B，1个B只能对应1个A 。</p>
 <p><strong>UML对象图</strong></p>
 <p>重点：对象图是类图的实例，几乎使用与类图完全相同的标识。他们的不同点在于对象图显示类的多个对象实例，而不是实际的类。一个对象图是类图的一个实例。由于对象存在生命周期，因此对象图只能在系统某一时间段存在。 一般<strong>对象图的对象名会有：标识</strong>，且一般<strong>不会出现多重度</strong>。</p>
-<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E7%B1%BB%E5%9B%BE-%E5%AF%B9%E8%B1%A1%E5%9B%BE.png" alt="截屏2022-05-09 23.19.33"></p>
+<p><img src="/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E7%B1%BB%E5%9B%BE-%E5%AF%B9%E8%B1%A1%E5%9B%BE.png" alt="截屏2022-05-09 23.19.33"></p>
 <p><strong>UML状态图</strong></p>
 <p>状态图展现了一个状态机，它由状态、转换、事件和活动组成，通常包括简单状态和组合状态、转换（事件和动作）。</p>
 <p>由于状态可以是单一的，也可以是嵌套的（嵌套在另一个状态中的状态称为子状态，含有子状态的状态称为组合状态），所以活动可以在状态内执行，也可以在状态迁移时执行，A选项说法是正确的。</p>
@@ -418,19 +419,19 @@
 </li>
 <li><p>关于冲突的概念：<br>属性冲突。同一属性可能会存在于不同的分E-R图，由于设计人员不同或是出发点不同，对属性的类型、取值范围和数据单位等可能会不一致<br>命名冲突。相同意义的属性在不同的分E-R图中有着不同的命名，或是名词相同的属性在不同的分E-R图中代表着不同的意义。<br>结构冲突。同一实体在不同的分E-R图中有不同的属性，同一对象在某一分E-R图中被抽象为实体，而在另一分E-R图中又被抽象为属性，需要统一。本题厲于结构冲突，选择C选项。<br>没有实体冲突的说法。</p>
 </li>
-<li><p>44根据函数依赖，首先找到入度为o的属性集合A，又根据A一 BC，这里根据amstrong公理中的分解规则，可以得到A-B， A一C，同时存在B一D，此时有传递两数依赖A一D，可以通过A遍历全图，因此候选键为A。本题选择C</p>
+<li><p>(2020.44) 根据函数依赖，首先找到入度为o的属性集合A，又根据A一 BC，这里根据amstrong公理中的分解规则，可以得到A-B， A一C，同时存在B一D，此时有传递两数依赖A一D，可以通过A遍历全图，因此候选键为A。本题选择C</p>
 </li>
 <li><p>最优二叉树 （哈夫曼树）</p>
 </li>
 </ol>
-<p>权值越大的叶子离根结点越近，Huffman (哈夫曼)树中不存在只有一个子树的结点，Huffman (哈夫曼)树中的结点总数一定为奇数。</p>
+<p>权值越大的叶子离根结点越近，Huffman (哈夫曼)树中<strong>不存在只有一个子树的结点</strong>，Huffman (哈夫曼)树中的结点总数一定为<strong>奇数</strong>。</p>
 <ol start="30">
 <li><p>二分查找</p>
-<p>顺序存储，元素排列有序。</p>
+<p><strong>顺序存储，元素排列有序</strong>。</p>
 </li>
 <li><p>图的遍历  广度优先 深度优先</p>
 </li>
-<li><p>快速排序的实现。</p>
+<li><p>快速排序的实现。  找一个当标准值，从后往前找比标准小的，从前往后找比标准大的 交换 ，再在替换的位置里面继续寻找替换，最后递归上述。</p>
 </li>
 <li><p>DHCP协议 无效的IP：169.254.X.X  (win)  0.0.0.0 (linux)</p>
 </li>
@@ -438,30 +439,23 @@
 </li>
 <li></li>
 </ol>
-<p><img src="/2022/05/05/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E6%B5%81%E6%B0%B4%E7%BA%BF.png" alt="截屏2022-05-09 21.44.50"></p>
+<p><img src="/2022/05/14/%E8%BD%AF%E8%80%83/2020%E5%B9%B4%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E4%B8%8A%E5%8D%88/%E6%B5%81%E6%B0%B4%E7%BA%BF.png" alt="截屏2022-05-09 21.44.50"></p>
 <ol start="36">
 <li><p>敏捷开发方法scrum</p>
-</li>
-<li><p>我们⾸先需要确定⼀个<strong>Product Backlog</strong>（产品代办事项清单）（按优先顺序排列的⼀个产品需求列表），这个是由Product Owner 负责的；</p>
-</li>
-<li><p>Scrum Team根据<strong>Product Backlog</strong>列表，做⼯作量的预估和安排；</p>
-</li>
-<li><p>有了Product Backlog列表，我们需要通过 Sprint Planning Meeting（Sprint计划会议） 来从中挑选出⼀个Story作为本次迭代完<br>成的⽬标，这个⽬标的时间周期是1~4个星期，然后把这个Story进⾏细化，形成⼀个Sprint Backlog；</p>
-</li>
-<li><p>Sprint Backlog是由Scrum Team去完成的，每个成员根据Sprint Backlog再细化成更⼩的任务；</p>
-</li>
-<li><p>在Scrum Team完成计划会议上选出的<strong>Sprint Backlog</strong>过程中，需要进⾏ Daily Scrum Meeting（每⽇站⽴会议），每次会议控制<br>在15分钟左右，今天⼲了什么、明天要⼲什么、有什么困难 ，更新⾃⼰的 Sprint burn down（燃尽图）；</p>
-</li>
-<li><p>当⼀次<strong>Sprint</strong>（冲刺迭代）完成，这时，我们要进⾏ Srpint Review Meeting（演⽰会议），每个成员⽤Demo演⽰⾃⼰负责的任务，让产品负责<br>⼈评估是否完成；</p>
-</li>
-<li><p>最后就是 Sprint Retrospective Meeting（回顾会议），整个团队沟通上个Sprint执⾏中的问题和改进点，总结并讨论改进的地⽅，<br>放⼊下⼀轮Sprint的产品需求</p>
+<p>1）我们⾸先需要确定⼀个<strong>Product Backlog</strong>（产品代办事项清单）（按优先顺序排列的⼀个产品需求列表），这个是由Product Owner 负责的；</p>
+<p>Scrum Team根据<strong>Product Backlog</strong>列表，做⼯作量的预估和安排；</p>
+<p>2）有了Product Backlog列表，我们需要通过 Sprint Planning Meeting（Sprint计划会议） 来从中挑选出⼀个Story作为本次迭代完<br>成的⽬标，这个⽬标的时间周期是1~4个星期，然后把这个Story进⾏细化，形成⼀个Sprint Backlog；</p>
+<p>3）Sprint Backlog是由Scrum Team去完成的，每个成员根据Sprint Backlog再细化成更⼩的任务；</p>
+<p>4）在Scrum Team完成计划会议上选出的<strong>Sprint Backlog</strong>过程中，需要进⾏ Daily Scrum Meeting（每⽇站⽴会议），每次会议控制<br>在15分钟左右，今天⼲了什么、明天要⼲什么、有什么困难 ，更新⾃⼰的 Sprint burn down（燃尽图）；</p>
+<p>5）当⼀次<strong>Sprint</strong>（冲刺迭代）完成，这时，我们要进⾏ Srpint Review Meeting（演⽰会议），每个成员⽤Demo演⽰⾃⼰负责的任务，让产品负责<br>⼈评估是否完成；</p>
+<p>6）最后就是 Sprint Retrospective Meeting（回顾会议），整个团队沟通上个Sprint执⾏中的问题和改进点，总结并讨论改进的地⽅，<br>放⼊下⼀轮Sprint的产品需求</p>
 </li>
 </ol>
 <ol start="37">
 <li><p><strong>McCabe</strong></p>
-<p>在程序控制流程图中，节点是程序中代码的最小单元，边代表节点间的程序流。一个有<strong>e条边（不包含自己回到自己的）</strong>和n个节点的流程图F，其环路复杂度为</p>
-<p><u>V（G） =e－n+2</u>。</p>
-<p>（1）流图中的区域数等于环形复杂度。<br>（2）流图G的环形复杂度V(G)=E-N+2，其中，E是流图中边的条数，N是结点数。<br>（3）流图G的环形复杂度V(G)=P+1，其中，P是流图中判定结点的数目。</p>
+<p>在程序控制流程图中，节点是程序中代码的最小单元，边代表节点间的程序流。一个有<strong>e条边（不包含自己回到自己的）</strong>和n个<strong>节点</strong>的流程图F，其环路复杂度为</p>
+<p><strong><u>V（G） =e－n+2</u>。</strong></p>
+<p>（1）流图中的区域数等于环形复杂度。<br>（2）流图G的环形复杂度V(G)=<strong>E-N+2</strong>，其中，E是流图中边的条数，N是结点数。<br>（3）流图G的环形复杂度V(G)=P+1，其中，P是流图中判定结点的数目。</p>
 <p>环路复杂度越高，程序中的控制路径越复杂。mccabe指出，典型的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%A8%8B%E5%BA%8F%E6%A8%A1%E5%9D%97">程序模块</a>的圈复杂度为10。</p>
 </li>
 <li><p><strong>E-R图</strong></p>
@@ -513,7 +507,10 @@
     <a href="/2022/04/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/" rel="prev" title="shell知识点">
       <i class="fa fa-chevron-left"></i> shell知识点
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/14/%E8%BD%AF%E8%80%83/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/" rel="next" title="2020年软件设计师知识点整理">
+      2020年软件设计师知识点整理 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -588,20 +585,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">58</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">59</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-count">62</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -637,7 +634,7 @@
     <h3 class="widget-title">标签云</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
         <canvas width="250" height="250" id="resCanvas" style="width=100%">
-            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nextcloud%E9%98%BF%E9%87%8C/" rel="tag">nextcloud阿里</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83/" rel="tag">软考</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nextcloud%E9%98%BF%E9%87%8C/" rel="tag">nextcloud阿里</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sentinel/" rel="tag">sentinel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83/" rel="tag">软考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
         </canvas>
     </div>
 </div>
@@ -662,7 +659,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
