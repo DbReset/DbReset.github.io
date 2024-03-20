@@ -1944,6 +1944,33 @@
       </tags>
   </entry>
   <entry>
+    <title>限流_sentinel</title>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/</url>
+    <content><![CDATA[<h1 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h1><h2 id="主要概念相关"><a href="#主要概念相关" class="headerlink" title="主要概念相关"></a>主要概念相关</h2><p>Sentinel 是面向分布式服务架构的高可用流量防护组件，主要以流量为切入点，从<strong>限流、流量整形、熔断降级、系统负载保护、热点防护</strong>等多个维度来帮助开发者保障微服务的稳定性。</p>
+<hr>
+<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/st.png" alt="st"></p>
+<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="Sentinel-基本概念"><a href="#Sentinel-基本概念" class="headerlink" title="Sentinel 基本概念"></a>Sentinel 基本概念</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><p>资源是 Sentinel 的关键概念。它可以是 Java 应用程序中的任何内容，例如，由应用程序提供的服务，或由应用程序调用的其它应用提供的服务，甚至可以是一段代码。在接下来的文档中，我们都会用资源来描述代码块。</p>
+<p>只要通过 Sentinel API 定义的代码，就是资源，能够被 Sentinel 保护起来。大部分情况下，可以使用方法签名，URL，甚至服务名称作为资源名来标示资源。</p>
+<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p>围绕资源的实时状态设定的规则，可以包括流量控制规则、熔断降级规则以及系统保护规则。所有规则可以动态实时调整。</p>
+<ul>
+<li><a href="https://sentinelguard.io/zh-cn/docs/introduction.html">官方介绍文档</a></li>
+</ul>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="基本使用-资源与规则"><a href="#基本使用-资源与规则" class="headerlink" title="基本使用 - 资源与规则"></a><a href="https://github.com/alibaba/Sentinel/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8">基本使用 - 资源与规则</a></h3><h3 id="集成apollo"><a href="#集成apollo" class="headerlink" title="集成apollo"></a><a href="https://blog.csdn.net/a745233700/article/details/122725604">集成apollo</a></h3><hr>
+<h3 id="针对来源进行限流"><a href="#针对来源进行限流" class="headerlink" title="针对来源进行限流"></a>针对来源进行限流</h3><h4 id="1-首先我们要自定义来源解析RequestOriginParser"><a href="#1-首先我们要自定义来源解析RequestOriginParser" class="headerlink" title="1.首先我们要自定义来源解析RequestOriginParser"></a>1.首先我们要自定义来源解析RequestOriginParser</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SentinelConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RequestOriginParser <span class="title">requestOriginParser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (request -&gt; &#123;</span><br><span class="line">            String remoteAddr = IpUtils.getRemoteAddr(request);</span><br><span class="line">            <span class="keyword">return</span> remoteAddr;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-接下来我们设置来源-，填入限制的ip，"><a href="#2-接下来我们设置来源-，填入限制的ip，" class="headerlink" title="2.接下来我们设置来源 ，填入限制的ip，"></a>2.接下来我们设置来源 ，填入限制的ip，</h4><p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/ip.png" alt="ip"></p>
+<h4 id="3-即可实现针对ip的限流"><a href="#3-即可实现针对ip的限流" class="headerlink" title="3.即可实现针对ip的限流"></a>3.即可实现针对ip的限流</h4>]]></content>
+      <categories>
+        <category>java</category>
+        <category>sentinel</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>限流</tag>
+        <tag>sentinel</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>spring框架_事务管理</title>
     <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6_%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h1 id="spring事务管理"><a href="#spring事务管理" class="headerlink" title="spring事务管理"></a>spring事务管理</h1><h2 id="Spring定义了7种传播行为："><a href="#Spring定义了7种传播行为：" class="headerlink" title="Spring定义了7种传播行为："></a>Spring定义了7种传播行为：</h2><ol>
@@ -1981,33 +2008,6 @@
         <tag>java</tag>
         <tag>Spring</tag>
         <tag>事务管理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>限流_sentinel</title>
-    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/</url>
-    <content><![CDATA[<h1 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h1><h2 id="主要概念相关"><a href="#主要概念相关" class="headerlink" title="主要概念相关"></a>主要概念相关</h2><p>Sentinel 是面向分布式服务架构的高可用流量防护组件，主要以流量为切入点，从<strong>限流、流量整形、熔断降级、系统负载保护、热点防护</strong>等多个维度来帮助开发者保障微服务的稳定性。</p>
-<hr>
-<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/st.png" alt="st"></p>
-<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="Sentinel-基本概念"><a href="#Sentinel-基本概念" class="headerlink" title="Sentinel 基本概念"></a>Sentinel 基本概念</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><p>资源是 Sentinel 的关键概念。它可以是 Java 应用程序中的任何内容，例如，由应用程序提供的服务，或由应用程序调用的其它应用提供的服务，甚至可以是一段代码。在接下来的文档中，我们都会用资源来描述代码块。</p>
-<p>只要通过 Sentinel API 定义的代码，就是资源，能够被 Sentinel 保护起来。大部分情况下，可以使用方法签名，URL，甚至服务名称作为资源名来标示资源。</p>
-<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p>围绕资源的实时状态设定的规则，可以包括流量控制规则、熔断降级规则以及系统保护规则。所有规则可以动态实时调整。</p>
-<ul>
-<li><a href="https://sentinelguard.io/zh-cn/docs/introduction.html">官方介绍文档</a></li>
-</ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="基本使用-资源与规则"><a href="#基本使用-资源与规则" class="headerlink" title="基本使用 - 资源与规则"></a><a href="https://github.com/alibaba/Sentinel/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8">基本使用 - 资源与规则</a></h3><h3 id="集成apollo"><a href="#集成apollo" class="headerlink" title="集成apollo"></a><a href="https://blog.csdn.net/a745233700/article/details/122725604">集成apollo</a></h3><hr>
-<h3 id="针对来源进行限流"><a href="#针对来源进行限流" class="headerlink" title="针对来源进行限流"></a>针对来源进行限流</h3><h4 id="1-首先我们要自定义来源解析RequestOriginParser"><a href="#1-首先我们要自定义来源解析RequestOriginParser" class="headerlink" title="1.首先我们要自定义来源解析RequestOriginParser"></a>1.首先我们要自定义来源解析RequestOriginParser</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SentinelConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RequestOriginParser <span class="title">requestOriginParser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (request -&gt; &#123;</span><br><span class="line">            String remoteAddr = IpUtils.getRemoteAddr(request);</span><br><span class="line">            <span class="keyword">return</span> remoteAddr;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-接下来我们设置来源-，填入限制的ip，"><a href="#2-接下来我们设置来源-，填入限制的ip，" class="headerlink" title="2.接下来我们设置来源 ，填入限制的ip，"></a>2.接下来我们设置来源 ，填入限制的ip，</h4><p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/ip.png" alt="ip"></p>
-<h4 id="3-即可实现针对ip的限流"><a href="#3-即可实现针对ip的限流" class="headerlink" title="3.即可实现针对ip的限流"></a>3.即可实现针对ip的限流</h4>]]></content>
-      <categories>
-        <category>java</category>
-        <category>sentinel</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>限流</tag>
-        <tag>sentinel</tag>
       </tags>
   </entry>
   <entry>
