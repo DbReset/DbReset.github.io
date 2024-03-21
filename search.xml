@@ -349,44 +349,6 @@
       </tags>
   </entry>
   <entry>
-    <title>shell知识点</title>
-    <url>/2022/04/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h2 id="Shell-中数字相加"><a href="#Shell-中数字相加" class="headerlink" title="Shell 中数字相加"></a>Shell 中数字相加</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line">c=`expr $&#123;a&#125; + $&#123;b&#125;`</span><br><span class="line">echo &quot;$c&quot;</span><br><span class="line"></span><br><span class="line">let 命令是 BASH 中用于计算的工具，用于执行一个或多个表达式，变量计算中不需要加上</span><br><span class="line"><span class="meta"> $</span><span class="bash"> 来表示变量。如果表达式中包含了空格或其他特殊字符，则必须引起来。</span></span><br><span class="line"> </span><br><span class="line">let a=5+4</span><br><span class="line">let b=9-3 </span><br><span class="line">echo $a $b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ftp ip.ip.ip.ip</span><br><span class="line"><span class="meta">#</span><span class="bash">获取文件</span></span><br><span class="line">mget</span><br><span class="line"><span class="meta">#</span><span class="bash">上传文件</span></span><br><span class="line">mput</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭确认提示</span></span><br><span class="line">prompt</span><br><span class="line"><span class="meta">#</span><span class="bash">删除文件</span></span><br><span class="line">delete xxx.dat</span><br><span class="line"><span class="meta">#</span><span class="bash">批量删除文件 支持通配</span></span><br><span class="line">mdelete *xxx*</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="awk中输入外部的变量"><a href="#awk中输入外部的变量" class="headerlink" title="awk中输入外部的变量"></a>awk中输入外部的变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意 <span class="string">&quot; 和 &#x27;</span></span></span><br><span class="line">grep kdpl_acct_bal load.sh|awk &#x27;&#123;print &quot;&#x27;$FilePath&#x27;&quot;$4&#125;&#x27;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<h2 id="数字的比较："><a href="#数字的比较：" class="headerlink" title="数字的比较："></a>数字的比较：</h2><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">-<span class="literal">eq</span> 相等（equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ne</span> 不等<span class="built_in">（not</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">gt</span> 大于（greater than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">lt</span> 小于（less than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ge</span> 大于等于 （greater than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">le</span> 小于等于 （less than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">字符串的比较：</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> = <span class="variable">$str2</span> ] 等于</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> != <span class="variable">$str2</span> ] 不等于</span><br><span class="line"></span><br><span class="line">[ -z <span class="variable">$str</span> ] 空字符串返<span class="built_in">回true</span></span><br><span class="line"></span><br><span class="line">[ -n <span class="variable">$str</span> ] 或者 [ <span class="variable">$str</span> ] 非空字符串返<span class="built_in">回true</span></span><br></pre></td></tr></table></figure>
-<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">grep</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-r 是递归查找</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-n 是显示行号</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-R 查找所有文件包含子目录</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-i 忽略大小写</span></span><br><span class="line">grep -rn &quot;hello,world!&quot; *</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="清文件，腾空间相关"><a href="#清文件，腾空间相关" class="headerlink" title="清文件，腾空间相关"></a>清文件，腾空间相关</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看空间：</span></span><br><span class="line">df -h</span><br><span class="line">du -sh *   //查看当前所有目录及目录大小</span><br><span class="line">du -h --max-depth=1   //列出当前目录每个目录下的大小兑付-</span><br><span class="line">删除：</span><br><span class="line">/bin/rm -rf ./2016*       bin下执行  不进入回收站</span><br></pre></td></tr></table></figure>
-
-<h2 id="查找包含某段信息的文件名"><a href="#查找包含某段信息的文件名" class="headerlink" title="查找包含某段信息的文件名"></a>查找包含某段信息的文件名</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find .|xargs grep -ri &quot;01000000000275&quot; -l </span><br><span class="line">find . -name *.* |xargs grep &quot;2052019052300000000138&quot; -l</span><br><span class="line">ps -ef|grep java //查找进程 java</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="强杀进程"><a href="#强杀进程" class="headerlink" title="强杀进程"></a>强杀进程</h1><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">ps -ef|<span class="keyword">grep</span> job|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> $ORACLE_SID|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> sqlldr|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br></pre></td></tr></table></figure>
-
-<p>脚本开头加入</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"><span class="comment">#检查是否有未绑定变量</span></span><br><span class="line"><span class="built_in">set</span> -o nounset</span><br><span class="line"><span class="comment">#异常退出</span></span><br><span class="line"><span class="built_in">set</span> -o errexit</span><br><span class="line"><span class="comment">#退出前的处理 finally</span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">&#x27;echo &quot;exitting&quot;&#x27;</span> <span class="built_in">exit</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>unix</category>
-        <category>shell</category>
-        <category>日常使用</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
-        <tag>运算</tag>
-        <tag>ftp</tag>
-        <tag>awk</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>shell中常见的字符串操作</title>
     <url>/2022/04/15/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>shell中定位字符的方式，包括常见的分割：按位置分隔，按指定的字符串截取，按照指定要求（如指定后缀）分割。</p>
@@ -445,6 +407,44 @@
       </categories>
       <tags>
         <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shell知识点</title>
+    <url>/2022/04/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h2 id="Shell-中数字相加"><a href="#Shell-中数字相加" class="headerlink" title="Shell 中数字相加"></a>Shell 中数字相加</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line">c=`expr $&#123;a&#125; + $&#123;b&#125;`</span><br><span class="line">echo &quot;$c&quot;</span><br><span class="line"></span><br><span class="line">let 命令是 BASH 中用于计算的工具，用于执行一个或多个表达式，变量计算中不需要加上</span><br><span class="line"><span class="meta"> $</span><span class="bash"> 来表示变量。如果表达式中包含了空格或其他特殊字符，则必须引起来。</span></span><br><span class="line"> </span><br><span class="line">let a=5+4</span><br><span class="line">let b=9-3 </span><br><span class="line">echo $a $b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ftp ip.ip.ip.ip</span><br><span class="line"><span class="meta">#</span><span class="bash">获取文件</span></span><br><span class="line">mget</span><br><span class="line"><span class="meta">#</span><span class="bash">上传文件</span></span><br><span class="line">mput</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭确认提示</span></span><br><span class="line">prompt</span><br><span class="line"><span class="meta">#</span><span class="bash">删除文件</span></span><br><span class="line">delete xxx.dat</span><br><span class="line"><span class="meta">#</span><span class="bash">批量删除文件 支持通配</span></span><br><span class="line">mdelete *xxx*</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="awk中输入外部的变量"><a href="#awk中输入外部的变量" class="headerlink" title="awk中输入外部的变量"></a>awk中输入外部的变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意 <span class="string">&quot; 和 &#x27;</span></span></span><br><span class="line">grep kdpl_acct_bal load.sh|awk &#x27;&#123;print &quot;&#x27;$FilePath&#x27;&quot;$4&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h2 id="数字的比较："><a href="#数字的比较：" class="headerlink" title="数字的比较："></a>数字的比较：</h2><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">-<span class="literal">eq</span> 相等（equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ne</span> 不等<span class="built_in">（not</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">gt</span> 大于（greater than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">lt</span> 小于（less than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ge</span> 大于等于 （greater than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">le</span> 小于等于 （less than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">字符串的比较：</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> = <span class="variable">$str2</span> ] 等于</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> != <span class="variable">$str2</span> ] 不等于</span><br><span class="line"></span><br><span class="line">[ -z <span class="variable">$str</span> ] 空字符串返<span class="built_in">回true</span></span><br><span class="line"></span><br><span class="line">[ -n <span class="variable">$str</span> ] 或者 [ <span class="variable">$str</span> ] 非空字符串返<span class="built_in">回true</span></span><br></pre></td></tr></table></figure>
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">grep</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-r 是递归查找</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-n 是显示行号</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-R 查找所有文件包含子目录</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-i 忽略大小写</span></span><br><span class="line">grep -rn &quot;hello,world!&quot; *</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="清文件，腾空间相关"><a href="#清文件，腾空间相关" class="headerlink" title="清文件，腾空间相关"></a>清文件，腾空间相关</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看空间：</span></span><br><span class="line">df -h</span><br><span class="line">du -sh *   //查看当前所有目录及目录大小</span><br><span class="line">du -h --max-depth=1   //列出当前目录每个目录下的大小兑付-</span><br><span class="line">删除：</span><br><span class="line">/bin/rm -rf ./2016*       bin下执行  不进入回收站</span><br></pre></td></tr></table></figure>
+
+<h2 id="查找包含某段信息的文件名"><a href="#查找包含某段信息的文件名" class="headerlink" title="查找包含某段信息的文件名"></a>查找包含某段信息的文件名</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find .|xargs grep -ri &quot;01000000000275&quot; -l </span><br><span class="line">find . -name *.* |xargs grep &quot;2052019052300000000138&quot; -l</span><br><span class="line">ps -ef|grep java //查找进程 java</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="强杀进程"><a href="#强杀进程" class="headerlink" title="强杀进程"></a>强杀进程</h1><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">ps -ef|<span class="keyword">grep</span> job|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> $ORACLE_SID|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> sqlldr|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br></pre></td></tr></table></figure>
+
+<p>脚本开头加入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"><span class="comment">#检查是否有未绑定变量</span></span><br><span class="line"><span class="built_in">set</span> -o nounset</span><br><span class="line"><span class="comment">#异常退出</span></span><br><span class="line"><span class="built_in">set</span> -o errexit</span><br><span class="line"><span class="comment">#退出前的处理 finally</span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">&#x27;echo &quot;exitting&quot;&#x27;</span> <span class="built_in">exit</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>unix</category>
+        <category>shell</category>
+        <category>日常使用</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+        <tag>运算</tag>
+        <tag>ftp</tag>
+        <tag>awk</tag>
       </tags>
   </entry>
   <entry>
@@ -1944,33 +1944,6 @@
       </tags>
   </entry>
   <entry>
-    <title>限流_sentinel</title>
-    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/</url>
-    <content><![CDATA[<h1 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h1><h2 id="主要概念相关"><a href="#主要概念相关" class="headerlink" title="主要概念相关"></a>主要概念相关</h2><p>Sentinel 是面向分布式服务架构的高可用流量防护组件，主要以流量为切入点，从<strong>限流、流量整形、熔断降级、系统负载保护、热点防护</strong>等多个维度来帮助开发者保障微服务的稳定性。</p>
-<hr>
-<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/st.png" alt="st"></p>
-<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="Sentinel-基本概念"><a href="#Sentinel-基本概念" class="headerlink" title="Sentinel 基本概念"></a>Sentinel 基本概念</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><p>资源是 Sentinel 的关键概念。它可以是 Java 应用程序中的任何内容，例如，由应用程序提供的服务，或由应用程序调用的其它应用提供的服务，甚至可以是一段代码。在接下来的文档中，我们都会用资源来描述代码块。</p>
-<p>只要通过 Sentinel API 定义的代码，就是资源，能够被 Sentinel 保护起来。大部分情况下，可以使用方法签名，URL，甚至服务名称作为资源名来标示资源。</p>
-<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p>围绕资源的实时状态设定的规则，可以包括流量控制规则、熔断降级规则以及系统保护规则。所有规则可以动态实时调整。</p>
-<ul>
-<li><a href="https://sentinelguard.io/zh-cn/docs/introduction.html">官方介绍文档</a></li>
-</ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="基本使用-资源与规则"><a href="#基本使用-资源与规则" class="headerlink" title="基本使用 - 资源与规则"></a><a href="https://github.com/alibaba/Sentinel/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8">基本使用 - 资源与规则</a></h3><h3 id="集成apollo"><a href="#集成apollo" class="headerlink" title="集成apollo"></a><a href="https://blog.csdn.net/a745233700/article/details/122725604">集成apollo</a></h3><hr>
-<h3 id="针对来源进行限流"><a href="#针对来源进行限流" class="headerlink" title="针对来源进行限流"></a>针对来源进行限流</h3><h4 id="1-首先我们要自定义来源解析RequestOriginParser"><a href="#1-首先我们要自定义来源解析RequestOriginParser" class="headerlink" title="1.首先我们要自定义来源解析RequestOriginParser"></a>1.首先我们要自定义来源解析RequestOriginParser</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SentinelConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RequestOriginParser <span class="title">requestOriginParser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (request -&gt; &#123;</span><br><span class="line">            String remoteAddr = IpUtils.getRemoteAddr(request);</span><br><span class="line">            <span class="keyword">return</span> remoteAddr;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-接下来我们设置来源-，填入限制的ip，"><a href="#2-接下来我们设置来源-，填入限制的ip，" class="headerlink" title="2.接下来我们设置来源 ，填入限制的ip，"></a>2.接下来我们设置来源 ，填入限制的ip，</h4><p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/ip.png" alt="ip"></p>
-<h4 id="3-即可实现针对ip的限流"><a href="#3-即可实现针对ip的限流" class="headerlink" title="3.即可实现针对ip的限流"></a>3.即可实现针对ip的限流</h4>]]></content>
-      <categories>
-        <category>java</category>
-        <category>sentinel</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>限流</tag>
-        <tag>sentinel</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>spring框架_事务管理</title>
     <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6_%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h1 id="spring事务管理"><a href="#spring事务管理" class="headerlink" title="spring事务管理"></a>spring事务管理</h1><h2 id="Spring定义了7种传播行为："><a href="#Spring定义了7种传播行为：" class="headerlink" title="Spring定义了7种传播行为："></a>Spring定义了7种传播行为：</h2><ol>
@@ -2008,6 +1981,33 @@
         <tag>java</tag>
         <tag>Spring</tag>
         <tag>事务管理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>限流_sentinel</title>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/</url>
+    <content><![CDATA[<h1 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h1><h2 id="主要概念相关"><a href="#主要概念相关" class="headerlink" title="主要概念相关"></a>主要概念相关</h2><p>Sentinel 是面向分布式服务架构的高可用流量防护组件，主要以流量为切入点，从<strong>限流、流量整形、熔断降级、系统负载保护、热点防护</strong>等多个维度来帮助开发者保障微服务的稳定性。</p>
+<hr>
+<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/st.png" alt="st"></p>
+<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="Sentinel-基本概念"><a href="#Sentinel-基本概念" class="headerlink" title="Sentinel 基本概念"></a>Sentinel 基本概念</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><p>资源是 Sentinel 的关键概念。它可以是 Java 应用程序中的任何内容，例如，由应用程序提供的服务，或由应用程序调用的其它应用提供的服务，甚至可以是一段代码。在接下来的文档中，我们都会用资源来描述代码块。</p>
+<p>只要通过 Sentinel API 定义的代码，就是资源，能够被 Sentinel 保护起来。大部分情况下，可以使用方法签名，URL，甚至服务名称作为资源名来标示资源。</p>
+<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p>围绕资源的实时状态设定的规则，可以包括流量控制规则、熔断降级规则以及系统保护规则。所有规则可以动态实时调整。</p>
+<ul>
+<li><a href="https://sentinelguard.io/zh-cn/docs/introduction.html">官方介绍文档</a></li>
+</ul>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="基本使用-资源与规则"><a href="#基本使用-资源与规则" class="headerlink" title="基本使用 - 资源与规则"></a><a href="https://github.com/alibaba/Sentinel/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8">基本使用 - 资源与规则</a></h3><h3 id="集成apollo"><a href="#集成apollo" class="headerlink" title="集成apollo"></a><a href="https://blog.csdn.net/a745233700/article/details/122725604">集成apollo</a></h3><hr>
+<h3 id="针对来源进行限流"><a href="#针对来源进行限流" class="headerlink" title="针对来源进行限流"></a>针对来源进行限流</h3><h4 id="1-首先我们要自定义来源解析RequestOriginParser"><a href="#1-首先我们要自定义来源解析RequestOriginParser" class="headerlink" title="1.首先我们要自定义来源解析RequestOriginParser"></a>1.首先我们要自定义来源解析RequestOriginParser</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SentinelConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RequestOriginParser <span class="title">requestOriginParser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (request -&gt; &#123;</span><br><span class="line">            String remoteAddr = IpUtils.getRemoteAddr(request);</span><br><span class="line">            <span class="keyword">return</span> remoteAddr;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-接下来我们设置来源-，填入限制的ip，"><a href="#2-接下来我们设置来源-，填入限制的ip，" class="headerlink" title="2.接下来我们设置来源 ，填入限制的ip，"></a>2.接下来我们设置来源 ，填入限制的ip，</h4><p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/ip.png" alt="ip"></p>
+<h4 id="3-即可实现针对ip的限流"><a href="#3-即可实现针对ip的限流" class="headerlink" title="3.即可实现针对ip的限流"></a>3.即可实现针对ip的限流</h4>]]></content>
+      <categories>
+        <category>java</category>
+        <category>sentinel</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>限流</tag>
+        <tag>sentinel</tag>
       </tags>
   </entry>
   <entry>
@@ -2340,23 +2340,14 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
-    <title>设计模式</title>
+    <title>设计模式_适配器模式</title>
     <url>/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="1-请列举出在-JDK-中几个常用的设计模式？"><a href="#1-请列举出在-JDK-中几个常用的设计模式？" class="headerlink" title="1.请列举出在 JDK 中几个常用的设计模式？"></a>1.请列举出在 JDK 中几个常用的设计模式？</h1><p>单例模式（Singleton pattern）用于 Runtime，Calendar 和其他的一些类中。工厂模式<br>（Factory pattern）被用于各种不可变的类如 Boolean，像 Boolean.valueOf，观察者模式<br>（Observer pattern）被用于 Swing 和很多的事件监听中。装饰器设计模式（Decorator<br>design pattern）被用于多个 Java IO 类中。</p>
-<h1 id="2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？"><a href="#2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？" class="headerlink" title="2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？"></a>2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？</h1><p>设计模式是世界上各种各样程序员用来解决特定设计问题的尝试和测试的方法。设计模式<br>是代码可用性的延伸。</p>
-<p>模板方法模式定义一个操作中的算法的骨架，将一些步骤延迟到子类中，模板方法使得子类可以不改变一个算法的结构即可重定义该算法的某些步骤。</p>
-<p>应用场景如下：</p>
-<p>对于一些功能，在不同的对象身上展示不同的作用，但是功能的框架是一样的。</p>
-<h1 id="3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式"><a href="#3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式" class="headerlink" title="3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式"></a>3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式</h1><p>单例模式重点在于在整个系统上共享一些创建时较耗资源的对象。整个应用中只维护一个<br>特定类实例，它被所有组件共同使用。Java.lang.Runtime 是单例模式的经典例子。从 Java<br>5 开始你可以使用枚举（enum）来实现线程安全的单例。</p>
-<span id="more"></span>
-
-<h1 id="4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？"><a href="#4-在-Java-中，什么叫观察者设计模式（observer-design-pattern）？" class="headerlink" title="4.在 Java 中，什么叫观察者设计模式（observer design pattern）？"></a>4.在 Java 中，什么叫观察者设计模式（observer design pattern）？</h1><p>观察者模式是基于对象的状态变化和观察者的通讯，以便他们作出相应的操作。简单的例<br>子就是一个天气系统，当天气变化时必须在展示给公众的视图中进行反映。这个视图对象<br>是一个主体，而不同的视图是观察者。</p>
-<h1 id="5-使用工厂模式最主要的好处是什么？在哪里使用？"><a href="#5-使用工厂模式最主要的好处是什么？在哪里使用？" class="headerlink" title="5.使用工厂模式最主要的好处是什么？在哪里使用？"></a>5.使用工厂模式最主要的好处是什么？在哪里使用？</h1><p>工厂模式的最大好处是增加了创建对象时的封装层次。如果你使用工厂来创建对象，之后<br>你可以使用更高级和更高性能的实现来替换原始的产品实现或类，这不需要在调用层做任<br>何修改。</p>
-<h1 id="6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？"><a href="#6-举一个用-Java-实现的装饰模式-decorator-design-pattern-？它是作用于对象层次还是类层次？" class="headerlink" title="6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？"></a>6.举一个用 Java 实现的装饰模式(decorator design pattern)？它是作用于对象层次还是类层次？</h1><p>装饰模式增加强了单个对象的能力。Java IO 到处都使用了装饰模式，典型例子就是<br>Buffered 系列类如 BufferedReader 和 BufferedWriter，它们增强了 Reader 和 Writer 对象，<br>以实现提升性能的 Buffer 层次的读取和写入。</p>
+    <content><![CDATA[<p>//TODO</p>
 ]]></content>
       <categories>
         <category>设计模式</category>
         <category>常见面试</category>
+        <category>适配器模式</category>
       </categories>
       <tags>
         <tag>设计模式</tag>
@@ -3523,6 +3514,39 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>shell命令之网络篇</title>
+    <url>/2021/06/15/shell/shell%E5%91%BD%E4%BB%A4%E4%B9%8B%E7%BD%91%E7%BB%9C%E7%AF%87/</url>
+    <content><![CDATA[<h3 id="要想知道网络的配置和状态，我们可以使用-ifconfig-或者-ip-命令来查看。"><a href="#要想知道网络的配置和状态，我们可以使用-ifconfig-或者-ip-命令来查看。" class="headerlink" title="要想知道网络的配置和状态，我们可以使用 ifconfig 或者 ip 命令来查看。"></a>要想知道网络的配置和状态，我们可以使用 ifconfig 或者 ip 命令来查看。</h3><p>这两个命令功能都差不多，不过它们属于不同的软件包，ifconfig 属于 net-tools 软件包，ip 属于 iproute2 软件包，我的印象中 net-tools 软件包没有人继续维护了，而 iproute2 软件包是有开发者依然在维护，所以更推荐你使用 ip 工具。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ipconfig eth0</span><br><span class="line">ip -s addr show dev eth0</span><br></pre></td></tr></table></figure>
+<p>第一，网口的连接状态标志。其实也就是表示对应的网口是否连接到交换机或路由器等设备，如果 ifconfig 输出中看到有 RUNNING，或者 ip 输出中有 LOWER_UP，则说明物理网路是连通的，如果看不到，则表示网口没有接网线。</p>
+<p>第二，MTU 大小。默认值是 1500 字节，其作用主要是限制网络包的大小，如果 IP 层有一个数据报要传，而且数据帧的长度比链路层的 MTU 还大，那么 IP 层就需要进行分片，即把数据报分成干片，这样每一片就都小于 MTU。事实上，每个网络的链路层 MTU 可能会不一样，所以你可能需要调大或者调小 MTU 的数值。</p>
+<p>第三，网口的 IP 地址、子网掩码、MAC 地址、网关地址。这些信息必须要配置正确，网络功能才能正常工作。</p>
+<p>第四，网路包收发的统计信息。通常有网络收发的字节数、包数、错误数以及丢包情况的信息，如果 TX（发送） 和 RX（接收） 部分中 errors、dropped、overruns、carrier 以及 collisions 等指标不为 0 时，则说明网络发送或者接收出问题了，这些出错统计信息的指标意义如下：</p>
+<span id="more"></span>
+<ul>
+<li><p>errors 表示发生错误的数据包数，比如校验错误、帧同步错误等；</p>
+</li>
+<li><p>dropped 表示丢弃的数据包数，即数据包已经收到了 Ring Buffer（这个缓冲区是在内核内存中，更具体一点是在网卡驱动程序里），但因为系统内存不足等原因而发生的丢包；</p>
+</li>
+<li><p>overruns 表示超限数据包数，即网络接收/发送速度过快，导致 Ring Buffer 中的数据包来不及处理，而导致的丢包，因为过多的数据包挤压在 Ring Buffer，这样 Ring Buffer 很容易就溢出了；</p>
+</li>
+<li><p>carrier 表示发生 carrirer 错误的数据包数，比如双工模式不匹配、物理电缆出现问题等；</p>
+</li>
+<li><p>collisions 表示冲突、碰撞数据包数；</p>
+</li>
+</ul>
+<h3 id="协议栈的相关信息的查询（如TCP-UDP）"><a href="#协议栈的相关信息的查询（如TCP-UDP）" class="headerlink" title="协议栈的相关信息的查询（如TCP/UDP）"></a>协议栈的相关信息的查询（如TCP/UDP）</h3><p>ss 或者  netstat</p>
+]]></content>
+      <categories>
+        <category>unix</category>
+        <category>shell</category>
+        <category>网络命令</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Shell脚本中$</title>
     <url>/2021/06/15/shell/shell%20%E8%84%9A%E6%9C%AC%E4%B8%AD%E7%9A%84$%20/</url>
     <content><![CDATA[<h1 id="Shell脚本中-0、-、-、-、-、-、"><a href="#Shell脚本中-0、-、-、-、-、-、" class="headerlink" title="Shell脚本中$0、$?、$!、$$、$*、$#、$@"></a>Shell脚本中$0、$?、$!、$$、$*、$#、$@</h1><h2 id="1"><a href="#1" class="headerlink" title="1. $$"></a>1. $$</h2><p>Shell本身的PID（ProcessID）</p>
@@ -3554,39 +3578,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </categories>
       <tags>
         <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>shell命令之网络篇</title>
-    <url>/2021/06/15/shell/shell%E5%91%BD%E4%BB%A4%E4%B9%8B%E7%BD%91%E7%BB%9C%E7%AF%87/</url>
-    <content><![CDATA[<h3 id="要想知道网络的配置和状态，我们可以使用-ifconfig-或者-ip-命令来查看。"><a href="#要想知道网络的配置和状态，我们可以使用-ifconfig-或者-ip-命令来查看。" class="headerlink" title="要想知道网络的配置和状态，我们可以使用 ifconfig 或者 ip 命令来查看。"></a>要想知道网络的配置和状态，我们可以使用 ifconfig 或者 ip 命令来查看。</h3><p>这两个命令功能都差不多，不过它们属于不同的软件包，ifconfig 属于 net-tools 软件包，ip 属于 iproute2 软件包，我的印象中 net-tools 软件包没有人继续维护了，而 iproute2 软件包是有开发者依然在维护，所以更推荐你使用 ip 工具。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ipconfig eth0</span><br><span class="line">ip -s addr show dev eth0</span><br></pre></td></tr></table></figure>
-<p>第一，网口的连接状态标志。其实也就是表示对应的网口是否连接到交换机或路由器等设备，如果 ifconfig 输出中看到有 RUNNING，或者 ip 输出中有 LOWER_UP，则说明物理网路是连通的，如果看不到，则表示网口没有接网线。</p>
-<p>第二，MTU 大小。默认值是 1500 字节，其作用主要是限制网络包的大小，如果 IP 层有一个数据报要传，而且数据帧的长度比链路层的 MTU 还大，那么 IP 层就需要进行分片，即把数据报分成干片，这样每一片就都小于 MTU。事实上，每个网络的链路层 MTU 可能会不一样，所以你可能需要调大或者调小 MTU 的数值。</p>
-<p>第三，网口的 IP 地址、子网掩码、MAC 地址、网关地址。这些信息必须要配置正确，网络功能才能正常工作。</p>
-<p>第四，网路包收发的统计信息。通常有网络收发的字节数、包数、错误数以及丢包情况的信息，如果 TX（发送） 和 RX（接收） 部分中 errors、dropped、overruns、carrier 以及 collisions 等指标不为 0 时，则说明网络发送或者接收出问题了，这些出错统计信息的指标意义如下：</p>
-<span id="more"></span>
-<ul>
-<li><p>errors 表示发生错误的数据包数，比如校验错误、帧同步错误等；</p>
-</li>
-<li><p>dropped 表示丢弃的数据包数，即数据包已经收到了 Ring Buffer（这个缓冲区是在内核内存中，更具体一点是在网卡驱动程序里），但因为系统内存不足等原因而发生的丢包；</p>
-</li>
-<li><p>overruns 表示超限数据包数，即网络接收/发送速度过快，导致 Ring Buffer 中的数据包来不及处理，而导致的丢包，因为过多的数据包挤压在 Ring Buffer，这样 Ring Buffer 很容易就溢出了；</p>
-</li>
-<li><p>carrier 表示发生 carrirer 错误的数据包数，比如双工模式不匹配、物理电缆出现问题等；</p>
-</li>
-<li><p>collisions 表示冲突、碰撞数据包数；</p>
-</li>
-</ul>
-<h3 id="协议栈的相关信息的查询（如TCP-UDP）"><a href="#协议栈的相关信息的查询（如TCP-UDP）" class="headerlink" title="协议栈的相关信息的查询（如TCP/UDP）"></a>协议栈的相关信息的查询（如TCP/UDP）</h3><p>ss 或者  netstat</p>
-]]></content>
-      <categories>
-        <category>unix</category>
-        <category>shell</category>
-        <category>网络命令</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
