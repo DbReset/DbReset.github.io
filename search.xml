@@ -32,6 +32,8 @@
 <p>途径：是创建信息时代的社会生产力，推动社会生产关系以及社会上层建筑的改革</p>
 <p>目标：是使国家的综合实力、社会的文明素质和人民的生活质量全面提升</p>
 <h2 id="信息化6要素及其地位"><a href="#信息化6要素及其地位" class="headerlink" title="信息化6要素及其地位"></a>信息化6要素及其地位</h2><p><img src="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E4%BF%A1%E6%81%AF%E5%8C%96%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F/%E4%BF%A1%E6%81%AF%E5%8C%966%E8%A6%81%E7%B4%A0.png" alt="信息化6要素"></p>
+<span id="more"></span>
+
 <h2 id="信息系统生命周期5个阶段及其内容"><a href="#信息系统生命周期5个阶段及其内容" class="headerlink" title="信息系统生命周期5个阶段及其内容"></a>信息系统生命周期5个阶段及其内容</h2><p>①系统<strong>规划</strong>阶段：对组织的环境、目标及现行系统的状况进行初步调查，根据 组织目标和发展战略，确定信息系统的发展战略，对建设新系统的需求做出分 析和预测，研究建设新系统的必要性和可能性。给出拟建系统的备选方案，写 出<strong>可行性研究报告</strong>。</p>
 <p>②系统<strong>分析</strong>阶段：根据系统设计任务书所确定的范围，对现行系统进行详细调 查，描述现行系统的业务流程，指出现行系统的局限性和不足之处，确定新系 统的基本目标和逻辑功能要求，即<strong>提出新系统的逻辑模型</strong>。（做什么）</p>
 <p>③系统<strong>设计</strong>阶段：根据系统说明书中规定的功能要求，考虑实际条件，具体设 计实现逻辑模型的技术方案，也就是<strong>设计新系统的物理模型</strong>。又称为物理设计 阶段，可分为<strong>总体设计（概要设计）和详细设计</strong>两个子阶段。技术文档是系统 设计说明书。（怎么做）</p>
@@ -721,44 +723,6 @@
       </tags>
   </entry>
   <entry>
-    <title>shell知识点</title>
-    <url>/2022/04/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h2 id="Shell-中数字相加"><a href="#Shell-中数字相加" class="headerlink" title="Shell 中数字相加"></a>Shell 中数字相加</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line">c=`expr $&#123;a&#125; + $&#123;b&#125;`</span><br><span class="line">echo &quot;$c&quot;</span><br><span class="line"></span><br><span class="line">let 命令是 BASH 中用于计算的工具，用于执行一个或多个表达式，变量计算中不需要加上</span><br><span class="line"><span class="meta"> $</span><span class="bash"> 来表示变量。如果表达式中包含了空格或其他特殊字符，则必须引起来。</span></span><br><span class="line"> </span><br><span class="line">let a=5+4</span><br><span class="line">let b=9-3 </span><br><span class="line">echo $a $b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ftp ip.ip.ip.ip</span><br><span class="line"><span class="meta">#</span><span class="bash">获取文件</span></span><br><span class="line">mget</span><br><span class="line"><span class="meta">#</span><span class="bash">上传文件</span></span><br><span class="line">mput</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭确认提示</span></span><br><span class="line">prompt</span><br><span class="line"><span class="meta">#</span><span class="bash">删除文件</span></span><br><span class="line">delete xxx.dat</span><br><span class="line"><span class="meta">#</span><span class="bash">批量删除文件 支持通配</span></span><br><span class="line">mdelete *xxx*</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="awk中输入外部的变量"><a href="#awk中输入外部的变量" class="headerlink" title="awk中输入外部的变量"></a>awk中输入外部的变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意 <span class="string">&quot; 和 &#x27;</span></span></span><br><span class="line">grep kdpl_acct_bal load.sh|awk &#x27;&#123;print &quot;&#x27;$FilePath&#x27;&quot;$4&#125;&#x27;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<h2 id="数字的比较："><a href="#数字的比较：" class="headerlink" title="数字的比较："></a>数字的比较：</h2><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">-<span class="literal">eq</span> 相等（equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ne</span> 不等<span class="built_in">（not</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">gt</span> 大于（greater than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">lt</span> 小于（less than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ge</span> 大于等于 （greater than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">le</span> 小于等于 （less than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">字符串的比较：</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> = <span class="variable">$str2</span> ] 等于</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> != <span class="variable">$str2</span> ] 不等于</span><br><span class="line"></span><br><span class="line">[ -z <span class="variable">$str</span> ] 空字符串返<span class="built_in">回true</span></span><br><span class="line"></span><br><span class="line">[ -n <span class="variable">$str</span> ] 或者 [ <span class="variable">$str</span> ] 非空字符串返<span class="built_in">回true</span></span><br></pre></td></tr></table></figure>
-<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">grep</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-r 是递归查找</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-n 是显示行号</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-R 查找所有文件包含子目录</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-i 忽略大小写</span></span><br><span class="line">grep -rn &quot;hello,world!&quot; *</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="清文件，腾空间相关"><a href="#清文件，腾空间相关" class="headerlink" title="清文件，腾空间相关"></a>清文件，腾空间相关</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看空间：</span></span><br><span class="line">df -h</span><br><span class="line">du -sh *   //查看当前所有目录及目录大小</span><br><span class="line">du -h --max-depth=1   //列出当前目录每个目录下的大小兑付-</span><br><span class="line">删除：</span><br><span class="line">/bin/rm -rf ./2016*       bin下执行  不进入回收站</span><br></pre></td></tr></table></figure>
-
-<h2 id="查找包含某段信息的文件名"><a href="#查找包含某段信息的文件名" class="headerlink" title="查找包含某段信息的文件名"></a>查找包含某段信息的文件名</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find .|xargs grep -ri &quot;01000000000275&quot; -l </span><br><span class="line">find . -name *.* |xargs grep &quot;2052019052300000000138&quot; -l</span><br><span class="line">ps -ef|grep java //查找进程 java</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="强杀进程"><a href="#强杀进程" class="headerlink" title="强杀进程"></a>强杀进程</h1><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">ps -ef|<span class="keyword">grep</span> job|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> $ORACLE_SID|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> sqlldr|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br></pre></td></tr></table></figure>
-
-<p>脚本开头加入</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"><span class="comment">#检查是否有未绑定变量</span></span><br><span class="line"><span class="built_in">set</span> -o nounset</span><br><span class="line"><span class="comment">#异常退出</span></span><br><span class="line"><span class="built_in">set</span> -o errexit</span><br><span class="line"><span class="comment">#退出前的处理 finally</span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">&#x27;echo &quot;exitting&quot;&#x27;</span> <span class="built_in">exit</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>unix</category>
-        <category>shell</category>
-        <category>日常使用</category>
-      </categories>
-      <tags>
-        <tag>shell</tag>
-        <tag>运算</tag>
-        <tag>ftp</tag>
-        <tag>awk</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>shell中常见的字符串操作</title>
     <url>/2022/04/15/shell/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>shell中定位字符的方式，包括常见的分割：按位置分隔，按指定的字符串截取，按照指定要求（如指定后缀）分割。</p>
@@ -817,6 +781,44 @@
       </categories>
       <tags>
         <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shell知识点</title>
+    <url>/2022/04/15/shell/shell%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h2 id="Shell-中数字相加"><a href="#Shell-中数字相加" class="headerlink" title="Shell 中数字相加"></a>Shell 中数字相加</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">a=10</span><br><span class="line">b=20</span><br><span class="line">c=`expr $&#123;a&#125; + $&#123;b&#125;`</span><br><span class="line">echo &quot;$c&quot;</span><br><span class="line"></span><br><span class="line">let 命令是 BASH 中用于计算的工具，用于执行一个或多个表达式，变量计算中不需要加上</span><br><span class="line"><span class="meta"> $</span><span class="bash"> 来表示变量。如果表达式中包含了空格或其他特殊字符，则必须引起来。</span></span><br><span class="line"> </span><br><span class="line">let a=5+4</span><br><span class="line">let b=9-3 </span><br><span class="line">echo $a $b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ftp ip.ip.ip.ip</span><br><span class="line"><span class="meta">#</span><span class="bash">获取文件</span></span><br><span class="line">mget</span><br><span class="line"><span class="meta">#</span><span class="bash">上传文件</span></span><br><span class="line">mput</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭确认提示</span></span><br><span class="line">prompt</span><br><span class="line"><span class="meta">#</span><span class="bash">删除文件</span></span><br><span class="line">delete xxx.dat</span><br><span class="line"><span class="meta">#</span><span class="bash">批量删除文件 支持通配</span></span><br><span class="line">mdelete *xxx*</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="awk中输入外部的变量"><a href="#awk中输入外部的变量" class="headerlink" title="awk中输入外部的变量"></a>awk中输入外部的变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意 <span class="string">&quot; 和 &#x27;</span></span></span><br><span class="line">grep kdpl_acct_bal load.sh|awk &#x27;&#123;print &quot;&#x27;$FilePath&#x27;&quot;$4&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h2 id="数字的比较："><a href="#数字的比较：" class="headerlink" title="数字的比较："></a>数字的比较：</h2><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">-<span class="literal">eq</span> 相等（equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ne</span> 不等<span class="built_in">（not</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">gt</span> 大于（greater than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">lt</span> 小于（less than）</span><br><span class="line"></span><br><span class="line">-<span class="literal">ge</span> 大于等于 （greater than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">-<span class="literal">le</span> 小于等于 （less than <span class="keyword">or</span> equal）</span><br><span class="line"></span><br><span class="line">字符串的比较：</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> = <span class="variable">$str2</span> ] 等于</span><br><span class="line"></span><br><span class="line">[ <span class="variable">$str1</span> != <span class="variable">$str2</span> ] 不等于</span><br><span class="line"></span><br><span class="line">[ -z <span class="variable">$str</span> ] 空字符串返<span class="built_in">回true</span></span><br><span class="line"></span><br><span class="line">[ -n <span class="variable">$str</span> ] 或者 [ <span class="variable">$str</span> ] 非空字符串返<span class="built_in">回true</span></span><br></pre></td></tr></table></figure>
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">grep</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-r 是递归查找</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-n 是显示行号</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-R 查找所有文件包含子目录</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-i 忽略大小写</span></span><br><span class="line">grep -rn &quot;hello,world!&quot; *</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="清文件，腾空间相关"><a href="#清文件，腾空间相关" class="headerlink" title="清文件，腾空间相关"></a>清文件，腾空间相关</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看空间：</span></span><br><span class="line">df -h</span><br><span class="line">du -sh *   //查看当前所有目录及目录大小</span><br><span class="line">du -h --max-depth=1   //列出当前目录每个目录下的大小兑付-</span><br><span class="line">删除：</span><br><span class="line">/bin/rm -rf ./2016*       bin下执行  不进入回收站</span><br></pre></td></tr></table></figure>
+
+<h2 id="查找包含某段信息的文件名"><a href="#查找包含某段信息的文件名" class="headerlink" title="查找包含某段信息的文件名"></a>查找包含某段信息的文件名</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find .|xargs grep -ri &quot;01000000000275&quot; -l </span><br><span class="line">find . -name *.* |xargs grep &quot;2052019052300000000138&quot; -l</span><br><span class="line">ps -ef|grep java //查找进程 java</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="强杀进程"><a href="#强杀进程" class="headerlink" title="强杀进程"></a>强杀进程</h1><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">ps -ef|<span class="keyword">grep</span> job|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> $ORACLE_SID|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br><span class="line">ps -ef|<span class="keyword">grep</span> sqlldr|<span class="keyword">grep</span> -v <span class="keyword">grep</span>|awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>|xargs <span class="keyword">kill</span> -<span class="number">9</span></span><br></pre></td></tr></table></figure>
+
+<p>脚本开头加入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"><span class="comment">#检查是否有未绑定变量</span></span><br><span class="line"><span class="built_in">set</span> -o nounset</span><br><span class="line"><span class="comment">#异常退出</span></span><br><span class="line"><span class="built_in">set</span> -o errexit</span><br><span class="line"><span class="comment">#退出前的处理 finally</span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">&#x27;echo &quot;exitting&quot;&#x27;</span> <span class="built_in">exit</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>unix</category>
+        <category>shell</category>
+        <category>日常使用</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+        <tag>运算</tag>
+        <tag>ftp</tag>
+        <tag>awk</tag>
       </tags>
   </entry>
   <entry>
@@ -1390,6 +1392,36 @@
       </tags>
   </entry>
   <entry>
+    <title>消息队列</title>
+    <url>/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</url>
+    <content><![CDATA[<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
+<ol>
+<li><strong>异步</strong>、</li>
+<li><strong>削峰</strong>、</li>
+<li><strong>解耦</strong></li>
+</ol>
+<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>比如一个流程下需要正常的业务处理，中间需要发送短信，扣减优惠卷等，可以生产消息进入队列，由短信系统，优惠卷系统异步处理，减少主业务逻辑链路，提升效率。</p>
+<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
+<h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
+<span id="more"></span>
+
+<h2 id="消息重复消费"><a href="#消息重复消费" class="headerlink" title="消息重复消费"></a>消息重复消费</h2><p>系统重试等原因造成<br>解决方法：</p>
+<ol>
+<li>接口幂等 无论多次执行，其结果都是一样的.更复杂的操作幂等保证是利用唯一交易号(流水号)实现.请求的是相同的流水号的话，判断处理过的话 直接返回成功就行了。</li>
+</ol>
+<h1 id="消息顺序消费"><a href="#消息顺序消费" class="headerlink" title="消息顺序消费"></a>消息顺序消费</h1><p>要保证顺序消费，需要确保整个流程中有序：生产者生产有序，放入消息中间件中有序，消费者消费时有序。</p>
+<p>一个topic下有多个队列，为了保证发送有序，RocketMQ提供了<strong>MessageQueueSelector</strong>队列选择机制<br>我们可使用<strong>Hash取模法</strong>，让同一个订单发送到<strong>同一个队列</strong>中，再使用同步发送，只有同个订单的创建消息发送成功，再发送支付消息。这样，我们保证了<strong>发送有序</strong>。<br><strong>RocketMQ的topic内的队列机制</strong>,可以保证存储满足FIFO（First Input First Output 简单说就是指先进先出）。</p>
+<p>剩下的只需要消费者顺序消费即可。</p>
+]]></content>
+      <categories>
+        <category>中间件</category>
+        <category>消息队列</category>
+      </categories>
+      <tags>
+        <tag>消息队列</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>消息队列_Rocketmq</title>
     <url>/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/</url>
     <content><![CDATA[<h1 id="主流消息队列选型"><a href="#主流消息队列选型" class="headerlink" title="主流消息队列选型"></a>主流消息队列选型</h1><table>
@@ -1503,36 +1535,6 @@
       <tags>
         <tag>消息队列</tag>
         <tag>Rocketmq</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>消息队列</title>
-    <url>/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</url>
-    <content><![CDATA[<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
-<ol>
-<li><strong>异步</strong>、</li>
-<li><strong>削峰</strong>、</li>
-<li><strong>解耦</strong></li>
-</ol>
-<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>比如一个流程下需要正常的业务处理，中间需要发送短信，扣减优惠卷等，可以生产消息进入队列，由短信系统，优惠卷系统异步处理，减少主业务逻辑链路，提升效率。</p>
-<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
-<h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
-<span id="more"></span>
-
-<h2 id="消息重复消费"><a href="#消息重复消费" class="headerlink" title="消息重复消费"></a>消息重复消费</h2><p>系统重试等原因造成<br>解决方法：</p>
-<ol>
-<li>接口幂等 无论多次执行，其结果都是一样的.更复杂的操作幂等保证是利用唯一交易号(流水号)实现.请求的是相同的流水号的话，判断处理过的话 直接返回成功就行了。</li>
-</ol>
-<h1 id="消息顺序消费"><a href="#消息顺序消费" class="headerlink" title="消息顺序消费"></a>消息顺序消费</h1><p>要保证顺序消费，需要确保整个流程中有序：生产者生产有序，放入消息中间件中有序，消费者消费时有序。</p>
-<p>一个topic下有多个队列，为了保证发送有序，RocketMQ提供了<strong>MessageQueueSelector</strong>队列选择机制<br>我们可使用<strong>Hash取模法</strong>，让同一个订单发送到<strong>同一个队列</strong>中，再使用同步发送，只有同个订单的创建消息发送成功，再发送支付消息。这样，我们保证了<strong>发送有序</strong>。<br><strong>RocketMQ的topic内的队列机制</strong>,可以保证存储满足FIFO（First Input First Output 简单说就是指先进先出）。</p>
-<p>剩下的只需要消费者顺序消费即可。</p>
-]]></content>
-      <categories>
-        <category>中间件</category>
-        <category>消息队列</category>
-      </categories>
-      <tags>
-        <tag>消息队列</tag>
       </tags>
   </entry>
   <entry>
@@ -1658,6 +1660,69 @@
       </tags>
   </entry>
   <entry>
+    <title>ZooKeeper</title>
+    <url>/2021/08/19/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/ZooKeeper/</url>
+    <content><![CDATA[<h1 id="Zookeeper基础概念"><a href="#Zookeeper基础概念" class="headerlink" title="Zookeeper基础概念"></a>Zookeeper基础概念</h1><p>ZooKeeper是一个开放源码的分布式协调服务，它是集群的管理者，监视着集群中各个节点的状态根据节点提交的反馈进行下一步合理操作。最终，将简单易用的接口和性能高效、功能稳定的系统提供给用户。</p>
+<p>分布式应用程序可以基于Zookeeper实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选举、分布式锁和分布式队列等功能。</p>
+<p>客户端的读请求可以被集群中的任意一台机器处理，<strong>如果读请求在节点上注册了监听器，这个监听器也是由所连接的zookeeper机器来处理</strong>。对于写请求，这些请求会同时发给其他zookeeper机器并且达成一致后，请求才会返回成功。因此，随着zookeeper的集群机器增多，读请求的吞吐会提高但是写请求的吞吐会下降。</p>
+<p>有序性是zookeeper中非常重要的一个特性，所有的更新都是<strong>全局有序</strong>的，每个更新都有一个<strong>唯一的时间戳</strong>，这个时间戳称为zxid（Zookeeper Transaction Id）。而读请求只会相对于更新有序，也就是读请求的返回结果中会带有这个zookeeper最新的zxid。</p>
+<h2 id="ZooKeeper提供了什么？"><a href="#ZooKeeper提供了什么？" class="headerlink" title="ZooKeeper提供了什么？"></a>ZooKeeper提供了什么？</h2><p>区别于Eureka专用于注册中心的功能，zookeeper主要提供的能力是</p>
+<ul>
+<li>文件系统</li>
+<li>通知机制</li>
+</ul>
+<h2 id="Zookeeper文件系统"><a href="#Zookeeper文件系统" class="headerlink" title="Zookeeper文件系统"></a>Zookeeper文件系统</h2><ul>
+<li>Zookeeper提供一个多层级的节点命名空间（节点称为znode）。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。</li>
+<li>Zookeeper为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，<strong>这种特性使得Zookeeper不能用于存放大量的数据，每个节点的存放数据上限为1M</strong>。</li>
+</ul>
+<h2 id="ZAB协议？"><a href="#ZAB协议？" class="headerlink" title="ZAB协议？"></a>ZAB协议？</h2><p>ZAB协议是为分布式协调服务Zookeeper专门设计的一种支持崩溃恢复的原子广播协议。</p>
+<p>ZAB协议包括两种基本的模式：<strong>崩溃恢复和消息广播</strong>。</p>
+<p>当整个zookeeper集群刚刚启动或者Leader服务器宕机、重启或者网络故障导致不存在过半的服务器与Leader服务器保持正常通信时，所有进程（服务器）进入崩溃恢复模式，首先选举产生新的Leader服务器，然后集群中Follower服务器开始与新的Leader服务器进行数据同步，当集群中超过半数机器与该Leader服务器完成数据同步之后，退出恢复模式进入消息广播模式，Leader服务器开始接收客户端的事务请求生成事物提案来进行事务请求处理。</p>
+<h2 id="四种类型的数据节点-Znode"><a href="#四种类型的数据节点-Znode" class="headerlink" title="四种类型的数据节点 Znode"></a>四种类型的数据节点 Znode</h2><ul>
+<li>PERSISTENT-持久节点<br>除非手动删除，否则节点一直存在于Zookeeper上</li>
+<li>EPHEMERAL-临时节点<br>临时节点的生命周期与客户端会话绑定，一旦客户端会话失效（客户端与zookeeper连接断开不一定会话失效），那么这个客户端创建的所有临时节点都会被移除。</li>
+<li>PERSISTENT_SEQUENTIAL-持久顺序节点<br>基本特性同持久节点，只是增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。</li>
+<li>EPHEMERAL_SEQUENTIAL-临时顺序节点<br>基本特性同临时节点，增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。</li>
+</ul>
+<h2 id="Zookeeper-Watcher-机制-–-数据变更通知"><a href="#Zookeeper-Watcher-机制-–-数据变更通知" class="headerlink" title="Zookeeper Watcher 机制 – 数据变更通知"></a>Zookeeper Watcher 机制 – 数据变更通知</h2><p>Zookeeper允许客户端向服务端的某个Znode注册一个Watcher监听，当服务端的一些指定事件触发了这个Watcher，服务端会向指定客户端发送一个事件通知来实现分布式的通知功能，然后客户端根据Watcher通知状态和事件类型做出业务上的改变。</p>
+<p>工作机制：</p>
+<ul>
+<li>客户端注册watcher</li>
+<li>服务端处理watcher</li>
+<li>客户端回调watcher</li>
+</ul>
+<h2 id="Watcher特性总结："><a href="#Watcher特性总结：" class="headerlink" title="Watcher特性总结："></a>Watcher特性总结：</h2><ol>
+<li>一次性<br>无论是服务端还是客户端，一旦一个Watcher被触发，Zookeeper都会将其从相应的存储中移除。这样的设计有效的减轻了服务端的压力，不然对于更新非常频繁的节点，服务端会不断的向客户端发送事件通知，无论对于网络还是服务端的压力都非常大。</li>
+<li>客户端串行执行<br>客户端Watcher回调的过程是一个串行同步的过程。</li>
+<li>轻量<ul>
+<li>Watcher通知非常简单，只会告诉客户端发生了事件，而不会说明事件的具体内容。</li>
+<li>客户端向服务端注册Watcher的时候，并不会把客户端真实的Watcher对象实体传递到服务端，仅仅是在客户端请求中使用boolean类型属性进行了标记。</li>
+</ul>
+</li>
+<li>watcher event异步发送watcher的通知事件从server发送到client是异步的，这就存在一个问题，不同的客户端和服务器之间通过socket进行通信，由于网络延迟或其他因素导致客户端在不通的时刻监听到事件，由于Zookeeper本身提供了ordering guarantee，即客户端监听事件后，才会感知它所监视znode发生了变化。所以我们使用Zookeeper不能期望能够监控到节点每次的变化。Zookeeper只能保证最终的一致性，而无法保证强一致性。</li>
+<li>注册watcher getData、exists、getChildren</li>
+<li>触发watcher create、delete、setData</li>
+<li>当一个客户端连接到一个新的服务器上时，watch将会被以任意会话事件触发。当与一个服务器失去连接的时候，是无法接收到watch的。而当client重新连接时，如果需要的话，所有先前注册过的watch，都会被重新注册。通常这是完全透明的。只有在一个特殊情况下，watch可能会丢失：对于一个未创建的znode的exist watch，如果在客户端断开连接期间被创建了，并且随后在客户端连接上之前又删除了，这种情况下，这个watch事件可能会被丢失。</li>
+</ol>
+<h2 id="ZooKeeper实现分布式锁原理"><a href="#ZooKeeper实现分布式锁原理" class="headerlink" title="ZooKeeper实现分布式锁原理"></a>ZooKeeper实现分布式锁原理</h2><p>其实如果有客户端C、客户端D等N个客户端争抢一个zk分布式锁，原理都是类似的。</p>
+<ul>
+<li>大家都是上来直接创建一个锁节点下的一个接一个的临时顺序节点</li>
+<li>如果自己不是第一个节点，就对自己上一个节点加监听器</li>
+<li>只要上一个节点释放锁，自己就排到前面去了，相当于是一个排队机制。</li>
+</ul>
+<p>而且用临时顺序节点的另外一个用意就是，如果某个客户端创建临时顺序节点之后，不小心自己宕机了也没关系，zk感知到那个客户端宕机，会自动删除对应的临时顺序节点，相当于自动释放锁，或者是自动取消自己的排队。</p>
+]]></content>
+      <categories>
+        <category>基础概念</category>
+        <category>分布式</category>
+        <category>ZooKeeper</category>
+      </categories>
+      <tags>
+        <tag>ZooKeeper</tag>
+        <tag>ZooKeeper高可用</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>java基础_java1.8新特性</title>
     <url>/2021/08/19/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80_java1.8%E6%96%B0%E7%89%B9%E6%80%A7/</url>
     <content><![CDATA[<h1 id="1-Lambda-表达式"><a href="#1-Lambda-表达式" class="headerlink" title="1.Lambda 表达式"></a>1.Lambda 表达式</h1><p>Lambda 允许把函数作为一个方法的参数（<strong>函数作为参数传递到方法中</strong>）。</p>
@@ -1748,69 +1813,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ZooKeeper</title>
-    <url>/2021/08/19/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/ZooKeeper/</url>
-    <content><![CDATA[<h1 id="Zookeeper基础概念"><a href="#Zookeeper基础概念" class="headerlink" title="Zookeeper基础概念"></a>Zookeeper基础概念</h1><p>ZooKeeper是一个开放源码的分布式协调服务，它是集群的管理者，监视着集群中各个节点的状态根据节点提交的反馈进行下一步合理操作。最终，将简单易用的接口和性能高效、功能稳定的系统提供给用户。</p>
-<p>分布式应用程序可以基于Zookeeper实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选举、分布式锁和分布式队列等功能。</p>
-<p>客户端的读请求可以被集群中的任意一台机器处理，<strong>如果读请求在节点上注册了监听器，这个监听器也是由所连接的zookeeper机器来处理</strong>。对于写请求，这些请求会同时发给其他zookeeper机器并且达成一致后，请求才会返回成功。因此，随着zookeeper的集群机器增多，读请求的吞吐会提高但是写请求的吞吐会下降。</p>
-<p>有序性是zookeeper中非常重要的一个特性，所有的更新都是<strong>全局有序</strong>的，每个更新都有一个<strong>唯一的时间戳</strong>，这个时间戳称为zxid（Zookeeper Transaction Id）。而读请求只会相对于更新有序，也就是读请求的返回结果中会带有这个zookeeper最新的zxid。</p>
-<h2 id="ZooKeeper提供了什么？"><a href="#ZooKeeper提供了什么？" class="headerlink" title="ZooKeeper提供了什么？"></a>ZooKeeper提供了什么？</h2><p>区别于Eureka专用于注册中心的功能，zookeeper主要提供的能力是</p>
-<ul>
-<li>文件系统</li>
-<li>通知机制</li>
-</ul>
-<h2 id="Zookeeper文件系统"><a href="#Zookeeper文件系统" class="headerlink" title="Zookeeper文件系统"></a>Zookeeper文件系统</h2><ul>
-<li>Zookeeper提供一个多层级的节点命名空间（节点称为znode）。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。</li>
-<li>Zookeeper为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，<strong>这种特性使得Zookeeper不能用于存放大量的数据，每个节点的存放数据上限为1M</strong>。</li>
-</ul>
-<h2 id="ZAB协议？"><a href="#ZAB协议？" class="headerlink" title="ZAB协议？"></a>ZAB协议？</h2><p>ZAB协议是为分布式协调服务Zookeeper专门设计的一种支持崩溃恢复的原子广播协议。</p>
-<p>ZAB协议包括两种基本的模式：<strong>崩溃恢复和消息广播</strong>。</p>
-<p>当整个zookeeper集群刚刚启动或者Leader服务器宕机、重启或者网络故障导致不存在过半的服务器与Leader服务器保持正常通信时，所有进程（服务器）进入崩溃恢复模式，首先选举产生新的Leader服务器，然后集群中Follower服务器开始与新的Leader服务器进行数据同步，当集群中超过半数机器与该Leader服务器完成数据同步之后，退出恢复模式进入消息广播模式，Leader服务器开始接收客户端的事务请求生成事物提案来进行事务请求处理。</p>
-<h2 id="四种类型的数据节点-Znode"><a href="#四种类型的数据节点-Znode" class="headerlink" title="四种类型的数据节点 Znode"></a>四种类型的数据节点 Znode</h2><ul>
-<li>PERSISTENT-持久节点<br>除非手动删除，否则节点一直存在于Zookeeper上</li>
-<li>EPHEMERAL-临时节点<br>临时节点的生命周期与客户端会话绑定，一旦客户端会话失效（客户端与zookeeper连接断开不一定会话失效），那么这个客户端创建的所有临时节点都会被移除。</li>
-<li>PERSISTENT_SEQUENTIAL-持久顺序节点<br>基本特性同持久节点，只是增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。</li>
-<li>EPHEMERAL_SEQUENTIAL-临时顺序节点<br>基本特性同临时节点，增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。</li>
-</ul>
-<h2 id="Zookeeper-Watcher-机制-–-数据变更通知"><a href="#Zookeeper-Watcher-机制-–-数据变更通知" class="headerlink" title="Zookeeper Watcher 机制 – 数据变更通知"></a>Zookeeper Watcher 机制 – 数据变更通知</h2><p>Zookeeper允许客户端向服务端的某个Znode注册一个Watcher监听，当服务端的一些指定事件触发了这个Watcher，服务端会向指定客户端发送一个事件通知来实现分布式的通知功能，然后客户端根据Watcher通知状态和事件类型做出业务上的改变。</p>
-<p>工作机制：</p>
-<ul>
-<li>客户端注册watcher</li>
-<li>服务端处理watcher</li>
-<li>客户端回调watcher</li>
-</ul>
-<h2 id="Watcher特性总结："><a href="#Watcher特性总结：" class="headerlink" title="Watcher特性总结："></a>Watcher特性总结：</h2><ol>
-<li>一次性<br>无论是服务端还是客户端，一旦一个Watcher被触发，Zookeeper都会将其从相应的存储中移除。这样的设计有效的减轻了服务端的压力，不然对于更新非常频繁的节点，服务端会不断的向客户端发送事件通知，无论对于网络还是服务端的压力都非常大。</li>
-<li>客户端串行执行<br>客户端Watcher回调的过程是一个串行同步的过程。</li>
-<li>轻量<ul>
-<li>Watcher通知非常简单，只会告诉客户端发生了事件，而不会说明事件的具体内容。</li>
-<li>客户端向服务端注册Watcher的时候，并不会把客户端真实的Watcher对象实体传递到服务端，仅仅是在客户端请求中使用boolean类型属性进行了标记。</li>
-</ul>
-</li>
-<li>watcher event异步发送watcher的通知事件从server发送到client是异步的，这就存在一个问题，不同的客户端和服务器之间通过socket进行通信，由于网络延迟或其他因素导致客户端在不通的时刻监听到事件，由于Zookeeper本身提供了ordering guarantee，即客户端监听事件后，才会感知它所监视znode发生了变化。所以我们使用Zookeeper不能期望能够监控到节点每次的变化。Zookeeper只能保证最终的一致性，而无法保证强一致性。</li>
-<li>注册watcher getData、exists、getChildren</li>
-<li>触发watcher create、delete、setData</li>
-<li>当一个客户端连接到一个新的服务器上时，watch将会被以任意会话事件触发。当与一个服务器失去连接的时候，是无法接收到watch的。而当client重新连接时，如果需要的话，所有先前注册过的watch，都会被重新注册。通常这是完全透明的。只有在一个特殊情况下，watch可能会丢失：对于一个未创建的znode的exist watch，如果在客户端断开连接期间被创建了，并且随后在客户端连接上之前又删除了，这种情况下，这个watch事件可能会被丢失。</li>
-</ol>
-<h2 id="ZooKeeper实现分布式锁原理"><a href="#ZooKeeper实现分布式锁原理" class="headerlink" title="ZooKeeper实现分布式锁原理"></a>ZooKeeper实现分布式锁原理</h2><p>其实如果有客户端C、客户端D等N个客户端争抢一个zk分布式锁，原理都是类似的。</p>
-<ul>
-<li>大家都是上来直接创建一个锁节点下的一个接一个的临时顺序节点</li>
-<li>如果自己不是第一个节点，就对自己上一个节点加监听器</li>
-<li>只要上一个节点释放锁，自己就排到前面去了，相当于是一个排队机制。</li>
-</ul>
-<p>而且用临时顺序节点的另外一个用意就是，如果某个客户端创建临时顺序节点之后，不小心自己宕机了也没关系，zk感知到那个客户端宕机，会自动删除对应的临时顺序节点，相当于自动释放锁，或者是自动取消自己的排队。</p>
-]]></content>
-      <categories>
-        <category>基础概念</category>
-        <category>分布式</category>
-        <category>ZooKeeper</category>
-      </categories>
-      <tags>
-        <tag>ZooKeeper</tag>
-        <tag>ZooKeeper高可用</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java基础提升_多线程</title>
     <url>/2021/08/19/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
     <content><![CDATA[<h2 id="线程创建方式"><a href="#线程创建方式" class="headerlink" title="线程创建方式"></a>线程创建方式</h2><ol>
@@ -1892,6 +1894,106 @@
       <tags>
         <tag>java</tag>
         <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis持久化和集群高可用</title>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h2><h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><ul>
+<li>RDB做镜像全量持久化<br><br>是对 Redis 中的数据执行周期性的持久化。<br><ul>
+<li>优点：<br><br>RDB对Redis的性能影响非常小，是因为在同步数据的时候他只是fork了一个子进程去做持久化的，<br>而且他在数据恢复的时候速度比AOF来的快。适合做快照之类的备份。<br></li>
+<li>缺点：<br><br>RDB都是快照文件，生成时间间隔可能比较大（默认5分钟），可能丢失数据,<br>还有就是RDB在生成数据快照的时候，如果文件很大，客户端可能会暂停几毫秒甚至几秒.</li>
+</ul>
+</li>
+</ul>
+<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><ul>
+<li>AOF做增量持久化。<br><br>  AOF 机制对每条写入命令作为日志，以 append-only 的模式写入一个日志文件中，因为这个模式是只追加的方式，所以没有任何磁盘寻址的开销，所以很快，有点像Mysql中的binlog。<ul>
+<li>优点：<br><br>可能丢失的数据少（1秒），<br><br>AOF日志可读性好，可对有问题的命令做修改.</li>
+<li>缺点：<br><br>AOF文件体积较大。<br><br>AOF开启后，Redis支持写的QPS会比RDB支持写的要低</li>
+</ul>
+</li>
+</ul>
+<h3 id="总结：RDB和AOF配合使用"><a href="#总结：RDB和AOF配合使用" class="headerlink" title="总结：RDB和AOF配合使用"></a>总结：RDB和AOF配合使用</h3><p>因为RDB会耗费较长时间，不够实时，在停机的时候会导致大量丢失数据，所以需要AOF来配合使用。在redis实例重启时，会使用RDB持久化文件重新构建内存，再使用AOF重放近期的操作指令来实现完整恢复重启之前的状态。</p>
+<h4 id="Redis-4-0-混合持久化"><a href="#Redis-4-0-混合持久化" class="headerlink" title="Redis 4.0 混合持久化"></a>Redis 4.0 混合持久化</h4><p>重启 Redis 时，我们很少使用 RDB来恢复内存状态，因为会丢失大量数据。</p>
+<p>我们通常使用 AOF 日志重放，但是重放 AOF 日志性能相对 RDB来说要慢很多，这样在 Redis 实例很大的情况下，启动需要花费很长的时间。</p>
+<p>Redis 4.0 为了解决这个问题，带来了一个新的持久化选项——混合持久化。</p>
+<p>通过如下配置可以开启混合持久化(必须先开启aof)：</p>
+<blockquote>
+<p>#aof-use-rdb-preamble yes</p>
+</blockquote>
+<p>如果开启了混合持久化，AOF在重写时，不再是单纯将内存数据转换为RESP命令写入AOF文件</p>
+<p>而是将重写这一刻之前的内存做RDB快照处理，并且将RDB快照内容和增量的AOF修改内存数据的命令存在一起，都写入新的AOF文件</p>
+<p>新的文件一开始不叫appendonly.aof，等到重写完新的AOF文件才会进行改名，覆盖原有的AOF文件，完成新旧两个AOF文件的替换。</p>
+<p>于是在 Redis 重启的时候，可以 先加载 RDB 的内容，然后再重放增量 AOF 日志就可以完全替代之前的 AOF 全量文件重放，因此重启效率大幅得到提升。</p>
+<hr>
+<h2 id="Redis集群高可用"><a href="#Redis集群高可用" class="headerlink" title="Redis集群高可用"></a>Redis集群高可用</h2><p>Redis的集群高可用方案常见的有3种：</p>
+<ol>
+<li>主从同步/复制</li>
+<li>哨兵模式</li>
+<li>Cluster 集群</li>
+</ol>
+<h3 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h3><h4 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h4><ol>
+<li>从服务器连接主服务器，发送SYNC命令； </li>
+<li>主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令； </li>
+<li>主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令； </li>
+<li>从服务器收到快照文件后丢弃所有旧数据，载入收到的快照； </li>
+<li>主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令； </li>
+<li>从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；（从服务器初始化完成）</li>
+<li>主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令（从服务器初始化完成后的操作）<h4 id="主从复制优缺点："><a href="#主从复制优缺点：" class="headerlink" title="主从复制优缺点："></a>主从复制优缺点：</h4>优点：</li>
+</ol>
+<ul>
+<li>支持主从复制，主机会自动将数据同步到从机，可以进行读写分离</li>
+<li>为了分载Master的读操作压力，Slave服务器可以为客户端提供只读操作的服务，写服务仍然必须由Master来完成</li>
+<li>Slave同样可以接受其它Slaves的连接和同步请求，这样可以有效的分载Master的同步压力。</li>
+<li>Master Server是以非阻塞的方式为Slaves提供服务。所以在Master-Slave同步期间，客户端仍然可以提交查询或修改请求。</li>
+<li>Slave Server同样是以非阻塞的方式完成数据同步。在同步期间，如果有客户端提交查询请求，Redis则返回同步之前的数据.<br>缺点：</li>
+<li>Redis不具备自动容错和恢复功能，主机从机的宕机都会导致前端部分读写请求失败，需要等待机器重启或者手动切换前端的IP才能恢复。</li>
+<li>主机宕机，宕机前有部分数据未能及时同步到从机，切换IP后还会引入数据不一致的问题，降低了系统的可用性。</li>
+<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li>
+</ul>
+<h3 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h3><p>当主服务器中断服务后，可以将一个从服务器升级为主服务器，以便继续提供服务，但是这个过程需要人工手动来操作。 为此，Redis 2.8中提供了哨兵工具来实现自动化的系统监控和故障恢复功能。</p>
+<p>哨兵的作用就是监控Redis系统的运行状况。它的功能包括以下两个。</p>
+<ol>
+<li>监控主服务器和从服务器是否正常运行。 </li>
+<li>主服务器出现故障时自动将从服务器转换为主服务器。<br>哨兵组件的主要作用：</li>
+</ol>
+<ul>
+<li>集群监控：负责监控 Redis master 和 slave 进程是否正常工作。</li>
+<li>消息通知：如果某个 Redis 实例有故障，那么哨兵负责发送消息作为报警通知给管理员。</li>
+<li>故障转移：如果 master node 挂掉了，会自动转移到 slave node 上。</li>
+</ul>
+<p>配置中心：如果故障转移发生了，通知 client 客户端新的 master 地址。</p>
+<h4 id="哨兵的工作方式："><a href="#哨兵的工作方式：" class="headerlink" title="哨兵的工作方式："></a>哨兵的工作方式：</h4><ol>
+<li>每个Sentinel（哨兵）进程以每秒钟一次的频率向整个集群中的Master主服务器，Slave从服务器以及其他Sentinel（哨兵）进程发送一个 PING 命令。</li>
+<li>如果一个实例（instance）距离最后一次有效回复 PING 命令的时间超过 down-after-milliseconds 选项所指定的值， 则这个实例会被 Sentinel（哨兵）进程标记为主观下线（SDOWN）</li>
+<li>如果一个Master主服务器被标记为主观下线（SDOWN），则正在监视这个Master主服务器的所有 Sentinel（哨兵）进程要以每秒一次的频率确认Master主服务器的确进入了主观下线状态</li>
+<li>当有足够数量的 Sentinel（哨兵）进程（大于等于配置文件指定的值）在指定的时间范围内确认Master主服务器进入了主观下线状态（SDOWN）， 则Master主服务器会被标记为客观下线（ODOWN）</li>
+<li>在一般情况下， 每个 Sentinel（哨兵）进程会以每 10 秒一次的频率向集群中的所有Master主服务器、Slave从服务器发送 INFO 命令。<br>当Master主服务器被 Sentinel（哨兵）进程标记为客观下线（ODOWN）时，Sentinel（哨兵）进程向下线的 Master主服务器的所有 Slave从服务器发送 INFO 命令的频率会从 10 秒一次改为每秒一次。</li>
+<li>若没有足够数量的 Sentinel（哨兵）进程同意 Master主服务器下线， Master主服务器的客观下线状态就会被移除。若 Master主服务器重新向 Sentinel（哨兵）进程发送 PING 命令返回有效回复，Master主服务器的主观下线状态就会被移除。<br>哨兵模式的优缺点</li>
+</ol>
+<p>优点：</p>
+<ul>
+<li>哨兵模式是基于主从模式的，所有主从的优点，哨兵模式都具有。</li>
+<li>主从可以自动切换，系统更健壮，可用性更高。<br><br>缺点：</li>
+<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li>
+</ul>
+<h4 id="Redis-Cluster集群"><a href="#Redis-Cluster集群" class="headerlink" title="Redis-Cluster集群"></a>Redis-Cluster集群</h4><p>redis的哨兵模式基本已经可以实现高可用，读写分离 ，但是在这种模式下每台redis服务器都存储相同的数据，很浪费内存，同时主从模式还是不能很好<strong>解决过多的写</strong>（只有一个master写）所以在redis3.0上加入了cluster模式，实现的redis的分布式存储，也就是说每台redis节点上存储不同的内容。</p>
+<p> Redis-Cluster采用无中心结构,它的特点如下：</p>
+<p>所有的redis节点彼此互联(PING-PONG机制),内部使用二进制协议优化传输速度和带宽。</p>
+<p>节点的fail是通过集群中超过半数的节点检测失效时才生效。</p>
+<p>客户端与redis节点直连,不需要中间代理层.客户端不需要连接集群所有节点,连接集群中任何一个可用节点即可。</p>
+<h4 id="Redis-Cluster集群原理："><a href="#Redis-Cluster集群原理：" class="headerlink" title="Redis-Cluster集群原理："></a>Redis-Cluster集群原理：</h4><p>在redis的每一个节点上，都有这么两个东西，一个是插槽（slot），它的的取值范围是：0-16383。还有一个就是cluster，可以理解为是一个集群管理的插件。当我们的存取的key到达的时候，redis会根据crc16的算法得出一个结果，然后把结果对 16384 求余数，这样每个 key 都会对应一个编号在 0-16383 之间的哈希槽，通过这个值，去找到对应的插槽所对应的节点，然后直接自动跳转到这个对应的节点上进行存取操作。</p>
+<p>为了保证高可用，redis-cluster集群引入了主从模式，一个主节点对应一个或者多个从节点，当主节点宕机的时候，就会启用从节点。当其它主节点ping一个主节点A时，如果半数以上的主节点与A通信超时，那么认为主节点A宕机了。如果主节点A和它的从节点A1都宕机了，那么该集群就无法再提供服务了。</p>
+<p>集群里面，故障转移是由集群中其他在线的主节点负责进行的，所以集群不必另外使用Redis Sentinel。</p>
+<p>参考：<a href="https://www.cnblogs.com/cqming/p/11191079.html">https://www.cnblogs.com/cqming/p/11191079.html</a></p>
+]]></content>
+      <categories>
+        <category>中间件</category>
+        <category>nosql</category>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -1985,106 +2087,6 @@
 <li>延时队列 : 使用sortedset，拿时间戳作为score，消息内容作为key调用zadd来生产消息，消费者用zrangebyscore指令获取N秒之前的数据轮询进行处理。</li>
 </ul>
 <p><a href="https://www.runoob.com/redis/redis-tutorial.html">参考链接</a></p>
-]]></content>
-      <categories>
-        <category>中间件</category>
-        <category>nosql</category>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis持久化和集群高可用</title>
-    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h2><h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><ul>
-<li>RDB做镜像全量持久化<br><br>是对 Redis 中的数据执行周期性的持久化。<br><ul>
-<li>优点：<br><br>RDB对Redis的性能影响非常小，是因为在同步数据的时候他只是fork了一个子进程去做持久化的，<br>而且他在数据恢复的时候速度比AOF来的快。适合做快照之类的备份。<br></li>
-<li>缺点：<br><br>RDB都是快照文件，生成时间间隔可能比较大（默认5分钟），可能丢失数据,<br>还有就是RDB在生成数据快照的时候，如果文件很大，客户端可能会暂停几毫秒甚至几秒.</li>
-</ul>
-</li>
-</ul>
-<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><ul>
-<li>AOF做增量持久化。<br><br>  AOF 机制对每条写入命令作为日志，以 append-only 的模式写入一个日志文件中，因为这个模式是只追加的方式，所以没有任何磁盘寻址的开销，所以很快，有点像Mysql中的binlog。<ul>
-<li>优点：<br><br>可能丢失的数据少（1秒），<br><br>AOF日志可读性好，可对有问题的命令做修改.</li>
-<li>缺点：<br><br>AOF文件体积较大。<br><br>AOF开启后，Redis支持写的QPS会比RDB支持写的要低</li>
-</ul>
-</li>
-</ul>
-<h3 id="总结：RDB和AOF配合使用"><a href="#总结：RDB和AOF配合使用" class="headerlink" title="总结：RDB和AOF配合使用"></a>总结：RDB和AOF配合使用</h3><p>因为RDB会耗费较长时间，不够实时，在停机的时候会导致大量丢失数据，所以需要AOF来配合使用。在redis实例重启时，会使用RDB持久化文件重新构建内存，再使用AOF重放近期的操作指令来实现完整恢复重启之前的状态。</p>
-<h4 id="Redis-4-0-混合持久化"><a href="#Redis-4-0-混合持久化" class="headerlink" title="Redis 4.0 混合持久化"></a>Redis 4.0 混合持久化</h4><p>重启 Redis 时，我们很少使用 RDB来恢复内存状态，因为会丢失大量数据。</p>
-<p>我们通常使用 AOF 日志重放，但是重放 AOF 日志性能相对 RDB来说要慢很多，这样在 Redis 实例很大的情况下，启动需要花费很长的时间。</p>
-<p>Redis 4.0 为了解决这个问题，带来了一个新的持久化选项——混合持久化。</p>
-<p>通过如下配置可以开启混合持久化(必须先开启aof)：</p>
-<blockquote>
-<p>#aof-use-rdb-preamble yes</p>
-</blockquote>
-<p>如果开启了混合持久化，AOF在重写时，不再是单纯将内存数据转换为RESP命令写入AOF文件</p>
-<p>而是将重写这一刻之前的内存做RDB快照处理，并且将RDB快照内容和增量的AOF修改内存数据的命令存在一起，都写入新的AOF文件</p>
-<p>新的文件一开始不叫appendonly.aof，等到重写完新的AOF文件才会进行改名，覆盖原有的AOF文件，完成新旧两个AOF文件的替换。</p>
-<p>于是在 Redis 重启的时候，可以 先加载 RDB 的内容，然后再重放增量 AOF 日志就可以完全替代之前的 AOF 全量文件重放，因此重启效率大幅得到提升。</p>
-<hr>
-<h2 id="Redis集群高可用"><a href="#Redis集群高可用" class="headerlink" title="Redis集群高可用"></a>Redis集群高可用</h2><p>Redis的集群高可用方案常见的有3种：</p>
-<ol>
-<li>主从同步/复制</li>
-<li>哨兵模式</li>
-<li>Cluster 集群</li>
-</ol>
-<h3 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h3><h4 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h4><ol>
-<li>从服务器连接主服务器，发送SYNC命令； </li>
-<li>主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令； </li>
-<li>主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令； </li>
-<li>从服务器收到快照文件后丢弃所有旧数据，载入收到的快照； </li>
-<li>主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令； </li>
-<li>从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；（从服务器初始化完成）</li>
-<li>主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令（从服务器初始化完成后的操作）<h4 id="主从复制优缺点："><a href="#主从复制优缺点：" class="headerlink" title="主从复制优缺点："></a>主从复制优缺点：</h4>优点：</li>
-</ol>
-<ul>
-<li>支持主从复制，主机会自动将数据同步到从机，可以进行读写分离</li>
-<li>为了分载Master的读操作压力，Slave服务器可以为客户端提供只读操作的服务，写服务仍然必须由Master来完成</li>
-<li>Slave同样可以接受其它Slaves的连接和同步请求，这样可以有效的分载Master的同步压力。</li>
-<li>Master Server是以非阻塞的方式为Slaves提供服务。所以在Master-Slave同步期间，客户端仍然可以提交查询或修改请求。</li>
-<li>Slave Server同样是以非阻塞的方式完成数据同步。在同步期间，如果有客户端提交查询请求，Redis则返回同步之前的数据.<br>缺点：</li>
-<li>Redis不具备自动容错和恢复功能，主机从机的宕机都会导致前端部分读写请求失败，需要等待机器重启或者手动切换前端的IP才能恢复。</li>
-<li>主机宕机，宕机前有部分数据未能及时同步到从机，切换IP后还会引入数据不一致的问题，降低了系统的可用性。</li>
-<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li>
-</ul>
-<h3 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h3><p>当主服务器中断服务后，可以将一个从服务器升级为主服务器，以便继续提供服务，但是这个过程需要人工手动来操作。 为此，Redis 2.8中提供了哨兵工具来实现自动化的系统监控和故障恢复功能。</p>
-<p>哨兵的作用就是监控Redis系统的运行状况。它的功能包括以下两个。</p>
-<ol>
-<li>监控主服务器和从服务器是否正常运行。 </li>
-<li>主服务器出现故障时自动将从服务器转换为主服务器。<br>哨兵组件的主要作用：</li>
-</ol>
-<ul>
-<li>集群监控：负责监控 Redis master 和 slave 进程是否正常工作。</li>
-<li>消息通知：如果某个 Redis 实例有故障，那么哨兵负责发送消息作为报警通知给管理员。</li>
-<li>故障转移：如果 master node 挂掉了，会自动转移到 slave node 上。</li>
-</ul>
-<p>配置中心：如果故障转移发生了，通知 client 客户端新的 master 地址。</p>
-<h4 id="哨兵的工作方式："><a href="#哨兵的工作方式：" class="headerlink" title="哨兵的工作方式："></a>哨兵的工作方式：</h4><ol>
-<li>每个Sentinel（哨兵）进程以每秒钟一次的频率向整个集群中的Master主服务器，Slave从服务器以及其他Sentinel（哨兵）进程发送一个 PING 命令。</li>
-<li>如果一个实例（instance）距离最后一次有效回复 PING 命令的时间超过 down-after-milliseconds 选项所指定的值， 则这个实例会被 Sentinel（哨兵）进程标记为主观下线（SDOWN）</li>
-<li>如果一个Master主服务器被标记为主观下线（SDOWN），则正在监视这个Master主服务器的所有 Sentinel（哨兵）进程要以每秒一次的频率确认Master主服务器的确进入了主观下线状态</li>
-<li>当有足够数量的 Sentinel（哨兵）进程（大于等于配置文件指定的值）在指定的时间范围内确认Master主服务器进入了主观下线状态（SDOWN）， 则Master主服务器会被标记为客观下线（ODOWN）</li>
-<li>在一般情况下， 每个 Sentinel（哨兵）进程会以每 10 秒一次的频率向集群中的所有Master主服务器、Slave从服务器发送 INFO 命令。<br>当Master主服务器被 Sentinel（哨兵）进程标记为客观下线（ODOWN）时，Sentinel（哨兵）进程向下线的 Master主服务器的所有 Slave从服务器发送 INFO 命令的频率会从 10 秒一次改为每秒一次。</li>
-<li>若没有足够数量的 Sentinel（哨兵）进程同意 Master主服务器下线， Master主服务器的客观下线状态就会被移除。若 Master主服务器重新向 Sentinel（哨兵）进程发送 PING 命令返回有效回复，Master主服务器的主观下线状态就会被移除。<br>哨兵模式的优缺点</li>
-</ol>
-<p>优点：</p>
-<ul>
-<li>哨兵模式是基于主从模式的，所有主从的优点，哨兵模式都具有。</li>
-<li>主从可以自动切换，系统更健壮，可用性更高。<br><br>缺点：</li>
-<li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li>
-</ul>
-<h4 id="Redis-Cluster集群"><a href="#Redis-Cluster集群" class="headerlink" title="Redis-Cluster集群"></a>Redis-Cluster集群</h4><p>redis的哨兵模式基本已经可以实现高可用，读写分离 ，但是在这种模式下每台redis服务器都存储相同的数据，很浪费内存，同时主从模式还是不能很好<strong>解决过多的写</strong>（只有一个master写）所以在redis3.0上加入了cluster模式，实现的redis的分布式存储，也就是说每台redis节点上存储不同的内容。</p>
-<p> Redis-Cluster采用无中心结构,它的特点如下：</p>
-<p>所有的redis节点彼此互联(PING-PONG机制),内部使用二进制协议优化传输速度和带宽。</p>
-<p>节点的fail是通过集群中超过半数的节点检测失效时才生效。</p>
-<p>客户端与redis节点直连,不需要中间代理层.客户端不需要连接集群所有节点,连接集群中任何一个可用节点即可。</p>
-<h4 id="Redis-Cluster集群原理："><a href="#Redis-Cluster集群原理：" class="headerlink" title="Redis-Cluster集群原理："></a>Redis-Cluster集群原理：</h4><p>在redis的每一个节点上，都有这么两个东西，一个是插槽（slot），它的的取值范围是：0-16383。还有一个就是cluster，可以理解为是一个集群管理的插件。当我们的存取的key到达的时候，redis会根据crc16的算法得出一个结果，然后把结果对 16384 求余数，这样每个 key 都会对应一个编号在 0-16383 之间的哈希槽，通过这个值，去找到对应的插槽所对应的节点，然后直接自动跳转到这个对应的节点上进行存取操作。</p>
-<p>为了保证高可用，redis-cluster集群引入了主从模式，一个主节点对应一个或者多个从节点，当主节点宕机的时候，就会启用从节点。当其它主节点ping一个主节点A时，如果半数以上的主节点与A通信超时，那么认为主节点A宕机了。如果主节点A和它的从节点A1都宕机了，那么该集群就无法再提供服务了。</p>
-<p>集群里面，故障转移是由集群中其他在线的主节点负责进行的，所以集群不必另外使用Redis Sentinel。</p>
-<p>参考：<a href="https://www.cnblogs.com/cqming/p/11191079.html">https://www.cnblogs.com/cqming/p/11191079.html</a></p>
 ]]></content>
       <categories>
         <category>中间件</category>
@@ -2230,8 +2232,8 @@
         <category>springcloud</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>Eureka</tag>
+        <tag>java</tag>
         <tag>springcloud</tag>
         <tag>Ribbon</tag>
         <tag>Feign</tag>
@@ -2336,33 +2338,6 @@
       </tags>
   </entry>
   <entry>
-    <title>限流_sentinel</title>
-    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/</url>
-    <content><![CDATA[<h1 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h1><h2 id="主要概念相关"><a href="#主要概念相关" class="headerlink" title="主要概念相关"></a>主要概念相关</h2><p>Sentinel 是面向分布式服务架构的高可用流量防护组件，主要以流量为切入点，从<strong>限流、流量整形、熔断降级、系统负载保护、热点防护</strong>等多个维度来帮助开发者保障微服务的稳定性。</p>
-<hr>
-<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/st.png" alt="st"></p>
-<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="Sentinel-基本概念"><a href="#Sentinel-基本概念" class="headerlink" title="Sentinel 基本概念"></a>Sentinel 基本概念</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><p>资源是 Sentinel 的关键概念。它可以是 Java 应用程序中的任何内容，例如，由应用程序提供的服务，或由应用程序调用的其它应用提供的服务，甚至可以是一段代码。在接下来的文档中，我们都会用资源来描述代码块。</p>
-<p>只要通过 Sentinel API 定义的代码，就是资源，能够被 Sentinel 保护起来。大部分情况下，可以使用方法签名，URL，甚至服务名称作为资源名来标示资源。</p>
-<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p>围绕资源的实时状态设定的规则，可以包括流量控制规则、熔断降级规则以及系统保护规则。所有规则可以动态实时调整。</p>
-<ul>
-<li><a href="https://sentinelguard.io/zh-cn/docs/introduction.html">官方介绍文档</a></li>
-</ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="基本使用-资源与规则"><a href="#基本使用-资源与规则" class="headerlink" title="基本使用 - 资源与规则"></a><a href="https://github.com/alibaba/Sentinel/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8">基本使用 - 资源与规则</a></h3><h3 id="集成apollo"><a href="#集成apollo" class="headerlink" title="集成apollo"></a><a href="https://blog.csdn.net/a745233700/article/details/122725604">集成apollo</a></h3><hr>
-<h3 id="针对来源进行限流"><a href="#针对来源进行限流" class="headerlink" title="针对来源进行限流"></a>针对来源进行限流</h3><h4 id="1-首先我们要自定义来源解析RequestOriginParser"><a href="#1-首先我们要自定义来源解析RequestOriginParser" class="headerlink" title="1.首先我们要自定义来源解析RequestOriginParser"></a>1.首先我们要自定义来源解析RequestOriginParser</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SentinelConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RequestOriginParser <span class="title">requestOriginParser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (request -&gt; &#123;</span><br><span class="line">            String remoteAddr = IpUtils.getRemoteAddr(request);</span><br><span class="line">            <span class="keyword">return</span> remoteAddr;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-接下来我们设置来源-，填入限制的ip，"><a href="#2-接下来我们设置来源-，填入限制的ip，" class="headerlink" title="2.接下来我们设置来源 ，填入限制的ip，"></a>2.接下来我们设置来源 ，填入限制的ip，</h4><p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/ip.png" alt="ip"></p>
-<h4 id="3-即可实现针对ip的限流"><a href="#3-即可实现针对ip的限流" class="headerlink" title="3.即可实现针对ip的限流"></a>3.即可实现针对ip的限流</h4>]]></content>
-      <categories>
-        <category>java</category>
-        <category>sentinel</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>限流</tag>
-        <tag>sentinel</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>spring框架_事务管理</title>
     <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6_%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h1 id="spring事务管理"><a href="#spring事务管理" class="headerlink" title="spring事务管理"></a>spring事务管理</h1><h2 id="Spring定义了7种传播行为："><a href="#Spring定义了7种传播行为：" class="headerlink" title="Spring定义了7种传播行为："></a>Spring定义了7种传播行为：</h2><ol>
@@ -2400,6 +2375,33 @@
         <tag>java</tag>
         <tag>Spring</tag>
         <tag>事务管理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>限流_sentinel</title>
+    <url>/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/</url>
+    <content><![CDATA[<h1 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h1><h2 id="主要概念相关"><a href="#主要概念相关" class="headerlink" title="主要概念相关"></a>主要概念相关</h2><p>Sentinel 是面向分布式服务架构的高可用流量防护组件，主要以流量为切入点，从<strong>限流、流量整形、熔断降级、系统负载保护、热点防护</strong>等多个维度来帮助开发者保障微服务的稳定性。</p>
+<hr>
+<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/st.png" alt="st"></p>
+<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="Sentinel-基本概念"><a href="#Sentinel-基本概念" class="headerlink" title="Sentinel 基本概念"></a>Sentinel 基本概念</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><p>资源是 Sentinel 的关键概念。它可以是 Java 应用程序中的任何内容，例如，由应用程序提供的服务，或由应用程序调用的其它应用提供的服务，甚至可以是一段代码。在接下来的文档中，我们都会用资源来描述代码块。</p>
+<p>只要通过 Sentinel API 定义的代码，就是资源，能够被 Sentinel 保护起来。大部分情况下，可以使用方法签名，URL，甚至服务名称作为资源名来标示资源。</p>
+<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p>围绕资源的实时状态设定的规则，可以包括流量控制规则、熔断降级规则以及系统保护规则。所有规则可以动态实时调整。</p>
+<ul>
+<li><a href="https://sentinelguard.io/zh-cn/docs/introduction.html">官方介绍文档</a></li>
+</ul>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="基本使用-资源与规则"><a href="#基本使用-资源与规则" class="headerlink" title="基本使用 - 资源与规则"></a><a href="https://github.com/alibaba/Sentinel/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8">基本使用 - 资源与规则</a></h3><h3 id="集成apollo"><a href="#集成apollo" class="headerlink" title="集成apollo"></a><a href="https://blog.csdn.net/a745233700/article/details/122725604">集成apollo</a></h3><hr>
+<h3 id="针对来源进行限流"><a href="#针对来源进行限流" class="headerlink" title="针对来源进行限流"></a>针对来源进行限流</h3><h4 id="1-首先我们要自定义来源解析RequestOriginParser"><a href="#1-首先我们要自定义来源解析RequestOriginParser" class="headerlink" title="1.首先我们要自定义来源解析RequestOriginParser"></a>1.首先我们要自定义来源解析RequestOriginParser</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SentinelConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RequestOriginParser <span class="title">requestOriginParser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (request -&gt; &#123;</span><br><span class="line">            String remoteAddr = IpUtils.getRemoteAddr(request);</span><br><span class="line">            <span class="keyword">return</span> remoteAddr;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-接下来我们设置来源-，填入限制的ip，"><a href="#2-接下来我们设置来源-，填入限制的ip，" class="headerlink" title="2.接下来我们设置来源 ，填入限制的ip，"></a>2.接下来我们设置来源 ，填入限制的ip，</h4><p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/ip.png" alt="ip"></p>
+<h4 id="3-即可实现针对ip的限流"><a href="#3-即可实现针对ip的限流" class="headerlink" title="3.即可实现针对ip的限流"></a>3.即可实现针对ip的限流</h4>]]></content>
+      <categories>
+        <category>java</category>
+        <category>sentinel</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>限流</tag>
+        <tag>sentinel</tag>
       </tags>
   </entry>
   <entry>
@@ -2678,6 +2680,53 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       </tags>
   </entry>
   <entry>
+    <title>设计模式_适配器模式</title>
+    <url>/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="适配器模式（Adapter-Pattern）"><a href="#适配器模式（Adapter-Pattern）" class="headerlink" title="适配器模式（Adapter Pattern）"></a>适配器模式（Adapter Pattern）</h2><ul>
+<li><p>见名知意，是作为两个不兼容的接⼝之间的桥梁，属于结构型模式</p>
+</li>
+<li><p>适配器模式使得原本由于接⼝不兼容⽽不能⼀起⼯作的 那些类可以⼀起⼯作</p>
+</li>
+<li><p>常⻅见的⼏类适配器</p>
+<ul>
+<li>类的适配器模式<ul>
+<li>想将⼀个类转换成满⾜另⼀个新接⼝的类时，可 以使⽤类的适配器模式，创建⼀个新类，继承原 有的类，实现新的接⼝即可 </li>
+<li>对象的适配器模式<ul>
+<li>想将⼀个对象转换成满⾜另⼀个新接⼝的对象 时，可以创建⼀个适配器类，持有原类的⼀个实 例，在适配器类的⽅法中，调⽤实例的⽅法就⾏</li>
+</ul>
+</li>
+<li>接⼝的适配器模式<ul>
+<li>不想实现⼀个接⼝中所有的⽅法时，可以创建⼀ 个Adapter，实现所有⽅法，在写别的类的时 候，继承Adapter类即</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>总结</strong></p>
+<ul>
+<li><p> 在使⽤⼀些旧系统或者是类库时，经常会出现接⼝不兼 容的问题，适配器模式在解决这类问题具有优势</p>
+</li>
+<li><p>学习设计模式⼀定不要局限代码层⾯，要从软件系统整 体去考虑,⽽不是为了使⽤设计模式，⽽去使⽤设计模式</p>
+</li>
+</ul>
+<p><strong>优点</strong></p>
+<ul>
+<li>可以让任何两个没有关联的类⼀起运⾏，使得原本由于 接⼝不兼容⽽不能⼀起⼯作的那些类可以⼀起⼯作 增加灵活度, 提⾼复⽤性，适配器类可以在多个系统使 ⽤,符合开闭原则</li>
+</ul>
+<p><strong>缺点</strong></p>
+<p>整体类的调⽤链路增加，本来A可以直接调⽤C，使⽤适 配器后 是A调⽤B，B再调⽤C</p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+        <category>适配器模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>设计模式</title>
     <url>/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<h1 id="设计模式的六大原则"><a href="#设计模式的六大原则" class="headerlink" title="设计模式的六大原则"></a>设计模式的六大原则</h1><ul>
@@ -2726,53 +2775,6 @@ JVisualVM工具导入dump出来的堆内存文件，同样可以看到各个对�
       <categories>
         <category>设计模式</category>
         <category>常见面试</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>设计模式_适配器模式</title>
-    <url>/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="适配器模式（Adapter-Pattern）"><a href="#适配器模式（Adapter-Pattern）" class="headerlink" title="适配器模式（Adapter Pattern）"></a>适配器模式（Adapter Pattern）</h2><ul>
-<li><p>见名知意，是作为两个不兼容的接⼝之间的桥梁，属于结构型模式</p>
-</li>
-<li><p>适配器模式使得原本由于接⼝不兼容⽽不能⼀起⼯作的 那些类可以⼀起⼯作</p>
-</li>
-<li><p>常⻅见的⼏类适配器</p>
-<ul>
-<li>类的适配器模式<ul>
-<li>想将⼀个类转换成满⾜另⼀个新接⼝的类时，可 以使⽤类的适配器模式，创建⼀个新类，继承原 有的类，实现新的接⼝即可 </li>
-<li>对象的适配器模式<ul>
-<li>想将⼀个对象转换成满⾜另⼀个新接⼝的对象 时，可以创建⼀个适配器类，持有原类的⼀个实 例，在适配器类的⽅法中，调⽤实例的⽅法就⾏</li>
-</ul>
-</li>
-<li>接⼝的适配器模式<ul>
-<li>不想实现⼀个接⼝中所有的⽅法时，可以创建⼀ 个Adapter，实现所有⽅法，在写别的类的时 候，继承Adapter类即</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>总结</strong></p>
-<ul>
-<li><p> 在使⽤⼀些旧系统或者是类库时，经常会出现接⼝不兼 容的问题，适配器模式在解决这类问题具有优势</p>
-</li>
-<li><p>学习设计模式⼀定不要局限代码层⾯，要从软件系统整 体去考虑,⽽不是为了使⽤设计模式，⽽去使⽤设计模式</p>
-</li>
-</ul>
-<p><strong>优点</strong></p>
-<ul>
-<li>可以让任何两个没有关联的类⼀起运⾏，使得原本由于 接⼝不兼容⽽不能⼀起⼯作的那些类可以⼀起⼯作 增加灵活度, 提⾼复⽤性，适配器类可以在多个系统使 ⽤,符合开闭原则</li>
-</ul>
-<p><strong>缺点</strong></p>
-<p>整体类的调⽤链路增加，本来A可以直接调⽤C，使⽤适 配器后 是A调⽤B，B再调⽤C</p>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-        <category>适配器模式</category>
       </categories>
       <tags>
         <tag>设计模式</tag>

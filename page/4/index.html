@@ -492,6 +492,118 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">设计模式_适配器模式</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">适配器模式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="适配器模式（Adapter-Pattern）"><a href="#适配器模式（Adapter-Pattern）" class="headerlink" title="适配器模式（Adapter Pattern）"></a>适配器模式（Adapter Pattern）</h2><ul>
+<li><p>见名知意，是作为两个不兼容的接⼝之间的桥梁，属于结构型模式</p>
+</li>
+<li><p>适配器模式使得原本由于接⼝不兼容⽽不能⼀起⼯作的 那些类可以⼀起⼯作</p>
+</li>
+<li><p>常⻅见的⼏类适配器</p>
+<ul>
+<li>类的适配器模式<ul>
+<li>想将⼀个类转换成满⾜另⼀个新接⼝的类时，可 以使⽤类的适配器模式，创建⼀个新类，继承原 有的类，实现新的接⼝即可 </li>
+<li>对象的适配器模式<ul>
+<li>想将⼀个对象转换成满⾜另⼀个新接⼝的对象 时，可以创建⼀个适配器类，持有原类的⼀个实 例，在适配器类的⽅法中，调⽤实例的⽅法就⾏</li>
+</ul>
+</li>
+<li>接⼝的适配器模式<ul>
+<li>不想实现⼀个接⼝中所有的⽅法时，可以创建⼀ 个Adapter，实现所有⽅法，在写别的类的时 候，继承Adapter类即</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>总结</strong></p>
+<ul>
+<li><p> 在使⽤⼀些旧系统或者是类库时，经常会出现接⼝不兼 容的问题，适配器模式在解决这类问题具有优势</p>
+</li>
+<li><p>学习设计模式⼀定不要局限代码层⾯，要从软件系统整 体去考虑,⽽不是为了使⽤设计模式，⽽去使⽤设计模式</p>
+</li>
+</ul>
+<p><strong>优点</strong></p>
+<ul>
+<li>可以让任何两个没有关联的类⼀起运⾏，使得原本由于 接⼝不兼容⽽不能⼀起⼯作的那些类可以⼀起⼯作 增加灵活度, 提⾼复⽤性，适配器类可以在多个系统使 ⽤,符合开闭原则</li>
+</ul>
+<p><strong>缺点</strong></p>
+<p>整体类的调⽤链路增加，本来A可以直接调⽤C，使⽤适 配器后 是A调⽤B，B再调⽤C</p>
+
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -590,118 +702,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">设计模式_适配器模式</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">适配器模式</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="适配器模式（Adapter-Pattern）"><a href="#适配器模式（Adapter-Pattern）" class="headerlink" title="适配器模式（Adapter Pattern）"></a>适配器模式（Adapter Pattern）</h2><ul>
-<li><p>见名知意，是作为两个不兼容的接⼝之间的桥梁，属于结构型模式</p>
-</li>
-<li><p>适配器模式使得原本由于接⼝不兼容⽽不能⼀起⼯作的 那些类可以⼀起⼯作</p>
-</li>
-<li><p>常⻅见的⼏类适配器</p>
-<ul>
-<li>类的适配器模式<ul>
-<li>想将⼀个类转换成满⾜另⼀个新接⼝的类时，可 以使⽤类的适配器模式，创建⼀个新类，继承原 有的类，实现新的接⼝即可 </li>
-<li>对象的适配器模式<ul>
-<li>想将⼀个对象转换成满⾜另⼀个新接⼝的对象 时，可以创建⼀个适配器类，持有原类的⼀个实 例，在适配器类的⽅法中，调⽤实例的⽅法就⾏</li>
-</ul>
-</li>
-<li>接⼝的适配器模式<ul>
-<li>不想实现⼀个接⼝中所有的⽅法时，可以创建⼀ 个Adapter，实现所有⽅法，在写别的类的时 候，继承Adapter类即</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>总结</strong></p>
-<ul>
-<li><p> 在使⽤⼀些旧系统或者是类库时，经常会出现接⼝不兼 容的问题，适配器模式在解决这类问题具有优势</p>
-</li>
-<li><p>学习设计模式⼀定不要局限代码层⾯，要从软件系统整 体去考虑,⽽不是为了使⽤设计模式，⽽去使⽤设计模式</p>
-</li>
-</ul>
-<p><strong>优点</strong></p>
-<ul>
-<li>可以让任何两个没有关联的类⼀起运⾏，使得原本由于 接⼝不兼容⽽不能⼀起⼯作的那些类可以⼀起⼯作 增加灵活度, 提⾼复⽤性，适配器类可以在多个系统使 ⽤,符合开闭原则</li>
-</ul>
-<p><strong>缺点</strong></p>
-<p>整体类的调⽤链路增加，本来A可以直接调⽤C，使⽤适 配器后 是A调⽤B，B再调⽤C</p>
-
       
     </div>
     
