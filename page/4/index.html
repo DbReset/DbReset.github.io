@@ -285,6 +285,136 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/ZooKeeper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/19/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/ZooKeeper/" class="post-title-link" itemprop="url">ZooKeeper</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基础概念</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/ZooKeeper/" itemprop="url" rel="index"><span itemprop="name">ZooKeeper</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Zookeeper基础概念"><a href="#Zookeeper基础概念" class="headerlink" title="Zookeeper基础概念"></a>Zookeeper基础概念</h1><p>ZooKeeper是一个开放源码的分布式协调服务，它是集群的管理者，监视着集群中各个节点的状态根据节点提交的反馈进行下一步合理操作。最终，将简单易用的接口和性能高效、功能稳定的系统提供给用户。</p>
+<p>分布式应用程序可以基于Zookeeper实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选举、分布式锁和分布式队列等功能。</p>
+<p>客户端的读请求可以被集群中的任意一台机器处理，<strong>如果读请求在节点上注册了监听器，这个监听器也是由所连接的zookeeper机器来处理</strong>。对于写请求，这些请求会同时发给其他zookeeper机器并且达成一致后，请求才会返回成功。因此，随着zookeeper的集群机器增多，读请求的吞吐会提高但是写请求的吞吐会下降。</p>
+<p>有序性是zookeeper中非常重要的一个特性，所有的更新都是<strong>全局有序</strong>的，每个更新都有一个<strong>唯一的时间戳</strong>，这个时间戳称为zxid（Zookeeper Transaction Id）。而读请求只会相对于更新有序，也就是读请求的返回结果中会带有这个zookeeper最新的zxid。</p>
+<h2 id="ZooKeeper提供了什么？"><a href="#ZooKeeper提供了什么？" class="headerlink" title="ZooKeeper提供了什么？"></a>ZooKeeper提供了什么？</h2><p>区别于Eureka专用于注册中心的功能，zookeeper主要提供的能力是</p>
+<ul>
+<li>文件系统</li>
+<li>通知机制</li>
+</ul>
+<h2 id="Zookeeper文件系统"><a href="#Zookeeper文件系统" class="headerlink" title="Zookeeper文件系统"></a>Zookeeper文件系统</h2><ul>
+<li>Zookeeper提供一个多层级的节点命名空间（节点称为znode）。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。</li>
+<li>Zookeeper为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，<strong>这种特性使得Zookeeper不能用于存放大量的数据，每个节点的存放数据上限为1M</strong>。</li>
+</ul>
+<h2 id="ZAB协议？"><a href="#ZAB协议？" class="headerlink" title="ZAB协议？"></a>ZAB协议？</h2><p>ZAB协议是为分布式协调服务Zookeeper专门设计的一种支持崩溃恢复的原子广播协议。</p>
+<p>ZAB协议包括两种基本的模式：<strong>崩溃恢复和消息广播</strong>。</p>
+<p>当整个zookeeper集群刚刚启动或者Leader服务器宕机、重启或者网络故障导致不存在过半的服务器与Leader服务器保持正常通信时，所有进程（服务器）进入崩溃恢复模式，首先选举产生新的Leader服务器，然后集群中Follower服务器开始与新的Leader服务器进行数据同步，当集群中超过半数机器与该Leader服务器完成数据同步之后，退出恢复模式进入消息广播模式，Leader服务器开始接收客户端的事务请求生成事物提案来进行事务请求处理。</p>
+<h2 id="四种类型的数据节点-Znode"><a href="#四种类型的数据节点-Znode" class="headerlink" title="四种类型的数据节点 Znode"></a>四种类型的数据节点 Znode</h2><ul>
+<li>PERSISTENT-持久节点<br>除非手动删除，否则节点一直存在于Zookeeper上</li>
+<li>EPHEMERAL-临时节点<br>临时节点的生命周期与客户端会话绑定，一旦客户端会话失效（客户端与zookeeper连接断开不一定会话失效），那么这个客户端创建的所有临时节点都会被移除。</li>
+<li>PERSISTENT_SEQUENTIAL-持久顺序节点<br>基本特性同持久节点，只是增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。</li>
+<li>EPHEMERAL_SEQUENTIAL-临时顺序节点<br>基本特性同临时节点，增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。</li>
+</ul>
+<h2 id="Zookeeper-Watcher-机制-–-数据变更通知"><a href="#Zookeeper-Watcher-机制-–-数据变更通知" class="headerlink" title="Zookeeper Watcher 机制 – 数据变更通知"></a>Zookeeper Watcher 机制 – 数据变更通知</h2><p>Zookeeper允许客户端向服务端的某个Znode注册一个Watcher监听，当服务端的一些指定事件触发了这个Watcher，服务端会向指定客户端发送一个事件通知来实现分布式的通知功能，然后客户端根据Watcher通知状态和事件类型做出业务上的改变。</p>
+<p>工作机制：</p>
+<ul>
+<li>客户端注册watcher</li>
+<li>服务端处理watcher</li>
+<li>客户端回调watcher</li>
+</ul>
+<h2 id="Watcher特性总结："><a href="#Watcher特性总结：" class="headerlink" title="Watcher特性总结："></a>Watcher特性总结：</h2><ol>
+<li>一次性<br>无论是服务端还是客户端，一旦一个Watcher被触发，Zookeeper都会将其从相应的存储中移除。这样的设计有效的减轻了服务端的压力，不然对于更新非常频繁的节点，服务端会不断的向客户端发送事件通知，无论对于网络还是服务端的压力都非常大。</li>
+<li>客户端串行执行<br>客户端Watcher回调的过程是一个串行同步的过程。</li>
+<li>轻量<ul>
+<li>Watcher通知非常简单，只会告诉客户端发生了事件，而不会说明事件的具体内容。</li>
+<li>客户端向服务端注册Watcher的时候，并不会把客户端真实的Watcher对象实体传递到服务端，仅仅是在客户端请求中使用boolean类型属性进行了标记。</li>
+</ul>
+</li>
+<li>watcher event异步发送watcher的通知事件从server发送到client是异步的，这就存在一个问题，不同的客户端和服务器之间通过socket进行通信，由于网络延迟或其他因素导致客户端在不通的时刻监听到事件，由于Zookeeper本身提供了ordering guarantee，即客户端监听事件后，才会感知它所监视znode发生了变化。所以我们使用Zookeeper不能期望能够监控到节点每次的变化。Zookeeper只能保证最终的一致性，而无法保证强一致性。</li>
+<li>注册watcher getData、exists、getChildren</li>
+<li>触发watcher create、delete、setData</li>
+<li>当一个客户端连接到一个新的服务器上时，watch将会被以任意会话事件触发。当与一个服务器失去连接的时候，是无法接收到watch的。而当client重新连接时，如果需要的话，所有先前注册过的watch，都会被重新注册。通常这是完全透明的。只有在一个特殊情况下，watch可能会丢失：对于一个未创建的znode的exist watch，如果在客户端断开连接期间被创建了，并且随后在客户端连接上之前又删除了，这种情况下，这个watch事件可能会被丢失。</li>
+</ol>
+<h2 id="ZooKeeper实现分布式锁原理"><a href="#ZooKeeper实现分布式锁原理" class="headerlink" title="ZooKeeper实现分布式锁原理"></a>ZooKeeper实现分布式锁原理</h2><p>其实如果有客户端C、客户端D等N个客户端争抢一个zk分布式锁，原理都是类似的。</p>
+<ul>
+<li>大家都是上来直接创建一个锁节点下的一个接一个的临时顺序节点</li>
+<li>如果自己不是第一个节点，就对自己上一个节点加监听器</li>
+<li>只要上一个节点释放锁，自己就排到前面去了，相当于是一个排队机制。</li>
+</ul>
+<p>而且用临时顺序节点的另外一个用意就是，如果某个客户端创建临时顺序节点之后，不小心自己宕机了也没关系，zk感知到那个客户端宕机，会自动删除对应的临时顺序节点，相当于自动释放锁，或者是自动取消自己的排队。</p>
+
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80_java1.8%E6%96%B0%E7%89%B9%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -418,136 +548,6 @@
 
 <h1 id="8-Nashorn-JavaScript-引擎"><a href="#8-Nashorn-JavaScript-引擎" class="headerlink" title="8.Nashorn JavaScript 引擎"></a>8.Nashorn JavaScript 引擎</h1><p>Java 8提供了一个新的Nashorn javascript引擎，它允许我们在JVM上运行特定的javascript应用。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/liuxiaozhi23/p/10880147.html">java8新特性详解及示例代码</a></p>
-
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/ZooKeeper/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/19/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/ZooKeeper/" class="post-title-link" itemprop="url">ZooKeeper</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基础概念</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/ZooKeeper/" itemprop="url" rel="index"><span itemprop="name">ZooKeeper</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Zookeeper基础概念"><a href="#Zookeeper基础概念" class="headerlink" title="Zookeeper基础概念"></a>Zookeeper基础概念</h1><p>ZooKeeper是一个开放源码的分布式协调服务，它是集群的管理者，监视着集群中各个节点的状态根据节点提交的反馈进行下一步合理操作。最终，将简单易用的接口和性能高效、功能稳定的系统提供给用户。</p>
-<p>分布式应用程序可以基于Zookeeper实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选举、分布式锁和分布式队列等功能。</p>
-<p>客户端的读请求可以被集群中的任意一台机器处理，<strong>如果读请求在节点上注册了监听器，这个监听器也是由所连接的zookeeper机器来处理</strong>。对于写请求，这些请求会同时发给其他zookeeper机器并且达成一致后，请求才会返回成功。因此，随着zookeeper的集群机器增多，读请求的吞吐会提高但是写请求的吞吐会下降。</p>
-<p>有序性是zookeeper中非常重要的一个特性，所有的更新都是<strong>全局有序</strong>的，每个更新都有一个<strong>唯一的时间戳</strong>，这个时间戳称为zxid（Zookeeper Transaction Id）。而读请求只会相对于更新有序，也就是读请求的返回结果中会带有这个zookeeper最新的zxid。</p>
-<h2 id="ZooKeeper提供了什么？"><a href="#ZooKeeper提供了什么？" class="headerlink" title="ZooKeeper提供了什么？"></a>ZooKeeper提供了什么？</h2><p>区别于Eureka专用于注册中心的功能，zookeeper主要提供的能力是</p>
-<ul>
-<li>文件系统</li>
-<li>通知机制</li>
-</ul>
-<h2 id="Zookeeper文件系统"><a href="#Zookeeper文件系统" class="headerlink" title="Zookeeper文件系统"></a>Zookeeper文件系统</h2><ul>
-<li>Zookeeper提供一个多层级的节点命名空间（节点称为znode）。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。</li>
-<li>Zookeeper为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，<strong>这种特性使得Zookeeper不能用于存放大量的数据，每个节点的存放数据上限为1M</strong>。</li>
-</ul>
-<h2 id="ZAB协议？"><a href="#ZAB协议？" class="headerlink" title="ZAB协议？"></a>ZAB协议？</h2><p>ZAB协议是为分布式协调服务Zookeeper专门设计的一种支持崩溃恢复的原子广播协议。</p>
-<p>ZAB协议包括两种基本的模式：<strong>崩溃恢复和消息广播</strong>。</p>
-<p>当整个zookeeper集群刚刚启动或者Leader服务器宕机、重启或者网络故障导致不存在过半的服务器与Leader服务器保持正常通信时，所有进程（服务器）进入崩溃恢复模式，首先选举产生新的Leader服务器，然后集群中Follower服务器开始与新的Leader服务器进行数据同步，当集群中超过半数机器与该Leader服务器完成数据同步之后，退出恢复模式进入消息广播模式，Leader服务器开始接收客户端的事务请求生成事物提案来进行事务请求处理。</p>
-<h2 id="四种类型的数据节点-Znode"><a href="#四种类型的数据节点-Znode" class="headerlink" title="四种类型的数据节点 Znode"></a>四种类型的数据节点 Znode</h2><ul>
-<li>PERSISTENT-持久节点<br>除非手动删除，否则节点一直存在于Zookeeper上</li>
-<li>EPHEMERAL-临时节点<br>临时节点的生命周期与客户端会话绑定，一旦客户端会话失效（客户端与zookeeper连接断开不一定会话失效），那么这个客户端创建的所有临时节点都会被移除。</li>
-<li>PERSISTENT_SEQUENTIAL-持久顺序节点<br>基本特性同持久节点，只是增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。</li>
-<li>EPHEMERAL_SEQUENTIAL-临时顺序节点<br>基本特性同临时节点，增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。</li>
-</ul>
-<h2 id="Zookeeper-Watcher-机制-–-数据变更通知"><a href="#Zookeeper-Watcher-机制-–-数据变更通知" class="headerlink" title="Zookeeper Watcher 机制 – 数据变更通知"></a>Zookeeper Watcher 机制 – 数据变更通知</h2><p>Zookeeper允许客户端向服务端的某个Znode注册一个Watcher监听，当服务端的一些指定事件触发了这个Watcher，服务端会向指定客户端发送一个事件通知来实现分布式的通知功能，然后客户端根据Watcher通知状态和事件类型做出业务上的改变。</p>
-<p>工作机制：</p>
-<ul>
-<li>客户端注册watcher</li>
-<li>服务端处理watcher</li>
-<li>客户端回调watcher</li>
-</ul>
-<h2 id="Watcher特性总结："><a href="#Watcher特性总结：" class="headerlink" title="Watcher特性总结："></a>Watcher特性总结：</h2><ol>
-<li>一次性<br>无论是服务端还是客户端，一旦一个Watcher被触发，Zookeeper都会将其从相应的存储中移除。这样的设计有效的减轻了服务端的压力，不然对于更新非常频繁的节点，服务端会不断的向客户端发送事件通知，无论对于网络还是服务端的压力都非常大。</li>
-<li>客户端串行执行<br>客户端Watcher回调的过程是一个串行同步的过程。</li>
-<li>轻量<ul>
-<li>Watcher通知非常简单，只会告诉客户端发生了事件，而不会说明事件的具体内容。</li>
-<li>客户端向服务端注册Watcher的时候，并不会把客户端真实的Watcher对象实体传递到服务端，仅仅是在客户端请求中使用boolean类型属性进行了标记。</li>
-</ul>
-</li>
-<li>watcher event异步发送watcher的通知事件从server发送到client是异步的，这就存在一个问题，不同的客户端和服务器之间通过socket进行通信，由于网络延迟或其他因素导致客户端在不通的时刻监听到事件，由于Zookeeper本身提供了ordering guarantee，即客户端监听事件后，才会感知它所监视znode发生了变化。所以我们使用Zookeeper不能期望能够监控到节点每次的变化。Zookeeper只能保证最终的一致性，而无法保证强一致性。</li>
-<li>注册watcher getData、exists、getChildren</li>
-<li>触发watcher create、delete、setData</li>
-<li>当一个客户端连接到一个新的服务器上时，watch将会被以任意会话事件触发。当与一个服务器失去连接的时候，是无法接收到watch的。而当client重新连接时，如果需要的话，所有先前注册过的watch，都会被重新注册。通常这是完全透明的。只有在一个特殊情况下，watch可能会丢失：对于一个未创建的znode的exist watch，如果在客户端断开连接期间被创建了，并且随后在客户端连接上之前又删除了，这种情况下，这个watch事件可能会被丢失。</li>
-</ol>
-<h2 id="ZooKeeper实现分布式锁原理"><a href="#ZooKeeper实现分布式锁原理" class="headerlink" title="ZooKeeper实现分布式锁原理"></a>ZooKeeper实现分布式锁原理</h2><p>其实如果有客户端C、客户端D等N个客户端争抢一个zk分布式锁，原理都是类似的。</p>
-<ul>
-<li>大家都是上来直接创建一个锁节点下的一个接一个的临时顺序节点</li>
-<li>如果自己不是第一个节点，就对自己上一个节点加监听器</li>
-<li>只要上一个节点释放锁，自己就排到前面去了，相当于是一个排队机制。</li>
-</ul>
-<p>而且用临时顺序节点的另外一个用意就是，如果某个客户端创建临时顺序节点之后，不小心自己宕机了也没关系，zk感知到那个客户端宕机，会自动删除对应的临时顺序节点，相当于自动释放锁，或者是自动取消自己的排队。</p>
 
       
     </div>
