@@ -190,7 +190,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -204,7 +204,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/08/17/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/" class="post-title-link" itemprop="url">Java基础提升_JVM</a>
+            <a href="/2021/08/19/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/" class="post-title-link" itemprop="url">spring框架总述</a>
         </h2>
 
         <div class="post-meta">
@@ -216,7 +216,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
+              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -228,11 +228,11 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
+                  <a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                  <a href="/categories/java/spring/IOC-AOP/" itemprop="url" rel="index"><span itemprop="name">IOC&AOP</span></a>
                 </span>
             </span>
 
@@ -247,744 +247,177 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="JVM的定义"><a href="#JVM的定义" class="headerlink" title="JVM的定义"></a>JVM的定义</h1><p>JVM(Java Virtual Machine，Java虚拟机)。<br><br>JVM是JAVA实现跨平台的主要手段，事实上jvm是有较多的实现版本，各种系统下的JVM不同。<br></p>
-<p>由于jvm是处在Java语言和操作系统之间的，所以它要向上提供对Java的支持，向下与操作系统良好交互。</p>
-<p><img src="/2021/08/17/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/jvm.jpg" alt="jvm"></p>
-<h1 id="JVM中的数据结构"><a href="#JVM中的数据结构" class="headerlink" title="JVM中的数据结构"></a>JVM中的数据结构</h1><p>主要分为<strong>基本类型</strong>和<strong>引用类型</strong>。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/08/17/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_JVM/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E7%AE%97%E6%B3%95%E7%AF%87/%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/17/%E7%AE%97%E6%B3%95%E7%AF%87/%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">限流算法</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-17 14:55:23" itemprop="dateCreated datePublished" datetime="2021-08-17T14:55:23+08:00">2021-08-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>1 计数器（固定窗口）算法</p>
-<p>计数器算法是使用计数器在周期内累加访问次数，当达到设定的限流值时，触发限流策略。下一个周期开始时，进行清零，重新计数。此算法可用性不高，存在一个非常严重的问题，那就是临界问题，其实只是为了引出滑动窗口算法。</p>
-</blockquote>
-<h2 id="2-滑动窗口算法"><a href="#2-滑动窗口算法" class="headerlink" title="2.滑动窗口算法"></a>2.滑动窗口算法</h2><p>滑动窗口算法是将时间周期分为N个小周期，分别记录每个小周期内访问次数，并且根据时间滑动删除过期的小周期。</p>
-<p>如下图，假设时间周期为1min，将1min再分为2个小周期，统计每个小周期的访问数量，则可以看到，第一个时间周期内，访问数量为75，第二个时间周期内，访问数量为100，超过100的访问则被限流掉了由此可见，当<strong>滑动窗口的格子</strong>划分的越多，那么滑动窗口的滚动就越平滑，限流的统计就会越精确。此算法可以很好的解决固定窗口算法的临界问题。</p>
-<h2 id="3-漏桶算法"><a href="#3-漏桶算法" class="headerlink" title="3.漏桶算法"></a>3.漏桶算法</h2><p>漏桶算法是访问请求到达时直接放入漏桶，如当前容量已达到上限（限流值），则进行丢弃（触发限流策略）。漏桶以固定的速率进行释放访问请求（即请求通过），直到漏桶为空。</p>
-<h2 id="4-令牌桶算法"><a href="#4-令牌桶算法" class="headerlink" title="4.令牌桶算法"></a>4.令牌桶算法</h2><p>令牌桶算法是程序以r（r=时间周期/限流值）的速度向令牌桶中增加令牌，直到令牌桶满，请求到达时向令牌桶请求令牌，如获取到令牌则通过请求，否则触发限流策略</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41846320/article/details/95941361">原文出处</a></li>
-</ul>
-<h2 id="漏桶算法VS令牌桶算法"><a href="#漏桶算法VS令牌桶算法" class="headerlink" title="漏桶算法VS令牌桶算法"></a>漏桶算法VS令牌桶算法</h2><p><a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">漏桶算法</a>与<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">令牌桶算法</a>的区别在于：<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">漏桶算法</a>能够强行限制数据的<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">传输速率</a>。<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">令牌桶算法</a>能够在限制数据的平均<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">传输速率</a>的同时还允许某种程度的<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=%E7%AA%81%E5%8F%91%E4%BC%A0%E8%BE%93&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">突发传输</a>。需要说明的是：在某些情况下，漏桶算法不能够有效地使用网络资源。因为漏桶的漏出速率是固定的，所以即使网络中没有发生拥塞，漏桶算法也不能使某一个单独的数据流达到端口速率。因此，漏桶算法对于存在突发特性的流量来说缺乏效率。而令牌桶算法则能够满足这些具有突发特性的流量。通常，漏桶算法与令牌桶算法结合起来为<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao">网络流量</a>提供更高效的控制。</p>
-<p>总结起来：<strong>自己的系统</strong>扛不了大量请求，用<strong>令牌桶</strong>。对接的<strong>下游系统</strong>抗不了突发大量请求，可以用<strong>漏桶算法</strong>。</p>
-
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/12/sql/mysql_%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97_%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/12/sql/mysql_%E4%BC%98%E5%8C%96%E7%B3%BB%E5%88%97_%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">mysql_优化系列_索引优化</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-12 22:29:06" itemprop="dateCreated datePublished" datetime="2021-08-12T22:29:06+08:00">2021-08-12</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">索引优化</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="模糊匹配like-怎么优化"><a href="#模糊匹配like-怎么优化" class="headerlink" title="模糊匹配like %%怎么优化"></a>模糊匹配like %%怎么优化</h2><ol>
-<li><strong>开启ICP（索引条件下推）</strong><br></li>
-</ol>
-<ul>
-<li><strong>索引下推</strong>（index condition pushdown ）简称ICP，在<strong>Mysql5.6</strong>的版本上推出，用于优化查询。</li>
-<li>在使用ICP的情况下，如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。</li>
-<li><strong>索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数</strong>。****</li>
-</ul>
-<p>  可以通过索引筛选，返回给Server层筛选后的记录，减少不必要的IO开销。<br><br>  如果where后只有一个 like ‘%xxx%’条件，表有主键的前提下，可以通过子查询优化</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span>  <span class="operator">*</span> <span class="keyword">from</span> users01 a , </span><br><span class="line">(<span class="keyword">select</span> id <span class="keyword">from</span> users01 <span class="keyword">where</span> nickname <span class="keyword">like</span> <span class="string">&#x27;%SK%&#x27;</span>) b</span><br><span class="line"> <span class="keyword">where</span> a.id <span class="operator">=</span> b.id;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li><strong>建立全文索引</strong><br><br>两种检索模式</li>
-</ol>
-<ul>
-<li><p>MySQL 5.6 以前的版本，只有 MyISAM 存储引擎支持全文索引；</p>
-</li>
-<li><p>MySQL 5.6 及以后的版本，MyISAM 和 InnoDB 存储引擎均支持全文索引;</p>
-</li>
-<li><p>只有字段的数据类型为 char、varchar、text 及其系列才可以建全文索引。</p>
-</li>
-<li><p>IN NATURAL LANGUAGE MODE：默认模式，以自然语言的方式搜索，AGAINST(‘看风’ IN NATURAL LANGUAGE MODE ) 等价于AGAINST(‘看风’)。</p>
-</li>
-<li><p>IN BOOLEAN MODE：布尔模式，表是字符串前后的字符有特殊含义，如查找包含SK，但不包含Lyn的记录，可以用+，-符号。<br>AGAINST(‘+SK -Lyn’ in BOOLEAN MODE);</p>
-</li>
-</ul>
-<p>创建全文索引：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> fulltext index idx_full_nickname(nickname) <span class="keyword">with</span> parser ngram;</span><br></pre></td></tr></table></figure>
-<p>改写like语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> users01 <span class="keyword">where</span> <span class="keyword">match</span>(nickname) against(<span class="string">&#x27;看风&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li><strong>生成列（虚拟列）</strong><br><br>对于where条件后的 like ‘%xxx’ 是无法利用索引扫描，可以利用MySQL 5.7的生成列模拟函数索引的方式解决，具体步骤如下：<br>利用内置reverse函数将like ‘%风云’反转为like ‘云风%’，基于此函数添加虚拟生成列。<br>在虚拟生成列上创建索引。<br>将SQL改写成通过生成列like reverse(‘%风云’)去过滤，走生成列上的索引。<br>建立生成列<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> users01 <span class="keyword">add</span> reverse_nickname <span class="type">varchar</span>(<span class="number">200</span>) generated always <span class="keyword">as</span> (reverse(nickname));</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="索引很长的字段怎么优化？"><a href="#索引很长的字段怎么优化？" class="headerlink" title="索引很长的字段怎么优化？"></a>索引很长的字段怎么优化？</h2><p>有时候需要索引很长的字符(例如BLOB,TEXT,或者很长的VARCHAR)，这样会使得索引又大又慢。</p>
-<ol>
-<li><strong>改用哈希索引</strong>。<br>InnoDB是支持Btree索引，但不显式支持hash索引。可以<strong>使用生成列来间接使用哈希索引</strong>。</li>
-<li>使用字符串的前几个字符作为索引(即前缀索引)。</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> INDEX `idx_city` (`city`(<span class="number">7</span>)) <span class="keyword">USING</span> BTREE ;</span><br><span class="line"><span class="comment">-- 或者这个也行</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> `city_demo` <span class="keyword">ADD</span> KEY `idx_city` (`city`(<span class="number">7</span>))</span><br></pre></td></tr></table></figure>
-<p>当然在选择前缀时要选择合适的前缀索引长度，保持好的选择性。其方法主要是计算数据分布。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询重复次数最多的10条完整城市名称及其数量(图1)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, city <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> city <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前3个字符)及其数量,可以发现:前3个字符的相同数量过大,不适合做前缀索引(图2)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">3</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br><span class="line"><span class="comment">-- 查询重复次数最多的10条城市名称(前7个字符)及其数量,可以发现:前7个字符的相同数量和完整城市名称很相近了,可以考虑作为做前缀索引(图3)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) cnt, <span class="keyword">LEFT</span>(city,<span class="number">7</span>) pref <span class="keyword">FROM</span> city_demo <span class="keyword">GROUP</span> <span class="keyword">BY</span> pref <span class="keyword">ORDER</span> <span class="keyword">BY</span> cnt <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
-
-<h1 id="MRR"><a href="#MRR" class="headerlink" title="MRR"></a>MRR</h1><p>MRR全称是Multi-Range Read，是MYSQL5.6优化器的一个新特性，在MariaDB5.5也有这个特性。优化的功能在使用二级索引做范围扫描的过程中减少磁盘随机IO和减少主键索引的访问次数。二级索引通过将主键放在buffer中排序将<strong>随机IO转换为顺序IO</strong>。对于随机读写能力较弱的机械硬盘有比较大优化。</p>
-
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">设计模式_适配器模式</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">适配器模式</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="适配器模式（Adapter-Pattern）"><a href="#适配器模式（Adapter-Pattern）" class="headerlink" title="适配器模式（Adapter Pattern）"></a>适配器模式（Adapter Pattern）</h2><ul>
-<li><p>见名知意，是作为两个不兼容的接⼝之间的桥梁，属于结构型模式</p>
-</li>
-<li><p>适配器模式使得原本由于接⼝不兼容⽽不能⼀起⼯作的 那些类可以⼀起⼯作</p>
-</li>
-<li><p>常⻅见的⼏类适配器</p>
-<ul>
-<li>类的适配器模式<ul>
-<li>想将⼀个类转换成满⾜另⼀个新接⼝的类时，可 以使⽤类的适配器模式，创建⼀个新类，继承原 有的类，实现新的接⼝即可 </li>
-<li>对象的适配器模式<ul>
-<li>想将⼀个对象转换成满⾜另⼀个新接⼝的对象 时，可以创建⼀个适配器类，持有原类的⼀个实 例，在适配器类的⽅法中，调⽤实例的⽅法就⾏</li>
-</ul>
-</li>
-<li>接⼝的适配器模式<ul>
-<li>不想实现⼀个接⼝中所有的⽅法时，可以创建⼀ 个Adapter，实现所有⽅法，在写别的类的时 候，继承Adapter类即</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>总结</strong></p>
-<ul>
-<li><p> 在使⽤⼀些旧系统或者是类库时，经常会出现接⼝不兼 容的问题，适配器模式在解决这类问题具有优势</p>
-</li>
-<li><p>学习设计模式⼀定不要局限代码层⾯，要从软件系统整 体去考虑,⽽不是为了使⽤设计模式，⽽去使⽤设计模式</p>
-</li>
-</ul>
-<p><strong>优点</strong></p>
-<ul>
-<li>可以让任何两个没有关联的类⼀起运⾏，使得原本由于 接⼝不兼容⽽不能⼀起⼯作的那些类可以⼀起⼯作 增加灵活度, 提⾼复⽤性，适配器类可以在多个系统使 ⽤,符合开闭原则</li>
-</ul>
-<p><strong>缺点</strong></p>
-<p>整体类的调⽤链路增加，本来A可以直接调⽤C，使⽤适 配器后 是A调⽤B，B再调⽤C</p>
-
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">设计模式</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">常见面试</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="设计模式的六大原则"><a href="#设计模式的六大原则" class="headerlink" title="设计模式的六大原则"></a>设计模式的六大原则</h1><ul>
-<li><p>单一职责原则</p>
-<p>一个类只负责一个功能领域的相应职责</p>
-<p>实现高内聚，低耦合的指导方针</p>
-</li>
-<li><p>开闭原则</p>
-<p>对扩展开放，对修改关闭</p>
-</li>
-<li><p>里氏替换原则LSP</p>
-</li>
-<li><p>依赖倒转原则</p>
-</li>
-<li><p>接口隔离原则</p>
-</li>
-<li><p>迪米特法则</p>
-<ul>
-<li><p>最少知道原则，一个实体类应当尽量少地与其他实体之间发生相互作用，使得系统功能模块相对对立</p>
-</li>
-<li><p>类之间的耦合度越低，就越有利用于复用</p>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="设计模式的三大设计模式分类"><a href="#设计模式的三大设计模式分类" class="headerlink" title="设计模式的三大设计模式分类"></a>设计模式的三大设计模式分类</h1><ul>
-<li><p>创建型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">常用：工厂模式，抽象工厂模式，单例模式，建造者模式</span><br><span class="line">不常用：原型模式</span><br></pre></td></tr></table></figure></li>
-<li><p>结构型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">常用：适配器、桥接、装饰器、代理</span><br><span class="line">不常用：组合、外观、享元</span><br></pre></td></tr></table></figure></li>
-<li><p>行为型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">常用： 观察者模式、模板模式、策略模式、责任链模式、迭代器模式、状态模式。</span><br><span class="line">不常用： 访问者模式、备忘录模式、命令模式、解释器模式、中介模式。</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h1 id="入门问题"><a href="#入门问题" class="headerlink" title="入门问题"></a>入门问题</h1><h2 id="1-请列举出在-JDK-中几个常用的设计模式？"><a href="#1-请列举出在-JDK-中几个常用的设计模式？" class="headerlink" title="1.请列举出在 JDK 中几个常用的设计模式？"></a>1.请列举出在 JDK 中几个常用的设计模式？</h2><p>单例模式（Singleton pattern）用于 Runtime，Calendar 和其他的一些类中。工厂模式<br>（Factory pattern）被用于各种不可变的类如 Boolean，像 Boolean.valueOf，观察者模式<br>（Observer pattern）被用于 Swing 和很多的事件监听中。装饰器设计模式（Decorator<br>design pattern）被用于多个 Java IO 类中。</p>
-<h2 id="2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？"><a href="#2-什么是设计模式？你是否在你的代码里面使用过任何设计模式？" class="headerlink" title="2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？"></a>2.什么是设计模式？你是否在你的代码里面使用过任何设计模式？</h2><p>设计模式是世界上各种各样程序员用来解决特定设计问题的尝试和测试的方法。设计模式<br>是代码可用性的延伸。</p>
-<p>模板方法模式定义一个操作中的算法的骨架，将一些步骤延迟到子类中，模板方法使得子类可以不改变一个算法的结构即可重定义该算法的某些步骤。</p>
-<p>应用场景如下：</p>
-<p>对于一些功能，在不同的对象身上展示不同的作用，但是功能的框架是一样的。</p>
-<h2 id="3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式"><a href="#3-Java-中什么叫单例设计模式？请用-Java-写出线程安全的单例模式" class="headerlink" title="3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式"></a>3.Java 中什么叫单例设计模式？请用 Java 写出线程安全的单例模式</h2><p>单例模式重点在于在整个系统上共享一些创建时较耗资源的对象。整个应用中只维护一个<br>特定类实例，它被所有组件共同使用。Java.lang.Runtime 是单例模式的经典例子。从 Java<br>5 开始你可以使用枚举（enum）来实现线程安全的单例。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/08/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/sql/mysql%E5%9F%BA%E7%A1%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/10/sql/mysql%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">mysql基础_索引结构_基础概念</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="mysql的4大特性-4种隔离级别："><a href="#mysql的4大特性-4种隔离级别：" class="headerlink" title="mysql的4大特性+4种隔离级别："></a>mysql的4大特性+4种隔离级别：</h2><h3 id="4大特性即ACID"><a href="#4大特性即ACID" class="headerlink" title="4大特性即ACID"></a>4大特性即ACID</h3><ul>
-<li>1 原子性。事务是一个不可分割的整体，事务开始的操作，要么全部执行，要么全部不执行。</li>
-<li>2 隔离性。同一时间，只允许一个事务请求同一组数据。不同的事务彼此之间没有干扰。</li>
-<li>3 一致性。事务开始前和结束后，数据库的完整性约束没有被破坏 。</li>
-<li>4 稳定性。事务完成后，事务对数据库的所有更新将被保存到数据库，不能回滚。</li>
-</ul>
-<h3 id="4种隔离级别"><a href="#4种隔离级别" class="headerlink" title="4种隔离级别"></a>4种隔离级别</h3><p>大多数数据库<strong>默认</strong>的事务隔离级别是<strong>Read committed</strong>，比如Sql Server , Oracle。<strong>Mysql的默认隔离级别是Repeatable read</strong>。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/08/10/sql/mysql%E5%9F%BA%E7%A1%80/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/sql/mybatis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/10/sql/mybatis/" class="post-title-link" itemprop="url">mybatis</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mybatis/" itemprop="url" rel="index"><span itemprop="name">mybatis</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ol>
-<li>#{}和${}的区别是什么？</li>
-</ol>
-<ul>
-<li>#{}是预编译处理#{}可以防止Sql 注入，它会将所有传入的参数作为一个字符串来处理。</li>
-<li>${}是字符串替换。${} 则将传入的参数拼接到Sql上去执行，一般用于表名和字段名参数，$ 所对应的参数应该由服务器端提供，前端可以用参数进行选择，避免 Sql 注入的风险<br>Mybatis在处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement的set方法来赋值；<br>Mybatis在处理时，就是把{}替换成变量的值。<br><br>使用#{}可以有效的防止SQL注入，提高系统安全性。</li>
-</ul>
-<ol start="2">
-<li>Mybatis是如何进行<strong>分页</strong>的？分页插件的原理是什么？<br><br>Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的<strong>内存分页</strong>，而非物理分页，可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。<br><br>分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。<br></li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/08/10/sql/mybatis/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80%E4%B9%8BThreadLocal/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/10/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80%E4%B9%8BThreadLocal/" class="post-title-link" itemprop="url">java基础之ThreadLocal</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="ThreadLocal原理和用法"><a href="#ThreadLocal原理和用法" class="headerlink" title="ThreadLocal原理和用法"></a>ThreadLocal原理和用法</h2><h3 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h3><ul>
-<li>ThreadLocal提供了线程的局部变量，每个线程都可以通过set()和get()来对这个局部变量进行操作，<br>但不会和其他线程的局部变量进行冲突，实现了线程的<strong>数据隔离</strong>。</li>
-<li>实现线程级别的全局变量,避免使用一层层的传参。<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Requestcontext</span> &#123;</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;<span class="keyword">String</span>&gt; traceldLocal = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> <span class="title">getTraceId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> threadIdLocal.<span class="built_in">get</span>();</span><br><span class="line">    &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> <span class="title">setTraceId</span> <span class="params">(<span class="keyword">String</span> traceld)</span></span>&#123;</span><br><span class="line">            threadldLocal.<span class="built_in">set</span>(traceld);</span><br><span class="line">        &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*一处设置traceid*/</span></span><br><span class="line"><span class="module-access"><span class="module"><span class="identifier">Requestcontext</span>.</span></span>set<span class="constructor">TraceId(UUID.<span class="params">randomUUID</span>()</span>.<span class="keyword">to</span><span class="constructor">String()</span>);</span><br><span class="line"><span class="comment">/*另一处读取traceId，不在同一个类中调用*/</span></span><br><span class="line"><span class="module-access"><span class="module"><span class="identifier">RequestContext</span>.</span></span>get<span class="constructor">TraceId()</span>;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>使用举例:<br><br>java8之前的日期组件,SimpleDataFormat。当我们使用SimpleDataFormat的parse()方法，内部有一个Calendar对象，调用SimpleDataFormat的parse()方法会先调用Calendar.clear（），然后调用Calendar.add()，如果一个线程先调用了add()然后另一个线程又调用了clear()，这时候parse()方法解析的时间就不对了。从而导致了线程安全问题。当然我们可以每用一次new一个新对象出来，不过这样效率太低。<br><br>所以我们可以使用了线程池加上ThreadLocal包装SimpleDataFormat，再调用initialValue让每个线程有一个SimpleDataFormat的副本，从而解决了线程安全的问题，也提高了性能。</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static ThreadLocal&lt;DateFormat&gt; threadLocal = <span class="module-access"><span class="module"><span class="identifier">ThreadLocal</span>.</span></span><span class="keyword">with</span><span class="constructor">Initial(SimpleDateFormat::<span class="params">new</span>)</span>;</span><br></pre></td></tr></table></figure>
-<p>不过Java8之后可以用java.time.format.DateTimeFormatter了。</p>
-<h4 id="注意（弱引用引起的内存泄露问题）："><a href="#注意（弱引用引起的内存泄露问题）：" class="headerlink" title="注意（弱引用引起的内存泄露问题）："></a>注意（弱引用引起的内存泄露问题）：</h4><p>当线程没有结束，但是 ThreadLocal 已经被回收，则可能导致线程中存在ThreadLocalMap&lt;null, Object&gt; 的键值对，造成内存泄露。(ThreadLocal 被回收，ThreadLocal 关联的线程共享变量还存在。<br></p>
-<p>解决方案：<br></p>
-<ol>
-<li>使用完线程共享变量后，显式调用 ThreadLocalMap.remove 方法清除线程共享变量。</li>
-</ol>
+          <h1 id="1-spring是什么"><a href="#1-spring是什么" class="headerlink" title="1.spring是什么"></a>1.spring是什么</h1><p>Spring 是于 2003 年兴起的一个轻量级的 Java 开发框架，它是为了解决企业应用开发<br>的复杂性而创建的。Spring 的核心是控制反转（<strong>IoC</strong>）和面向切面编程（<strong>AOP</strong>）。<br></p>
 <hr>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>简单说 ThreadLocal 就是一种以空间换时间的做法，在每个 Thread 里面维护了一个以开放定址法(区别于hashmap，没有链表，发生冲突时往后找空位就行了)实现的ThreadLocal.ThreadLocalMap，把数据进行隔离，数据不共享，自然就没有线程安全方面的问题了。</p>
-<p>结构图：<br><br><img src="/2021/08/10/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80%E4%B9%8BThreadLocal/ThreadLocal_structure.jpg" alt="ThreadLocal"><br>每个Thread对象中都维护了一个ThreadLocalMap，这个Map使用ThreadLocal对象作为key。<br><br>可以看到的是，ThreadLocal对象虽然是同一个，但是每个线程中的ThreadLocalMap都是单独的，所以各个线程之间是互不影响的。具体数据则时放在ThreadLocalMap的entry数组下的。</p>
-<h3 id="父子线程怎么共享数据"><a href="#父子线程怎么共享数据" class="headerlink" title="父子线程怎么共享数据"></a>父子线程怎么共享数据</h3><p>可以使用<strong>interitableThreadLocals</strong>，子线程能继承到父线程的数据，子线程中的修改不影响父线程。</p>
-<p>private</p>
+<h2 id="2-IOC控制反转"><a href="#2-IOC控制反转" class="headerlink" title="2.IOC控制反转"></a>2.IOC控制反转</h2><p>控制反转（IoC，Inversion of Control），是一个概念，是一种思想。指将传统上由程序代<br>码直接操控的对象调用权交给容器，通过容器来实现对象的装配和管理。控制反转就是对对<br>象控制权的转移，从程序代码本身反转到了外部容器。通过容器实现对象的创建，属性赋值，<br>依赖的管理。<br><br>spring对于IOC思想的具体实现就是：<strong>DI</strong>（依赖注入：DI(Dependency Injection)，程序代码不做定位查询，这些工作由容器自行完成。）</p>
+<h3 id="DI具体用法和实现"><a href="#DI具体用法和实现" class="headerlink" title="DI具体用法和实现"></a>DI具体用法和实现</h3><h4 id="ApplicationContext-接口（容器）"><a href="#ApplicationContext-接口（容器）" class="headerlink" title="ApplicationContext 接口（容器）"></a>ApplicationContext 接口（容器）</h4><p>ApplicationContext 用于加载 Spring 的配置文件，在程序中充当“容器”的角色。其实现<br>类有：<strong>ClassPathXmlApplicationContext</strong>(常用)，FileSystemXmlApplicationContext。<br></p>
+<ul>
+<li>若 Spring 配置文件存放在项目的类路径下，则使用 ClassPathXmlApplicationContext 实现<br>类进行加载。</li>
+<li>ApplicationContext 容器，会在容器对象初始化时，将其中的所有对象一次性全部装配好。<br>以后代码中若要使用到这些对象，只需从内存中直接获取即可。执行效率较高。但占用内存。</li></ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/19/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80_java1.8%E6%96%B0%E7%89%B9%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/19/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80_java1.8%E6%96%B0%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">java基础_java1.8新特性</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/jdk1-8/" itemprop="url" rel="index"><span itemprop="name">jdk1.8</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-Lambda-表达式"><a href="#1-Lambda-表达式" class="headerlink" title="1.Lambda 表达式"></a>1.Lambda 表达式</h1><p>Lambda 允许把函数作为一个方法的参数（<strong>函数作为参数传递到方法中</strong>）。</p>
+<h2 id="1-1-语法"><a href="#1-1-语法" class="headerlink" title="1.1 语法"></a>1.1 语法</h2><p>lambda 表达式的语法格式如下：</p>
+<p>(parameters) -&gt; expression或(parameters) -&gt;{statements; }</p>
+<h1 id="2-Java-8-方法引用"><a href="#2-Java-8-方法引用" class="headerlink" title="2.Java 8 方法引用"></a>2.Java 8 方法引用</h1><p>方法引用提供了非常有用的语法，可以直接引用已有Java类或对象（实例）的方法或构造器。与lambda联合使用，方法引用可以使语言的构造更紧凑简洁，减少冗余代码。</p>
+<p>方法引用可以使语言的构造更紧凑简洁，减少冗余代码。</p>
+<p>方法引用使用一对冒号 :: 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List names = <span class="keyword">new</span> ArrayList();</span><br><span class="line">names.add(<span class="string">&quot;Google&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;Runoob&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;Taobao&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;Baidu&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;Sina&quot;</span>);</span><br><span class="line">names.forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="3-默认方法"><a href="#3-默认方法" class="headerlink" title="3.默认方法"></a>3.默认方法</h1><p>默认方法就是一个在接口里面有了一个实现的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">vehicle</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;我是一辆车!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="4-新工具"><a href="#4-新工具" class="headerlink" title="4.新工具"></a>4.新工具</h1><p>新的编译工具，如：Nashorn引擎 jjs、 类依赖分析器jdeps。</p>
+<h1 id="5-Stream-API"><a href="#5-Stream-API" class="headerlink" title="5.Stream API"></a>5.Stream API</h1><h2 id="5-1概念理解"><a href="#5-1概念理解" class="headerlink" title="5.1概念理解"></a>5.1概念理解</h2><p>新添加的Stream API（java.util.stream） 把真正的函数式编程风格引入到Java中。</p>
+<p>Java 8 API添加了一个新的抽象称为流Stream，可以让你以一种声明的方式处理数据。</p>
+<p>Stream使用一种<strong>类似用SQL语句</strong>从数据库查询数据的直观方式来提供一种对Java集合运算和表达的高阶抽象。</p>
+<p>Stream API可以极大提高Java程序员的生产力，让程序员写出高效率、干净、简洁的代码。</p>
+<p>这种风格<strong>将要处理的元素集合看作一种流</strong>，流在管道中传输，并且可以在管道的节点上进行处理，比如<strong>筛选，排序，聚合</strong>等。</p>
+<p>元素流在管道中经过中间操作（intermediate operation）的处理，最后由最终操作(terminal operation)得到前面处理的结果。</p>
+<h2 id="5-2生成流"><a href="#5-2生成流" class="headerlink" title="5.2生成流"></a>5.2生成流</h2><p>在Java 8中,集合接口有两个方法来生成流：</p>
+<p>stream() −为集合创建串行流。</p>
+<p>parallelStream() − 为集合创建并行流。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>` `<span class="keyword">static</span>` `<span class="keyword">void</span>` `main(String[] args) &#123;``  ``List&lt;String&gt; strings = Arrays.asList(``<span class="string">&quot;abc&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;bc&quot;</span>``, ``<span class="string">&quot;efg&quot;</span>``, ``<span class="string">&quot;abcd&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;jkl&quot;</span>``);``  ``List&lt;String&gt; filtered = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());``&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-3-forEach"><a href="#5-3-forEach" class="headerlink" title="5.3  forEach"></a>5.3  forEach</h3><p>Stream 提供了新的方法 ‘forEach’ 来迭代流中的每个数据。以下代码片段使用forEach 输出了10个随机数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Random random = ``<span class="keyword">new</span>` `Random();``random.ints().limit(``<span class="number">10</span>``).forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-4-map"><a href="#5-4-map" class="headerlink" title="5.4 map"></a>5.4 map</h3><p>map 方法用于映射每个元素到对应的结果，以下代码片段使用 map 输出了元素对应的平方数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(``<span class="number">3</span>``, ``<span class="number">2</span>``, ``<span class="number">2</span>``, ``<span class="number">3</span>``, ``<span class="number">7</span>``, ``<span class="number">3</span>``, ``<span class="number">5</span>``);``<span class="comment">// 获取对应的平方数``List&lt;Integer&gt; squaresList = numbers.stream().map(i -&gt; i * i).distinct().collect(Collectors.toList());</span></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-5-filter"><a href="#5-5-filter" class="headerlink" title="5.5 filter"></a>5.5 filter</h3><p>filter 方法用于通过设置条件过滤出元素。以下代码片段使用filter 方法过滤出空字符串：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;strings = Arrays.asList(``<span class="string">&quot;abc&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;bc&quot;</span>``, ``<span class="string">&quot;efg&quot;</span>``, ``<span class="string">&quot;abcd&quot;</span>``,``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;jkl&quot;</span>``);``<span class="comment">// 获取空字符串的数量``int` `count = (``int``) strings.stream().filter(string -&gt; string.isEmpty()).count();</span></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-6-limit"><a href="#5-6-limit" class="headerlink" title="5.6 limit"></a>5.6 limit</h3><p>limit 方法用于获取指定数量的流。以下代码片段使用 limit 方法打印出 10 条数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Random random = ``<span class="keyword">new</span>` `Random();``random.ints().limit(``<span class="number">10</span>``).forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-7-sorted"><a href="#5-7-sorted" class="headerlink" title="5.7 sorted"></a>5.7 sorted</h3><p>sorted 方法用于对流进行排序。以下代码片段使用 sorted 方法对输出的 10 个随机数进行排序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Random random = ``<span class="keyword">new</span>` `Random();``random.ints().limit(``<span class="number">10</span>``).sorted().forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-8-并行（parallel）程序"><a href="#5-8-并行（parallel）程序" class="headerlink" title="5.8 并行（parallel）程序"></a>5.8 并行（parallel）程序</h3><p>parallelStream 是流并行处理程序的代替方法。以下实例我们使用parallelStream 来输出空字符串的数量：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(``<span class="string">&quot;abc&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;bc&quot;</span>``, ``<span class="string">&quot;efg&quot;</span>``, ``<span class="string">&quot;abcd&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;jkl&quot;</span>``);``<span class="comment">// 获取空字符串的数量``int` `count = (``int``) strings.parallelStream().filter(string -&gt; string.isEmpty()).count();</span></span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<p>我们可以很容易的在顺序运行和并行直接切换。</p>
+<h3 id="5-9-Collectors"><a href="#5-9-Collectors" class="headerlink" title="5.9 Collectors"></a>5.9 Collectors</h3><p>Collectors 类实现了很多归约操作，例如将流转换成集合和聚合元素。Collectors可用于返回列表或字符串：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(``<span class="string">&quot;abc&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;bc&quot;</span>``, ``<span class="string">&quot;efg&quot;</span>``, ``<span class="string">&quot;abcd&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;jkl&quot;</span>``);``List&lt;String&gt; filtered = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());``System.out.println(``<span class="string">&quot;筛选列表: &quot;</span>` `+ filtered);``String mergedString = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.joining(``<span class="string">&quot;, &quot;</span>``));``System.out.println(``<span class="string">&quot;合并字符串: &quot;</span>` `+ mergedString);</span><br></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h3 id="5-10-统计"><a href="#5-10-统计" class="headerlink" title="5.10 统计"></a>5.10 统计</h3><p>另外，一些产生统计结果的收集器也非常有用。它们主要用于int、double、long等基本类型上，它们可以用来产生类似如下的统计结果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(``<span class="number">3</span>``, ``<span class="number">2</span>``, ``<span class="number">2</span>``, ``<span class="number">3</span>``, ``<span class="number">7</span>``, ``<span class="number">3</span>``, ``<span class="number">5</span>``);``IntSummaryStatistics stats = numbers.stream().mapToInt((x) -&gt; x).summaryStatistics();``System.out.println(``<span class="string">&quot;列表中最大的数 : &quot;</span>` `+ stats.getMax());``System.out.println(``<span class="string">&quot;列表中最小的数 : &quot;</span>` `+ stats.getMin());``System.out.println(``<span class="string">&quot;所有数之和 : &quot;</span>` `+ stats.getSum());``System.out.println(``<span class="string">&quot;平均数 : &quot;</span>` `+ stats.getAverage());</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="6-Date-Time-API"><a href="#6-Date-Time-API" class="headerlink" title="6.Date Time API"></a>6.Date Time API</h1><p>加强对日期与时间的处理。</p>
+<h1 id="7-Optional-类"><a href="#7-Optional-类" class="headerlink" title="7.Optional 类"></a>7.Optional 类</h1><p>Optional 类是一个可以为null的容器对象。如果值存在则isPresent()方法会返回true，调用get()方法会返回该对象。</p>
+<p>Optional 是个容器：它可以保存类型T的值，或者仅仅保存null。Optional提供很多有用的方法，这样我们就不用显式进行空值检测。</p>
+<p>Optional 类的引入很好的解决空指针异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Integer value1 = <span class="keyword">null</span>;</span><br><span class="line">Integer value2 = <span class="keyword">new</span> Integer(<span class="number">10</span>);</span><br><span class="line"><span class="comment">// Optional.ofNullable - 允许传递为 null 参数</span></span><br><span class="line">Optional&lt;Integer&gt; a = Optional.ofNullable(value1);</span><br><span class="line"><span class="comment">// Optional.of - 如果传递的参数是 null，抛出异常 NullPointerException</span></span><br><span class="line">Optional&lt;Integer&gt; b = Optional.of(value2);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="8-Nashorn-JavaScript-引擎"><a href="#8-Nashorn-JavaScript-引擎" class="headerlink" title="8.Nashorn JavaScript 引擎"></a>8.Nashorn JavaScript 引擎</h1><p>Java 8提供了一个新的Nashorn javascript引擎，它允许我们在JVM上运行特定的javascript应用。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/liuxiaozhi23/p/10880147.html">java8新特性详解及示例代码</a></p>
 
       
     </div>
@@ -1009,7 +442,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/java%E5%9F%BA%E7%A1%80/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/ZooKeeper/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -1023,7 +456,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/08/10/java%E5%9F%BA%E7%A1%80/java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BReentrantlock/" class="post-title-link" itemprop="url">synchronized 和 ReentrantLock</a>
+            <a href="/2021/08/19/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/ZooKeeper/" class="post-title-link" itemprop="url">ZooKeeper</a>
         </h2>
 
         <div class="post-meta">
@@ -1035,7 +468,137 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
+              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基础概念</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/ZooKeeper/" itemprop="url" rel="index"><span itemprop="name">ZooKeeper</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Zookeeper基础概念"><a href="#Zookeeper基础概念" class="headerlink" title="Zookeeper基础概念"></a>Zookeeper基础概念</h1><p>ZooKeeper是一个开放源码的分布式协调服务，它是集群的管理者，监视着集群中各个节点的状态根据节点提交的反馈进行下一步合理操作。最终，将简单易用的接口和性能高效、功能稳定的系统提供给用户。</p>
+<p>分布式应用程序可以基于Zookeeper实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选举、分布式锁和分布式队列等功能。</p>
+<p>客户端的读请求可以被集群中的任意一台机器处理，<strong>如果读请求在节点上注册了监听器，这个监听器也是由所连接的zookeeper机器来处理</strong>。对于写请求，这些请求会同时发给其他zookeeper机器并且达成一致后，请求才会返回成功。因此，随着zookeeper的集群机器增多，读请求的吞吐会提高但是写请求的吞吐会下降。</p>
+<p>有序性是zookeeper中非常重要的一个特性，所有的更新都是<strong>全局有序</strong>的，每个更新都有一个<strong>唯一的时间戳</strong>，这个时间戳称为zxid（Zookeeper Transaction Id）。而读请求只会相对于更新有序，也就是读请求的返回结果中会带有这个zookeeper最新的zxid。</p>
+<h2 id="ZooKeeper提供了什么？"><a href="#ZooKeeper提供了什么？" class="headerlink" title="ZooKeeper提供了什么？"></a>ZooKeeper提供了什么？</h2><p>区别于Eureka专用于注册中心的功能，zookeeper主要提供的能力是</p>
+<ul>
+<li>文件系统</li>
+<li>通知机制</li>
+</ul>
+<h2 id="Zookeeper文件系统"><a href="#Zookeeper文件系统" class="headerlink" title="Zookeeper文件系统"></a>Zookeeper文件系统</h2><ul>
+<li>Zookeeper提供一个多层级的节点命名空间（节点称为znode）。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。</li>
+<li>Zookeeper为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，<strong>这种特性使得Zookeeper不能用于存放大量的数据，每个节点的存放数据上限为1M</strong>。</li>
+</ul>
+<h2 id="ZAB协议？"><a href="#ZAB协议？" class="headerlink" title="ZAB协议？"></a>ZAB协议？</h2><p>ZAB协议是为分布式协调服务Zookeeper专门设计的一种支持崩溃恢复的原子广播协议。</p>
+<p>ZAB协议包括两种基本的模式：<strong>崩溃恢复和消息广播</strong>。</p>
+<p>当整个zookeeper集群刚刚启动或者Leader服务器宕机、重启或者网络故障导致不存在过半的服务器与Leader服务器保持正常通信时，所有进程（服务器）进入崩溃恢复模式，首先选举产生新的Leader服务器，然后集群中Follower服务器开始与新的Leader服务器进行数据同步，当集群中超过半数机器与该Leader服务器完成数据同步之后，退出恢复模式进入消息广播模式，Leader服务器开始接收客户端的事务请求生成事物提案来进行事务请求处理。</p>
+<h2 id="四种类型的数据节点-Znode"><a href="#四种类型的数据节点-Znode" class="headerlink" title="四种类型的数据节点 Znode"></a>四种类型的数据节点 Znode</h2><ul>
+<li>PERSISTENT-持久节点<br>除非手动删除，否则节点一直存在于Zookeeper上</li>
+<li>EPHEMERAL-临时节点<br>临时节点的生命周期与客户端会话绑定，一旦客户端会话失效（客户端与zookeeper连接断开不一定会话失效），那么这个客户端创建的所有临时节点都会被移除。</li>
+<li>PERSISTENT_SEQUENTIAL-持久顺序节点<br>基本特性同持久节点，只是增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。</li>
+<li>EPHEMERAL_SEQUENTIAL-临时顺序节点<br>基本特性同临时节点，增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。</li>
+</ul>
+<h2 id="Zookeeper-Watcher-机制-–-数据变更通知"><a href="#Zookeeper-Watcher-机制-–-数据变更通知" class="headerlink" title="Zookeeper Watcher 机制 – 数据变更通知"></a>Zookeeper Watcher 机制 – 数据变更通知</h2><p>Zookeeper允许客户端向服务端的某个Znode注册一个Watcher监听，当服务端的一些指定事件触发了这个Watcher，服务端会向指定客户端发送一个事件通知来实现分布式的通知功能，然后客户端根据Watcher通知状态和事件类型做出业务上的改变。</p>
+<p>工作机制：</p>
+<ul>
+<li>客户端注册watcher</li>
+<li>服务端处理watcher</li>
+<li>客户端回调watcher</li>
+</ul>
+<h2 id="Watcher特性总结："><a href="#Watcher特性总结：" class="headerlink" title="Watcher特性总结："></a>Watcher特性总结：</h2><ol>
+<li>一次性<br>无论是服务端还是客户端，一旦一个Watcher被触发，Zookeeper都会将其从相应的存储中移除。这样的设计有效的减轻了服务端的压力，不然对于更新非常频繁的节点，服务端会不断的向客户端发送事件通知，无论对于网络还是服务端的压力都非常大。</li>
+<li>客户端串行执行<br>客户端Watcher回调的过程是一个串行同步的过程。</li>
+<li>轻量<ul>
+<li>Watcher通知非常简单，只会告诉客户端发生了事件，而不会说明事件的具体内容。</li>
+<li>客户端向服务端注册Watcher的时候，并不会把客户端真实的Watcher对象实体传递到服务端，仅仅是在客户端请求中使用boolean类型属性进行了标记。</li>
+</ul>
+</li>
+<li>watcher event异步发送watcher的通知事件从server发送到client是异步的，这就存在一个问题，不同的客户端和服务器之间通过socket进行通信，由于网络延迟或其他因素导致客户端在不通的时刻监听到事件，由于Zookeeper本身提供了ordering guarantee，即客户端监听事件后，才会感知它所监视znode发生了变化。所以我们使用Zookeeper不能期望能够监控到节点每次的变化。Zookeeper只能保证最终的一致性，而无法保证强一致性。</li>
+<li>注册watcher getData、exists、getChildren</li>
+<li>触发watcher create、delete、setData</li>
+<li>当一个客户端连接到一个新的服务器上时，watch将会被以任意会话事件触发。当与一个服务器失去连接的时候，是无法接收到watch的。而当client重新连接时，如果需要的话，所有先前注册过的watch，都会被重新注册。通常这是完全透明的。只有在一个特殊情况下，watch可能会丢失：对于一个未创建的znode的exist watch，如果在客户端断开连接期间被创建了，并且随后在客户端连接上之前又删除了，这种情况下，这个watch事件可能会被丢失。</li>
+</ol>
+<h2 id="ZooKeeper实现分布式锁原理"><a href="#ZooKeeper实现分布式锁原理" class="headerlink" title="ZooKeeper实现分布式锁原理"></a>ZooKeeper实现分布式锁原理</h2><p>其实如果有客户端C、客户端D等N个客户端争抢一个zk分布式锁，原理都是类似的。</p>
+<ul>
+<li>大家都是上来直接创建一个锁节点下的一个接一个的临时顺序节点</li>
+<li>如果自己不是第一个节点，就对自己上一个节点加监听器</li>
+<li>只要上一个节点释放锁，自己就排到前面去了，相当于是一个排队机制。</li>
+</ul>
+<p>而且用临时顺序节点的另外一个用意就是，如果某个客户端创建临时顺序节点之后，不小心自己宕机了也没关系，zk感知到那个客户端宕机，会自动删除对应的临时顺序节点，相当于自动释放锁，或者是自动取消自己的排队。</p>
+
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/19/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="post-title-link" itemprop="url">Java基础提升_多线程</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1066,28 +629,565 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="经典面试题："><a href="#经典面试题：" class="headerlink" title="经典面试题："></a>经典面试题：</h2><h4 id="synchronized-和-ReentrantLock-区别是什么？"><a href="#synchronized-和-ReentrantLock-区别是什么？" class="headerlink" title="synchronized 和 ReentrantLock 区别是什么？"></a>synchronized 和 ReentrantLock 区别是什么？</h4><p>相同点：</p>
-<p>它们都是加锁方式同步，而且都是阻塞式的同步，也就是说当如果一个线程获得了对象锁，进入了同步块，其他访问该同步块的线程都必须阻塞在同步块外面等待，而进行线程阻塞和唤醒的代价是比较高的。可重入锁。可重入锁是指同一个线程可以多次获取同一把锁。ReentrantLock和synchronized都是可重入锁。</p>
-<p><strong>区别：</strong></p>
-<ol>
-<li>synchronized 竞争锁时会一直等待；ReentrantLock 可以尝试获取锁，并得到获取结果</li>
-<li>synchronized 获取锁无法设置超时；ReentrantLock 可以设置获取锁的超时时间</li>
-<li>synchronized 无法实现公平锁；ReentrantLock 可以满足公平锁，即先等待先获取到锁</li>
-<li>synchronized 控制等待和唤醒需要结合加锁对象的 wait() 和 notify()、notifyAll()；ReentrantLock 控制等待和唤醒需要结合 Condition 的 await() 和 signal()、signalAll() 方法</li>
-<li>synchronized 是 JVM 层面实现的；ReentrantLock 是 JDK 代码层面实现</li>
-<li>synchronized 在加锁代码块执行完或者出现异常，自动释放锁；ReentrantLock 不会自动释放锁，需要在 finally{} 代码块显示释放</li>
-<li>锁的细粒度和灵活度，很明显ReenTrantLock优于Synchronized。</li>
-</ol>
-<p>ReentrantLock主要利用CAS+AQS队列来实现。它支持公平锁和非公平锁，两者的实现类似。</p>
-<ul>
-<li>AQS（AbstractQueuedSynchronizer）抽象的队列式的同步器。是一个用于构建锁和同步容器的框架。事实上concurrent包内许多类都是基于AQS构建。<br>AQS使用一个FIFO的队列表示排队等待锁的线程，队列头节点称作“哨兵节点”或者“哑节点”，它不与任何线程关联。其他的节点与等待线程关联，每个节点维护一个等待状态waitStatus</li>
+          <h2 id="线程创建方式"><a href="#线程创建方式" class="headerlink" title="线程创建方式"></a>线程创建方式</h2><ol>
+<li>继承Thread类<ul>
+<li>start()方法是一个 native 方法,它将启动一个新线程，并执行 run()方法。</li>
 </ul>
-<p>ReentrantLock的基本实现可以概括为：先通过CAS尝试获取锁。如果此时已经有线程占据了锁，那就加入AQS队列并且被挂起。当锁被释放之后，排在CLH队列队首的线程会被唤醒，然后CAS再次尝试获取锁。在这个时候，如果：</p>
-<p>非公平锁：如果同时还有另一个线程进来尝试获取，那么有可能会让这个线程抢先获取；</p>
-<p>公平锁：如果同时还有另一个线程进来尝试获取，当它发现自己不是在队首的话，就会排到队尾，由队首的线程获取到锁。</p>
-<p>使用示例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        doSomeThing();</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        <span class="comment">// ignored</span></span><br><span class="line">    &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/fuyuwei2015/article/details/83719444">ReentrantLock原理</a>    </p>
+</li>
+<li>实现runnable接口，<ul>
+<li>当一个类已经有继承了，此时可通过实现runnable接口来创建线程</li>
+</ul>
+</li>
+<li>采用线程池，实现callable接口（有返回）,ExecutorService<ul>
+<li><strong>有返回值</strong>的任务必须实现 Callable 接口。执行Callable 任务后，可以获取一个<strong>Future 的对象</strong>，在该对象上调用 get 就可以获取到 Callable 任务返回的 Object 了，再结合线程池接口 ExecutorService 就可以实现传说中有返回结果的多线程了。</li>
+</ul>
+</li>
+</ol>
+<h2 id="多线程中的主要问题"><a href="#多线程中的主要问题" class="headerlink" title="多线程中的主要问题"></a>多线程中的主要问题</h2><ol>
+<li>可见性问题<br> volatile修饰，保证了多线程之间的内存可见性</li>
+<li>原子性问题<br> AtomicInteger（Java中有那么一些类，是以Atomic开头的。这一系列的类我们称之为原子操作类。以最简单的类AtomicInteger为例。它相当于一个int变量，我们执行Int的 i++ 的时候并不是一个原子操作。而使用AtomicInteger的incrementAndGet却能保证原子操作）</li>
+<li>有序性问题<br> volatile 防止指令重排序</li>
+<li>死锁的问题</li>
+</ol>
+<h2 id="synchronized-关键字"><a href="#synchronized-关键字" class="headerlink" title="synchronized 关键字"></a>synchronized 关键字</h2><h3 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h3><ol>
+<li><p>修饰一个<strong>代码块</strong>，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； </p>
+</li>
+<li><p>修饰一个<strong>方法</strong>，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； </p>
+</li>
+<li><p>修改一个<strong>静态的方法</strong>，其作用的范围是整个静态方法，作用的对象是这个==类的所有对象==； </p>
+</li>
+<li><p>修改一个<strong>类</strong>，其作用的范围是synchronized后面括号括起来的部分，作用主的对象是这个类的所有对象。</p></li></ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/19/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">redis基础使用</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/" itemprop="url" rel="index"><span itemprop="name">nosql</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>redis基础使用笔记，相关的数据结构</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E4%BD%BF%E7%94%A8/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8/" class="post-title-link" itemprop="url">redis持久化和集群高可用</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/" itemprop="url" rel="index"><span itemprop="name">nosql</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>redis的持久化策略以及集群高可用原理和常见问题解答。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E8%A6%81%E7%82%B9%E6%A2%B3%E7%90%86%E5%92%8C%E5%AE%9E%E6%88%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E8%A6%81%E7%82%B9%E6%A2%B3%E7%90%86%E5%92%8C%E5%AE%9E%E6%88%98/" class="post-title-link" itemprop="url">redis要点梳理和实战</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/" itemprop="url" rel="index"><span itemprop="name">nosql</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>redis基础使用笔记，相关的数据结构</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E8%A6%81%E7%82%B9%E6%A2%B3%E7%90%86%E5%92%8C%E5%AE%9E%E6%88%98/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/" class="post-title-link" itemprop="url">springMVC框架总述</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/springboot/" itemprop="url" rel="index"><span itemprop="name">springboot</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="什么是MVC"><a href="#什么是MVC" class="headerlink" title="什么是MVC"></a>什么是MVC</h1><ul>
+<li>M代表模型（Model）<br>模型其实就是数据，dao，bean</li>
+<li>V代表视图（View）<br>网页，jsp等用来展示数据的模型</li>
+<li>C代表Controller<br>把不同的数据展示在不同的视图上，处理请求的分发，Servlet扮演的就是这样的角色<br><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/model_view_controller.jpg" alt="MVC"></li>
+</ul>
+<h1 id="SpringMVC的流程"><a href="#SpringMVC的流程" class="headerlink" title="SpringMVC的流程"></a>SpringMVC的流程</h1><ol>
+<li><p>用户发送请求至前端控制器DispatcherServlet；</p>
+</li>
+<li><p>DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handler；</p>
+</li>
+<li><p>处理器映射器根据请求url找到具体的处理器Handler，生成处理器对象及处理器拦截器(如果有则生成)，一并返回给DispatcherServlet；</p>
+</li>
+<li><p>DispatcherServlet 调用 HandlerAdapter处理器适配器，请求执行Handler；</p>
+</li>
+<li><p>HandlerAdapter 经过适配调用 具体处理器进行处理业务逻辑；</p>
+</li>
+<li><p>Handler执行完成返回ModelAndView；</p>
+</li>
+<li><p>HandlerAdapter将Handler执行结果ModelAndView返回给DispatcherServlet；</p>
+</li>
+<li><p>DispatcherServlet将ModelAndView传给ViewResolver视图解析器进行解析；</p>
+</li>
+<li><p>ViewResolver解析后返回具体View；</p>
+</li>
+<li><p>DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）</p>
+</li>
+<li><p>DispatcherServlet响应用户。</p>
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/" class="post-title-link" itemprop="url">springcloud_五大组件</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/spring/springcloud/" itemprop="url" rel="index"><span itemprop="name">springcloud</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="SpringCloud进阶"><a href="#SpringCloud进阶" class="headerlink" title="SpringCloud进阶"></a>SpringCloud进阶</h2><ul>
+<li><input checked disabled type="checkbox"> javase</li>
+<li><input checked disabled type="checkbox"> 数据库</li>
+<li>[] 前端</li>
+<li>[] servlet</li>
+<li>[] Http</li>
+<li><input checked disabled type="checkbox"> Mybatis</li>
+<li><input checked disabled type="checkbox"> Spring</li>
+<li>[] SpringMVC</li>
+<li>[] SpringBoot</li>
+<li><input checked disabled type="checkbox"> Dubbo,zookeeper,分布式基础</li>
+<li><input checked disabled type="checkbox"> maven</li>
+</ul>
+<blockquote>
+<p>总结一下SpringCloud结果核心组件:</p>
+</blockquote>
+<ul>
+<li><p>Eureka:个服务启动时,Eureka会将服务注册到EurekaService,并且EurakeClient还可以返回过来从EurekaService拉去注册表,从而知道服务在哪里</p>
+</li>
+<li><p>Ribbon:服务间发起请求的时候,基于Ribbon服务做到负载均衡,从一个服务的对台机器中选择一台</p>
+<blockquote>
+<p>目前，在Spring cloud 中服务之间通过restful方式调用有两种方式  </p>
+<ul>
+<li>restTemplate+Ribbon </li>
+<li>feign</li>
+</ul>
+</blockquote>
+</li>
+<li><p>Feign:RPC框架，基于fegin的动态代理机制,根据注解和选择机器,拼接Url地址,发起请求,Feign是Netflix开发的声明式、模板化的HTTP客户端， Feign可以帮助我们更快捷、优雅地调用HTTP API。</p>
+</li>
+<li><p>Hystrix:发起的请求是通过Hystrix的线程池来走,不同的服务走不同的线程池,实现了不同的服务调度隔离,避免服务雪崩的问题</p>
+</li>
+<li><p>Zuul:如果前端后端移动端调用后台系统,统一走zull网关进入,有zull网关转发请求给对应的服务</p>
+</li>
+<li><p>Apollo（阿波罗）是携程框架部门研发的配置管理平台，能够集中化管理应用不同环境、不同集群的配置，配置修改后能够实时推送到应用端，并且具备规范的权限、流程治理等特性。<a target="_blank" rel="noopener" href="https://github.com/ctripcorp/apollo/wiki/Apollo%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E8%AE%BE%E8%AE%A1">Apollo配置中心设计</a></p>
+</li>
+</ul>
+<h4 id="Ribbon"><a href="#Ribbon" class="headerlink" title="Ribbon"></a>Ribbon</h4><p>Ribbon 是一个基于 HTTP 和 TCP 客户端的负载均衡器</p>
+<p>它可以在客户端配置 ribbonServerList（服务端列表），然后轮询请求以实现均衡负载</p>
+<p>它在联合 Eureka 使用时</p>
+<p>ribbonServerList 会被 DiscoveryEnabledNIWSServerList 重写，扩展成从 Eureka 注册中心获取服务端列表</p>
+<p>同时它也会用 NIWSDiscoveryPing 来取代 IPing，它将职责委托给 Eureka 来确定服务端是否已经启动</p>
+<h4 id="Feign"><a href="#Feign" class="headerlink" title="Feign"></a>Feign</h4><p>Spring Cloud Netflix 的微服务都是以 HTTP 接口的形式暴露的，所以可以用 Apache 的 HttpClient 或 Spring 的 RestTemplate 去調用,而 Feign 是一個使用起來更加方便的 HTTP 客戶端，它用起來就好像調用本地方法一樣，完全感覺不到是調用的遠程方法</p>
+<p>总结起来就是：发布到注册中心的服务方接口，是 HTTP 的，也可以不用 Ribbon 或者 Feign，直接浏览器一样能够访问</p>
+<p>只不过 Ribbon 或者 Feign 调用起来要方便一些，最重要的是：它俩都支持软负载均衡</p>
+<p>注意：spring-cloud-starter-feign 里面已经包含了 spring-cloud-starter-ribbon（Feign 中也使用了 Ribbon）</p>
+<p>从实践上看，采用feign的方式更优雅（feign内部也使用了ribbon做负载均衡）。</p>
+<h2 id="Spring-Cloud-和dubbo区别"><a href="#Spring-Cloud-和dubbo区别" class="headerlink" title="Spring Cloud 和dubbo区别?"></a>Spring Cloud 和dubbo区别?</h2><p>其实Dubbo仅仅是一个RPC框架，实现Java程序的远程调用，而Spring Cloud则是实施微服务的一系列套件，包括：服务注册与发现、断路器、服务状态监控、配置管理、智能路由、一次性令牌、全局锁、分布式会话管理、集群状态管理等</p>
+<p>（1）服务调用方式 dubbo是RPC，springcloud是 Rest Api</p>
+<p>（2）注册中心,dubbo 是zookeeper springcloud是eureka，也可以是zookeeper</p>
+<p>（3）服务网关,dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。</p>
+<h2 id="常见的RPC组件："><a href="#常见的RPC组件：" class="headerlink" title="常见的RPC组件："></a>常见的RPC组件：</h2><ol>
+<li>RMI（远程方法调用）</li>
+</ol>
+<p>JAVA自带的远程方法调用工具，不过有一定的局限性，毕竟是JAVA语言最开始时的设计，后来很多框架的原理都基于RMI。</p>
+<ol start="2">
+<li><p>Hessian（基于HTTP的远程方法调用）</p>
+<p>基于HTTP协议传输，在性能方面还不够完美，负载均衡和失效转移依赖于应用的负载均衡器，Hessian的使用则与RMI类似，区别在于淡化了Registry的角色，通过显示的地址调用，利用HessianProxyFactory根据配置的地址create一个代理对象，另外还要引入Hessian的Jar包。</p>
+</li>
+<li><p>Dubbo（淘宝开源的基于TCP的RPC框架）</p>
+</li>
+</ol>
+<p>基于Netty的高性能RPC框架，是阿里巴巴开源的，总体原理如下：</p>
 
       
     </div>
@@ -1112,7 +1212,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/10/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -1126,7 +1226,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/08/10/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/" class="post-title-link" itemprop="url">Java基础提升_数据结构篇</a>
+            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/" class="post-title-link" itemprop="url">springboot框架总述</a>
         </h2>
 
         <div class="post-meta">
@@ -1138,7 +1238,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-08-10 23:52:10" itemprop="dateCreated datePublished" datetime="2021-08-10T23:52:10+08:00">2021-08-10</time>
+              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1150,11 +1250,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+                  <a href="/categories/java/springboot/" itemprop="url" rel="index"><span itemprop="name">springboot</span></a>
                 </span>
             </span>
 
@@ -1169,10 +1265,32 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>List,set,map,queue,stack。 ArrayList、LinkedList、Vector的区别。 hashmap,hashtable,concurrentHashMap,hashtable比较</p>
+          <h1 id="SpringBoot主要特性"><a href="#SpringBoot主要特性" class="headerlink" title="SpringBoot主要特性"></a>SpringBoot主要特性</h1><p><strong>Spring boot</strong> 简化了使用 Spring 的难度，简省了繁重的配置（版本管理，依赖导入），提供了各种启动器，开发者能快速上手。 </p>
+<h2 id="SpringBoot的版本控制"><a href="#SpringBoot的版本控制" class="headerlink" title="SpringBoot的版本控制"></a>SpringBoot的版本控制</h2><p>pom.xml中有父项目</p>
+<ul>
+<li><p>spring-boot-dependencies：核心依赖在父工程中</p>
+</li>
+<li><p>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</p>
+</li>
+</ul>
+<h2 id="SpringBoot的自动装配"><a href="#SpringBoot的自动装配" class="headerlink" title="SpringBoot的自动装配"></a>SpringBoot的自动装配</h2><p>SpringBoot 自动配置主要通过 @EnableAutoConfiguration, @Conditional, @EnableConfigurationProperties 或者 @ConfigurationProperties 等几个注解来进行自动配置完成的。</p>
+<ul>
+<li><p>@EnableAutoConfiguration 开启自动配置，主要作用就是调用 Spring-Core 包里的 loadFactoryNames()，将 autoconfig 包里的已经写好的自动配置加载进来。</p>
+</li>
+<li><p>@Conditional 条件注解，通过判断类路径下有没有相应配置的 jar 包来确定是否加载和自动配置这个类。</p>
+</li>
+<li><p>@EnableConfigurationProperties 的作用就是，给自动配置提供具体的配置参数，只需要写在 application.properties 中，就可以通过映射写入配置类的 POJO 属性中。 </p>
+<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
+<blockquote>
+<p>该配置模块的主要使用到了<strong>SpringFactoriesLoader，即Spring工厂加载器</strong>，该对象提供了<strong>loadFactoryNames()<strong>方法，入参为factoryClass和classLoader，即需要传入上图中的工厂类名称和对应的类加载器，方法会根据指定的classLoader，加载该类加器搜索路径下的指定文件，即</strong>指定的配置文件META-INF/spring.factories</strong>，传入的工厂类为接口，而文件中对应的类则是接口的实现类，或最终作为实现类，所以文件中一般为一对多的类名集合，获取到这些实现类的类名后，loadFactoryNames方法返回类名集合，方法调用方得到这些集合后，再通过反射获取这些类的类对象、构造方法，最终生成实例。</p>
+<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/Users\sxyyl\Documents\GitHub_posts\spring\springboot\springboot\springboot_EnableAutoConfiguration.jpg" alt="springboot_EnableAutoConfiguration"></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h2><p>启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/08/10/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87/">
+              <a class="btn" href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1200,7 +1318,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1268,14 +1386,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">62</span>
+        <span class="site-state-item-count">73</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -1317,7 +1435,7 @@
     <h3 class="widget-title">标签云</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
         <canvas width="250" height="250" id="resCanvas" style="width=100%">
-            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nextcloud%E9%98%BF%E9%87%8C/" rel="tag">nextcloud阿里</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sentinel/" rel="tag">sentinel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7/" rel="tag">软考中级</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E9%AB%98%E7%BA%A7/" rel="tag">软考高级</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nextcloud%E9%98%BF%E9%87%8C/" rel="tag">nextcloud阿里</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sentinel/" rel="tag">sentinel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7/" rel="tag">软考中级</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E9%AB%98%E7%BA%A7/" rel="tag">软考高级</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
         </canvas>
     </div>
 </div>

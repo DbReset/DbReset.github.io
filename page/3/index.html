@@ -190,7 +190,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80_java1.8%E6%96%B0%E7%89%B9%E6%80%A7/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/10/13/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Centos%E4%B8%8Bdocker%E6%A8%A1%E5%BC%8F%E4%B8%8B%E5%AE%89%E8%A3%85gitlab%E7%A7%81%E6%9C%89%E5%BA%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -204,7 +204,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/08/19/java%E5%9F%BA%E7%A1%80/java%E5%9F%BA%E7%A1%80_java1.8%E6%96%B0%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">java基础_java1.8新特性</a>
+            <a href="/2021/10/13/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Centos%E4%B8%8Bdocker%E6%A8%A1%E5%BC%8F%E4%B8%8B%E5%AE%89%E8%A3%85gitlab%E7%A7%81%E6%9C%89%E5%BA%93/" class="post-title-link" itemprop="url">Centos下docker模式下安装gitlab私有库</a>
         </h2>
 
         <div class="post-meta">
@@ -216,7 +216,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
+              <time title="创建时间：2021-10-13 09:44:36" itemprop="dateCreated datePublished" datetime="2021-10-13T09:44:36+08:00">2021-10-13</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -224,15 +224,11 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                  <a href="/categories/%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/" itemprop="url" rel="index"><span itemprop="name">环境安装</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">基础</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/jdk1-8/" itemprop="url" rel="index"><span itemprop="name">jdk1.8</span></a>
+                  <a href="/categories/%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/Centos/" itemprop="url" rel="index"><span itemprop="name">Centos</span></a>
                 </span>
             </span>
 
@@ -247,82 +243,186 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="1-Lambda-表达式"><a href="#1-Lambda-表达式" class="headerlink" title="1.Lambda 表达式"></a>1.Lambda 表达式</h1><p>Lambda 允许把函数作为一个方法的参数（<strong>函数作为参数传递到方法中</strong>）。</p>
-<h2 id="1-1-语法"><a href="#1-1-语法" class="headerlink" title="1.1 语法"></a>1.1 语法</h2><p>lambda 表达式的语法格式如下：</p>
-<p>(parameters) -&gt; expression或(parameters) -&gt;{statements; }</p>
-<h1 id="2-Java-8-方法引用"><a href="#2-Java-8-方法引用" class="headerlink" title="2.Java 8 方法引用"></a>2.Java 8 方法引用</h1><p>方法引用提供了非常有用的语法，可以直接引用已有Java类或对象（实例）的方法或构造器。与lambda联合使用，方法引用可以使语言的构造更紧凑简洁，减少冗余代码。</p>
-<p>方法引用可以使语言的构造更紧凑简洁，减少冗余代码。</p>
-<p>方法引用使用一对冒号 :: 。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List names = <span class="keyword">new</span> ArrayList();</span><br><span class="line">names.add(<span class="string">&quot;Google&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;Runoob&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;Taobao&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;Baidu&quot;</span>);</span><br><span class="line">names.add(<span class="string">&quot;Sina&quot;</span>);</span><br><span class="line">names.forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+          <blockquote>
+<p>主机信息：阿里云ECS</p>
+<p>CPU&amp;内存：1核2 GiB </p>
+<p>磁盘：100G</p>
+<p>操作系统：CentOS 8.4 64位</p>
+</blockquote>
+<h3 id="1-gitlab镜像拉取"><a href="#1-gitlab镜像拉取" class="headerlink" title="1.gitlab镜像拉取"></a>1.gitlab镜像拉取</h3><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># gitlab-ce为稳定版本，后面不填写版本则默认pull最新latest版本</span></span><br><span class="line"><span class="variable">$ </span>docker pull gitlab/gitlab-ce</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-运行gitlab镜像"><a href="#2-运行gitlab镜像" class="headerlink" title="2.运行gitlab镜像"></a>2.运行gitlab镜像</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -d  -p <span class="number">443</span>:<span class="number">443</span> -p <span class="number">80</span>:<span class="number">80</span> -p <span class="number">222</span>:<span class="number">22</span> --name gitlab --restart always -v /root/gitlab/config:/etc/gitlab -v /root/gitlab/logs:/<span class="keyword">var</span>/log/gitlab -v /root/gitlab/data:/<span class="keyword">var</span>/opt/gitlab gitlab/gitlab-ce</span><br><span class="line"><span class="meta"># -d：后台运行</span></span><br><span class="line"><span class="meta"># -p：将容器内部端口向外映射</span></span><br><span class="line"><span class="meta"># --name：命名容器名称</span></span><br><span class="line"><span class="meta"># -v：将容器内数据文件夹或者日志、配置等文件夹挂载到宿主机指定目录</span></span><br></pre></td></tr></table></figure>
+
+<p>以上操作完似乎就可以使用了，/root/gitlab/config 中有root用户的初始密码。</p>
+<h3 id="3-然而"><a href="#3-然而" class="headerlink" title="3.然而"></a>3.然而</h3><p>运行后主机死翘翘了，内存太低，直接100%，ssh都登不上了。</p>
+<p>不慌，阿里巴巴控制台强制重启，然后进去把docker中的gitlab停了。</p>
+<h3 id="4-低配置主机添加swap空间"><a href="#4-低配置主机添加swap空间" class="headerlink" title="4.低配置主机添加swap空间"></a>4.低配置主机添加swap空间</h3><p>使用磁盘当内存，速度慢但还勉强能用。</p>
+<h4 id="一-添加SWAP空间"><a href="#一-添加SWAP空间" class="headerlink" title="一.添加SWAP空间"></a>一.添加SWAP空间</h4><p>使用dd命令创建名为swapfile 的swap交换文件（文件名和目录任意）:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1.  dd  <span class="attribute">if</span>=/dev/zero  <span class="attribute">of</span>=/var/swapfile  <span class="attribute">bs</span>=1024  <span class="attribute">count</span>=2097152  </span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   dd  <span class="attribute">if</span>=/dev/zero  <span class="attribute">of</span>=/var/swapfile  <span class="attribute">bs</span>=1024  <span class="attribute">count</span>=2048k</span><br><span class="line">[root@aliyun ~]# dd  <span class="attribute">if</span>=/dev/zero  <span class="attribute">of</span>=/var/swapfile  <span class="attribute">bs</span>=1024  <span class="attribute">count</span>=2048k</span><br><span class="line">记录了2097152+0 的读入</span><br><span class="line">记录了2097152+0 的写出</span><br><span class="line">2147483648字节(2.1 GB)已复制，31.7458 秒，67.6 MB/秒</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>科普：if(即输入文件,input file)，of(即输出文件,output file)。dev/zero是Linux的一种特殊字符设备(输入设备)，可以用来创建一个指定长度用于初始化的空文件，如临时交换文件，该设备无穷尽地提供0，可以提供任何你需要的数目。 bs=1024 ：单位数据块（block）同时读入/输出的块字节大小为1024 个字节即1KB，bs(即block size)。count=2048000 ：数据块（block）数量为2048000 ，即2048000个1KB。可以计算swap分区的容量为：1KB <em>2097152=1KB *1024(k)*1024</em>2=2097152=2G。（dd命令里的单位M表示1024*1024,k表示1024）。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">回车后，会执行2g的读写操作，系统会卡一段时间，耐心等待执行结果。</span><br></pre></td></tr></table></figure>
+
+<p>执行完毕，对交换文件格式化并转换为swap分区：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  mkswap  <span class="regexp">/var/</span>swapfile  </span><br><span class="line">[root@aliyun ~]# mkswap <span class="regexp">/var/</span>swapfile</span><br><span class="line">正在设置交换空间版本 <span class="number">1</span>，大小 = <span class="number">2097148</span> KiB</span><br><span class="line">无标签，UUID=f88182d5-<span class="number">1155</span>-<span class="number">4</span>cf4-<span class="number">8</span>cb9-<span class="number">5</span>db460d9ac4e</span><br></pre></td></tr></table></figure>
+
+<p>挂载并激活分区：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  swapon   <span class="regexp">/var/</span>swapfile  </span><br><span class="line">[root@aliyun ~]# swapon <span class="regexp">/var/</span>swapfile</span><br><span class="line">swapon: <span class="regexp">/var/</span>swapfile：不安全的权限 <span class="number">0644</span>，建议使用 <span class="number">0600</span>。</span><br></pre></td></tr></table></figure>
+
+<p>执行以上命令可能会出现：“不安全的权限 0644，建议使用 0600”类似提示，不要紧张，实际上已经激活了，可以忽略提示，也可以听从系统的建议修改下权限：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  chmod -R <span class="number">0600</span> <span class="regexp">/var/</span>swapfile  </span><br></pre></td></tr></table></figure>
+
+<p>这时候可以用 free –h 或 swapon –s命令查看新swap分区是否正常添加并激活使用。</p>
+<p>修改 fstab 配置，设置开机自动挂载该分区：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  vim    <span class="regexp">/etc/</span>fstab  </span><br></pre></td></tr></table></figure>
+
+<p>在fstab文件末尾追加如下内容后:wq!保存即可：<br>/var/swapfile swap swap defaults 0 0<br>或直接对fstab进行echo追加:</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>  echo  <span class="string">&quot;/var/swapfile   swap  swap  defaults  0  0&quot;</span> &gt;&gt;  <span class="regexp">/etc/</span>fstab  </span><br></pre></td></tr></table></figure>
+
+<h4 id="二-删除某swap分区"><a href="#二-删除某swap分区" class="headerlink" title="二. 删除某swap分区"></a>二. 删除某swap分区</h4><p>先停止正在使用swap分区：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  swapoff  <span class="regexp">/var/</span>swapfile  </span><br></pre></td></tr></table></figure>
+
+<p>删除swap分区文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  rm -rf   <span class="regexp">/var/</span>swapfile  </span><br></pre></td></tr></table></figure>
+
+<p>删除或注释掉我们之前在fstab文件里追加的开机自动挂载配置内容：<br>/var/swapfile swap swap defaults 0 0</p>
+<h1 id="————————————————–"><a href="#————————————————–" class="headerlink" title="————————————————–"></a>————————————————–</h1><h4 id="三-更改Swap配置（进阶级"><a href="#三-更改Swap配置（进阶级" class="headerlink" title="三. 更改Swap配置（进阶级)"></a>三. 更改Swap配置（进阶级)</h4><blockquote>
+<p>swappiness值（0-100），系统对swap分区的依赖程度，越高则越倾向于使用swap分区。<br>当然，高度依赖swap会造成物理内存远未使用完，就使用swap分区，我们知道swap分区性能远不如物理内存，这反而降低了系统性能，违背了我们创建swap分区的初衷。<br>我们希望在物理内存即将满荷时再使用swap，这就决定了swappiness值一般为10-60为宜，固态硬盘可以偏高些。<br>查看当前的swappiness数值：</p>
+</blockquote>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.  cat   <span class="regexp">/proc/</span>sys<span class="regexp">/vm/</span>swappiness   </span><br></pre></td></tr></table></figure>
+
+<p>修改swappiness值，这里以50为例。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1.  sysctl vm.<span class="attribute">swappiness</span>=50   </span><br></pre></td></tr></table></figure>
+
+<p>若希望vm.swappiness=50永久生效，则需要修改sysctl配置文件，直接echo追加配置内容，重启系统后即可生效：</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>  echo <span class="string">&quot;vm.swappiness = 50&quot;</span>  &gt;&gt;  <span class="regexp">/etc/</span>sysctl.conf</span><br></pre></td></tr></table></figure>
+
+<h1 id="————————————————–-1"><a href="#————————————————–-1" class="headerlink" title="————————————————–"></a>————————————————–</h1><h4 id="四-增加-扩大-swap分区大小"><a href="#四-增加-扩大-swap分区大小" class="headerlink" title="四. 增加(扩大)swap分区大小"></a>四. 增加(扩大)swap分区大小</h4><ol>
+<li>首先我们来查看swap空间的大小</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># free -m</span></span><br><span class="line">             <span class="string">total</span>       <span class="string">used</span>       <span class="string">free</span>     <span class="string">shared</span>    <span class="string">buffers</span>     <span class="string">cached</span></span><br><span class="line"><span class="attr">Mem:</span>          <span class="number">2026       </span><span class="number">1931         </span><span class="number">95</span>          <span class="number">0</span>         <span class="number">15</span>       <span class="number">1789</span></span><br><span class="line"><span class="string">-/+</span> <span class="attr">buffers/cache:</span>        <span class="number">127</span>       <span class="number">1899</span></span><br><span class="line"><span class="attr">Swap:</span>         <span class="number">3074          </span><span class="number">2</span>       <span class="number">3071</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>用dd命令创建一个2G大小的文件（1024<em>1024</em>2=2097152）</li>
+</ol>
+<p>dd if=/dev/zero of=/var/swapfile1 bs=1024 count=2097152</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# dd <span class="attribute">if</span>=/dev/zero <span class="attribute">of</span>=/var/swapfile1 <span class="attribute">bs</span>=1024 <span class="attribute">count</span>=2097152</span><br><span class="line">记录了2097152+0 的读入</span><br><span class="line">记录了2097152+0 的写出</span><br><span class="line">2147483648字节(2.1 GB)已复制，48.2387 秒，44.5 MB/秒</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>将该文件创建为linux swap</li>
+</ol>
+<p>mkswap /var/swapfile1</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# mkswap /var/swapfile1</span><br><span class="line">正在设置交换空间版本 1，大小 = 2097148 KiB</span><br><span class="line">无标签，UUID=43c47001<span class="string">-58</span>a3<span class="string">-43</span>ec<span class="string">-8510</span>-bc8b2ad2ff51</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>激活该文件</li>
+</ol>
+<p>swapon /var/swapfile1</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# swapon <span class="regexp">/var/</span>swapfile1</span><br><span class="line">swapon: <span class="regexp">/var/</span>swapfile1：不安全的权限 <span class="number">0644</span>，建议使用 <span class="number">0600</span>。</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>至此添加swap空间成功，但此时只要系统一重启就会丢失这个swap空间，所以我们要设置一下/etc/fstab文件，<br>在文件的末尾加上/var/swapfile1 swap swap defaults 0 0</p>
+</li>
+<li><p>查看大小 free -h</p>
+</li>
+</ol>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]<span class="comment"># free -h</span></span><br><span class="line">              total        used        free      <span class="keyword">shared </span> <span class="keyword">buff/cache </span>  available</span><br><span class="line"><span class="symbol">Mem:</span>           <span class="number">1</span>.<span class="number">8</span>G        <span class="number">1</span>.<span class="number">1</span>G         <span class="number">73</span>M         <span class="number">22</span>M        <span class="number">606</span>M        <span class="number">496</span>M</span><br><span class="line"><span class="keyword">Swap: </span>         <span class="number">4</span>.<span class="number">0</span>G        <span class="number">1</span>.<span class="number">0</span>G        <span class="number">3</span>.<span class="number">0</span>G</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div>
+      
+    </div>
 
 
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/10/13/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B9%8BRaft%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">
 
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
 
-<h1 id="3-默认方法"><a href="#3-默认方法" class="headerlink" title="3.默认方法"></a>3.默认方法</h1><p>默认方法就是一个在接口里面有了一个实现的方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">vehicle</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;我是一辆车!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/13/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B9%8BRaft%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">分布式之Raft算法总结</a>
+        </h2>
 
+        <div class="post-meta">
 
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-<h1 id="4-新工具"><a href="#4-新工具" class="headerlink" title="4.新工具"></a>4.新工具</h1><p>新的编译工具，如：Nashorn引擎 jjs、 类依赖分析器jdeps。</p>
-<h1 id="5-Stream-API"><a href="#5-Stream-API" class="headerlink" title="5.Stream API"></a>5.Stream API</h1><h2 id="5-1概念理解"><a href="#5-1概念理解" class="headerlink" title="5.1概念理解"></a>5.1概念理解</h2><p>新添加的Stream API（java.util.stream） 把真正的函数式编程风格引入到Java中。</p>
-<p>Java 8 API添加了一个新的抽象称为流Stream，可以让你以一种声明的方式处理数据。</p>
-<p>Stream使用一种<strong>类似用SQL语句</strong>从数据库查询数据的直观方式来提供一种对Java集合运算和表达的高阶抽象。</p>
-<p>Stream API可以极大提高Java程序员的生产力，让程序员写出高效率、干净、简洁的代码。</p>
-<p>这种风格<strong>将要处理的元素集合看作一种流</strong>，流在管道中传输，并且可以在管道的节点上进行处理，比如<strong>筛选，排序，聚合</strong>等。</p>
-<p>元素流在管道中经过中间操作（intermediate operation）的处理，最后由最终操作(terminal operation)得到前面处理的结果。</p>
-<h2 id="5-2生成流"><a href="#5-2生成流" class="headerlink" title="5.2生成流"></a>5.2生成流</h2><p>在Java 8中,集合接口有两个方法来生成流：</p>
-<p>stream() −为集合创建串行流。</p>
-<p>parallelStream() − 为集合创建并行流。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>` `<span class="keyword">static</span>` `<span class="keyword">void</span>` `main(String[] args) &#123;``  ``List&lt;String&gt; strings = Arrays.asList(``<span class="string">&quot;abc&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;bc&quot;</span>``, ``<span class="string">&quot;efg&quot;</span>``, ``<span class="string">&quot;abcd&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;jkl&quot;</span>``);``  ``List&lt;String&gt; filtered = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());``&#125;</span><br></pre></td></tr></table></figure>
+              <time title="创建时间：2021-10-13 09:44:36" itemprop="dateCreated datePublished" datetime="2021-10-13T09:44:36+08:00">2021-10-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基础概念</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F%EF%BC%8CRaft%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" itemprop="url" rel="index"><span itemprop="name">分布式，Raft算法总结</span></a>
+                </span>
+            </span>
 
-<p>　　</p>
-<h3 id="5-3-forEach"><a href="#5-3-forEach" class="headerlink" title="5.3  forEach"></a>5.3  forEach</h3><p>Stream 提供了新的方法 ‘forEach’ 来迭代流中的每个数据。以下代码片段使用forEach 输出了10个随机数：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Random random = ``<span class="keyword">new</span>` `Random();``random.ints().limit(``<span class="number">10</span>``).forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+          
 
-<p>　　</p>
-<h3 id="5-4-map"><a href="#5-4-map" class="headerlink" title="5.4 map"></a>5.4 map</h3><p>map 方法用于映射每个元素到对应的结果，以下代码片段使用 map 输出了元素对应的平方数：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(``<span class="number">3</span>``, ``<span class="number">2</span>``, ``<span class="number">2</span>``, ``<span class="number">3</span>``, ``<span class="number">7</span>``, ``<span class="number">3</span>``, ``<span class="number">5</span>``);``<span class="comment">// 获取对应的平方数``List&lt;Integer&gt; squaresList = numbers.stream().map(i -&gt; i * i).distinct().collect(Collectors.toList());</span></span><br></pre></td></tr></table></figure>
+        </div>
+      </header>
 
-<p>　　</p>
-<h3 id="5-5-filter"><a href="#5-5-filter" class="headerlink" title="5.5 filter"></a>5.5 filter</h3><p>filter 方法用于通过设置条件过滤出元素。以下代码片段使用filter 方法过滤出空字符串：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt;strings = Arrays.asList(``<span class="string">&quot;abc&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;bc&quot;</span>``, ``<span class="string">&quot;efg&quot;</span>``, ``<span class="string">&quot;abcd&quot;</span>``,``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;jkl&quot;</span>``);``<span class="comment">// 获取空字符串的数量``int` `count = (``int``) strings.stream().filter(string -&gt; string.isEmpty()).count();</span></span><br></pre></td></tr></table></figure>
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-<p>　　</p>
-<h3 id="5-6-limit"><a href="#5-6-limit" class="headerlink" title="5.6 limit"></a>5.6 limit</h3><p>limit 方法用于获取指定数量的流。以下代码片段使用 limit 方法打印出 10 条数据：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Random random = ``<span class="keyword">new</span>` `Random();``random.ints().limit(``<span class="number">10</span>``).forEach(System.out::println);</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
-<h3 id="5-7-sorted"><a href="#5-7-sorted" class="headerlink" title="5.7 sorted"></a>5.7 sorted</h3><p>sorted 方法用于对流进行排序。以下代码片段使用 sorted 方法对输出的 10 个随机数进行排序：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Random random = ``<span class="keyword">new</span>` `Random();``random.ints().limit(``<span class="number">10</span>``).sorted().forEach(System.out::println);</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
-<h3 id="5-8-并行（parallel）程序"><a href="#5-8-并行（parallel）程序" class="headerlink" title="5.8 并行（parallel）程序"></a>5.8 并行（parallel）程序</h3><p>parallelStream 是流并行处理程序的代替方法。以下实例我们使用parallelStream 来输出空字符串的数量：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(``<span class="string">&quot;abc&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;bc&quot;</span>``, ``<span class="string">&quot;efg&quot;</span>``, ``<span class="string">&quot;abcd&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;jkl&quot;</span>``);``<span class="comment">// 获取空字符串的数量``int` `count = (``int``) strings.parallelStream().filter(string -&gt; string.isEmpty()).count();</span></span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
-<p>我们可以很容易的在顺序运行和并行直接切换。</p>
-<h3 id="5-9-Collectors"><a href="#5-9-Collectors" class="headerlink" title="5.9 Collectors"></a>5.9 Collectors</h3><p>Collectors 类实现了很多归约操作，例如将流转换成集合和聚合元素。Collectors可用于返回列表或字符串：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(``<span class="string">&quot;abc&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;bc&quot;</span>``, ``<span class="string">&quot;efg&quot;</span>``, ``<span class="string">&quot;abcd&quot;</span>``, ``<span class="string">&quot;&quot;</span>``, ``<span class="string">&quot;jkl&quot;</span>``);``List&lt;String&gt; filtered = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());``System.out.println(``<span class="string">&quot;筛选列表: &quot;</span>` `+ filtered);``String mergedString = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.joining(``<span class="string">&quot;, &quot;</span>``));``System.out.println(``<span class="string">&quot;合并字符串: &quot;</span>` `+ mergedString);</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
-<h3 id="5-10-统计"><a href="#5-10-统计" class="headerlink" title="5.10 统计"></a>5.10 统计</h3><p>另外，一些产生统计结果的收集器也非常有用。它们主要用于int、double、long等基本类型上，它们可以用来产生类似如下的统计结果。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(``<span class="number">3</span>``, ``<span class="number">2</span>``, ``<span class="number">2</span>``, ``<span class="number">3</span>``, ``<span class="number">7</span>``, ``<span class="number">3</span>``, ``<span class="number">5</span>``);``IntSummaryStatistics stats = numbers.stream().mapToInt((x) -&gt; x).summaryStatistics();``System.out.println(``<span class="string">&quot;列表中最大的数 : &quot;</span>` `+ stats.getMax());``System.out.println(``<span class="string">&quot;列表中最小的数 : &quot;</span>` `+ stats.getMin());``System.out.println(``<span class="string">&quot;所有数之和 : &quot;</span>` `+ stats.getSum());``System.out.println(``<span class="string">&quot;平均数 : &quot;</span>` `+ stats.getAverage());</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h1 id="6-Date-Time-API"><a href="#6-Date-Time-API" class="headerlink" title="6.Date Time API"></a>6.Date Time API</h1><p>加强对日期与时间的处理。</p>
-<h1 id="7-Optional-类"><a href="#7-Optional-类" class="headerlink" title="7.Optional 类"></a>7.Optional 类</h1><p>Optional 类是一个可以为null的容器对象。如果值存在则isPresent()方法会返回true，调用get()方法会返回该对象。</p>
-<p>Optional 是个容器：它可以保存类型T的值，或者仅仅保存null。Optional提供很多有用的方法，这样我们就不用显式进行空值检测。</p>
-<p>Optional 类的引入很好的解决空指针异常。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Integer value1 = <span class="keyword">null</span>;</span><br><span class="line">Integer value2 = <span class="keyword">new</span> Integer(<span class="number">10</span>);</span><br><span class="line"><span class="comment">// Optional.ofNullable - 允许传递为 null 参数</span></span><br><span class="line">Optional&lt;Integer&gt; a = Optional.ofNullable(value1);</span><br><span class="line"><span class="comment">// Optional.of - 如果传递的参数是 null，抛出异常 NullPointerException</span></span><br><span class="line">Optional&lt;Integer&gt; b = Optional.of(value2);</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="8-Nashorn-JavaScript-引擎"><a href="#8-Nashorn-JavaScript-引擎" class="headerlink" title="8.Nashorn JavaScript 引擎"></a>8.Nashorn JavaScript 引擎</h1><p>Java 8提供了一个新的Nashorn javascript引擎，它允许我们在JVM上运行特定的javascript应用。</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/liuxiaozhi23/p/10880147.html">java8新特性详解及示例代码</a></p>
+      
+          <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h2 id="Raft"><a href="#Raft" class="headerlink" title="Raft"></a>Raft</h2><p>Raft 协议是一个分布式共识(consensus)算法。</p>
+<p>为了达到易于理解的目标，raft做了很多努力，其中最主要是两件事情：</p>
+<ul>
+<li>问题分解</li>
+<li>状态简化（而状态简化更好理解，就是对算法做出一些限制，减少需要考虑的状态数，使得算法更加清晰，更少的不确定性（比如，保证新选举出来的leader会包含所有commited log entry））</li>
+</ul>
+<h3 id="1-问题分解"><a href="#1-问题分解" class="headerlink" title="1 问题分解"></a>1 问题分解</h3><p>Raft 协议将 consensus problem 划分为下面的几个子问题, 分别提出对应的解决方案：</p>
+<ul>
+<li>Leader Election</li>
+<li>Log Eeplication</li>
+<li>Safety</li>
+</ul>
+<p>Raft 算法首先从集群所有节点中选举出一个 <strong>Leader</strong>, 其余节点称为 <strong>Follower</strong>, 由 Leader 来负责管理日志. Leader 负责处理用户的请求, 并将之转化为日志, 并复制到其他的节点上. 当 Leader 将日志复制到大多数节点时, 就能将之应用(apply)到状态机, 并将之 <em>commit</em>, 最后将结果返回给用户.</p>
+<p>为了保证日志条目(log entry)的有序性, 算法将时间划分为不同的 <em>term</em>, term 是一个连续的单调递增的整数. 当节点中发生 Leader 选举时, term 加一, 当节点观察到比自身更大的 term 时, 切换到该 term. 同时, 每条日志具有一个 <em>index</em> 来唯一标记, index 同样单调递增, 新的日志的 index 大于旧的日志的 index. 算法中用 term 和 index 来标记日志.</p>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xybaby/p/10124083.html">https://www.cnblogs.com/xybaby/p/10124083.html</a></p>
 
       
     </div>
@@ -347,7 +447,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/09/07/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -361,7 +461,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/08/19/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="post-title-link" itemprop="url">Java基础提升_多线程</a>
+            <a href="/2021/09/07/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/" class="post-title-link" itemprop="url">Macbook外接显示器需要注意的设置</a>
         </h2>
 
         <div class="post-meta">
@@ -373,7 +473,434 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
+              <time title="创建时间：2021-09-07 20:13:55" itemprop="dateCreated datePublished" datetime="2021-09-07T20:13:55+08:00">2021-09-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%A1%AC%E4%BB%B6/" itemprop="url" rel="index"><span itemprop="name">硬件</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%A1%AC%E4%BB%B6/mac/" itemprop="url" rel="index"><span itemprop="name">mac</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>设备：MacBook Pro2018 A1989<br>系统：BigSur11.2.3<br>外接的显示器：Dell P2319H</p>
+<h2 id="颜色问题"><a href="#颜色问题" class="headerlink" title="颜色问题"></a>颜色问题</h2><p>mac 会将外接显示器识别为TV，会用 YCbCr 色域来输出,我们需要使用脚本来为外接显示器生成强制RGB渲染的颜色描述文件，然后替换掉系统原有颜色描述文件，来使显示器用RGB模式显示。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/09/07/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/MacBook%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E8%AE%BE%E7%BD%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/09/07/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Centos%E4%B8%8Bdocker%E6%A8%A1%E5%BC%8F%E4%B8%8B%E5%AE%89%E8%A3%85nextcloud%E7%A7%81%E6%9C%89%E4%BA%91%E7%9B%98%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/07/%E7%A1%AC%E4%BB%B6&%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Centos%E4%B8%8Bdocker%E6%A8%A1%E5%BC%8F%E4%B8%8B%E5%AE%89%E8%A3%85nextcloud%E7%A7%81%E6%9C%89%E4%BA%91%E7%9B%98%E6%9C%8D%E5%8A%A1/" class="post-title-link" itemprop="url">Centos下docker模式下安装nextcloud私有云盘服务</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-07 20:13:55" itemprop="dateCreated datePublished" datetime="2021-09-07T20:13:55+08:00">2021-09-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/" itemprop="url" rel="index"><span itemprop="name">环境安装</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/Centos/" itemprop="url" rel="index"><span itemprop="name">Centos</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>主机信息：阿里云ECS</p>
+<p>CPU&amp;内存：1核2 GiB </p>
+<p>磁盘：100G</p>
+<p>操作系统：CentOS 8.4 64位</p>
+</blockquote>
+<h2 id="1-docker安装"><a href="#1-docker安装" class="headerlink" title="1.docker安装"></a>1.docker安装</h2><p>使用官方安装脚本自动安装<br>安装命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
+
+<p> 启动docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure>
+
+
+
+<p>查看docker相关版本信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">版本信息</span></span><br><span class="line">docker version</span><br><span class="line"><span class="meta">#</span><span class="bash">查找nextcloud版本</span></span><br><span class="line">docker search nextcloud</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-拉取nextcloud官方镜像"><a href="#2-拉取nextcloud官方镜像" class="headerlink" title="2.拉取nextcloud官方镜像"></a>2.拉取nextcloud官方镜像</h2><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker pull docker nextcloud</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>接下来可以启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --restart=always --name nextcloud -p 8888:80 -v /root/nextcloud:/data nextcloud</span><br></pre></td></tr></table></figure>
+
+<p>#docker run –name nextcloud -p 8080:80  -v /data/nextcloud:/var/www/html/data -d nextcloud</p>
+<blockquote>
+<p>注意在阿里云控制台 》配置安全组规则》入方方向开放端口</p>
+</blockquote>
+
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/09/07/pmp/PMP7-9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/07/pmp/PMP7-9/" class="post-title-link" itemprop="url">PMP备考系列_7-9章笔记</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-07 20:13:55" itemprop="dateCreated datePublished" datetime="2021-09-07T20:13:55+08:00">2021-09-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PMP/" itemprop="url" rel="index"><span itemprop="name">PMP</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="7-项目成本管理"><a href="#7-项目成本管理" class="headerlink" title="7 项目成本管理"></a>7 项目成本管理</h1><p>项目成本管理过程包括：</p>
+<h2 id="7-1-规划成本管理"><a href="#7-1-规划成本管理" class="headerlink" title="7.1 规划成本管理"></a><strong>7.1 规划成本管理</strong></h2><p>— 确定如何估算、预算、管理、监督和控制项目成本的过程。</p>
+<ul>
+<li>绩效测量规则。需要规定用于绩效测量的挣值管理（EVM）规则。例如，成本管理计划应该：<ul>
+<li>定义 WBS 中用于绩效测量的控制账户； </li>
+<li>确定拟用的 EVM 技术（如加权里程碑法、固定公式法、完成百分比法等）；</li>
+<li> 规定跟踪方法，以及用于计算项目完工估算（EAC）的 EVM 公式，该公式计算出的结果可用 于验证通过自下而上方法得出的完工估算。</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-2-估算成本"><a href="#7-2-估算成本" class="headerlink" title="7.2 估算成本"></a>7.2 估算成本</h2><p> — 对完成项目活动所需货币资源进行近似估算的过程。 </p>
+<p>进行成本估算，应该考虑将向项目收费的全部资源，包括（但不限于）人工、材料、设备、 服务、设施，以及一些特殊的成本种类，如通货膨胀补贴、融资成本或<strong>应急成本</strong>。</p>
+<h4 id="7-2-2-2-类比估算"><a href="#7-2-2-2-类比估算" class="headerlink" title="7.2.2.2 类比估算"></a>7.2.2.2 类比估算</h4><p> 见 6.4.2.2 节。成本类比估算使用以往类似项目的参数值或属性来估算。项目的参数值和属性包 括（但不限于）范围、成本、预算、持续时间和规模指标（如尺寸、重量），类比估算以这些项目 参数值或属性为基础来估算当前项目的同类参数或指标。  </p>
+<h4 id="7-2-2-3-参数估算"><a href="#7-2-2-3-参数估算" class="headerlink" title="7.2.2.3 参数估算"></a>7.2.2.3 参数估算</h4><p>见 6.4.2.3 节。参数估算是指利用历史数据之间的统计关系和其他变量（如建筑施工中的平方英 尺），来进行项目工作的成本估算，参数估算的准确性取决于参数模型的成熟度和基础数据的可靠 性。参数估算可以针对整个项目或项目中的某个部分，并可与其他估算方法联合使用。</p>
+<h4 id="7-2-2-4-自下而上估算"><a href="#7-2-2-4-自下而上估算" class="headerlink" title="7.2.2.4 自下而上估算"></a>7.2.2.4 自下而上估算</h4><p>见 6.4.2.5 节。自下而上估算是对工作组成部分进行估算的一种方法。首先对单个工作包或活动的 成本进行最具体、细致的估算，然后把这些细节性成本向上汇总或“滚动”到更高层次，用于后续 报告和跟踪。自下而上估算的准确性及其本身所需的成本，通常取决于单个活动或工作包的规模或 其他属性。 </p>
+<h4 id="7-2-2-5-三点估算"><a href="#7-2-2-5-三点估算" class="headerlink" title="7.2.2.5 三点估算"></a>7.2.2.5 三点估算</h4><p>见 6.4.2.4 节。通过考虑估算中的不确定性与风险，使用三种估算值来界定活动成本的近似区间， 可以提高单点成本估算的准确性： uu 最可能成本（cM）。对所需进行的工作和相关费用进行比较现实的估算，所得到的活动成本。 uu 最乐观成本（cO）。基于活动的最好情况所得到的成本。 uu 最悲观成本（cP）。基于活动的最差情况所得到的成本。</p>
+<p>基于活动成本在三种估算值区间内的假定分布情况，使用公式来计算预期成本（cE）。两种常用 的公式是三角分布和贝塔分布，其计算公式分别为： </p>
+<ul>
+<li><p>三角分布。cE = (cO + cM + cP) / 3 </p>
+</li>
+<li><p> <strong>贝塔分布</strong>（默认使用）。cE = (cO + 4cM + cP) / 6 </p>
+</li>
+</ul>
+<p>  基于三点的假定分布计算出期望成本，并说明期望成本的不确定区间</p>
+<h2 id="7-3-制定预算"><a href="#7-3-制定预算" class="headerlink" title="7.3 制定预算"></a><strong>7.3 制定预算</strong></h2><p>— 汇总所有单个活动或工作包的估算成本，建立一个经批准的成本基准的过程。 </p>
+<h2 id="7-4-控制成本"><a href="#7-4-控制成本" class="headerlink" title="7.4 控制成本"></a><strong>7.4 控制成本</strong></h2><p> — 监督项目状态，以更新项目成本和管理成本基准变更的过程。</p>
+<p>对成本的影响力在项目早期最大，因此尽早定义范围就至关重要。</p>
+<blockquote>
+<p> 项目成本管理的<strong>核心概念</strong>。</p>
+</blockquote>
+<p>项目成本管理重点关注完成项目活动所需资源的成本，但同时也应考虑项目决策对项目产品、 服务或成果的使用成本、维护成本和支持成本的影响。</p>
+<blockquote>
+<p> 项目成本管理的趋势和新兴实践</p>
+</blockquote>
+<p>在项目成本管理的实践中，通过对<strong>挣值管理 (EVM)<strong>的扩展，引入</strong>挣得进度 (ES)</strong> 这一概念。</p>
+<h2 id="挣值管理（Earned-Value-Management-EVM）"><a href="#挣值管理（Earned-Value-Management-EVM）" class="headerlink" title="挣值管理（Earned Value Management, EVM）"></a>挣值管理（Earned Value Management, EVM）</h2><h3 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h3><p>1.<strong>计划价值（Planned Value, PV）</strong>，截止到某时间点计划要完成工作量的价值，也就是计划要做多少事；</p>
+<p><strong>2.挣值（Earned Value, EV）</strong>，截止到某时间点实际已经完成工作量的价值，也就是实际做了多少事；</p>
+<p><strong>3.实际成本（Actual Cost, AC）</strong>，截止到某时间点实际已经发生的成本，也就是实际花了多少钱；</p>
+<p><strong>4.完工预算（Budget At Completion, BAC）</strong>，对完成该项目的计划预算，也就是完成整个项目计划多少预算；</p>
+<blockquote>
+<p>例：假设我们现在要做一个项目，就是砌一堵长度为100米的围墙，为了方便计算我们假设总的预算是100元每米，共100*100=10000元，我们还计划项目工时10天（每天砌墙10米）来完成这个项目。</p>
+<p>本来第四天工作结束计划完成40米，计划价值PV=4000。</p>
+<p>实际第四天工作结束实际才完成了30米，挣值EV=3000。</p>
+<p>第四天结束实际却花了5000元，实际成本AC=5000。</p>
+<p>总的预算10000元，完工预算BAC=10000。</p>
+</blockquote>
+<h3 id="绩效指标"><a href="#绩效指标" class="headerlink" title="绩效指标"></a>绩效指标</h3><p>5.<strong>成本偏差（Cost Variance, CV）</strong>，截止到某时点发生的实际成本与计划成本的偏差，<strong>CV=EV(挣值)-AC(实际成本)</strong></p>
+<p>6.<strong>进度偏差（Schedule Variance, SV）</strong>，截止到某时点的实际进度与计划进度的偏差，<strong>SV=EV(挣值)-PV(计划价值)</strong></p>
+<p>7.<strong>成本绩效指数（Cost Performance Index, CPI）</strong>，截止到某时点衡量成本绩效的一种指标，也就是实际每花一元钱，完成做了多少钱的事（花钱的效率），<strong>CPI=EV(挣值)/AC(实际成本)</strong></p>
+<p>8.<strong>进度绩效指数（Schedule Performance Index, SPI）</strong>，截止到某时点衡量进度绩效的一种指标，也就是实际完成的工作量与计划完成工作量之比，**SPI=EV(挣值)/PV(计划价值)**。</p>
+<blockquote>
+<p>成本偏差CV = EV - AC=3000-5000=-2000，说明现在成本超支了2000。</p>
+<p>进度偏差SV = EV - PV=3000-4000=-1000,意思是相比计划我们的进度落后1000元的工作量。</p>
+<p><strong>成本绩效指数CPI = EV / AC=3000/5000=0.6</strong>，意思是前面4天我们实际花了5000元，但是只做了3000元的工作，相当于前面4天我们每花1元钱，只做了0.6元的事，此概念计算要掌握。</p>
+<p>SPI=EV/PV=3000/4000=0.75，说明当前只完成了计划任务量的75%的工作。</p>
+</blockquote>
+<h3 id="预测指标"><a href="#预测指标" class="headerlink" title="预测指标"></a>预测指标</h3><ol start="9">
+<li><strong>完工尚需估算（Estimate To Completion, ETC）</strong><ul>
+<li>如果还是以当前的成本绩效完成剩余的工作，则 <strong>ETC=(BAC-EV)/CPI</strong>，也就是剩余的工作量除以成本绩效指数；</li>
+<li>如果以计划的成本绩效完成剩余的工作，则<strong>ETC=BAC-EV</strong>，也就是剩余的工作量，实际上也是用第一种情况那个公式(<strong>CPI=1</strong>)；</li>
+<li>如果进度绩效指标SPI也会影响完成剩余工作的成本，意思是如果严格规定我们必须要在计划的截止时间之前完成项目，那么可能就还需要额外的成本来赶工进度，这个时候就需要同时考虑CPI和SPI对于剩余工作的影响，一般计算公式则为**ETC=(BAC-EV)/(CPI*SPI)*<em>，也就是剩余的工作量除以成本绩效指数与进度绩效指数的乘积；其中CPI</em>SPI又叫“关键比率”(Critical Ratio, CR);</li>
+</ul>
+</li>
+</ol>
+<p>10.<strong>完工估算（Estimate At Completion, EAC）</strong>，在某个时点，预测完成整个项目需要的成本，当然就是实际已经花掉的成本加上前面那个完工尚需估算ETC，<strong>EAC=AC+ETC</strong>；如果剩余工作还是<strong>以当前成本绩效指数</strong>来完成，那么也可以这么计算<strong>EAC=BAC/CPI</strong>，这个公式也好理解，其实就是整个项目工作量除以成本绩效指数；完工估算EAC实际上就是预测项目完工时候的实际成本AC。</p>
+<p>11.<strong>完工尚需绩效指数（To-Complete Performance Index, TCPI）</strong>，在某个时点，预测如果要在计划的预算内完成项目，则未来的工作必须要达到的绩效水平。计算公式TCPI=(BAC-EV)/(BAC-AC)，也就是剩余的工作量除以剩余的钱的数量；</p>
+<p>12.<strong>完工偏差（Variance At Completion, VAC）</strong>，在某个时点，预测项目在完工的时候将会出现的总的项目的成本偏差。计算公式VAC=BAC-EAC，也就是项目开始时原计划的预算减去现在预测的总个项目将会花的成本。完工偏差VAC实际上就是预测项目完工时的成本偏差CV。</p>
+<blockquote>
+<p>第一种情况：后续部分工作CPI和前面4天工作的CPI保持一致。</p>
+<p>完工尚需估算ETC = （10000 - 3000）/ 0.6 = 11667，现在只完成了30米，那么剩下当然就是还需要砌70米了，转化成钱的数量70*100=7000元这就是剩余的工作量。</p>
+<p>完工成本估算就是5000+11667=16667。CPI一直保持稳定不管前面4天还是后面工作一直都是0.6，所以也可以用总的项目预算（总的工作量）除以CPI得出，也就是10000/0.6=16667。</p>
+<p>那么后面工作的成本绩效必须得是多少才行，这个就是TCPI。第四天结束后总共10000元的工作量，完成了3000元剩余7000元的工作量，实际花了5000元（预算就还剩10000-5000=5000元），也就是未来如果预算不增加我们需要以剩下5000元的预算来完成剩下7000元的工作，那么需要的成本绩效指数就是TCPI = 7000/5000=1.4。</p>
+<p>我们前面已经算出来ETC=11667，EAC=16667，这个情况下完工偏差VAC=BAC-EAC=10000-16667=-6667</p>
+</blockquote>
+
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/09/07/pmp/PMP4-6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/07/pmp/PMP4-6/" class="post-title-link" itemprop="url">PMP备考系列_4-6章笔记</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-07 20:13:55" itemprop="dateCreated datePublished" datetime="2021-09-07T20:13:55+08:00">2021-09-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PMP/" itemprop="url" rel="index"><span itemprop="name">PMP</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="4-项目整合管理"><a href="#4-项目整合管理" class="headerlink" title="4.项目整合管理"></a>4.项目整合管理</h1><p>项目整合管理包括对隶属于项目管理过程组的各种过程和项目管理活动进行识别、定义、组合、统一和协调的各个过程。<br><br>在项目管理中，整合兼具统一、合并、沟通和建立联系的性质，这些行动<br>应该贯穿项目始终。<br></p>
+<blockquote>
+<p>项目整合管理的核心概念</p>
+</blockquote>
+<ul>
+<li>项目整合管理由项目经理负责。</li>
+<li><strong>项目整合管理的责任不能被授权或转移</strong>。只能由项目经理负责整<br>合所有其他知识领域的成果，并掌握项目总体情况。</li>
+<li>项目经理必须对整个项目承担最终责任。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/09/07/pmp/PMP4-6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/09/07/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/07/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="post-title-link" itemprop="url">Java基础提升_线程池</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-07 20:13:55" itemprop="dateCreated datePublished" datetime="2021-09-07T20:13:55+08:00">2021-09-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -391,6 +918,10 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/java/%E5%9F%BA%E7%A1%80/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
                 </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/%E5%9F%BA%E7%A1%80/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" itemprop="url" rel="index"><span itemprop="name">线程池</span></a>
+                </span>
             </span>
 
           
@@ -404,37 +935,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="线程创建方式"><a href="#线程创建方式" class="headerlink" title="线程创建方式"></a>线程创建方式</h2><ol>
-<li>继承Thread类<ul>
-<li>start()方法是一个 native 方法,它将启动一个新线程，并执行 run()方法。</li>
-</ul>
-</li>
-<li>实现runnable接口，<ul>
-<li>当一个类已经有继承了，此时可通过实现runnable接口来创建线程</li>
-</ul>
-</li>
-<li>采用线程池，实现callable接口（有返回）,ExecutorService<ul>
-<li><strong>有返回值</strong>的任务必须实现 Callable 接口。执行Callable 任务后，可以获取一个<strong>Future 的对象</strong>，在该对象上调用 get 就可以获取到 Callable 任务返回的 Object 了，再结合线程池接口 ExecutorService 就可以实现传说中有返回结果的多线程了。</li>
-</ul>
-</li>
-</ol>
-<h2 id="多线程中的主要问题"><a href="#多线程中的主要问题" class="headerlink" title="多线程中的主要问题"></a>多线程中的主要问题</h2><ol>
-<li>可见性问题<br> volatile修饰，保证了多线程之间的内存可见性</li>
-<li>原子性问题<br> AtomicInteger（Java中有那么一些类，是以Atomic开头的。这一系列的类我们称之为原子操作类。以最简单的类AtomicInteger为例。它相当于一个int变量，我们执行Int的 i++ 的时候并不是一个原子操作。而使用AtomicInteger的incrementAndGet却能保证原子操作）</li>
-<li>有序性问题<br> volatile 防止指令重排序</li>
-<li>死锁的问题</li>
-</ol>
-<h2 id="synchronized-关键字"><a href="#synchronized-关键字" class="headerlink" title="synchronized 关键字"></a>synchronized 关键字</h2><h3 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h3><ol>
-<li><p>修饰一个<strong>代码块</strong>，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； </p>
-</li>
-<li><p>修饰一个<strong>方法</strong>，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； </p>
-</li>
-<li><p>修改一个<strong>静态的方法</strong>，其作用的范围是整个静态方法，作用的对象是这个==类的所有对象==； </p>
-</li>
-<li><p>修改一个<strong>类</strong>，其作用的范围是synchronized后面括号括起来的部分，作用主的对象是这个类的所有对象。</p></li></ol>
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在《阿里巴巴java开发手册》中指出了线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，这样一方面是线程的创建更加规范，可以合理控制开辟线程的数量；另一方面线程的细节管理交给线程池处理，优化了资源的开销。<br><br>而线程池不允许使用Executors去创建，而要通过<strong>ThreadPoolExecutor</strong>方式，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活【消耗内存等】；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险，所以阿里巴巴java开发规范线程池首选ThreadPoolExcutor。<br></p>
+<p>话虽如此但常见的Executor框架还是要有所了解。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/08/19/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E5%A4%9A%E7%BA%BF%E7%A8%8B/#more" rel="contents">
+              <a class="btn" href="/2021/09/07/java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80%E6%8F%90%E5%8D%87_%E7%BA%BF%E7%A8%8B%E6%B1%A0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -463,7 +968,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -477,7 +982,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8/" class="post-title-link" itemprop="url">redis持久化和集群高可用</a>
+            <a href="/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/" class="post-title-link" itemprop="url">消息队列_Rocketmq</a>
         </h2>
 
         <div class="post-meta">
@@ -489,7 +994,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
+              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -501,11 +1006,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/" itemprop="url" rel="index"><span itemprop="name">nosql</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a>
                 </span>
             </span>
 
@@ -520,10 +1021,61 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>redis的持久化策略以及集群高可用原理和常见问题解答。</p>
+          <h1 id="主流消息队列选型"><a href="#主流消息队列选型" class="headerlink" title="主流消息队列选型"></a>主流消息队列选型</h1><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Kafka</th>
+<th>RocketMQ</th>
+<th>RabbitMQ</th>
+<th>ActiveMQ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单机吞吐量</td>
+<td>10万级</td>
+<td>10万级</td>
+<td>万级</td>
+<td>万级</td>
+</tr>
+<tr>
+<td>开发语言</td>
+<td>Scala</td>
+<td>Java</td>
+<td>Erlang</td>
+<td>Java</td>
+</tr>
+<tr>
+<td>高可用</td>
+<td>分布式架构</td>
+<td>分布式架构</td>
+<td>主从架构</td>
+<td>主从架构</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>ms级</td>
+<td>ms级</td>
+<td>us级</td>
+<td>ms级</td>
+</tr>
+<tr>
+<td>功能</td>
+<td>只支持主要的MQ功能</td>
+<td>顺序消息、事务消息等功能完善</td>
+<td>并发强、性能好、延时低</td>
+<td>成熟的社区产品、文档丰富</td>
+</tr>
+</tbody></table>
+<ol>
+<li>rocketmq主要为java开发，语言适配性好，</li>
+<li>性能好，社区成熟。 </li>
+<li>支持顺序消息，事务消息。</li>
+<li>支持分布式架构</li>
+</ol>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8/">
+              <a class="btn" href="/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B9%8BRocketmq/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -552,7 +1104,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E4%BD%BF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -566,7 +1118,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">redis基础使用</a>
+            <a href="/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" class="post-title-link" itemprop="url">消息队列</a>
         </h2>
 
         <div class="post-meta">
@@ -578,7 +1130,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
+              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -590,11 +1142,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/" itemprop="url" rel="index"><span itemprop="name">nosql</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nosql/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a>
                 </span>
             </span>
 
@@ -609,10 +1157,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>redis基础使用笔记，相关的数据结构</p>
+          <h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><p>作用：</p>
+<ol>
+<li><strong>异步</strong>、</li>
+<li><strong>削峰</strong>、</li>
+<li><strong>解耦</strong></li>
+</ol>
+<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>比如一个流程下需要正常的业务处理，中间需要发送短信，扣减优惠卷等，可以生产消息进入队列，由短信系统，优惠卷系统异步处理，减少主业务逻辑链路，提升效率。</p>
+<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><p>异步，使用线程，线程池去做不是一样的么<br>线程，线程池代码需要固定，后续如果光是短信平台要改东西，主流程还要发布。消息队列可以实现解耦。</p>
+<h2 id="削峰"><a href="#削峰" class="headerlink" title="削峰"></a>削峰</h2><p>服务器，Redis，MySQL各自的承受能力都不一样，你直接全部流量照单全收肯定有问题啊，直接就打挂了。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/08/17/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis%E4%BD%BF%E7%94%A8/">
+              <a class="btn" href="/2021/08/19/%E6%A1%86%E6%9E%B6/%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -641,7 +1197,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/19/%E6%A1%86%E6%9E%B6/dubbo/dubbo%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/author.jpg">
@@ -655,7 +1211,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/" class="post-title-link" itemprop="url">springMVC框架总述</a>
+            <a href="/2021/08/19/%E6%A1%86%E6%9E%B6/dubbo/dubbo%E6%A1%86%E6%9E%B6%E6%80%BB%E8%BF%B0/" class="post-title-link" itemprop="url">dubbo框架总述</a>
         </h2>
 
         <div class="post-meta">
@@ -667,7 +1223,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
+              <time title="创建时间：2021-08-19 18:39:26" itemprop="dateCreated datePublished" datetime="2021-08-19T18:39:26+08:00">2021-08-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -679,7 +1235,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/springboot/" itemprop="url" rel="index"><span itemprop="name">springboot</span></a>
+                  <a href="/categories/java/dubbo/" itemprop="url" rel="index"><span itemprop="name">dubbo</span></a>
                 </span>
             </span>
 
@@ -694,584 +1250,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="什么是MVC"><a href="#什么是MVC" class="headerlink" title="什么是MVC"></a>什么是MVC</h1><ul>
-<li>M代表模型（Model）<br>模型其实就是数据，dao，bean</li>
-<li>V代表视图（View）<br>网页，jsp等用来展示数据的模型</li>
-<li>C代表Controller<br>把不同的数据展示在不同的视图上，处理请求的分发，Servlet扮演的就是这样的角色<br><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/model_view_controller.jpg" alt="MVC"></li>
-</ul>
-<h1 id="SpringMVC的流程"><a href="#SpringMVC的流程" class="headerlink" title="SpringMVC的流程"></a>SpringMVC的流程</h1><ol>
-<li><p>用户发送请求至前端控制器DispatcherServlet；</p>
-</li>
-<li><p>DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handler；</p>
-</li>
-<li><p>处理器映射器根据请求url找到具体的处理器Handler，生成处理器对象及处理器拦截器(如果有则生成)，一并返回给DispatcherServlet；</p>
-</li>
-<li><p>DispatcherServlet 调用 HandlerAdapter处理器适配器，请求执行Handler；</p>
-</li>
-<li><p>HandlerAdapter 经过适配调用 具体处理器进行处理业务逻辑；</p>
-</li>
-<li><p>Handler执行完成返回ModelAndView；</p>
-</li>
-<li><p>HandlerAdapter将Handler执行结果ModelAndView返回给DispatcherServlet；</p>
-</li>
-<li><p>DispatcherServlet将ModelAndView传给ViewResolver视图解析器进行解析；</p>
-</li>
-<li><p>ViewResolver解析后返回具体View；</p>
-</li>
-<li><p>DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）</p>
-</li>
-<li><p>DispatcherServlet响应用户。</p>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springmvc/springmvc%E6%80%BB%E8%BF%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springcloud/springcloud%E7%BB%84%E4%BB%B6/" class="post-title-link" itemprop="url">springcloud_五大组件</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/spring/springcloud/" itemprop="url" rel="index"><span itemprop="name">springcloud</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="SpringCloud进阶"><a href="#SpringCloud进阶" class="headerlink" title="SpringCloud进阶"></a>SpringCloud进阶</h2><ul>
-<li><input checked disabled type="checkbox"> javase</li>
-<li><input checked disabled type="checkbox"> 数据库</li>
-<li>[] 前端</li>
-<li>[] servlet</li>
-<li>[] Http</li>
-<li><input checked disabled type="checkbox"> Mybatis</li>
-<li><input checked disabled type="checkbox"> Spring</li>
-<li>[] SpringMVC</li>
-<li>[] SpringBoot</li>
-<li><input checked disabled type="checkbox"> Dubbo,zookeeper,分布式基础</li>
-<li><input checked disabled type="checkbox"> maven</li>
-</ul>
-<blockquote>
-<p>总结一下SpringCloud结果核心组件:</p>
-</blockquote>
-<ul>
-<li><p>Eureka:个服务启动时,Eureka会将服务注册到EurekaService,并且EurakeClient还可以返回过来从EurekaService拉去注册表,从而知道服务在哪里</p>
-</li>
-<li><p>Ribbon:服务间发起请求的时候,基于Ribbon服务做到负载均衡,从一个服务的对台机器中选择一台</p>
-<blockquote>
-<p>目前，在Spring cloud 中服务之间通过restful方式调用有两种方式  </p>
-<ul>
-<li>restTemplate+Ribbon </li>
-<li>feign</li>
-</ul>
-</blockquote>
-</li>
-<li><p>Feign:RPC框架，基于fegin的动态代理机制,根据注解和选择机器,拼接Url地址,发起请求,Feign是Netflix开发的声明式、模板化的HTTP客户端， Feign可以帮助我们更快捷、优雅地调用HTTP API。</p>
-</li>
-<li><p>Hystrix:发起的请求是通过Hystrix的线程池来走,不同的服务走不同的线程池,实现了不同的服务调度隔离,避免服务雪崩的问题</p>
-</li>
-<li><p>Zuul:如果前端后端移动端调用后台系统,统一走zull网关进入,有zull网关转发请求给对应的服务</p>
-</li>
-<li><p>Apollo（阿波罗）是携程框架部门研发的配置管理平台，能够集中化管理应用不同环境、不同集群的配置，配置修改后能够实时推送到应用端，并且具备规范的权限、流程治理等特性。<a target="_blank" rel="noopener" href="https://github.com/ctripcorp/apollo/wiki/Apollo%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E8%AE%BE%E8%AE%A1">Apollo配置中心设计</a></p>
-</li>
-</ul>
-<h4 id="Ribbon"><a href="#Ribbon" class="headerlink" title="Ribbon"></a>Ribbon</h4><p>Ribbon 是一个基于 HTTP 和 TCP 客户端的负载均衡器</p>
-<p>它可以在客户端配置 ribbonServerList（服务端列表），然后轮询请求以实现均衡负载</p>
-<p>它在联合 Eureka 使用时</p>
-<p>ribbonServerList 会被 DiscoveryEnabledNIWSServerList 重写，扩展成从 Eureka 注册中心获取服务端列表</p>
-<p>同时它也会用 NIWSDiscoveryPing 来取代 IPing，它将职责委托给 Eureka 来确定服务端是否已经启动</p>
-<h4 id="Feign"><a href="#Feign" class="headerlink" title="Feign"></a>Feign</h4><p>Spring Cloud Netflix 的微服务都是以 HTTP 接口的形式暴露的，所以可以用 Apache 的 HttpClient 或 Spring 的 RestTemplate 去調用,而 Feign 是一個使用起來更加方便的 HTTP 客戶端，它用起來就好像調用本地方法一樣，完全感覺不到是調用的遠程方法</p>
-<p>总结起来就是：发布到注册中心的服务方接口，是 HTTP 的，也可以不用 Ribbon 或者 Feign，直接浏览器一样能够访问</p>
-<p>只不过 Ribbon 或者 Feign 调用起来要方便一些，最重要的是：它俩都支持软负载均衡</p>
-<p>注意：spring-cloud-starter-feign 里面已经包含了 spring-cloud-starter-ribbon（Feign 中也使用了 Ribbon）</p>
-<p>从实践上看，采用feign的方式更优雅（feign内部也使用了ribbon做负载均衡）。</p>
-<h2 id="Spring-Cloud-和dubbo区别"><a href="#Spring-Cloud-和dubbo区别" class="headerlink" title="Spring Cloud 和dubbo区别?"></a>Spring Cloud 和dubbo区别?</h2><p>其实Dubbo仅仅是一个RPC框架，实现Java程序的远程调用，而Spring Cloud则是实施微服务的一系列套件，包括：服务注册与发现、断路器、服务状态监控、配置管理、智能路由、一次性令牌、全局锁、分布式会话管理、集群状态管理等</p>
-<p>（1）服务调用方式 dubbo是RPC，springcloud是 Rest Api</p>
-<p>（2）注册中心,dubbo 是zookeeper springcloud是eureka，也可以是zookeeper</p>
-<p>（3）服务网关,dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。</p>
-<h2 id="常见的RPC组件："><a href="#常见的RPC组件：" class="headerlink" title="常见的RPC组件："></a>常见的RPC组件：</h2><ol>
-<li>RMI（远程方法调用）</li>
-</ol>
-<p>JAVA自带的远程方法调用工具，不过有一定的局限性，毕竟是JAVA语言最开始时的设计，后来很多框架的原理都基于RMI。</p>
-<ol start="2">
-<li><p>Hessian（基于HTTP的远程方法调用）</p>
-<p>基于HTTP协议传输，在性能方面还不够完美，负载均衡和失效转移依赖于应用的负载均衡器，Hessian的使用则与RMI类似，区别在于淡化了Registry的角色，通过显示的地址调用，利用HessianProxyFactory根据配置的地址create一个代理对象，另外还要引入Hessian的Jar包。</p>
-</li>
-<li><p>Dubbo（淘宝开源的基于TCP的RPC框架）</p>
-</li>
-</ol>
-<p>基于Netty的高性能RPC框架，是阿里巴巴开源的，总体原理如下：</p>
-
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/" class="post-title-link" itemprop="url">springboot框架总述</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/springboot/" itemprop="url" rel="index"><span itemprop="name">springboot</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="SpringBoot主要特性"><a href="#SpringBoot主要特性" class="headerlink" title="SpringBoot主要特性"></a>SpringBoot主要特性</h1><p><strong>Spring boot</strong> 简化了使用 Spring 的难度，简省了繁重的配置（版本管理，依赖导入），提供了各种启动器，开发者能快速上手。 </p>
-<h2 id="SpringBoot的版本控制"><a href="#SpringBoot的版本控制" class="headerlink" title="SpringBoot的版本控制"></a>SpringBoot的版本控制</h2><p>pom.xml中有父项目</p>
-<ul>
-<li><p>spring-boot-dependencies：核心依赖在父工程中</p>
-</li>
-<li><p>我们在写或者应用引入一些springboot的依赖的时候，不需要指定版本，因为有相关版本库。</p>
-</li>
-</ul>
-<h2 id="SpringBoot的自动装配"><a href="#SpringBoot的自动装配" class="headerlink" title="SpringBoot的自动装配"></a>SpringBoot的自动装配</h2><p>SpringBoot 自动配置主要通过 @EnableAutoConfiguration, @Conditional, @EnableConfigurationProperties 或者 @ConfigurationProperties 等几个注解来进行自动配置完成的。</p>
-<ul>
-<li><p>@EnableAutoConfiguration 开启自动配置，主要作用就是调用 Spring-Core 包里的 loadFactoryNames()，将 autoconfig 包里的已经写好的自动配置加载进来。</p>
-</li>
-<li><p>@Conditional 条件注解，通过判断类路径下有没有相应配置的 jar 包来确定是否加载和自动配置这个类。</p>
-</li>
-<li><p>@EnableConfigurationProperties 的作用就是，给自动配置提供具体的配置参数，只需要写在 application.properties 中，就可以通过映射写入配置类的 POJO 属性中。 </p>
-<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/springboot_start.jpg" alt="springboot_start"></p>
-<blockquote>
-<p>该配置模块的主要使用到了<strong>SpringFactoriesLoader，即Spring工厂加载器</strong>，该对象提供了<strong>loadFactoryNames()<strong>方法，入参为factoryClass和classLoader，即需要传入上图中的工厂类名称和对应的类加载器，方法会根据指定的classLoader，加载该类加器搜索路径下的指定文件，即</strong>指定的配置文件META-INF/spring.factories</strong>，传入的工厂类为接口，而文件中对应的类则是接口的实现类，或最终作为实现类，所以文件中一般为一对多的类名集合，获取到这些实现类的类名后，loadFactoryNames方法返回类名集合，方法调用方得到这些集合后，再通过反射获取这些类的类对象、构造方法，最终生成实例。</p>
-<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/Users\sxyyl\Documents\GitHub_posts\spring\springboot\springboot\springboot_EnableAutoConfiguration.jpg" alt="springboot_EnableAutoConfiguration"></p>
-</blockquote>
-</li>
-</ul>
-<h2 id="什么是-Spring-Boot-Stater-？"><a href="#什么是-Spring-Boot-Stater-？" class="headerlink" title="什么是 Spring Boot Stater ？"></a>什么是 Spring Boot Stater ？</h2><p>启动器是一套方便的依赖描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/springboot/springboot/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6_%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/spring/spring%E6%A1%86%E6%9E%B6_%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">spring框架_事务管理</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="spring事务管理"><a href="#spring事务管理" class="headerlink" title="spring事务管理"></a>spring事务管理</h1><h2 id="Spring定义了7种传播行为："><a href="#Spring定义了7种传播行为：" class="headerlink" title="Spring定义了7种传播行为："></a>Spring定义了7种传播行为：</h2><ol>
-<li>propagation_requierd：如果当前没有事务，就新建一个事务，如果已存在一个事务中，<br>加入到这个事务中，这是Spring默认的选择。</li>
-<li>propagation_supports：支持当前事务，如果没有当前事务，就以非事务方法执行。</li>
-<li>propagation_mandatory：使用当前事务，如果没有当前事务，就抛出异常。</li>
-<li>propagation_required_new：新建事务，如果当前存在事务，把当前事务挂起。</li>
-<li>propagation_not_supported：以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。</li>
-<li>propagation_never：以非事务方式执行操作，如果当前事务存在则抛出异常。</li>
-<li>propagation_nested：如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与propagation_required类似的操作。嵌套事务一个非常重要的概念就是内层事务依赖于外层事务。外层事务失败时，会回滚内层事务所做的动作。而内层事务操作失败并不会引起外层事务的回滚。</li>
-</ol>
-<h2 id="Spring事务隔离级别"><a href="#Spring事务隔离级别" class="headerlink" title="Spring事务隔离级别"></a><strong>Spring事务隔离级别</strong></h2><h2 id="Spring事务隔离级别比数据库事务隔离级别多一个default"><a href="#Spring事务隔离级别比数据库事务隔离级别多一个default" class="headerlink" title="Spring事务隔离级别比数据库事务隔离级别多一个default"></a><strong>Spring事务隔离级别比数据库事务隔离级别多一个default</strong></h2><p><strong>1) DEFAULT （默认）</strong><br>这是一个PlatfromTransactionManager默认的隔离级别，使用数据库默认的事务隔离级别。另外四个与JDBC的隔离级别相对应。</p>
-<p><strong>2) READ_UNCOMMITTED （读未提交）</strong><br>这是事务最低的隔离级别，它允许另外一个事务可以看到这个事务未提交的数据。这种隔离级别会产生脏读，不可重复读和幻像读。</p>
-<p><strong>3) READ_COMMITTED （读已提交）</strong><br>保证一个事务修改的数据提交后才能被另外一个事务读取，另外一个事务不能读取该事务未提交的数据。这种事务隔离级别可以避免脏读出现，但是可能会出现不可重复读和幻像读。</p>
-<p><strong>4) REPEATABLE_READ （可重复读）</strong><br>这种事务隔离级别可以防止脏读、不可重复读，但是可能出现幻像读。它除了保证一个事务不能读取另一个事务未提交的数据外，还保证了不可重复读。</p>
-<p><strong>5) SERIALIZABLE（串行化）</strong><br>这是花费最高代价但是最可靠的事务隔离级别，事务被处理为顺序执行。除了防止脏读、不可重复读外，还避免了幻像读。</p>
-<h2 id="事务几种实现方式"><a href="#事务几种实现方式" class="headerlink" title="事务几种实现方式"></a>事务几种实现方式</h2><ol>
-<li>编程式事务管理对基于 POJO 的应用来说是唯一选择。我们需要在代码中调用beginTransaction()、commit()、rollback()等事务管理相关的方法，这就是编程式事务管理。</li>
-<li>基于 TransactionProxyFactoryBean的声明式事务管理</li>
-<li>基于 @Transactional 的声明式事务管理</li>
-<li>基于Aspectj AOP配置事务</li>
-</ol>
-<h3 id="基于-TransactionProxyFactoryBean的声明式事务管理"><a href="#基于-TransactionProxyFactoryBean的声明式事务管理" class="headerlink" title="基于 TransactionProxyFactoryBean的声明式事务管理"></a>基于 TransactionProxyFactoryBean的声明式事务管理</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 事务管理器 --&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myTracnsactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 事务代理工厂 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 生成事务代理对象 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;serviceProxy&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.transaction.interceptor.TransactionProxyFactoryBean&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;transactionManager&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;myTracnsactionManager&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;target&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;buyStockService&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;transactionAttributes&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- 主要 key 是方法   </span></span><br><span class="line"><span class="comment">                    ISOLATION_DEFAULT  事务的隔离级别</span></span><br><span class="line"><span class="comment">                    PROPAGATION_REQUIRED  传播行为</span></span><br><span class="line"><span class="comment">                --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;add*&quot;</span>&gt;</span>ISOLATION_DEFAULT,PROPAGATION_REQUIRED<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- -Exception 表示发生指定异常回滚，+Exception 表示发生指定异常提交 --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;buyStock&quot;</span>&gt;</span>ISOLATION_DEFAULT,PROPAGATION_REQUIRED,-BuyStockException<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        </span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="基于-Transactional-注解的声明式事务管理"><a href="#基于-Transactional-注解的声明式事务管理" class="headerlink" title="基于 @Transactional 注解的声明式事务管理"></a>基于 @Transactional 注解的声明式事务管理</h3><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">class</span> BuyStockServiceImpl implements BuyStockService&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> AccountDao accountDao;</span><br><span class="line">    <span class="keyword">private</span> StockDao stockDao;</span><br><span class="line">    </span><br><span class="line">    @<span class="constructor">Transactional(<span class="params">isolation</span>=Isolation.DEFAULT,<span class="params">propagation</span>=Propagation.REQUIRED)</span></span><br><span class="line">    @Override</span><br><span class="line">    public void add<span class="constructor">Account(String <span class="params">accountname</span>, <span class="params">double</span> <span class="params">money</span>)</span> &#123;</span><br><span class="line">        accountDao.add<span class="constructor">Account(<span class="params">accountname</span>,<span class="params">money</span>)</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @<span class="constructor">Transactional(<span class="params">isolation</span>=Isolation.DEFAULT,<span class="params">propagation</span>=Propagation.REQUIRED)</span></span><br><span class="line">    @Override</span><br><span class="line">    public void add<span class="constructor">Stock(String <span class="params">stockname</span>, <span class="params">int</span> <span class="params">amount</span>)</span> &#123;</span><br><span class="line">        stockDao.add<span class="constructor">Stock(<span class="params">stockname</span>,<span class="params">amount</span>)</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public <span class="constructor">BuyStockServiceImpl()</span> &#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @<span class="constructor">Transactional(<span class="params">isolation</span>=Isolation.DEFAULT,<span class="params">propagation</span>=Propagation.REQUIRED,<span class="params">rollbackFor</span>=BuyStockException.<span class="params">class</span>)</span></span><br><span class="line">    @Override</span><br><span class="line">    public void buy<span class="constructor">Stock(String <span class="params">accountname</span>, <span class="params">double</span> <span class="params">money</span>, String <span class="params">stockname</span>, <span class="params">int</span> <span class="params">amount</span>)</span> throws BuyStockException &#123;</span><br><span class="line">        boolean isBuy = <span class="literal">true</span>;</span><br><span class="line">        accountDao.update<span class="constructor">Account(<span class="params">accountname</span>, <span class="params">money</span>, <span class="params">isBuy</span>)</span>;</span><br><span class="line">        <span class="keyword">if</span>(isBuy==<span class="literal">true</span>)&#123;</span><br><span class="line">            throw <span class="keyword">new</span> <span class="constructor">BuyStockException(<span class="string">&quot;购买股票发生异常&quot;</span>)</span>;</span><br><span class="line">        &#125;</span><br><span class="line">            stockDao.update<span class="constructor">Stock(<span class="params">stockname</span>, <span class="params">amount</span>, <span class="params">isBuy</span>)</span>;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public AccountDao get<span class="constructor">AccountDao()</span> &#123;</span><br><span class="line">        return accountDao;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void set<span class="constructor">AccountDao(AccountDao <span class="params">accountDao</span>)</span> &#123;</span><br><span class="line">        this.accountDao = accountDao;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public StockDao get<span class="constructor">StockDao()</span> &#123;</span><br><span class="line">        return stockDao;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void set<span class="constructor">StockDao(StockDao <span class="params">stockDao</span>)</span> &#123;</span><br><span class="line">        this.stockDao = stockDao;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>配置文件：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 事务管理器 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myTracnsactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 启用事务注解 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;myTracnsactionManager&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="基于Aspectj-AOP配置事务"><a href="#基于Aspectj-AOP配置事务" class="headerlink" title="基于Aspectj AOP配置事务"></a>基于Aspectj AOP配置事务</h3><figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">&quot;classpath:jdbc.properties&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- 注册数据源 C3P0 --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;</span>  &gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driverClass&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.driverClass&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;jdbcUrl&quot;</span>  <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.url&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>  <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.username&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$</span></span></span><span class="template-variable">&#123;jdbc.password&#125;</span><span class="xml"><span class="tag"><span class="string">&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;accountDao&quot;</span> <span class="attr">class</span>=<span class="string">&quot;transaction.test4.dao.AccountDaoImpl&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;stockDao&quot;</span> <span class="attr">class</span>=<span class="string">&quot;transaction.test4.dao.StockDaoImpl&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;buyStockService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;transaction.test4.service.BuyStockServiceImpl&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;accountDao&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;accountDao&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;stockDao&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;stockDao&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- 事务管理器 --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myTracnsactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;myTracnsactionManager&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="comment">&lt;!-- 为连接点指定事务属性 --&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;add*&quot;</span> <span class="attr">isolation</span>=<span class="string">&quot;DEFAULT&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;buyStock&quot;</span> <span class="attr">isolation</span>=<span class="string">&quot;DEFAULT&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span> <span class="attr">rollback-for</span>=<span class="string">&quot;BuyStockException&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 切入点配置 --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">expression</span>=<span class="string">&quot;execution(* *..service.*.*(..))&quot;</span> <span class="attr">id</span>=<span class="string">&quot;point&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;point&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>原文地址：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/h-c-g/p/10872061.html">https://www.cnblogs.com/h-c-g/p/10872061.html</a></p>
-
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/" class="post-title-link" itemprop="url">限流_sentinel</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/sentinel/" itemprop="url" rel="index"><span itemprop="name">sentinel</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h1><h2 id="主要概念相关"><a href="#主要概念相关" class="headerlink" title="主要概念相关"></a>主要概念相关</h2><p>Sentinel 是面向分布式服务架构的高可用流量防护组件，主要以流量为切入点，从<strong>限流、流量整形、熔断降级、系统负载保护、热点防护</strong>等多个维度来帮助开发者保障微服务的稳定性。</p>
-<hr>
-<p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/st.png" alt="st"></p>
-<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="Sentinel-基本概念"><a href="#Sentinel-基本概念" class="headerlink" title="Sentinel 基本概念"></a>Sentinel 基本概念</h2><h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><p>资源是 Sentinel 的关键概念。它可以是 Java 应用程序中的任何内容，例如，由应用程序提供的服务，或由应用程序调用的其它应用提供的服务，甚至可以是一段代码。在接下来的文档中，我们都会用资源来描述代码块。</p>
-<p>只要通过 Sentinel API 定义的代码，就是资源，能够被 Sentinel 保护起来。大部分情况下，可以使用方法签名，URL，甚至服务名称作为资源名来标示资源。</p>
-<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p>围绕资源的实时状态设定的规则，可以包括流量控制规则、熔断降级规则以及系统保护规则。所有规则可以动态实时调整。</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://sentinelguard.io/zh-cn/docs/introduction.html">官方介绍文档</a></li>
-</ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="基本使用-资源与规则"><a href="#基本使用-资源与规则" class="headerlink" title="基本使用 - 资源与规则"></a><a target="_blank" rel="noopener" href="https://github.com/alibaba/Sentinel/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8">基本使用 - 资源与规则</a></h3><h3 id="集成apollo"><a href="#集成apollo" class="headerlink" title="集成apollo"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/a745233700/article/details/122725604">集成apollo</a></h3><hr>
-<h3 id="针对来源进行限流"><a href="#针对来源进行限流" class="headerlink" title="针对来源进行限流"></a>针对来源进行限流</h3><h4 id="1-首先我们要自定义来源解析RequestOriginParser"><a href="#1-首先我们要自定义来源解析RequestOriginParser" class="headerlink" title="1.首先我们要自定义来源解析RequestOriginParser"></a>1.首先我们要自定义来源解析RequestOriginParser</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SentinelConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RequestOriginParser <span class="title">requestOriginParser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (request -&gt; &#123;</span><br><span class="line">            String remoteAddr = IpUtils.getRemoteAddr(request);</span><br><span class="line">            <span class="keyword">return</span> remoteAddr;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-接下来我们设置来源-，填入限制的ip，"><a href="#2-接下来我们设置来源-，填入限制的ip，" class="headerlink" title="2.接下来我们设置来源 ，填入限制的ip，"></a>2.接下来我们设置来源 ，填入限制的ip，</h4><p><img src="/2021/08/17/%E6%A1%86%E6%9E%B6/spring/sentinel/%E9%99%90%E6%B5%81_sentinel/ip.png" alt="ip"></p>
-<h4 id="3-即可实现针对ip的限流"><a href="#3-即可实现针对ip的限流" class="headerlink" title="3.即可实现针对ip的限流"></a>3.即可实现针对ip的限流</h4>
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2021/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/" class="post-title-link" itemprop="url">Eureka</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-17 20:52:23" itemprop="dateCreated datePublished" datetime="2021-08-17T20:52:23+08:00">2021-08-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">基础概念</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/%E5%88%86%E5%B8%83%E5%BC%8F/Erueka/" itemprop="url" rel="index"><span itemprop="name">Erueka</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Eureka-Server：注册中心服务端"><a href="#Eureka-Server：注册中心服务端" class="headerlink" title="Eureka Server：注册中心服务端"></a>Eureka Server：注册中心服务端</h1><p>注册中心服务端主要对外提供了三个功能：</p>
-<ul>
-<li>服务注册<br>服务提供者启动时，会通过 Eureka Client 向 Eureka Server 注册信息，Eureka Server 会存储该服务的信息，Eureka Server 内部有二层缓存机制来维护整个注册表</li>
-<li>提供注册表<br> 服务消费者在调用服务时，如果 Eureka Client 没有缓存注册表的话，会从 Eureka Server 获取最新的注册表<ul>
-<li>注册表的数据结构：registry的<strong>CocurrentHashMap</strong>，就是注册表的核心结构。同时维护注册表、拉取注册表、更新心跳时间，全部<strong>发生在内存里</strong>！这是Eureka Server非常核心的一个点。</li>
-</ul>
-</li>
-<li>同步状态</li>
-</ul>
-<h2 id="高可用原理"><a href="#高可用原理" class="headerlink" title="高可用原理"></a>高可用原理</h2><p>其实每一个服务端（这里指实例）都内置了一个Eureka Client，也就是说一个服务端可以接受其他Client的注册，也可以作为一个Client注册到其他Server上，被其他Client发现和调用。一个服务端实例你可以理解为由一个Server+Client组成。</p>
-<p><img src="/2021/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3/Eureka/Eureka.jpg" alt="Eureka"></p>
-<p> Eureka Server 集群相互之间通过 Replicate 来同步数据，相互之间<strong>不区分主节点和从节点</strong>，所有的节点都是平等的。在这种架构中，节点通过彼此互相注册来提高可用性，每个节点需要添加一个或多个有效的 serviceUrl 指向其他节点</p>
-<p>如果某台 Eureka Server 宕机，Eureka Client 的请求会自动切换到新的 Eureka Server 节点。当宕机的服务器重新恢复后，Eureka 会再次将其纳入到服务器集群管理之中。当节点开始接受客户端请求时，所有的操作都会进行节点间复制，将请求复制到其它 Eureka Server 当前所知的所有节点中。</p>
-<p>另外 Eureka Server 的同步遵循着一个非常简单的原则：只要有一条边将节点连接，就可以进行信息传播与同步。所以，如果存在多个节点，只需要将节点之间两两连接起来形成通路，那么其它注册中心都可以共享信息。每个 Eureka Server 同时也是 Eureka Client，多个 Eureka Server 之间通过 P2P 的方式完成服务注册表的同步。</p>
-<p>Eureka Server 集群之间的状态是采用异步方式同步的，所以不保证节点间的状态一定是一致的，不过基本能保证最终状态是一致的。</p>
-<p><strong>Eureka 保证 AP</strong>，优先保证可用性，牺牲了一定的一致性。相对的zookeeper则是保证了CP，牺牲了部分的可用性。</p>
-
       
     </div>
     
@@ -1294,7 +1273,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1362,14 +1341,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">62</span>
+        <span class="site-state-item-count">73</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -1411,7 +1390,7 @@
     <h3 class="widget-title">标签云</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
         <canvas width="250" height="250" id="resCanvas" style="width=100%">
-            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nextcloud%E9%98%BF%E9%87%8C/" rel="tag">nextcloud阿里</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sentinel/" rel="tag">sentinel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7/" rel="tag">软考中级</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E9%AB%98%E7%BA%A7/" rel="tag">软考高级</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nextcloud%E9%98%BF%E9%87%8C/" rel="tag">nextcloud阿里</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sentinel/" rel="tag">sentinel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7/" rel="tag">软考中级</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E9%AB%98%E7%BA%A7/" rel="tag">软考高级</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
         </canvas>
     </div>
 </div>

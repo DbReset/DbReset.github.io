@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dbreset.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="项目资源管理 项⽬资源管理包括识别、获取和管理所需资源以成功完成项⽬的各个过程，这些过程有助于确保项⽬经 理和项⽬团队在正确的时间和地点使⽤正确的资源。 项⽬资源是指对于项⽬来说，一切具有使⽤价值，可为项⽬接受和利⽤，且属于项⽬发展过程所需要的 客观存在的资源，包括实物资源和团队资源。  口诀：计算获建管控 1.管理基础1.1 项目团队 项⽬团队是执⾏项⽬⼯作，以实现项⽬⽬标的⼀组⼈员，由为了完成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高项_项目资源管理">
+<meta property="og:url" content="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="裸泳的猪">
+<meta property="og:description" content="项目资源管理 项⽬资源管理包括识别、获取和管理所需资源以成功完成项⽬的各个过程，这些过程有助于确保项⽬经 理和项⽬团队在正确的时间和地点使⽤正确的资源。 项⽬资源是指对于项⽬来说，一切具有使⽤价值，可为项⽬接受和利⽤，且属于项⽬发展过程所需要的 客观存在的资源，包括实物资源和团队资源。  口诀：计算获建管控 1.管理基础1.1 项目团队 项⽬团队是执⾏项⽬⼯作，以实现项⽬⽬标的⼀组⼈员，由为了完成">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-20T10:49:05.732Z">
+<meta property="article:modified_time" content="2024-03-20T10:49:05.732Z">
+<meta property="article:author" content="Luo">
+<meta property="article:tag" content="软考高级">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>高项_项目资源管理 | 裸泳的猪</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">裸泳的猪</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">沾沾自喜其实最可悲</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section">分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          高项_项目资源管理
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-03-20 18:49:05" itemprop="dateCreated datePublished" datetime="2024-03-20T18:49:05+08:00">2024-03-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">cs基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/%E8%BD%AF%E8%80%83/" itemprop="url" rel="index"><span itemprop="name">软考</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/%E8%BD%AF%E8%80%83/%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">项目资源管理</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="项目资源管理"><a href="#项目资源管理" class="headerlink" title="项目资源管理"></a>项目资源管理</h2><blockquote>
+<p>项⽬资源管理包括识别、获取和管理所需资源以成功完成项⽬的各个过程，这些过程有助于确保项⽬经 理和项⽬团队在正确的时间和地点使⽤正确的资源。</p>
+<p>项⽬资源是指对于项⽬来说，<strong>一切具有使⽤价值，可为项⽬接受和利⽤，且属于项⽬发展过程所需要的 客观存在的资源</strong>，包括实物资源和团队资源。</p>
+</blockquote>
+<p><strong>口诀：计算获建管控</strong></p>
+<h2 id="1-管理基础"><a href="#1-管理基础" class="headerlink" title="1.管理基础"></a>1.管理基础</h2><h3 id="1-1-项目团队"><a href="#1-1-项目团队" class="headerlink" title="1.1 项目团队"></a>1.1 项目团队</h3><ul>
+<li><strong>项⽬团队</strong>是执⾏项⽬⼯作，以实现项⽬⽬标的⼀组⼈员，由为了完成项⽬⽽承担不同⾓⾊，与职责的⼈员组成。</li>
+</ul>
+<h3 id="1-2-项目管理团队"><a href="#1-2-项目管理团队" class="headerlink" title="1.2 项目管理团队"></a>1.2 项目管理团队</h3><ul>
+<li><strong>项目管理团队</strong>是直接参与项⽬管理活动的项⽬团队成员，负责项⽬导活动，如各项⽬阶段的启动、规划、执⾏、监督、控制和收尾。</li>
+</ul>
+<h3 id="1-3-项目经理"><a href="#1-3-项目经理" class="headerlink" title="1.3 项目经理"></a>1.3 项目经理</h3><p>项⽬经理是由执⾏组织委派，领导项⽬团队实现项⽬⽬标的个⼈。</p>
+<h3 id="1-4-领导和管理"><a href="#1-4-领导和管理" class="headerlink" title="1.4 领导和管理"></a>1.4 领导和管理</h3><p>领导者（Lcader）的⼯作主要涉及3个⽅⾯。①确定⽅向：为团队设定⽬标，描绘愿景，制定战略； ②统⼀思想：协调⼈员，团结尽可能多的⼒量来实现愿景和项⽬⽬标：③激励和⿎舞：在向项⽬⽬标努⼒的过程中不可避免地要遇到艰难险阻，领导者要激励和⿎舞⼤家克服困 难奋勇前进。</p>
+<p>管理者（Manager）被组织赋予<strong>职位和权⼒</strong>，负责某件事情的管理或实现某个⽬标。管理者主要关⼼持续不断地为⼲系⼈创造他们所期望的成果。</p>
+<h3 id="1-5-权力"><a href="#1-5-权力" class="headerlink" title="1.5 权力"></a>1.5 权力</h3><p>权⼒（Power）是影响⾏为、改变事情的过程和⽅向、克服阻⼒，使⼈们进⾏原本并不愿意进⾏的事情的潜在能⼒。</p>
+<p>口诀：<strong>职称讲专参考</strong></p>
+<p>（1）<strong>职位权⼒</strong>（Legitimate Power）。（作⽂：我的⽼爸是市长）来源于管理者在组织中的职位和职权。在⾼级管理层 对项⽬经理正式授权的基础上，项⽬经理让员⼯进⾏⼯作的权⼒。</p>
+<p>（2）<strong>惩罚权⼒</strong>（Coercive Power）。（⼩程序有错，就扣班班⼯资）使⽤降职、扣薪、惩罚、批评、威胁等负⾯⼿段的能⼒。惩罚权⼒很有⼒，但会对团队⽓氛造成破坏。滥⽤惩罚权⼒会导致项⽬失败， 应谨慎使⽤。 </p>
+<p>（3）<strong>奖励权⼒</strong>（Reward Power）。（班班做得不错，加鸡腿）给予下属奖励的能⼒。奖励包括加薪、 升职、福利、休 假、礼物、⼜头表扬、认可度、特的任务以及其他的奖励员⼯满意⾏为的⼿段。优秀 的管理 者擅长使⽤奖励权⼒激励员⼯⾼⽔平完成⼯作。</p>
+<p>（4） <strong>专家权⼒</strong>（Expert Power）。（⼤家愿意听⽼师讲课，是因为⽼师专业讲课的）来源于个⼈的专业技能。如果项⽬经理让员⼯感到他是某 些领域的专业权威，那么员⼯就会在这些领域内遵从项⽬经理的意见。来⾃⼀线的中层管理者 经常具有很⼤的专家权⼒。</p>
+<p>（5） <strong>参照权⼒（</strong>Referent Power）。（郑⽼师很卷，VIP 群的同学很卷）由于成为别⼈学习和参照榜样所拥有的⼒量。参照权⼒是由于他⼈对榜样者的认可和敬佩从⽽愿意模仿和服从榜样者以及希望⾃⼰成为榜样者那样的 ⼈⽽产⽣的⼒量，这是⼀种个⼈魅⼒。具有优秀品质的领导者的参照权⼒会很⼤。这些优秀品 质包括诚实、正直、⾃信、⾃律、坚毅、刚强、宽容和专注等。领导者要想拥有参照权⼒，就要加强这些品质的修炼。</p>
+<p><strong>职位权⼒、惩罚权⼒、奖励权⼒</strong>来⾃于组织的授权，<strong>专家权⼒和参照权⼒</strong>来⾃于管理者⽩⾝。  <strong>3+2</strong></p>
+<h3 id="1-6-冲突和竞争"><a href="#1-6-冲突和竞争" class="headerlink" title="1.6 冲突和竞争"></a>1.6 冲突和竞争</h3><p>例：当发现⼈员流动率过低，缺乏新思想、缺乏竞争意识、对进⾏阻挠等情况时，管理⼈员就需要挑起冲突（鯰⻥效） 。项⽬经理对王 有害的冲突要设法加以解决或减少；对有益的冲突要加以利⽤，要⿎励团队成员良性竞争。</p>
+<h3 id="1-7-团队发展阶段"><a href="#1-7-团队发展阶段" class="headerlink" title="1.7 团队发展阶段"></a>1.7 团队发展阶段</h3><p>口诀：形震规发解 </p>
+<ol>
+<li>形成</li>
+<li>震荡</li>
+<li>规范</li>
+<li>发挥</li>
+<li>解散</li>
+</ol>
+<p>上述这些阶段<strong>通常按顺序进⾏</strong>，然⽽，团队<strong>停滞</strong>在某个阶段或<strong>退回</strong>到较早阶段的情况也并⾮罕见。如果团队成员曾经共事过，项⽬团队建设也可<strong>跳过</strong>某些阶段。</p>
+<h3 id="1-8-激励理论"><a href="#1-8-激励理论" class="headerlink" title="1.8 激励理论"></a>1.8 激励理论</h3><blockquote>
+<p>所谓激励（Motivation），就是邀发、⿎励的意思，就是利⽤某种外部诱因调动⼈的积极性和创造性，使⼈有⼀股内在的动⼒，朝向所期望的⽬标前进的⼼理过程。</p>
+</blockquote>
+<p>现代项⽬管理在激励⽅⾯的理论基础主要是：马斯洛需求层次理论、赫茨伯格的双因素理论、麦格雷⼽的X理论和Y 理论、期望理论。</p>
+<h4 id="1-8-1-马斯洛需求层次理"><a href="#1-8-1-马斯洛需求层次理" class="headerlink" title="1.8.1 马斯洛需求层次理"></a>1.8.1 马斯洛需求层次理</h4><p>![image-20240505123913612](项目资源管理/:Users:seven:Documents:blog:blog:source:_posts:软考:项目资源管理:Users:seven:Library:Application Support:typora-user-images:image-20240505123913612.png)</p>
+<h4 id="1-8-2-赫茨伯格双因素理论"><a href="#1-8-2-赫茨伯格双因素理论" class="headerlink" title="1.8.2 赫茨伯格双因素理论"></a>1.8.2 赫茨伯格双因素理论</h4><p>①<strong>保健因素</strong>（Hygiene Factor）：（避免员⼯离职）与⼯作环境或条件有关的，能<strong>防⽌⼈们产⽣不满意感</strong>的⼀类</p>
+<p>②<strong>激励因素</strong>（Motivator）：（给员⼯画⼤饼）与员⼯的⼯作本⾝或⼯作内容有关的，能促使⼈们产⽣<strong>⼯作满意感</strong>的⼀类因素，是⾼层次的需要，</p>
+<h4 id="1-8-3-麦格-雷⼽X-理论和Y理论。"><a href="#1-8-3-麦格-雷⼽X-理论和Y理论。" class="headerlink" title="1.8.3 麦格 雷⼽X 理论和Y理论。"></a>1.8.3 麦格 雷⼽X 理论和Y理论。</h4><p><strong>X理论</strong>对⼈性有如下假设：（⼈都是乌合之众）</p>
+<p>X理论注重满⾜员⼯的⽣理需求和安全需求，激励仅在⽣理和安全层次起作⽤，<strong>同时很注重惩罚，认为惩罚是有效的管理⼯具</strong>。</p>
+<p><strong>Y理论</strong>对⼈性的假设与 X 理论完全相反，其主要观点如下：（天⽣我材必有⽤）</p>
+<p>Y理论认为激励在需求的各个层次上都起作⽤，常⽤的<strong>激励</strong>办法是：将员⼯个⼈⽬标与组织⽬标融合，扩⼤员⼯的⼯作范围，尽可能把员⼯的⼯作安排得富有意义并具有挑战性，使其⼯作之后感到⾃豪，满⾜其⾃尊和⾃我实现的需要，使员⼯达到⾃我激励。</p>
+<h2 id="2-项目资源管理过程"><a href="#2-项目资源管理过程" class="headerlink" title="2.项目资源管理过程"></a>2.项目资源管理过程</h2><table>
+<thead>
+<tr>
+<th>组</th>
+<th>过程</th>
+<th>定义</th>
+<th>作用</th>
+<th>开展频次</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>规 划</td>
+<td>1.规划资 源管理</td>
+<td>定义如何估算、获取、管理和利用团 队以及实物资源的过程</td>
+<td>根据项目类型和复杂程度确定适 用于项目资源的管理方法和管理 程度</td>
+<td>仅开展一次或仅 在项目的预定义 点开展</td>
+</tr>
+<tr>
+<td></td>
+<td>2.估算活 动资源</td>
+<td>估算执行项目所需的团队资源，以及 材料、设备和用品的类型和数量的过 程</td>
+<td>明确完成项目所需的资源种类、 数量和特性</td>
+<td>在整个项目期间 定期开展</td>
+</tr>
+<tr>
+<td>执 行</td>
+<td>3.获取 资源</td>
+<td>获取项目所需的团队成员、设施、设 备、材料、用品和其他资源的过程</td>
+<td>①概述和指导资源的选择; ②将选择的资源分配给相应的活 动</td>
+<td>在整个项目期间 定期开展</td>
+</tr>
+<tr>
+<td></td>
+<td>4.建设 团队</td>
+<td>是提高工作能力，促进团队成员互动， 改善团队整体氛围，以提高项目绩效 的过程</td>
+<td>改进团队协作、增强人际关系技 能、激励员工、减少摩擦以及提 升整体项目绩效</td>
+<td>在整个项目期间 开展</td>
+</tr>
+<tr>
+<td></td>
+<td>5.管理 团队</td>
+<td>跟踪团队成员工作表现、提供反馈、 解决问题并管理团队变更以优化项目 绩效的过程</td>
+<td>影响团队行为、管理冲突以及解 决问题</td>
+<td>在整个项目期间 开展</td>
+</tr>
+<tr>
+<td>监 控</td>
+<td>6.控制 资源</td>
+<td>确保按计划为项目分配实物资源，以 及根据资源使用计划监督资源实际使 用情况，并采取必要纠正措施的过程</td>
+<td>①确保所分配的资源适时、适地 可用于项目; ②资源在不再需要时被释放</td>
+<td>在整个项目期间 开展</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>组</th>
+<th>过程</th>
+<th>输入</th>
+<th>工具和技术</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>规划</td>
+<td>1.规划资源管理</td>
+<td>1.项目章程2.项目管理计划3.项目文件4.事业环境因素5.组织过程资产</td>
+<td>1.专家判断2.数据表现3.组织理论4.会议</td>
+<td>1.资源管理计划2.团队章程3.项目文件（更新）</td>
+</tr>
+<tr>
+<td></td>
+<td>2.估算活动资源</td>
+<td>1.项目管理计划2.项目文件3.事业环境因素4.组织过程资产</td>
+<td>1.专家判断2.自下而上估算3.类比估算4.参数估算5.数据分析6.项目管理信息系统7.会议</td>
+<td>1.资源需求2.估算依据3.资源分解结构4.项目文件（更新）</td>
+</tr>
+<tr>
+<td>执 行</td>
+<td>3.获取资源</td>
+<td>1.项目管理计划2.项目文件3.事业环境因素4.组织过程资产</td>
+<td>1.决策2.人际关系与团队技能3.预分派4.虚拟团队</td>
+<td>1.物质资源分配单2.项目团队派工单3.资源日历4.变更请求5.项目管理计划（更新）6.项目文件（更新）7.事业环境因素（更新）8.组织过程资产（更新）</td>
+</tr>
+<tr>
+<td></td>
+<td>4.建设团队</td>
+<td>1.项目管理计划2.项目文件3.事业环境因素4.组织过程资产</td>
+<td>1.集中办公2.虚拟团队3.沟通技术4.人际关系与团队技能5.认可与奖励6.培训7.个人和团队评估8.会议</td>
+<td>1.团队绩效评价2.变更请求3.项目管理计划（更新）4.项目文件（更新）5.事业环境因素（更新）6.组织过程资产（更新）</td>
+</tr>
+<tr>
+<td></td>
+<td>5.管理团队</td>
+<td>1.项目管理计划2.项目文件3.工作绩效报告4.团队绩效评价5.事业环境因素6.组织过程资产</td>
+<td>1.人际关系与团队技能2.项目管理信息系统</td>
+<td>1.变更请求2.项目管理计划（更新）3.项目文件（更新）4.事业环境因素（更新）</td>
+</tr>
+<tr>
+<td>监 控</td>
+<td>6.控制资源</td>
+<td>1.项目管理计划2.项目文件3.工作绩效数据4.协议5.组织过程资产</td>
+<td>1.数据分析2.问题解决3.人际关系与团队技能4.项目管理信息系统</td>
+<td>1.工作绩效信息2.变更请求3.项目管理计划（更新）4.项目文件（更新）</td>
+</tr>
+</tbody></table>
+
+    </div>
+    
+    <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+      
+    </div>
+
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%BD%AF%E8%80%83%E9%AB%98%E7%BA%A7/" rel="tag"># 软考高级</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E9%A1%B9%E7%9B%AE%E8%B4%A8%E9%87%8F%E7%AE%A1%E7%90%86/" rel="prev" title="高项_项目质量管理">
+      <i class="fa fa-chevron-left"></i> 高项_项目质量管理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E9%A1%B9%E7%9B%AE%E6%B2%9F%E9%80%9A%E7%AE%A1%E7%90%86/" rel="next" title="高项_项目沟通管理">
+      高项_项目沟通管理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">项目资源管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%AE%A1%E7%90%86%E5%9F%BA%E7%A1%80"><span class="nav-number">2.</span> <span class="nav-text">1.管理基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E9%A1%B9%E7%9B%AE%E5%9B%A2%E9%98%9F"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 项目团队</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E5%9B%A2%E9%98%9F"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 项目管理团队</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86"><span class="nav-number">2.3.</span> <span class="nav-text">1.3 项目经理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E9%A2%86%E5%AF%BC%E5%92%8C%E7%AE%A1%E7%90%86"><span class="nav-number">2.4.</span> <span class="nav-text">1.4 领导和管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E6%9D%83%E5%8A%9B"><span class="nav-number">2.5.</span> <span class="nav-text">1.5 权力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-%E5%86%B2%E7%AA%81%E5%92%8C%E7%AB%9E%E4%BA%89"><span class="nav-number">2.6.</span> <span class="nav-text">1.6 冲突和竞争</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-%E5%9B%A2%E9%98%9F%E5%8F%91%E5%B1%95%E9%98%B6%E6%AE%B5"><span class="nav-number">2.7.</span> <span class="nav-text">1.7 团队发展阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-8-%E6%BF%80%E5%8A%B1%E7%90%86%E8%AE%BA"><span class="nav-number">2.8.</span> <span class="nav-text">1.8 激励理论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-8-1-%E9%A9%AC%E6%96%AF%E6%B4%9B%E9%9C%80%E6%B1%82%E5%B1%82%E6%AC%A1%E7%90%86"><span class="nav-number">2.8.1.</span> <span class="nav-text">1.8.1 马斯洛需求层次理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-8-2-%E8%B5%AB%E8%8C%A8%E4%BC%AF%E6%A0%BC%E5%8F%8C%E5%9B%A0%E7%B4%A0%E7%90%86%E8%AE%BA"><span class="nav-number">2.8.2.</span> <span class="nav-text">1.8.2 赫茨伯格双因素理论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-8-3-%E9%BA%A6%E6%A0%BC-%E9%9B%B7%E2%BC%BDX-%E7%90%86%E8%AE%BA%E5%92%8CY%E7%90%86%E8%AE%BA%E3%80%82"><span class="nav-number">2.8.3.</span> <span class="nav-text">1.8.3 麦格 雷⼽X 理论和Y理论。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">2.项目资源管理过程</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Luo"
+      src="/images/author.jpg">
+  <p class="site-author-name" itemprop="name">Luo</p>
+  <div class="site-description" itemprop="description">笔记与积累，点点滴滴，贵在坚持</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">73</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/DbReset" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;DbReset" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sxyyluo@gmail.com" title="E-Mail → mailto:sxyyluo@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://gitee.com/leithda" title="https:&#x2F;&#x2F;gitee.com&#x2F;leithda" rel="noopener" target="_blank">leithda</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://leithda.gitee.io/" title="https:&#x2F;&#x2F;leithda.gitee.io&#x2F;" rel="noopener" target="_blank">Leithda's Blogshida</a>
+        </li>
+    </ul>
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nextcloud%E9%98%BF%E9%87%8C/" rel="tag">nextcloud阿里</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sentinel/" rel="tag">sentinel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7/" rel="tag">软考中级</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E9%AB%98%E7%BA%A7/" rel="tag">软考高级</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
+</body>
+</html>

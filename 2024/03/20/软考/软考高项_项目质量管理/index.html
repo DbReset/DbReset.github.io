@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dbreset.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="项目质量管理1.管理基础1.1质量与等级的区别质量与等级是两个不同的概念。质量作为实现的性能或成果，是“⼀系列内在特性满⾜要求的程度（ISO 9000）”。等级是对⽤途相同但技术特性不同的可交付成果 的级别分类。例如：  ①⼀个低等级（功能有限）、⾼质量（⽆明显缺陷，⽤户⼿册易读）的软件 产品，适合⼀般情况下使⽤，也可以被认可。  ②⼀个⾼等级（功能繁多）、低质量（有许多缺 陷，⽤户⼿册杂乱⽆章）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高项_项目质量管理">
+<meta property="og:url" content="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E9%A1%B9%E7%9B%AE%E8%B4%A8%E9%87%8F%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="裸泳的猪">
+<meta property="og:description" content="项目质量管理1.管理基础1.1质量与等级的区别质量与等级是两个不同的概念。质量作为实现的性能或成果，是“⼀系列内在特性满⾜要求的程度（ISO 9000）”。等级是对⽤途相同但技术特性不同的可交付成果 的级别分类。例如：  ①⼀个低等级（功能有限）、⾼质量（⽆明显缺陷，⽤户⼿册易读）的软件 产品，适合⼀般情况下使⽤，也可以被认可。  ②⼀个⾼等级（功能繁多）、低质量（有许多缺 陷，⽤户⼿册杂乱⽆章）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-20T10:49:05.732Z">
+<meta property="article:modified_time" content="2024-03-20T10:49:05.732Z">
+<meta property="article:author" content="Luo">
+<meta property="article:tag" content="软考高级">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E9%A1%B9%E7%9B%AE%E8%B4%A8%E9%87%8F%E7%AE%A1%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>高项_项目质量管理 | 裸泳的猪</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">裸泳的猪</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">沾沾自喜其实最可悲</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section">分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E9%A1%B9%E7%9B%AE%E8%B4%A8%E9%87%8F%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          高项_项目质量管理
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-03-20 18:49:05" itemprop="dateCreated datePublished" datetime="2024-03-20T18:49:05+08:00">2024-03-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">cs基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/%E8%BD%AF%E8%80%83/" itemprop="url" rel="index"><span itemprop="name">软考</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/%E8%BD%AF%E8%80%83/%E8%B4%A8%E9%87%8F%E7%AE%A1%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">质量管理</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="项目质量管理"><a href="#项目质量管理" class="headerlink" title="项目质量管理"></a>项目质量管理</h2><h2 id="1-管理基础"><a href="#1-管理基础" class="headerlink" title="1.管理基础"></a>1.管理基础</h2><h3 id="1-1质量与等级的区别"><a href="#1-1质量与等级的区别" class="headerlink" title="1.1质量与等级的区别"></a>1.1质量与等级的区别</h3><p>质量与等级是两个不同的概念。质量作为实现的性能或成果，是“⼀系列内在特性满⾜要求的程度（ISO 9000）”。等级是对⽤途相同但技术特性不同的可交付成果 的级别分类。例如：</p>
+<blockquote>
+<p>①⼀个低等级（功能有限）、⾼质量（⽆明显缺陷，⽤户⼿册易读）的软件 产品，适合⼀般情况下使⽤，也可以被认可。 </p>
+<p>②⼀个⾼等级（功能繁多）、低质量（有许多缺 陷，⽤户⼿册杂乱⽆章）的软件产品，该产品的功 能会因质量低劣⽽⽆效和/或低效，不会被 使⽤者接受。（考过案例默写）</p>
+</blockquote>
+<p>简单来说：</p>
+<p>质量满⾜需求，等级级别分类 </p>
+<p>⾼质量低等级接受。</p>
+<p> 低质量⾼等级不能接受！</p>
+<h3 id="1-2全⾯质量管理"><a href="#1-2全⾯质量管理" class="headerlink" title="1.2全⾯质量管理"></a>1.2全⾯质量管理</h3><p>全⾯质量管理有4个核⼼的特征包括：<strong>全员参加</strong>的质量管理、全过程的质量管理、全⾯⽅法的质量管 理和全⾯结果的质量管理。</p>
+<h2 id="2-项⽬质量管理过程"><a href="#2-项⽬质量管理过程" class="headerlink" title="2.项⽬质量管理过程"></a>2.项⽬质量管理过程</h2><p>口诀：鸡冠控</p>
+<table>
+<thead>
+<tr>
+<th>组</th>
+<th>过程</th>
+<th>定义</th>
+<th>作用</th>
+<th>频次</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>规划</td>
+<td>1.规划质量 管理</td>
+<td>识别项目及其可交付成果的质 量要求、标准，并书面描述项 目将如何证明符合质量要求、 标准的过程</td>
+<td>为在整个项目期间如何管理和核实质量提供 指南和方向</td>
+<td></td>
+</tr>
+<tr>
+<td>执行</td>
+<td>2.管理质量</td>
+<td>把组织的质量政策用于项目， 并将质量管理计划转化为可执 行的质量活动的过程</td>
+<td>①提高实现质量目标的可能性; ②识别无效过程和导致质量低劣的原因; ③使用控制质量过程的数据和结果向干系人 展示项目的总体质量状态</td>
+<td>在整个 项目期 间开展</td>
+</tr>
+<tr>
+<td>监控</td>
+<td>3.控制质量</td>
+<td>为了评估绩效，确保项目输出 完整、正确且满足客户期望， 而监督和记录质量管理活动执 行结果的过程</td>
+<td>①核实项目可交付成果和工作已经达到主要 干系人的质量要求，可供最终验收; ②确定项目输出是否达到预期目的，这些输 出需要满足所有适用标准、要求、法规和规 范</td>
+<td>在整个 项目期 间开展</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>规划质量管理过程关注<strong>工作需要达到的质量</strong> </p>
+</li>
+<li><p>管理质量 过程关注管理<strong>整个项目期间的质量</strong> </p>
+</li>
+<li><p>控制质量 过程关注<strong>工作成果与质量要求的比较</strong>，确保结果可接受 </p>
+</li>
+<li><p>在管理质量过程期间，在规划质量管理过程中识别的<strong>质量要求成为测试与评估工具</strong>，将用于控制质量 过程，以确认项目是否达到这些质量要求。      </p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>组</th>
+<th>过程</th>
+<th>输入</th>
+<th>工具和技术</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>规划</td>
+<td>1.规划质量管理</td>
+<td>1.项目章程2.项目管理计划3.项目文件4.事业环境因素5.组织过程资产</td>
+<td>1.专家判断2.数据收集3.数据分析4.决策技术5.数据表现6.测试与检查的规划7.会议</td>
+<td>1.质量管理计划2.质量测量指标3.项目管理计划（更新）4.项目文件（更新）</td>
+</tr>
+<tr>
+<td>执行</td>
+<td>2.管理质量</td>
+<td>1.项目管理计划2.项目文件3.组织过程资产</td>
+<td>1.数据收集2.数据分析3.决策技术4.数据表现5.审计6.面向X的设计7.问题解决8.质量改进方法</td>
+<td>1.<strong>质量报告</strong>2.测试与评估文件3.变更请求4.项目管理计划（更新）5.项目文件（更新）</td>
+</tr>
+<tr>
+<td>监控</td>
+<td>3.控制质量</td>
+<td>1.项目管理计划2.项目文件3.可交付成果4.工作绩效数据5.批准的变更请求6.事业环境因素7.组织过程资产</td>
+<td>1.数据收集2.数据分析3.检查4.测试/产品评估5.数据表现6.会议</td>
+<td>1.工作<strong>绩效</strong>信息2.质量控制测量<strong>结果</strong>3.核实的<strong>可交付成果</strong>4.<strong>变更</strong>请求5.项目管理计划（更新）6.项目文件（更新）</td>
+</tr>
+</tbody></table>
+<span id="more"></span>
+
+<h3 id="2-1-规划质量管理"><a href="#2-1-规划质量管理" class="headerlink" title="2.1 规划质量管理"></a>2.1 规划质量管理</h3><h4 id="2-1-1-输入"><a href="#2-1-1-输入" class="headerlink" title="2.1.1 输入"></a>2.1.1 输入</h4><ul>
+<li><p>项⽬章程</p>
+<p>项⽬章程中包含对项⽬和产品特征的⾼层级描述，还包括可以影响项⽬质量管理的项⽬审批要求、 <strong>可测量的项⽬⽬标和相关的成功标准</strong>。</p>
+</li>
+<li><p>项目管理计划</p>
+<p>需求管理计划：提供了识别、分析和管理需求的⽅法，<strong>以供质量管理计划和质量测量指标借鉴。</strong></p>
+</li>
+<li><p>需求跟踪矩阵</p>
+</li>
+</ul>
+<h4 id="2-1-2-工具与技术"><a href="#2-1-2-工具与技术" class="headerlink" title="2.1.2 工具与技术"></a>2.1.2 工具与技术</h4><ul>
+<li><p>数据收集</p>
+<ul>
+<li>标杆对照（抄作业）</li>
+<li>头脑风暴</li>
+<li>访谈</li>
+</ul>
+</li>
+<li><p>决策技术</p>
+<p>多标准决策分析是适⽤于规划质量管理过程的⼀种决策技术，多标准决策分析⼯具（如优 先矩阵）可 ⽤于识别关键事项和合适的备选⽅案，并通过⼀系列决策排列出备选⽅案的优先顺 序。</p>
+</li>
+<li><p>数据分析</p>
+<p>成本效益分析：（就是成本和效益哪个⼤）</p>
+<p>•质量成本：与项⽬有关的质量成本（COQ）包含以下⼀种或多种成本（图12-3提供了各 组成本的例</p>
+<p>⼦）：</p>
+<p>①预防成本。预防特定项⽬的产品、可交付成果或服务质量低劣所带来的成本。 </p>
+<p>②评估成本。评估、测量、审计和测试特定项⽬的产品、可交付成果或服务所带来的成本。</p>
+<p>③失败成本（内部/外部）。因<strong>产品、可交付成果或服务与⼲系⼈需求或期望不⼀致</strong>⽽导致的成本。</p>
+<p>最优 COQ 能够在预防成本和评估成本之间找到恰当的投资 平衡点，⽤于规避失败成本。</p>
+<p>![image-20240505115308822](项目质量管理/:Users:seven:Library:Application Support:typora-user-images:image-20240505115308822.png)</p>
+<blockquote>
+<p>内部外部失败都为不一致成本</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-2-管理质量"><a href="#2-2-管理质量" class="headerlink" title="2.2 管理质量"></a>2.2 管理质量</h3><p>管理质量是把组织的质量政策⽤于项⽬，并将质量管理计划转化为可执⾏的质量活动的过程。本过程的<strong>主要作⽤</strong>：①提⾼实现质量⽬标的可能性：②识别⽆效过程和导致质量低劣的原 因；③使⽤控制质量过程的数据和结果向⼲系⼈展⽰项⽬的总体质量状态。</p>
+<p>管理质量是<strong>所有⼈的共同职责</strong>，包括项⽬经理、项⽬团队、项⽬发起⼈、执⾏组织的管理 层，甚 ⾄是客户。所</p>
+<h4 id="2-2-1⼯具与技术"><a href="#2-2-1⼯具与技术" class="headerlink" title="2.2.1⼯具与技术"></a>2.2.1⼯具与技术</h4><ul>
+<li><p>数据收集</p>
+<p><strong>核对单</strong>是⼀种结构化⼯具，通常列出特定组成部分，⽤来核实所要求的⼀系列步骤是否已得到执⾏或检查需求列表是否⼰得到满⾜。</p>
+</li>
+<li><p>数据表现</p>
+<p><strong>亲和图</strong>：亲和图可以对潜在缺陷成因进⾏分类，展⽰最应关注的领域</p>
+</li>
+<li><p>审计</p>
+<p>作用：审计是⽤于确定项⽬活动是否遵循了组织和项⽬的政策、过程与程序的⼀种结构化且独⽴的过程。</p>
+<p>目标：①识别全部正在实施的良好及最佳实践：②识 别所有违规做法、差 距及不⾜：③分享所在组织和/或⾏业中类似项⽬的良好实践：④积极、主动地提供协助，以改进过程 的执⾏，从⽽帮助团队提⾼⽣产效率；⑤强调每次审计都应对组 织经验教训知识库的积累做出贡献等。</p>
+</li>
+<li><p>面向X的设计</p>
+<p>⾯向X的设计（DfX）是产品设计期间可采⽤的⼀系列技术指南，旨在优化设计的特定⽅⾯，可 以控制或提⾼产品最终特性。</p>
+</li>
+<li><p>质量改进⽅法</p>
+<p>计划⼀实施⼀检查⼀⾏动（PDCA）和六西格玛是最常⽤于分析和评估改进机会的两种质量改 进⼯具。</p>
+</li>
+</ul>
+<h3 id="2-3控制质量"><a href="#2-3控制质量" class="headerlink" title="2.3控制质量"></a>2.3控制质量</h3><p>控制质量是<strong>为了评估绩效</strong>，确保项⽬输出完整、正确且满⾜客户期望，⽽监督和记录质量 管理活动执 ⾏结果的过程</p>
+<p>主要<strong>作⽤</strong>：①核实项⽬可交付成果和⼯作⼰经达到主要⼲系⼈的质量要求，可供最终验收；②确定项⽬输出是否达到预期⽬的，这些输出需要满⾜所 有适⽤标准、要 求、法规和规范。</p>
+<p><strong>适应型</strong>项⽬中，控制质量活动可能由所有团队成员在<strong>整个项⽬⽣命周期</strong>中执⾏；⽽在<strong>瀑布或预测型</strong>项⽬中，控制质量活动由特定团队成员在<strong>特定时间点或阶段</strong>快结束时执⾏。</p>
+
+    </div>
+    
+    <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+      
+    </div>
+
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%BD%AF%E8%80%83%E9%AB%98%E7%BA%A7/" rel="tag"># 软考高级</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E9%A1%B9%E7%9B%AE%E6%95%B4%E5%90%88%E7%AE%A1%E7%90%86/" rel="prev" title="高项_项目整合管理">
+      <i class="fa fa-chevron-left"></i> 高项_项目整合管理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/" rel="next" title="高项_项目资源管理">
+      高项_项目资源管理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E8%B4%A8%E9%87%8F%E7%AE%A1%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">项目质量管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%AE%A1%E7%90%86%E5%9F%BA%E7%A1%80"><span class="nav-number">2.</span> <span class="nav-text">1.管理基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E8%B4%A8%E9%87%8F%E4%B8%8E%E7%AD%89%E7%BA%A7%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.1.</span> <span class="nav-text">1.1质量与等级的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E5%85%A8%E2%BE%AF%E8%B4%A8%E9%87%8F%E7%AE%A1%E7%90%86"><span class="nav-number">2.2.</span> <span class="nav-text">1.2全⾯质量管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%A1%B9%E2%BD%AC%E8%B4%A8%E9%87%8F%E7%AE%A1%E7%90%86%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">2.项⽬质量管理过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E8%A7%84%E5%88%92%E8%B4%A8%E9%87%8F%E7%AE%A1%E7%90%86"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 规划质量管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-%E8%BE%93%E5%85%A5"><span class="nav-number">3.1.1.</span> <span class="nav-text">2.1.1 输入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%8A%80%E6%9C%AF"><span class="nav-number">3.1.2.</span> <span class="nav-text">2.1.2 工具与技术</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E7%AE%A1%E7%90%86%E8%B4%A8%E9%87%8F"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 管理质量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1%E2%BC%AF%E5%85%B7%E4%B8%8E%E6%8A%80%E6%9C%AF"><span class="nav-number">3.2.1.</span> <span class="nav-text">2.2.1⼯具与技术</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3%E6%8E%A7%E5%88%B6%E8%B4%A8%E9%87%8F"><span class="nav-number">3.3.</span> <span class="nav-text">2.3控制质量</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Luo"
+      src="/images/author.jpg">
+  <p class="site-author-name" itemprop="name">Luo</p>
+  <div class="site-description" itemprop="description">笔记与积累，点点滴滴，贵在坚持</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">73</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/DbReset" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;DbReset" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sxyyluo@gmail.com" title="E-Mail → mailto:sxyyluo@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://gitee.com/leithda" title="https:&#x2F;&#x2F;gitee.com&#x2F;leithda" rel="noopener" target="_blank">leithda</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://leithda.gitee.io/" title="https:&#x2F;&#x2F;leithda.gitee.io&#x2F;" rel="noopener" target="_blank">Leithda's Blogshida</a>
+        </li>
+    </ul>
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nextcloud%E9%98%BF%E9%87%8C/" rel="tag">nextcloud阿里</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sentinel/" rel="tag">sentinel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7/" rel="tag">软考中级</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E9%AB%98%E7%BA%A7/" rel="tag">软考高级</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
+</body>
+</html>

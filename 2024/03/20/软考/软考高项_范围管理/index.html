@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dbreset.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="范围管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高项_范围管理">
+<meta property="og:url" content="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="裸泳的猪">
+<meta property="og:description" content="范围管理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86/%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.png">
+<meta property="article:published_time" content="2024-03-20T10:49:05.732Z">
+<meta property="article:modified_time" content="2024-03-20T10:49:05.732Z">
+<meta property="article:author" content="Luo">
+<meta property="article:tag" content="软考高级">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86/%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.png">
+
+<link rel="canonical" href="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>高项_范围管理 | 裸泳的猪</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">裸泳的猪</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">沾沾自喜其实最可悲</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section">分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          高项_范围管理
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-03-20 18:49:05" itemprop="dateCreated datePublished" datetime="2024-03-20T18:49:05+08:00">2024-03-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">cs基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/%E8%BD%AF%E8%80%83/" itemprop="url" rel="index"><span itemprop="name">软考</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/%E8%BD%AF%E8%80%83/%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">范围管理</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="范围管理"><a href="#范围管理" class="headerlink" title="范围管理"></a>范围管理</h1><p><img src="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86/%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.png" alt="范围管理思维导图"></p>
+<span id="more"></span>
+
+<h3 id="1-产品范围和项⽬范围"><a href="#1-产品范围和项⽬范围" class="headerlink" title="1.产品范围和项⽬范围"></a>1.产品范围和项⽬范围</h3><p>在项⽬环境中，“范围”这⼀术语有两种含义：（项⽬范围包含产品范围，因为要做产品）</p>
+<p>•<strong>产品范围</strong>：指某项<strong>产品、服务或成果所具有的<em>特征和功能</em></strong>。产品范围的完成情况是根据 产产品需求来</p>
+<p>衡量的。“需求”是指根据特定协议或其他强制性规范，产品、服务或成果 必须具备的条件或能⼒。</p>
+<p>•<strong>项⽬范围</strong>：<strong>包括</strong>产品范围，是为交付具有规定特性与功能的产品、服务或成果⽽<strong>必须完成的⼯作</strong>。 项⽬范围的完成情况是根据项⽬管理计划来衡量的。</p>
+<h3 id="项目范围管理过程"><a href="#项目范围管理过程" class="headerlink" title="项目范围管理过程"></a>项目范围管理过程</h3><p>口诀：变瘦定份缺孔</p>
+<p>范围管理主要是围绕<strong>需求</strong>所开展的过程</p>
+<table>
+<thead>
+<tr>
+<th>组</th>
+<th>过程</th>
+<th>定义</th>
+<th>作用</th>
+<th>开展频次</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>规 划</td>
+<td>1.规划范围 管理</td>
+<td>为了记录如何定义、确认和控制项目范 围及产品范围，而创建范围管理计划的 过程</td>
+<td>在整个项目期间对如何管理范 围提供指南和方向</td>
+<td>仅开展一次或 仅在项目的预 定义点开展</td>
+</tr>
+<tr>
+<td></td>
+<td>2.收集需求</td>
+<td>为实现目标而确定，记录并管理干系人 的需要和需求的过程</td>
+<td>为定义产品范围和项目范围奠 定基础</td>
+<td>仅开展一次或 仅在项目的预 定义点开展</td>
+</tr>
+<tr>
+<td></td>
+<td>3.定义范围</td>
+<td>制定项目和产品详细描述的过程</td>
+<td>述产品、服务或成果的边界和 验收标准</td>
+<td>需要在整个项 目期间多次反 复开展</td>
+</tr>
+<tr>
+<td></td>
+<td>4.创建 WBS</td>
+<td>把项目可交付成果和项目工作分解成较 小、更易于管理的组件的过程</td>
+<td>为所要交付的内容提供架构</td>
+<td>仅开展一次或 仅在项目的预 定义点开展</td>
+</tr>
+<tr>
+<td>监 控</td>
+<td>5.确认范围</td>
+<td>正式验收已完成的项目可交付成果的过 程</td>
+<td>①使验收过程具有客观性; ②通过确认每个可交付成果来 提高最终产品、服务或成果获 得验收的可能性</td>
+<td>在整个项目期 间定期开展</td>
+</tr>
+<tr>
+<td></td>
+<td>6.控制范围</td>
+<td>监督项目和产品的范围状态，管理范围 基准变更的过程</td>
+<td>在整个项目期间保持对范围基 准的维护</td>
+<td>在整个项目期 间开展</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>组</th>
+<th>过程</th>
+<th>输入</th>
+<th>工具和技术</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>规 划</td>
+<td>1.规划范围 管理</td>
+<td>1.项目章程2.项目管理计划3.事业环境因素4.组织过程资产</td>
+<td>1.专家判断2.数据分析3.会议</td>
+<td>1.范围管理计划2.需求管理计划</td>
+</tr>
+<tr>
+<td></td>
+<td>2.收集需求</td>
+<td>1.立项管理文件2.项目章程3.项目管理计划4.项目文件5.协议6.事业环境因素7.组织过程资产</td>
+<td>1.专家判断2.数据收集3.数据分析4.决策5.数据表现6.人际关系与团 队技能7.系统交互图8.原型法</td>
+<td>1.需求文件2.需求跟踪矩阵</td>
+</tr>
+<tr>
+<td></td>
+<td>3.定义范围</td>
+<td>1.项目章程2.项目管理计划3.项目文件4.事业环境因素5.组织过程资产</td>
+<td>1.专家判断2.数据分析3.决策4.人际关系与团 队技能5.产品分析</td>
+<td>1.项目范围说明书</td>
+</tr>
+<tr>
+<td></td>
+<td>4.创建 WBS</td>
+<td>1.项目管理计划2.项目文件3.事业环境因素4.组织过程资产</td>
+<td>1.专家判断2.分解</td>
+<td>1.范围基准2.项目文件（更新）</td>
+</tr>
+<tr>
+<td>监 控</td>
+<td>5.确认 范围</td>
+<td>1.项目管理计划2.项目文件3.工作绩效数据4.核实的可交付 成果</td>
+<td>1.检查2.决策</td>
+<td>1.验收的可交付 成果2.变更请求3.工作绩效信息4.项目文件（更 新）</td>
+</tr>
+<tr>
+<td></td>
+<td>6.控制 范围</td>
+<td>1.项目管理计划2.项目文件3.工作绩效数据4.组织过程资产</td>
+<td>1.数据分析</td>
+<td>1.工作绩效信息2.变更请求3.项目管理计划 （更新）4.项目文件（更 新）</td>
+</tr>
+</tbody></table>
+<p>总结归纳：</p>
+<ul>
+<li>较为<strong>通⽤的输⼊</strong>： 二项事组</li>
+</ul>
+<p>•事业环境因素</p>
+<p>•组织过程资产</p>
+<ul>
+<li>较为<strong>通⽤的技术</strong>：</li>
+</ul>
+<p>•专家判断（万能）；</p>
+<p>•数据分析（万能）</p>
+<p>•会议（万能）</p>
+<ul>
+<li>较为<strong>通⽤的输出</strong>：【执⾏和监督过程组】</li>
+</ul>
+<p>•项⽬管理计划（更新）</p>
+<p>•项⽬⽂件（更新）</p>
+<p>•组织过程资产（更新）</p>
+<h2 id="2-敏捷与适应方法"><a href="#2-敏捷与适应方法" class="headerlink" title="2.敏捷与适应方法"></a>2.敏捷与适应方法</h2><p>敏捷或适应型⽅法<strong>特意在项⽬早期缩短定义和协商范围的时间，为后续细化范围、明确范围争 取更多的时间</strong>。在许多情况下，不断涌现的需求往往导致真实的 业务需求与最初所述的业务需求之间存在差异。因此，敏捷⽅法有⽬的地构建和审查原型，并通过多次发布版本来明确需求，<strong>范围会在整个项⽬期间被定义和再定义</strong>。</p>
+<p>采⽤敏捷或适应型⽣命周期，旨在应对⼤量变更，需要<strong>干系⼈持续参与项⽬</strong>。因此，应将适应型项⽬的整体范围分解为⼀系列拟实现的需求和拟执⾏的⼯作（有时称为产品未完成项），<strong>通过多次迭 代来开发可交付成果</strong>，并在每次迭代开始时定义和批准详细的范围。在⼀个迭代开始时，团队将努⼒ 确定产品未完成项中，哪些优先级⾼的未完成项需要在下⼀次选代中交付。在每次选代中，都会重复开展三个过程：</p>
+<p><strong>①收集需求：②定义范围：③创建 WBS。</strong></p>
+<p>在<strong>预测型</strong>项⽬中，经过批准的项⽬范围说明书、⼯作分解结构（WBS）和相应的 WBS 词典构成 <strong>项⽬范围基准</strong>。只有通过正式变更控制程序，才能进⾏基准变更。</p>
+<h2 id="3-规划范围管理"><a href="#3-规划范围管理" class="headerlink" title="3.规划范围管理"></a>3.规划范围管理</h2><p>⼀群⼈只做⼀次</p>
+<h3 id="1-输⼊（总结归纳-⼦计划的通⽤输⼊：⼆项事组）"><a href="#1-输⼊（总结归纳-⼦计划的通⽤输⼊：⼆项事组）" class="headerlink" title="1 输⼊（总结归纳 ⼦计划的通⽤输⼊：⼆项事组）"></a>1 输⼊（总结归纳 ⼦计划的通⽤输⼊：<strong>⼆项事组</strong>）</h3><p>1.<strong>项</strong>⽬章程</p>
+<p>项⽬章程记录项⽬且的、项⽬概述、假设条件、制约因素，以及项⽬想要实现的⾼层级的需求。</p>
+<p>2.<strong>项</strong>⽬管理计划</p>
+<p>3.<strong>事</strong>业环境因素</p>
+<p>4.<strong>组</strong>织过程资产</p>
+<h3 id="2输出（区分-范围和需求管理计划），"><a href="#2输出（区分-范围和需求管理计划），" class="headerlink" title="2输出（区分 范围和需求管理计划），"></a>2输出（区分 范围和需求管理计划），</h3><ol>
+<li><p>范围管理计划</p>
+<p>①制定项⽬范围说明书；②根据详细项 ⽬范围说明书 建 WBS；③确定如何审批和维护范围基准。④正式验收已完成的项⽬可交付 成果。</p>
+</li>
+<li><p>需求管理计划</p>
+<p>需求管理计划的主要内容包括：</p>
+<p>①如何规划、跟踪和报告各种需求活动：②配置管理活动，例如，</p>
+<p>如何启动变更，如何分析其影响，如何进⾏追溯、跟踪和报告，以及变更审批权限；③需 求优先级排 序过程：④测量指标及使⽤这些指标的理由：⑤反映哪些需求属性将被列⼊跟踪矩 阵等。</p>
+</li>
+</ol>
+<h2 id="4-收集需求"><a href="#4-收集需求" class="headerlink" title="4.收集需求"></a>4.收集需求</h2><p>收集需求是为实现⽬标⽽确定，<strong>记录并管理⼲系⼈的需要和需求的过程</strong>。本过程的主要作⽤是为 <strong>定义产品范围和项⽬范围奠定基础。本过程仅开展⼀次或仅在项⽬的预定义点开展</strong>（P276 考1分选择 题）。</p>
+<p>让⼲系⼈积极参与需求的探索和分解⼯作（分解成项⽬和产品需求），并仔细确定、记录和管理 对产品、服务或成果的需求，能<strong>直接促进项⽬成功</strong>。</p>
+<h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><ol>
+<li>⽴项管理⽂件</li>
+</ol>
+<p>会影响收集需求过程的⽴项管理⽂件是商业论证产⽣的⽂件，它描述了为<strong>满⾜业务需要⽽ 应该达到的必要、期望及可选标准。</strong></p>
+<ol start="2">
+<li><p>项⽬章程</p>
+<p>项⽬章程记录了项⽬概述以及将⽤于制定详细需求的<strong>⾼层级需求</strong>。</p>
+</li>
+<li><p>项⽬管理计划</p>
+</li>
+<li><p>项⽬⽂件</p>
+</li>
+<li><p>协议</p>
+</li>
+</ol>
+<p><strong>协议会包含项⽬和产品需求。</strong></p>
+<ol start="6">
+<li><p>事业环境因素（通⽤输⼊）</p>
+</li>
+<li><p>组织过程资产（通⽤输⼊）</p>
+</li>
+</ol>
+<h3 id="工具与技术"><a href="#工具与技术" class="headerlink" title="工具与技术"></a>工具与技术</h3><ol>
+<li>专家判断（三⼈⾏必有我师，你⾏你上）</li>
+</ol>
+<p>2， 数据收集</p>
+<p>可⽤于收集需求过程的数据收集技术主要包括：</p>
+<p>•<strong>头脑风暴</strong>：是⼀种⽤来产⽣和收集对项⽬需求与产品需求的多种创意的技术。</p>
+<p>•访谈：是通过与⼲系⼈直接交谈，来获取信息的正式或⾮正式的⽅法。访谈的典型做法 是向被访者 提出预设和即兴的问题，并记录他们的回答。访谈经常是⼀个访谈者和⼀个 被访者之间的“⼀对⼀” 谈话，但也可包括多个访谈者或多个被访者。访谈有经验的项、⾃参与者、发起⼈和其他⾼管及主题 专家，有助于识别和定义所需产品可交付成果的特 征和功能。访谈也可⽤于获取机密信息。</p>
+<p>•<strong>焦点⼩组</strong>：是召集预定的⼲系⼈和主题专家，了解他们对所讨论的产品、服务或成果的 期望和态度。</p>
+<p>由⼀位受过训练的主持⼈引导⼤家进⾏互动式讨论。售点⼩组往往⽐“⼀对⼀”的访谈更热烈。 •问卷调查：是指设计⼆系列书⾯问题，向众多受访者快速收集信息。问卷调查⽅法⾮常适⽤于受众多</p>
+<p>样化，需要快速完成调查，受访者地理位置分散并且适合开展统计分析的情况。</p>
+<p>•<strong>标杆对照</strong>：将实际或计划的产品、过程和实践。与其他可⽐组织的实践进⾏⽐较，以便识别最佳实 践，形成改进意见，并为绩效考核提供依据。标杆对照所采⽤的可⽐组织可 以是内部的，也可以是外部的。</p>
+<ol start="3">
+<li><p>数据分析</p>
+</li>
+<li><p>决策</p>
+</li>
+<li><p>数据表现</p>
+</li>
+<li><p>⼈际关系与团队技能</p>
+</li>
+<li><p>名义⼩组技术：是<strong>⽤于促进头脑⻛暴的⼀种技术，通过投票排列最有⽤的创意，以便进⼀ 脑⻛暴或优先排序</strong>。名义⼩组技术是⼀种结构化的头脑⻛暴形式。。</p>
+<p>•观察和交谈：（尾随，偷窥，偷拍，探⼦，间谍）是指直接察看个⼈在各⾃的环境中如何执⾏⼯作（或 任务）和实施流程。当产品使⽤者难以或不愿清晰说明他们的需求时，特别需要通过观察来了解 他们的⼯作细节。观察也称为“⼯作跟随”，通常由旁站观察者观察业务专家如何执⾏⼯作，但也 可以由“参与观察者”来观察，通过实际执⾏⼀个流程或程序，来体验该流程或程序是 如何实施的，</p>
+<p>以便挖掘隐藏的需求。</p>
+</li>
+<li><p><strong>原型法（建筑模型，3D建模，2D建模）</strong></p>
+</li>
+</ol>
+<h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><p>1.需求⽂件</p>
+<p>描述各种单⼀需求将如何满⾜项⽬相关的业务需求。</p>
+<p>（1）业务需求：整个组织的<strong>⾼层级需要</strong>，例如，解决业务问题或抓住业务机会，以及实施 项且</p>
+<p>的原因。</p>
+<p>（2）⼲系⼈需求：干系⼈的需要。 （3）解决⽅案需求：为满⾜业务需求和⼲系⼈需求，产品、服务或成果必须具备的特性、功能</p>
+<p>和特征。解决⽅案需求⼜进⼀步分为功能需求和⾮功能需求：</p>
+<p> ①<strong>功能需求</strong>：描述产品应具 备的功能，例如，产品应该执⾏的⾏动、流程、数据和交互：</p>
+<p>②<strong>⾮功能需求</strong>：是对功能需求的 补充，是产品正常运何所需的环境条件或质量要求，例如，可缩 性、保密性、性能、安全性、服务⽔平、可⽀持性、保留或清除等。</p>
+<p>所需的临时能 （1过酸和斑新商 ⼒。 ⽶：如敦脂转換和指训⾬⽶，芝慧源装海造了以“当前状奋：过選到“将⽶识合” （5）项⽬需求：项⽬需要满⾜的⾏动、过程或其他条件，例如⾥程碑⽇期、合同责任、制 约因素等。</p>
+<p>（6） 质量⿊求：⽤于确认项⽬可交付成果的成功完成或其他项⽬需求的实现的任何条件或 标准，例如， 测试、认证、确认等。</p>
+<h2 id="5-定义范围"><a href="#5-定义范围" class="headerlink" title="5.定义范围"></a>5.定义范围</h2><p>由于在收集需求过程中识别出的所有需求未必都包含在项⽬电，所以定义范围过程需要从 需求 ⽂件（收集需求过程的输出）中选取最终的项⽬需求，然后制定出关于项⽬及其产品、服 务或成果的 详细描述。</p>
+<h3 id="输出："><a href="#输出：" class="headerlink" title="输出："></a>输出：</h3><p>1.项⽬范围说明书 项⽬范围说明书是对项⽬范围、主要可交付成果，假设条件和制约因素的描述（P283 考1分选 择题）。它记录了整个范围，包括：项⽬和产品范围：详细描述了项⽬的可交付成果：代表项⽬⼲系 ⼈之间就项 ⽬范围所达成的共识。</p>
+<p><strong>产品范围描述</strong>：逐步细化在项⽬章程和需求⽂件中所述的产品、服务或成果特征。</p>
+<p>•<strong>可交付成果</strong>：为完成某⼀过程、阶段或项⽬⽽必须产出的任何独特并可核实的产品、成果或服 务能⼒，可交付成果也包括各种辅助成果，如项⽬管理报告和⽂件。对可交付成 果的描述可</p>
+<p>略可详。</p>
+<p>•<strong>验收标准</strong>：可交付成果通过验收前必须满⾜的⼀系列条件。</p>
+<p>•<strong>项⽬的除外责任</strong>：识别排除在项⽬之</p>
+<h2 id="6-创建WBS"><a href="#6-创建WBS" class="headerlink" title="6.创建WBS"></a>6.创建WBS</h2><p>WBS 最低层的组成部分称为<strong>⼯作包</strong>， 工作包再向下分解为<strong>活动</strong>。</p>
+<h3 id="工具与技术-1"><a href="#工具与技术-1" class="headerlink" title="工具与技术"></a>工具与技术</h3><h4 id="分解"><a href="#分解" class="headerlink" title="分解"></a>分解</h4><p>要把整个项⽬⼯作分解为⼯作包，通常需要开展如下活动：（识确细制核）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">①识别和分析可交付成果及相 关⼯作：（干什么）</span><br><span class="line"></span><br><span class="line">②确定 WBS 的结构和编排⽅法（怎么分）</span><br><span class="line"></span><br><span class="line">③⽩上⽽下逐层细化分解：（从大到小）</span><br><span class="line"></span><br><span class="line">④为 WBS 组成部分制定和分配标识编码： （分配编号）</span><br><span class="line"></span><br><span class="line">⑤核实可交付成果分解的程度是否恰当。</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果<strong>采⽤敏捷或适应型</strong>⽅法，可以将长篇故事分解成<strong>⽤户故事</strong>。</p>
+<p>⽤户故事（user story）是<strong>从⽤户的⾓度来描述⽤户渴望得到的功能</strong>。⼀个好的⽤户故事包括三个要素：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、⾓⾊：谁要使⽤这个功能。</span><br><span class="line"></span><br><span class="line">2.活动：需要完成什么样的功能。</span><br><span class="line"></span><br><span class="line">3.商业价值：为什么需要这个功能，这个功能带来什么样的价值。</span><br></pre></td></tr></table></figure>
+
+<p>确认 WBS较低层组件是完成上层相应可交付成果的<strong>必要且充分</strong>的⼯作，以此来核实分解的正确性。</p>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><p>在分解的过程中，应该注意以下8个方面： 、在分解的过程中，应该注意以下8个⽅⾯：</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">（1）WBS必须是<span class="strong">**面向可交付成果**</span>的:项目的目标是提供产品或服务，WBS中的各项工作是为提供可交 付的成果服务的（多次重复循环，软件测试） </span><br><span class="line"></span><br><span class="line">（2）WBS必须符合项目的范围:WBS必须包括也仅包括为了完成项目的可交付成果的活动。100%原 则（包含原则）认为，在WBS中，所有下一级的元素之和必须100%代表上一级的元素</span><br><span class="line"></span><br><span class="line">（3）WBS的<span class="strong">**底层应该支持计划和控制**</span>:WBS是项目管理计划和项目范围之间的桥梁，WBS的底层不但 要支持项目管理计划，而且要让管理层能够监视和控制项目的进度和预算 </span><br><span class="line"></span><br><span class="line">（4）WBS中的元素<span class="strong">**必须有人负责**</span>，而且只有<span class="strong">**一个人负责**</span></span><br><span class="line"></span><br><span class="line">（5）WBS <span class="strong">**应控制在4~6层**</span>：如果项⽬规模⽐较⼤，以⾄于 WBS 要超过6层，此时，可以使⽤项 ⽬分解结构将⼤项⽬分解成⼦项⽬，然后针对⼦项⽬来做WBS。每个级别的WBS 将 上⼀级的⼀个元素分为4~7个新元素，圆⼀级元素的⼤⼩应该相似。⼀个⼯作单元只能 从属于某 个上层单元，避免交叉从属。</span><br><span class="line"></span><br><span class="line">（6）WBS应包括项目管理工作（因为管理是项目具体工作的一部分），也要包括分包出去的工作</span><br><span class="line"></span><br><span class="line">（7）WBS的编制需要所有（主要）项目干系人的参与</span><br><span class="line"></span><br><span class="line">（8）WBS并非是一成不变的:完成了WBS之后的工作中，仍然有可能需要对WBS进行修改</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="确认范围"><a href="#确认范围" class="headerlink" title="确认范围"></a>确认范围</h3><p>本过程的<strong>主要作⽤</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">①使验收过程具有客观性： ②通过确认每个可交付成果来提⾼最终产品、服各或成果获得验收的可能性。</span><br></pre></td></tr></table></figure>
+
+<p>1.确认范围的步骤</p>
+<p><strong>确认范围应该贯穿项⽬的始终。</strong> 确认范围的⼀般步骤包括：①确定需要进⾏范围确认的时间：②识别范围确认需要哪些 投⼊；③确 定范围正式被接受的标准和要素：④确定范围确认会议的组织步骤：⑤组织范围确认会议。 通常情况下，在确认范围前，项⽬团队需要先进⾏质量控制⼯作，例如，在确认软件项⽬ 的范围之 前，需要进⾏系统测试等⼯作，以确保确认⼯作的顺利完成。</p>
+<p><strong>确认范围</strong>过程与<strong>控制质量</strong>过程的不同之处在于，前者关注<strong>可交付成果的验收</strong>，⽽后者关注 可交付成 果的<strong>正确性</strong>及是否满⾜质量要求。控制质量过程通常先于确认范围过程，但⼆者也可 同时进⾏（P290 考案例）。</p>
+<ol start="2">
+<li>需要检查的问题</li>
+</ol>
+<p>项⽬⼲系⼈进⾏范围确认时，⼀般需要检查以下6个⽅⾯的问题：</p>
+<p>•可交付成果是否是确定的、可确认的。</p>
+<p>•每个可交付成果是否有明确的⾥程碑，⾥程碑是否有明确的、可辨别的事件，例如，客 户的书⾯认可等。</p>
+<p>•是否有明确的质量标准：可交付成果的交付不但要有明确的标准标志，⽽且要有是否按 照要求完 成的标准，可交付成果和其标准之间是否有明确联密⼼</p>
+<p>•审核和承诺是否有清晰的表达：项⽬发起⼈必须正或同意项⽬的边界，项⽬完成的产品 或者服务： 以及项⽬相关的可交付成果。项⽬团队必须清楚地了解可交付成果是什么。所有的这些表达必 须清晰，并取得⼀致的同意。</p>
+<p>•项⽬范围是否覆盖了需要完成的产品或服务的所有活动，有没有遗漏或错误。</p>
+<p>•项⽬范围的风险是否太⾼：管理层是否能够降低风险发⽣时对项⽬的影响。</p>
+<h4 id="⼲系⼈关注点的不同"><a href="#⼲系⼈关注点的不同" class="headerlink" title="⼲系⼈关注点的不同"></a>⼲系⼈关注点的不同</h4><ul>
+<li><p>管理层主要关注项⽬范围。</p>
+</li>
+<li><p>客户主要关注产品范围</p>
+</li>
+<li><p>项⽬管理⼈员主要关注项⽬制约因素</p>
+</li>
+<li><p>项⽬团队成员主要关注项⽬范围中⾃⼰参与的元素和负责的元素</p>
+</li>
+</ul>
+
+    </div>
+    
+    <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+      
+    </div>
+
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%BD%AF%E8%80%83%E9%AB%98%E7%BA%A7/" rel="tag"># 软考高级</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E9%A1%B9%E7%9B%AE%E6%88%90%E6%9C%AC%E7%AE%A1%E7%90%86/" rel="prev" title="高项_项目成本管理">
+      <i class="fa fa-chevron-left"></i> 高项_项目成本管理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E9%A1%B9%E7%9B%AE%E5%B9%B2%E7%B3%BB%E4%BA%BA%E7%AE%A1%E7%90%86/" rel="next" title="高项_项目干系人管理">
+      高项_项目干系人管理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">范围管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BA%A7%E5%93%81%E8%8C%83%E5%9B%B4%E5%92%8C%E9%A1%B9%E2%BD%AC%E8%8C%83%E5%9B%B4"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.产品范围和项⽬范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86%E8%BF%87%E7%A8%8B"><span class="nav-number">1.0.2.</span> <span class="nav-text">项目范围管理过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%95%8F%E6%8D%B7%E4%B8%8E%E9%80%82%E5%BA%94%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">2.敏捷与适应方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%A7%84%E5%88%92%E8%8C%83%E5%9B%B4%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">3.规划范围管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%BE%93%E2%BC%8A%EF%BC%88%E6%80%BB%E7%BB%93%E5%BD%92%E7%BA%B3-%E2%BC%A6%E8%AE%A1%E5%88%92%E7%9A%84%E9%80%9A%E2%BD%A4%E8%BE%93%E2%BC%8A%EF%BC%9A%E2%BC%86%E9%A1%B9%E4%BA%8B%E7%BB%84%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">1 输⼊（总结归纳 ⼦计划的通⽤输⼊：⼆项事组）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E8%BE%93%E5%87%BA%EF%BC%88%E5%8C%BA%E5%88%86-%E8%8C%83%E5%9B%B4%E5%92%8C%E9%9C%80%E6%B1%82%E7%AE%A1%E7%90%86%E8%AE%A1%E5%88%92%EF%BC%89%EF%BC%8C"><span class="nav-number">1.2.2.</span> <span class="nav-text">2输出（区分 范围和需求管理计划），</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%94%B6%E9%9B%86%E9%9C%80%E6%B1%82"><span class="nav-number">1.3.</span> <span class="nav-text">4.收集需求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5"><span class="nav-number">1.3.1.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%8A%80%E6%9C%AF"><span class="nav-number">1.3.2.</span> <span class="nav-text">工具与技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA"><span class="nav-number">1.3.3.</span> <span class="nav-text">输出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%AE%9A%E4%B9%89%E8%8C%83%E5%9B%B4"><span class="nav-number">1.4.</span> <span class="nav-text">5.定义范围</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%EF%BC%9A"><span class="nav-number">1.4.1.</span> <span class="nav-text">输出：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%88%9B%E5%BB%BAWBS"><span class="nav-number">1.5.</span> <span class="nav-text">6.创建WBS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%8A%80%E6%9C%AF-1"><span class="nav-number">1.5.1.</span> <span class="nav-text">工具与技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E8%A7%A3"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">分解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E8%8C%83%E5%9B%B4"><span class="nav-number">1.5.2.</span> <span class="nav-text">确认范围</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%BC%B2%E7%B3%BB%E2%BC%88%E5%85%B3%E6%B3%A8%E7%82%B9%E7%9A%84%E4%B8%8D%E5%90%8C"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">⼲系⼈关注点的不同</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Luo"
+      src="/images/author.jpg">
+  <p class="site-author-name" itemprop="name">Luo</p>
+  <div class="site-description" itemprop="description">笔记与积累，点点滴滴，贵在坚持</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">73</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/DbReset" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;DbReset" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:sxyyluo@gmail.com" title="E-Mail → mailto:sxyyluo@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://gitee.com/leithda" title="https:&#x2F;&#x2F;gitee.com&#x2F;leithda" rel="noopener" target="_blank">leithda</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://leithda.gitee.io/" title="https:&#x2F;&#x2F;leithda.gitee.io&#x2F;" rel="noopener" target="_blank">Leithda's Blogshida</a>
+        </li>
+    </ul>
+  </div>
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Aop/" rel="tag">Aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIO/" rel="tag">BIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BOLL-MACD-KDJ-RSI-WR/" rel="tag">BOLL - MACD - KDJ - RSI - WR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/" rel="tag">Eureka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">Eureka高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Feign/" rel="tag">Feign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hystrix/" rel="tag">Hystrix</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IP/" rel="tag">IP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ioc/" rel="tag">Ioc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MA/" rel="tag">MA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NIO/" rel="tag">NIO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PMP/" rel="tag">PMP</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/" rel="tag">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rocketmq/" rel="tag">Rocketmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ThreadLocal/" rel="tag">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper/" rel="tag">ZooKeeper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag">ZooKeeper高可用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zuul/" rel="tag">Zuul</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/" rel="tag">awk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-language/" rel="tag">code_language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/" rel="tag">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/" rel="tag">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java1-8/" rel="tag">java1.8</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/" rel="tag">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nextcloud%E9%98%BF%E9%87%8C/" rel="tag">nextcloud阿里</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/" rel="tag">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sentinel/" rel="tag">sentinel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springcloud/" rel="tag">springcloud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/" rel="tag">sql</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp/" rel="tag">tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="tag">事务管理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" rel="tag">单例模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" rel="tag">基础概念</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" rel="tag">淘汰策略</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="tag">索引优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84/" rel="tag">索引结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF-%E9%9B%AA%E5%B4%A9-%E7%A9%BF%E9%80%8F/" rel="tag">缓存击穿/雪崩/穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7/" rel="tag">软考中级</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E8%80%83%E9%AB%98%E7%BA%A7/" rel="tag">软考高级</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%AE%97/" rel="tag">运算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E9%A2%98%E9%9B%86/" rel="tag">错题集</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%99%90%E6%B5%81/" rel="tag">限流</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" rel="tag">隔离级别</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+  
+</body>
+</html>
