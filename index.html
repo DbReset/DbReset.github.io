@@ -373,6 +373,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2024/03/20/other/%E5%B8%B8%E8%A7%81%E6%B3%95%E5%88%99%E3%80%81%E6%95%88%E5%BA%94_%E5%89%AF%E6%9C%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/03/20/other/%E5%B8%B8%E8%A7%81%E6%B3%95%E5%88%99%E3%80%81%E6%95%88%E5%BA%94_%E5%89%AF%E6%9C%AC/" class="post-title-link" itemprop="url">办公效率提升</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-03-20 18:49:05" itemprop="dateCreated datePublished" datetime="2024-03-20T18:49:05+08:00">2024-03-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E5%B7%A7/" itemprop="url" rel="index"><span itemprop="name">技巧</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E5%B7%A7/excle/" itemprop="url" rel="index"><span itemprop="name">excle</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="EXCLE计算公式"><a href="#EXCLE计算公式" class="headerlink" title="EXCLE计算公式"></a>EXCLE计算公式</h2><ol>
+<li><h3 id="按给定的名单列表模糊查找"><a href="#按给定的名单列表模糊查找" class="headerlink" title="按给定的名单列表模糊查找"></a>按给定的名单列表模糊查找</h3><p>下发的表格中不是干净的只有人名，存在具体人名混在其他前缀或者后缀中间，想要查找。</p>
+<p><code>=VLOOKUP(&quot;*&quot;&amp;A1&amp;&quot;*&quot;,sheet1!B61:B533,1,FALSE)</code></p>
+</li>
+</ol>
+<ul>
+<li><pre><code>- 在 Sheet1 的 B 列（用于显示查找结果）的第一个单元格（如 B1）中输入公式`=IFERROR(VLOOKUP(&quot;*&quot;&amp;A1&amp;&quot;*&quot;,Sheet2!$A:$A,1,FALSE),&quot;未找到&quot;)`。
+- 这里`&quot;*&quot;&amp;A1&amp;&quot;*&quot;`是查找值（lookup_value），`&amp;`是连接符，用于将通配符 “*” 与 A1 单元格中的产品名称连接起来，这样就可以查找包含 A1 单元格中产品名称的任何字符串。`Sheet2!$A:$A`是查找区域（table_array），`1`表示返回查找区域的第一列（col_index_num），`FALSE`表示精确匹配模式（但因为前面使用了通配符，实际上是在进行模糊查找是否包含指定字符串）。`IFERROR`函数用于处理如果未找到匹配内容时 VLOOKUP 函数返回的 #N/A 错误值，将其转换为 “未找到”。
+- 然后将 B1 单元格的公式向下拖动填充到整列，就可以对 Sheet1 中 A 列的所有产品名称进行查找。
+</code></pre>
+</li>
+</ul>
+
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2024/03/20/other/%E5%B8%B8%E8%A7%81%E6%B3%95%E5%88%99%E3%80%81%E6%95%88%E5%BA%94/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -560,95 +649,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2024/03/20/other/%E5%B8%B8%E8%A7%81%E6%B3%95%E5%88%99%E3%80%81%E6%95%88%E5%BA%94_%E5%89%AF%E6%9C%AC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/03/20/other/%E5%B8%B8%E8%A7%81%E6%B3%95%E5%88%99%E3%80%81%E6%95%88%E5%BA%94_%E5%89%AF%E6%9C%AC/" class="post-title-link" itemprop="url">办公效率提升</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-03-20 18:49:05" itemprop="dateCreated datePublished" datetime="2024-03-20T18:49:05+08:00">2024-03-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E5%B7%A7/" itemprop="url" rel="index"><span itemprop="name">技巧</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E5%B7%A7/excle/" itemprop="url" rel="index"><span itemprop="name">excle</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="EXCLE计算公式"><a href="#EXCLE计算公式" class="headerlink" title="EXCLE计算公式"></a>EXCLE计算公式</h2><ol>
-<li><h3 id="按给定的名单列表模糊查找"><a href="#按给定的名单列表模糊查找" class="headerlink" title="按给定的名单列表模糊查找"></a>按给定的名单列表模糊查找</h3><p>下发的表格中不是干净的只有人名，存在具体人名混在其他前缀或者后缀中间，想要查找。</p>
-<p><code>=VLOOKUP(&quot;*&quot;&amp;A1&amp;&quot;*&quot;,sheet1!B61:B533,1,FALSE)</code></p>
-</li>
-</ol>
-<ul>
-<li><pre><code>- 在 Sheet1 的 B 列（用于显示查找结果）的第一个单元格（如 B1）中输入公式`=IFERROR(VLOOKUP(&quot;*&quot;&amp;A1&amp;&quot;*&quot;,Sheet2!$A:$A,1,FALSE),&quot;未找到&quot;)`。
-- 这里`&quot;*&quot;&amp;A1&amp;&quot;*&quot;`是查找值（lookup_value），`&amp;`是连接符，用于将通配符 “*” 与 A1 单元格中的产品名称连接起来，这样就可以查找包含 A1 单元格中产品名称的任何字符串。`Sheet2!$A:$A`是查找区域（table_array），`1`表示返回查找区域的第一列（col_index_num），`FALSE`表示精确匹配模式（但因为前面使用了通配符，实际上是在进行模糊查找是否包含指定字符串）。`IFERROR`函数用于处理如果未找到匹配内容时 VLOOKUP 函数返回的 #N/A 错误值，将其转换为 “未找到”。
-- 然后将 B1 单元格的公式向下拖动填充到整列，就可以对 Sheet1 中 A 列的所有产品名称进行查找。
-</code></pre>
-</li>
-</ul>
-
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2024/03/20/%E7%AE%97%E6%B3%95%E7%AF%87/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -810,115 +810,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E4%BF%A1%E6%81%AF%E5%8C%96%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/author.jpg">
-      <meta itemprop="name" content="Luo">
-      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="裸泳的猪">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E4%BF%A1%E6%81%AF%E5%8C%96%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">高项——信息化与信息系统</a>
-        </h2>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-03-20 18:49:05" itemprop="dateCreated datePublished" datetime="2024-03-20T18:49:05+08:00">2024-03-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">cs基础</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/%E8%BD%AF%E8%80%83/" itemprop="url" rel="index"><span itemprop="name">软考</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/%E8%BD%AF%E8%80%83/%E4%BF%A1%E6%81%AF%E5%8C%96%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">信息化与信息系统</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="信息的传输模型"><a href="#信息的传输模型" class="headerlink" title="信息的传输模型"></a>信息的传输模型</h2><p><strong>①物理层</strong>：该层包括物理连网媒介，如电缆连线连接器。该层的协议产生并检测电压以 便发送和接收携带数据的信号。有<strong>RS232、V. 35、RJ-45、FDDI</strong>。</p>
-<p><strong>②数据链路层</strong>：它控制网络层与物理层之间的通信。它的主要功能是将从网络层接收到 的数据分割成特定的可被物理层传输的帧。协议有<strong>IEEE802.3/.2、HDLC、PPP、ATM</strong>。</p>
-<p><strong>③网络层</strong>：其主要功能是将网络地址（例如，IP地址）翻译成对应的物理地址（例如， 网卡地址），并决定如何将数据从发送方路由到接收方。有<strong>IP、ICMP、IGMP、IPX、 ARP</strong>等。</p>
-<p><strong>④传输层</strong>：主要负责确保数据可靠、顺序、无错地从A点传输到B点。如提供建立、维 护和拆除传送连接的功能；选择网络层提供最合适的服务；在系统之间提供可靠的透明 的数据传送，提供端到端的错误恢复和流量控制。有<strong>TCP、UDP、SPX</strong>。</p>
-<p><strong>⑤会话层</strong>：负责在网络中的两节点之间建立和维持通信，以及提供交互会话的管理功能， 如三种数据流方向的控制，即一路交互、两路交替和两路同时会话模式。有<strong>RPC、SQL、 NFS</strong>。</p>
-<p><strong>⑥表示层</strong>：如同应用程序和网络之间的翻译官，数据将按照网络能理解的方案进行格式 化；管理数据的解密加密、数据转换、格式化和文本压缩。有<strong>JPEG、ASCII、GIf、DES、 MPEG</strong>。</p>
-<p><strong>⑦应用层</strong>：负责对软件提供接口以使程序能使用网络服务，如事务处理程序、文件传送 协议和网络管理等。有<strong>HTTP、Telnet、FTP、SMTP</strong>。</p>
-<h2 id="信息化5个层次"><a href="#信息化5个层次" class="headerlink" title="信息化5个层次"></a>信息化5个层次</h2><ol>
-<li>产品信息化      – 智能电视、智能灯具</li>
-<li>企业信息化  – 生产制造系统、ERP、CRM、SCM</li>
-<li>产业信息化  –农业、工业、交通运输业、生产制造业、服务业等传统行业</li>
-<li>国民经济信息化   –金融、贸易、投资、计划、通关、营销等组成一个信息大系统</li>
-<li>社会生活信息化  – 智慧城市、互联网金融</li>
-</ol>
-<h2 id="信息化的主体手段途径目标"><a href="#信息化的主体手段途径目标" class="headerlink" title="信息化的主体手段途径目标"></a>信息化的主体手段途径目标</h2><p><strong>主体：全体社会成员，包括政府、企业、事业、团体和个人</strong></p>
-<p>时域：一个长期的过程</p>
-<p>空域：是政治、经济、文化、军事和社会的一切领域</p>
-<p>手段：是基于现代信息技术的先进生产工具</p>
-<p>途径：是创建信息时代的社会生产力，推动社会生产关系以及社会上层建筑的改革</p>
-<p>目标：是使国家的综合实力、社会的文明素质和人民的生活质量全面提升</p>
-<h2 id="信息化6要素及其地位"><a href="#信息化6要素及其地位" class="headerlink" title="信息化6要素及其地位"></a>信息化6要素及其地位</h2><p><img src="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E4%BF%A1%E6%81%AF%E5%8C%96%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F/%E4%BF%A1%E6%81%AF%E5%8C%966%E8%A6%81%E7%B4%A0.png" alt="信息化6要素"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E4%BF%A1%E6%81%AF%E5%8C%96%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E5%AF%BC%E8%AE%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1037,6 +928,115 @@
 </tr>
 </tbody></table>
 
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://dbreset.github.io/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E4%BF%A1%E6%81%AF%E5%8C%96%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="name" content="Luo">
+      <meta itemprop="description" content="笔记与积累，点点滴滴，贵在坚持">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="裸泳的猪">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E4%BF%A1%E6%81%AF%E5%8C%96%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">高项——信息化与信息系统</a>
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-03-20 18:49:05" itemprop="dateCreated datePublished" datetime="2024-03-20T18:49:05+08:00">2024-03-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">cs基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/%E8%BD%AF%E8%80%83/" itemprop="url" rel="index"><span itemprop="name">软考</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cs%E5%9F%BA%E7%A1%80/%E8%BD%AF%E8%80%83/%E4%BF%A1%E6%81%AF%E5%8C%96%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">信息化与信息系统</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="信息的传输模型"><a href="#信息的传输模型" class="headerlink" title="信息的传输模型"></a>信息的传输模型</h2><p><strong>①物理层</strong>：该层包括物理连网媒介，如电缆连线连接器。该层的协议产生并检测电压以 便发送和接收携带数据的信号。有<strong>RS232、V. 35、RJ-45、FDDI</strong>。</p>
+<p><strong>②数据链路层</strong>：它控制网络层与物理层之间的通信。它的主要功能是将从网络层接收到 的数据分割成特定的可被物理层传输的帧。协议有<strong>IEEE802.3/.2、HDLC、PPP、ATM</strong>。</p>
+<p><strong>③网络层</strong>：其主要功能是将网络地址（例如，IP地址）翻译成对应的物理地址（例如， 网卡地址），并决定如何将数据从发送方路由到接收方。有<strong>IP、ICMP、IGMP、IPX、 ARP</strong>等。</p>
+<p><strong>④传输层</strong>：主要负责确保数据可靠、顺序、无错地从A点传输到B点。如提供建立、维 护和拆除传送连接的功能；选择网络层提供最合适的服务；在系统之间提供可靠的透明 的数据传送，提供端到端的错误恢复和流量控制。有<strong>TCP、UDP、SPX</strong>。</p>
+<p><strong>⑤会话层</strong>：负责在网络中的两节点之间建立和维持通信，以及提供交互会话的管理功能， 如三种数据流方向的控制，即一路交互、两路交替和两路同时会话模式。有<strong>RPC、SQL、 NFS</strong>。</p>
+<p><strong>⑥表示层</strong>：如同应用程序和网络之间的翻译官，数据将按照网络能理解的方案进行格式 化；管理数据的解密加密、数据转换、格式化和文本压缩。有<strong>JPEG、ASCII、GIf、DES、 MPEG</strong>。</p>
+<p><strong>⑦应用层</strong>：负责对软件提供接口以使程序能使用网络服务，如事务处理程序、文件传送 协议和网络管理等。有<strong>HTTP、Telnet、FTP、SMTP</strong>。</p>
+<h2 id="信息化5个层次"><a href="#信息化5个层次" class="headerlink" title="信息化5个层次"></a>信息化5个层次</h2><ol>
+<li>产品信息化      – 智能电视、智能灯具</li>
+<li>企业信息化  – 生产制造系统、ERP、CRM、SCM</li>
+<li>产业信息化  –农业、工业、交通运输业、生产制造业、服务业等传统行业</li>
+<li>国民经济信息化   –金融、贸易、投资、计划、通关、营销等组成一个信息大系统</li>
+<li>社会生活信息化  – 智慧城市、互联网金融</li>
+</ol>
+<h2 id="信息化的主体手段途径目标"><a href="#信息化的主体手段途径目标" class="headerlink" title="信息化的主体手段途径目标"></a>信息化的主体手段途径目标</h2><p><strong>主体：全体社会成员，包括政府、企业、事业、团体和个人</strong></p>
+<p>时域：一个长期的过程</p>
+<p>空域：是政治、经济、文化、军事和社会的一切领域</p>
+<p>手段：是基于现代信息技术的先进生产工具</p>
+<p>途径：是创建信息时代的社会生产力，推动社会生产关系以及社会上层建筑的改革</p>
+<p>目标：是使国家的综合实力、社会的文明素质和人民的生活质量全面提升</p>
+<h2 id="信息化6要素及其地位"><a href="#信息化6要素及其地位" class="headerlink" title="信息化6要素及其地位"></a>信息化6要素及其地位</h2><p><img src="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E4%BF%A1%E6%81%AF%E5%8C%96%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F/%E4%BF%A1%E6%81%AF%E5%8C%966%E8%A6%81%E7%B4%A0.png" alt="信息化6要素"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/03/20/%E8%BD%AF%E8%80%83/%E8%BD%AF%E8%80%83%E9%AB%98%E9%A1%B9_%E4%BF%A1%E6%81%AF%E5%8C%96%E4%B8%8E%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
     
